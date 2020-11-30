@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <link href="~/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Bootstrap/css/bootstrap-rtl.css" rel="stylesheet" />
+    <link href="~/StyleCenter/AdminLayoutCss/style.css" rel="stylesheet" />
+    <link href="~/StyleCenter/AdminLayoutCss/style-rtl.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="wrapper flex-div">
+        <div class="layout flex-div">
+            <!-- Side Nav START -->
+            <div class="side-nav">
+                <div class="side-nav-inner">
+                    <div class="side-nav-logo">
+                        <a href="/" class="uk-margin-auto row">
+                            <img class="logo logo-darkt" src="~/img/Admin/logo/ArvinTavLogo.svg" />
+                        </a>
+                        <div class="mobile-toggle side-nav-toggle">
+                            <a href="#" uk-icon="chevron-back-outline">
+                            </a>
+                        </div>
+                    </div>
+                    <ul class="side-nav-menu scrollable">
+
+                        <li class="nav-item active">
+                            <a href="/Admin/Dashboard">
+                                <span class="icon-holder" uk-icon="home-outline">
+                                </span>
+                                <span class="title">داشبورد</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a href="/Admin/ServiceCategory">
+                                <span class="icon-holder" uk-icon="albums-outline">
+                                </span>
+                                <span class="title">دسته بندی</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Side Nav END -->
+            <!-- Page Container START -->
+            <div class="page-container flex-div">
+                <!-- Header START -->
+                <div class="header navbar">
+                    <div class="header-container">
+                        <ul class="nav-right float-right mr-3">
+                            <li>
+                                <a class="side-nav-toggle" href="javascript:void(0);" uk-icon="menu-outline">
+                                    
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav-left float-left">
+                            @*@Html.Action("P_UserBox", "Dashboard", new { area = "Admin" })
+                                @Html.Action("notification", "Dashboard", new { area = "Admin" })*@
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="sub-header">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb rounded-0 m-0 bg-white">
+                            <li class="breadcrumb-item p-0"><a href="/admin/Home">داشبورد</a></li>
+                            <li class="breadcrumb-item p-0 active" aria-current="page">@ViewBag.Title</li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- Header END -->
+                <!-- Content Wrapper START -->
+                <div class="main-content flex">
+                    <div class="container-fluid flex-div">
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- Content Wrapper END -->
+                <!-- Footer START -->
+                <footer class="content-footer bg-white">
+                    <div class="footer border-0">
+                        <div class="copyright">
+                            <span><b class="text-dark">شهر دیجیتال</b> 2020</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- Footer END -->
+            </div>
+            <!-- Page Container END -->
+        </div>
+    </div>
+</body>
+</html>
+<link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
+<script src="~/Bootstrap/js/bootstrap.min.js"></script>
+<script src="~/ScriptCenter/jquery-3.5.1.min.js"></script>
+<script src="~/UIKit/js/uikit.min.js"></script>
+<script src="~/icons/uikit-icons.js"></script>
+<script src="~/ScriptCenter/AdminLayoutJs/script.js"></script>
