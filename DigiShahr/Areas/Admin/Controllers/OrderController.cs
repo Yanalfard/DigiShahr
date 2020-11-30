@@ -17,9 +17,9 @@ namespace DigiShahr.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult p_Info()
+        public IActionResult p_Info(int id)
         {
-            return View();
+           return ViewComponent("OrderInfo", new { id = id });
         }
 
         public IActionResult p_Cancel()

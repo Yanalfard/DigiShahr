@@ -172,6 +172,12 @@ namespace DataLayer.Models
                     .HasForeignKey(d => d.CatagoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblStore_TblStoreCatagory");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.TblStores)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblStore_TblUser");
             });
 
             modelBuilder.Entity<TblStoreCatagory>(entity =>
