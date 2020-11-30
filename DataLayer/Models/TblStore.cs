@@ -49,6 +49,7 @@ namespace DataLayer.Models
         public bool IsDeleted { get; set; }
         public bool IsValid { get; set; }
         public int CatagoryId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey(nameof(AbilityId))]
         [InverseProperty(nameof(TblAbility.TblStores))]
@@ -56,6 +57,9 @@ namespace DataLayer.Models
         [ForeignKey(nameof(CatagoryId))]
         [InverseProperty(nameof(TblStoreCatagory.TblStores))]
         public virtual TblStoreCatagory Catagory { get; set; }
+        [ForeignKey(nameof(UserId))]
+        [InverseProperty(nameof(TblUser.TblStores))]
+        public virtual TblUser User { get; set; }
         [InverseProperty(nameof(TblDealOrder.Store))]
         public virtual ICollection<TblDealOrder> TblDealOrders { get; set; }
         [InverseProperty(nameof(TblDiscount.Store))]

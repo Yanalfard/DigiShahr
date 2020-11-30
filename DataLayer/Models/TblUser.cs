@@ -13,6 +13,7 @@ namespace DataLayer.Models
         public TblUser()
         {
             TblOrders = new HashSet<TblOrder>();
+            TblStores = new HashSet<TblStore>();
         }
 
         [Key]
@@ -49,5 +50,7 @@ namespace DataLayer.Models
         public virtual TblRole Role { get; set; }
         [InverseProperty(nameof(TblOrder.User))]
         public virtual ICollection<TblOrder> TblOrders { get; set; }
+        [InverseProperty(nameof(TblStore.User))]
+        public virtual ICollection<TblStore> TblStores { get; set; }
     }
 }
