@@ -1,11 +1,7 @@
 @font-face {
-    font-family: "Sahel";
-    src: url('/Fonts/Sahel.woff');
-    src: url('/Fonts/Sahel.woff') format("woff");
-    font-weight: normal;
-    font-style: normal;
+    font-family: 'Sahel';
+    src: url('/Fonts/Sahel.woff') format('woff');
 }
-
 /* width */
 
 ::-webkit-scrollbar {
@@ -714,7 +710,7 @@ ul {
 @media only screen and (max-width: 992px) {
     .header .header-container .nav-left .user-profile .user-info,
     .header .header-container .nav-right .user-profile .user-info {
-        display: none;
+        display: inline-block;
     }
 }
 
@@ -1815,4 +1811,9 @@ table.hot-download td {
     text-align: justify;
     -ms-text-justify: kashida;
     text-justify: kashida;
+}
+.center {
+    text-align: center;
+    align-content: center;
+    align-self: center;
 }

@@ -1,29 +1,43 @@
-﻿
+﻿@model IEnumerable<DataLayer.Models.TblOrder>
+
 @{
-    ViewData["Title"] = "سفارشات";
+    ViewData["Title"] = "سفارشات | مدیریت";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>سفارشات</h1>
-
-<a onclick="Info(1)" data-toggle="modal" data-target="#modalSave">تست</a>
 
 
-<!-- Modal -->
-<div class="modal fade" id="modalSave" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <img src="~/img/gif/load.gif" class="loding justify-content-center" />
-            @*JS Dynamic*@
-        </div>
-    </div>
-</div>
-<!-- Button trigger modal -->
+<a onclick="Info(6)" data-toggle="modal" data-target="#modalSave">تست</a>
+<a onclick="Cancel(6)" data-toggle="modal" data-target="#modalSave">تست</a>
+
+
+<a onclick="test()">hbhb</a>
 
 <script>
+
+    function test() {
+        alert("ff");
+        var object = {
+            PageId=3,
+            InPageCount=6,
+        }
+
+        $.get("/Admin/Order?paging=" + object, function () {
+        });
+    }
+
     function Info(id) {
         $.get("/Admin/Order/p_Info?id=" + id, function (result) {
             $(".modal-content").html(result);
         });
     }
+
+
+    function Info(id) {
+        $.get("/Admin/Order/p_Cancel?id=" + id, function (result) {
+            $(".modal-content").html(result);
+        });
+    }
+
+
 </script>

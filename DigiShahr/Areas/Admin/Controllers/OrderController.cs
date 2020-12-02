@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Services.Services;
 using DataLayer.Models;
+using DataLayer.ViewModel;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
@@ -12,19 +13,27 @@ namespace DigiShahr.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         Core core = new Core();
-        public IActionResult Index()
+        public IActionResult Index(Paging paging)
         {
             return View();
         }
 
         public IActionResult p_Info(int id)
         {
-           return ViewComponent("OrderInfo", new { id = id });
+            return ViewComponent("OrderInfo", new { id = id });
         }
 
-        public IActionResult p_Cancel()
+        [HttpGet]
+        public IActionResult p_Cancel(int id)
+        {
+            return ViewComponent("OrderCancel", new { id = id });
+        }
+
+        [HttpPost]
+        public IActionResult Cancel(int id)
         {
             return View();
         }
+
     }
 }

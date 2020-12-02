@@ -1,6 +1,16 @@
-﻿@model int
+﻿@model DataLayer.Models.TblOrder
 
-<a>@Model</a>
+Order Info
+
+@Model.Id @*Id*@
+
+@foreach (var item in Model.TblOrderDetails)
+{
+    @item.Product.StoreCatagory.Store
+}
+
+
+
 
 
 
