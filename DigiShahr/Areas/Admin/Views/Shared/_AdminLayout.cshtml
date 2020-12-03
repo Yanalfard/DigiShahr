@@ -33,7 +33,7 @@
 
                         <li class="nav-item active">
                             <a href="/Admin/Dashboard">
-                                <span class="icon-holder" uk-icon="home-outline">
+                                <span class="icon-holder" uk-icon="home">
                                 </span>
                                 <span class="title">داشبورد</span>
                             </a>
@@ -41,11 +41,49 @@
 
                         <li class="nav-item active">
                             <a href="/Admin/ServiceCategory">
-                                <span class="icon-holder" uk-icon="albums-outline">
+                                <span class="icon-holder" uk-icon="layers">
                                 </span>
                                 <span class="title">دسته بندی</span>
                             </a>
                         </li>
+
+                        <li class="nav-item active">
+                            <a href="/Admin/Order">
+                                <span class="icon-holder" uk-icon="cart">
+                                </span>
+                                <span class="title">سفارشات</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle" href="javascript:void(0);">
+                                <span class="icon-holder">
+                                    <i uk-icon="grid"></i>
+                                </span>
+                                <span class="title">پکیج ها</span>
+                                <span class="arrow" uk-icon="chevron-forward">
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item active">
+                                    <a href="/Admin/Package">
+                                        <span class="icon-holder">
+                                            <i uk-icon="basket"></i>
+                                        </span>
+                                        <span class="title">سفارشات</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a href="/Admin/Package">
+                                        <span class="icon-holder">
+                                            <i uk-icon="cube"></i>
+                                        </span>
+                                        <span class="title">لیست پکیج ها</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -125,3 +163,5 @@
 <script src="~/UIKit/js/uikit.min.js"></script>
 <script src="/icons/uikit-icons.js"></script>
 <script src="/ScriptCenter/AdminLayoutJs/script.js"></script>
+
+@RenderSection("Script", false)

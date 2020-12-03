@@ -13,31 +13,34 @@
 
 <a onclick="test()">hbhb</a>
 
-<script>
 
-    function test() {
-        alert("ff");
-        var object = {
-            PageId=3,
-            InPageCount=6,
+<form id="ifd">
+    First name: <input type="text" name="FirstName" value="Mickey"><br>
+    Last name: <input type="text" name="LastName" value="Mouse"><br>
+    <input type="submit" value="Submit">
+</form>
+
+
+@section Script{
+    <script>
+
+        $("#ifd").submit(function () {
+            alert("Submitted");
+        });
+
+        function Info(id) {
+            $.get("/Admin/Order/p_Info?id=" + id, function (result) {
+                $(".modal-content").html(result);
+            });
         }
 
-        $.get("/Admin/Order?paging=" + object, function () {
-        });
-    }
 
-    function Info(id) {
-        $.get("/Admin/Order/p_Info?id=" + id, function (result) {
-            $(".modal-content").html(result);
-        });
-    }
+        function Info(id) {
+            $.get("/Admin/Order/p_Cancel?id=" + id, function (result) {
+                $(".modal-content").html(result);
+            });
+        }
 
 
-    function Info(id) {
-        $.get("/Admin/Order/p_Cancel?id=" + id, function (result) {
-            $(".modal-content").html(result);
-        });
-    }
-
-
-</script>
+    </script>
+}

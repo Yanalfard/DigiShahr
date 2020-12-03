@@ -18,13 +18,13 @@ namespace DigiShahr.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult p_Info(int id)
+        public IActionResult pInfo(int id)
         {
             return ViewComponent("OrderInfo", new { id = id });
         }
 
         [HttpGet]
-        public IActionResult p_Cancel(int id)
+        public IActionResult pCancel(int id)
         {
             return ViewComponent("OrderCancel", new { id = id });
         }
