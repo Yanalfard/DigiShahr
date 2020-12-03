@@ -12,7 +12,7 @@ namespace DigiShahr.Areas.Admin.Controllers
     [Area("Admin")]
     public class OrderController : Controller
     {
-        Core core = new Core();
+        private Core _core = new Core();
         public IActionResult Index(Paging paging)
         {
             return View();
