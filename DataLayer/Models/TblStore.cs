@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
-namespace DataLayer.Models
+namespace DigiShahr.Models
 {
     [Table("TblStore")]
     public partial class TblStore
@@ -14,6 +15,7 @@ namespace DataLayer.Models
         {
             TblDealOrders = new HashSet<TblDealOrder>();
             TblDiscounts = new HashSet<TblDiscount>();
+            TblOrders = new HashSet<TblOrder>();
             TblStoreCatagoryRels = new HashSet<TblStoreCatagoryRel>();
             TblStoreNaighborhoodRels = new HashSet<TblStoreNaighborhoodRel>();
         }
@@ -24,6 +26,9 @@ namespace DataLayer.Models
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+        [Required]
+        [StringLength(15)]
+        public string StaticTell { get; set; }
         public bool IsOpen { get; set; }
         [StringLength(500)]
         public string MainBannerUrl { get; set; }
@@ -45,7 +50,6 @@ namespace DataLayer.Models
         public string Lon { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime SubscribtionTill { get; set; }
-        public int? DeliveryPrice { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsValid { get; set; }
         public int CatagoryId { get; set; }
@@ -64,6 +68,8 @@ namespace DataLayer.Models
         public virtual ICollection<TblDealOrder> TblDealOrders { get; set; }
         [InverseProperty(nameof(TblDiscount.Store))]
         public virtual ICollection<TblDiscount> TblDiscounts { get; set; }
+        [InverseProperty(nameof(TblOrder.Store))]
+        public virtual ICollection<TblOrder> TblOrders { get; set; }
         [InverseProperty(nameof(TblStoreCatagoryRel.Store))]
         public virtual ICollection<TblStoreCatagoryRel> TblStoreCatagoryRels { get; set; }
         [InverseProperty(nameof(TblStoreNaighborhoodRel.Store))]
