@@ -3,14 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DataLayer.Models;
+using Services.Services;
+using DataLayer.ViewModel;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     public class PackageController : Controller
     {
-        public IActionResult Index()
+        Core _core = new Core();
+
+        public IActionResult Index(Paging paging)
         {
-            return View();
+            int skip = (paging.PageId - 1) * 10;
+            int Count = _core.Order.Get().Count();
+
+            ViewBag.PageId = paging.PageId;
+            ViewBag.PageCount = Count / 10;
+
+            return View(_core.Deal.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
         }
 
         public IActionResult pCreate()
@@ -18,19 +28,25 @@ namespace DigiShahr.Areas.Admin.Controllers
             return ViewComponent("PackageCreate");
         }
 
-        public IActionResult Order()
+        public IActionResult Order(Paging paging)
         {
-            return View();
+            int skip = (paging.PageId - 1) * 10;
+            int Count = _core.Order.Get().Count();
+
+            ViewBag.PageId = paging.PageId;
+            ViewBag.PageCount = Count / 10;
+
+            return View(_core.DealOrder.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
         }
 
         public IActionResult pInfo(int id)
         {
-            return ViewComponent("PackageOrderInfo");
+            return ViewComponent("PackageOrderInfo", new { id = id });
         }
 
         public IActionResult pOrderInfo(int id)
         {
-            return ViewComponent("PackageOrderInfo");
+            return ViewComponent("PackageOrderInfo", new { id = id });
         }
 
 
