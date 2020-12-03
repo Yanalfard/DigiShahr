@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
-namespace DataLayer.Models
+namespace DigiShahr.Models
 {
     [Table("TblOrder")]
     public partial class TblOrder
@@ -19,6 +20,7 @@ namespace DataLayer.Models
         [Column("id")]
         public int Id { get; set; }
         public int UserId { get; set; }
+        public int StoreId { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime DateSubmited { get; set; }
         public int? DiscountId { get; set; }
@@ -31,6 +33,9 @@ namespace DataLayer.Models
         [ForeignKey(nameof(DiscountId))]
         [InverseProperty(nameof(TblDiscount.TblOrders))]
         public virtual TblDiscount Discount { get; set; }
+        [ForeignKey(nameof(StoreId))]
+        [InverseProperty(nameof(TblStore.TblOrders))]
+        public virtual TblStore Store { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(TblUser.TblOrders))]
         public virtual TblUser User { get; set; }

@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace DataLayer.Models
+namespace DigiShahr.Models
 {
     public partial class DigiShahrContext : DbContext
     {
@@ -69,9 +71,9 @@ namespace DataLayer.Models
 
             modelBuilder.Entity<TblDeal>(entity =>
             {
-                entity.Property(e => e.Banner1).HasComment("0 is Not Bought; Else Bought;");
+                entity.Property(e => e.Banner1).HasComment("");
 
-                entity.Property(e => e.Banner2).HasComment("0 is Not Bought; Else Bought;");
+                entity.Property(e => e.Banner2).HasComment("");
 
                 entity.Property(e => e.Haraj).HasComment("");
 
@@ -112,6 +114,12 @@ namespace DataLayer.Models
                     .WithMany(p => p.TblOrders)
                     .HasForeignKey(d => d.DiscountId)
                     .HasConstraintName("FK_TblOrder_TblDiscount");
+
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.TblOrders)
+                    .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblOrder_TblStore");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TblOrders)
@@ -156,8 +164,6 @@ namespace DataLayer.Models
             modelBuilder.Entity<TblStore>(entity =>
             {
                 entity.Property(e => e.CatagoryLimit).HasDefaultValueSql("((10))");
-
-                entity.Property(e => e.DeliveryPrice).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ProductLimit).HasDefaultValueSql("((30))");
 
