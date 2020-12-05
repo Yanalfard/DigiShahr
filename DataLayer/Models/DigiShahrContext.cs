@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace DigiShahr.Models
+namespace DataLayer.Models
 {
     public partial class DigiShahrContext : DbContext
     {

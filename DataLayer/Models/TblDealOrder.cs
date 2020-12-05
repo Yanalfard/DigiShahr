@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
-namespace DigiShahr.Models
+namespace DataLayer.Models
 {
     [Table("TblDealOrder")]
     public partial class TblDealOrder

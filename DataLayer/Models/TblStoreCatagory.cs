@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
-namespace DigiShahr.Models
+namespace DataLayer.Models
 {
     [Table("TblStoreCatagory")]
     public partial class TblStoreCatagory
@@ -27,9 +27,9 @@ namespace DigiShahr.Models
         public bool IsRecent { get; set; }
 
         [ForeignKey(nameof(ParentId))]
-        [InverseProperty(nameof(TblStoreCatagory.InverseParent))]
+        [InverseProperty(nameof(InverseParent))]
         public virtual TblStoreCatagory Parent { get; set; }
-        [InverseProperty(nameof(TblStoreCatagory.Parent))]
+        [InverseProperty(nameof(Parent))]
         public virtual ICollection<TblStoreCatagory> InverseParent { get; set; }
         [InverseProperty(nameof(TblStore.Catagory))]
         public virtual ICollection<TblStore> TblStores { get; set; }
