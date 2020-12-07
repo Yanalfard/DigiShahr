@@ -25,22 +25,22 @@ namespace DigiShahr.Areas.Admin.Controllers
             return View(_core.Order.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
         }
 
-        public IActionResult pInfo(int id)
+        public IActionResult pInfo()
         {
-            return ViewComponent("OrderInfo", new { id = id });
+            return ViewComponent("OrderInfo");
         }
 
         [HttpGet]
-        public IActionResult pCancel(int id)
+        public IActionResult pCancel(int? id)
         {
-            return ViewComponent("OrderCancel", new { id = id });
+            return ViewComponent("OrderCancel");
         }
 
         [HttpPost]
-        public IActionResult Cancel(int id)
+        public IActionResult Cancel(int? id)
         {
-            _core.Order.GetById(id).IsPayed = false;
-            _core.Order.Save();
+            //_core.Order.GetById(id).IsPayed = false;
+            //_core.Order.Save();
             return Redirect("/Admin/Order");
         }
 

@@ -1,16 +1,77 @@
-﻿@model DataLayer.Models.TblOrder
+﻿
 
-Order Info
+<div class="modal-header">
+    <h6 class="modal-title mr-3" id="modalCenterTitle">
+        جزئیات سفارش
+    </h6>
 
-@Model.Id @*Id*@
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form>
+    <div class="modal-body">
+        <div id="card-table" class="card-body flex-div">
+            <div class="form-row ">
+                <div class="form-group col-md-5">
+                    <label>کد سفارش:</label>
+                    <span>486546</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>نام مشتری:</label>
+                    <span>علی مولایی</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>شماره تماس مشتری:</label>
+                    <span>093849565</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>نام فروشگاه:</label>
+                    <a href="#"><span>هایپرمارکت ایرانی</span></a>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>زمان ثبت سفارش:</label>
+                    <span>زمان</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>وضعیت تایید اعتبار:</label>
+                    <span class="text-success">تایید شده</span>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>کد سفارش</th>
+                        <th>محصول</th>
+                        <th>تعداد</th>
+                        <th>قیمت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>24165</td>
+                        <td>محصول1</td>
+                        <td>2</td>
+                        <td>20000</td>
 
-@foreach (var item in Model.TblOrderDetails)
-{
-    @item.Product.StoreCatagory.Store
-}
-
-
-
-
+                    </tr>
+                    <tr>
+                        <td>49651</td>
+                        <td>محصول2</td>
+                        <td>1</td>
+                        <td>20000</td>
+                    </tr>
+                    <tr>
+                        <td>259641</td>
+                        <td>محصول3</td>
+                        <td>3</td>
+                        <td>20000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</form>
 
 
