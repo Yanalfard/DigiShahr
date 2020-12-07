@@ -4,5 +4,71 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>پکیج ها</h1>
+<div class="row flex-div">
+    <div class="col-md-12 flex-div pb-3 pt-3">
+        <div class="card flex-div border-0 main-shadow">
+            <div class="card-header bg-white">
+                    <div class="pr-3 pt-2">
+                        <div class="form-group pb-0">
+                            <button type="button" class="btn btn-success btn-sm">افزودن</button>
+                        </div>
+                </div>
+            </div>
+            <div id="card-table" class="card-body flex-div">
+                <div class="table-responsive flex">
+                    <table class="table fixed">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">نام پکیج</th>
+                                <th scope="col">مدت زمان</th>
+                                <th scope="col">قیمت</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>پکیج ویژه</td>
+                                <td>6ماهه</td>
+                                <td>16232000</td>
+                                <td>
+                                    <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات سفارش">
+                                        <a href="#" data-toggle="modal" data-target="#modalSave" id="Info" class="text-primary" uk-icon="information-circle-outline"></a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-footer bg-white">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item d-none">
+                            <a class="page-link" onclick="Page(0)">قبلی</a>
+                        </li>
+                        <li class="page-item">
+                            <select id="pageNumber" class="custom-select custom-select-sm">
+                                <option class="page-item" value="1" selected="">صفحه 1 از 1</option>
+                            </select>
+                        </li>
+                        <li class="page-item d-none">
+                            <a class="page-link" onclick="Page(2)">بعدی</a>
+                        </li>
+                        <li>
+                            <select id="InPageCount" class="custom-select custom-select-sm">
+                                <option value="0" selected="">18 در هر صفحه</option>
+                                <option value="20">20 در هر صفحه</option>
+                                <option value="30">30 در هر صفحه</option>
+                                <option value="40">40 در هر صفحه</option>
+                            </select>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class UserController : Controller
     {
         public IActionResult Index()

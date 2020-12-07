@@ -8,6 +8,7 @@ using Services.Services;
 using DataLayer.ViewModel;
 namespace DigiShahr.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class PackageController : Controller
     {
         Core _core = new Core();

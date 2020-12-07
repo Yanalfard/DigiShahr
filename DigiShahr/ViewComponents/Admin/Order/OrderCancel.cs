@@ -12,9 +12,9 @@ namespace DigiShahr.ViewComponents.Admin.Order
     {
         Core core = new Core();
 
-        public async Task<IViewComponentResult> InvokeAsync(int id)
+        public async Task<IViewComponentResult> InvokeAsync(int? id)
         {
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderCancel.cshtml", core.Order.GetById(id)));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderCancel.cshtml"/*core.Order.GetById(id)*/));
         }
     }
 }

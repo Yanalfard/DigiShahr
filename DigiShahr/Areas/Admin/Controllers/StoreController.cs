@@ -9,7 +9,7 @@ using DataLayer.ViewModel;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
-
+    [Area("Admin")]
     public class StoreController : Controller
     {
         Core _core = new Core();
