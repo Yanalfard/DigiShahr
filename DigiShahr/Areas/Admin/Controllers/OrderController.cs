@@ -13,6 +13,7 @@ namespace DigiShahr.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private Core _core = new Core();
+
         public IActionResult Index(Paging paging)
         {
             int skip = (paging.PageId - 1) * 10;
