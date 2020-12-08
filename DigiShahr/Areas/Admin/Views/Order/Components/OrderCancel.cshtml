@@ -1,10 +1,12 @@
-﻿<div class="modal-header">
+﻿@model DataLayer.Models.TblOrder
+
+<div class="modal-header">
     <h6 class="modal-title mr-3" id="modalCenterTitle">حذف سفارش</h6>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<h6 class="uk-margin-auto">آیا میخواهید گزینه انتخابی حذف شود؟</h6>
+<h6 class="uk-margin-auto">آیا میخواهید سفارش @Model.Id حذف شود؟</h6>
 <div class="modal-footer justify-content-end">
     <img src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
     <button type="button" class="btn btn-sm btn-danger">

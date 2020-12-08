@@ -10,5 +10,6 @@ namespace DataLayer.ViewModel
 
         public int InPageCount { get; set; } = 0;
 
+
     }
 }

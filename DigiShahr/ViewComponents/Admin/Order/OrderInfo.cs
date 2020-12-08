@@ -10,12 +10,11 @@ namespace DigiShahr.ViewComponents.Admin.Order
 {
     public class OrderInfo : ViewComponent
     {
-        Core core = new Core();
+        Core _core = new Core();
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderInfo.cshtml" /*core.Order.GetById(id)*/));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderInfo.cshtml", _core.Order.GetById(id)));
         }
 
     }

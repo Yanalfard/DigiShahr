@@ -10,7 +10,6 @@ namespace DigiShahr.ViewComponents.Admin.Package
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-
             return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/Create.cshtml"));
         }
     }

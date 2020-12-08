@@ -14,33 +14,33 @@ namespace DigiShahr.Areas.Admin.Controllers
     {
         private Core _core = new Core();
 
-        public IActionResult Index(Paging paging)
+        public IActionResult Index()
         {
-            int skip = (paging.PageId - 1) * 10;
-            int Count = _core.Order.Get().Count();
-
-            ViewBag.PageId = paging.PageId;
-            ViewBag.PageCount = Count / 10;
-
-            return View(_core.Order.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
+            return View();
         }
 
-        public IActionResult pInfo()
+        public IActionResult pList(Paging paging)
         {
-            return ViewComponent("OrderInfo");
+            return ViewComponent("OrderList", new { Paging = paging });
+
+        }
+
+        public IActionResult pInfo(int id)
+        {
+            return ViewComponent("OrderInfo", new { id = id });
         }
 
         [HttpGet]
         public IActionResult pCancel(int? id)
         {
-            return ViewComponent("OrderCancel");
+            return ViewComponent("OrderCancel", new { id = id });
         }
 
         [HttpPost]
         public IActionResult Cancel(int? id)
         {
-            //_core.Order.GetById(id).IsPayed = false;
-            //_core.Order.Save();
+            _core.Order.GetById(id).IsPayed = false;
+            _core.Order.Save();
             return Redirect("/Admin/Order");
         }
 

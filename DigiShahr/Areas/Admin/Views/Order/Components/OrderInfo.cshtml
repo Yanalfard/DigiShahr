@@ -1,8 +1,8 @@
-﻿
-
+﻿@model DataLayer.Models.TblOrder
+@using DigiShahr.Classes
 <div class="modal-header">
     <h6 class="modal-title mr-3" id="modalCenterTitle">
-        جزئیات سفارش
+        جزئیات سفارش @Model.Id
     </h6>
 
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -15,27 +15,38 @@
             <div class="form-row ">
                 <div class="form-group col-md-5">
                     <label>کد سفارش:</label>
-                    <span>486546</span>
+                    <span>@Model.Id</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>نام مشتری:</label>
-                    <span>علی مولایی</span>
+                    <span>@Model.User.Name</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>شماره تماس مشتری:</label>
-                    <span>093849565</span>
+                    <span>@Model.User.TellNo</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>نام فروشگاه:</label>
-                    <a href="#"><span>هایپرمارکت ایرانی</span></a>
+                    <a href="#"><span>@Model.Store.Name</span></a>
                 </div>
                 <div class="form-group col-md-5">
                     <label>زمان ثبت سفارش:</label>
-                    <span>زمان</span>
+                    <span>@Model.DateSubmited.AllToShamsi()</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>وضعیت تایید اعتبار:</label>
-                    <span class="text-success">تایید شده</span>
+                    @if (Model.IsValid == true)
+                    {
+                        <span class="text-success">تایید شده</span>
+                    }
+                    else
+                    {
+                        <span class="text-warning">تایید نشده</span>
+                    }
+                </div>
+                <div class="form-group col-md-5">
+                    <label>جمع کل سفارش</label>
+                    <span id="PriceSpan">@Model.Price</span>
                 </div>
             </div>
             <table class="table table-striped">
@@ -48,30 +59,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>24165</td>
-                        <td>محصول1</td>
-                        <td>2</td>
-                        <td>20000</td>
+                    @foreach (var item in Model.TblOrderDetails)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Product.Name</td>
+                            <td>@item.Count</td>
+                            <td><span id="PriceSpan">@item.Product.Price</span></td>
 
-                    </tr>
-                    <tr>
-                        <td>49651</td>
-                        <td>محصول2</td>
-                        <td>1</td>
-                        <td>20000</td>
-                    </tr>
-                    <tr>
-                        <td>259641</td>
-                        <td>محصول3</td>
-                        <td>3</td>
-                        <td>20000</td>
-                    </tr>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
-    
+
 </form>
+
+<script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>
 
 

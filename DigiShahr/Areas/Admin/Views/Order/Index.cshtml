@@ -1,116 +1,74 @@
-﻿@model IEnumerable<DataLayer.Models.TblOrder>
-
-    @{
+﻿@{
     ViewData["Title"] = "سفارشات | مدیریت";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    }
+}
 
 
-    <div class="row flex-div">
-        <div class="col-md-12 flex-div pb-3 pt-3">
-            <div class="card flex-div border-0 main-shadow">
-                <div class="card-header bg-white">
-                    <form action="" method="post">
-                        <div class="card-form row pr-3 pb-0">
-                            <div class="form-group mx-sm-2">
-                                <input name="orderId" type="text" class="form-control form-control-sm" placeholder="کد سفارش">
-                            </div>
-                            <div class="form-toolbar pr-2 ">
-                                <button type="submit" class="btn btn-primary btn-sm">جستجو</button>
-                                <img id="SearchLoad" src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div id="card-table" class="card-body flex-div">
-                    <div class="table-responsive flex">
-                        <table class="table fixed">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">کد سفارش</th>
-                                    <th scope="col">نام مشتری</th>
-                                    <th scope="col">زمان ثبت سفارش</th>
-                                    <th>وضعیت تایید اعتبار</th>
-                                    <th>وضعیت پرداخت</th>
-                                    <th>عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>74965</td>
-                                    <td>علی مولایی</td>
-                                    <td>زمان</td>
-                                    <td class="text-success">
-                                        تأیید شده
-                                    </td>
-                                    <td class="text-warning">
-                                        در انتظار پرداخت
-                                    </td>
-                                    <td>
-                                        <span data-placement="top" data-toggle="tooltip" title="" data-original-title="لغو سفارش">
-                                            <a href="#" data-toggle="modal" data-target="#modalSave" id="Cancel" class="text-danger" uk-icon="close-circle-outline"></a>
-                                        </span>
-                                        <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات سفارش">
-                                            <a href="#" data-toggle="modal" data-target="#modalSave" id="Info" class="text-primary" uk-icon="information-circle-outline"></a>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-              
-                <div class="card-footer bg-white">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                            <li class="page-item d-none">
-                                <a class="page-link" onclick="Page(0)">قبلی</a>
-                            </li>
-                            <li class="page-item">
-                                <select id="pageNumber" class="custom-select custom-select-sm">
-                                    <option class="page-item" value="1" selected="">صفحه 1 از 1</option>
-                                </select>
-                            </li>
-                            <li class="page-item d-none">
-                                <a class="page-link" onclick="Page(2)">بعدی</a>
-                            </li>
-                            <li>
-                                <select id="InPageCount" class="custom-select custom-select-sm">
-                                    <option value="0" selected="">18 در هر صفحه</option>
-                                    <option value="20">20 در هر صفحه</option>
-                                    <option value="30">30 در هر صفحه</option>
-                                    <option value="40">40 در هر صفحه</option>
-                                </select>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+<div class="row flex-div">
+    <div class="col-md-12 flex-div pb-3 pt-3">
+        <div id="Content" class="card flex-div border-0 main-shadow">
+            @*/////List/////*@
         </div>
     </div>
+</div>
 
-    @section Script{
-        <script>
-            $("#Cancel").click(function () {
-                $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-                $.get("/Admin/Order/pCancel", function (result) {
-                    $(".modal-dialog").removeClass("modal-xl");
-                    $(".modal-dialog").removeClass("modal-lg");
-                    $(".modal-dialog").addClass("modal-md");
-                    $(".modal-content").html(result);
-                });
+@section Script{
+
+    <script>
+
+        //$("form").on("submit", function (e) {
+        //    alert($(this).serialize());
+        //    e.preventDefault();
+        //});
+
+        $(document).ready(function () {
+            $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+            $.get("/Admin/Order/pList?PageId=1&InPageCount=0", function (result) {
+                $("#Content").html(result);
             });
+        });
 
-            $("#Info").click(function () {
-                $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-                $.get("/Admin/Order/pInfo", function (result) {
-                    $(".modal-dialog").removeClass("modal-xl");
-                    $(".modal-dialog").removeClass("modal-md");
-                    $(".modal-dialog").addClass("modal-lg");
-                    $(".modal-content").html(result);
-                });
+        //$("#pageNumber").change(function () {
+        //    $(".loding").removeClass("d-none");
+        //    var PageId = $("#pageNumber option:selected").val();
+        //    var InPageCount = $("#InPageCount option:selected").val();
+        //    $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+        //    $.get("/Admin/Order/pList?PageId=1&InPageCount=0", function (result) {
+        //        $("#Content").html(result);
+        //    });
+        //});
+
+
+        //$("#InPageCount").change(function () {
+        //    $(".loding").removeClass("d-none");
+        //    var PageId = $("#pageNumber option:selected").val();
+        //    var InPageCount = $("#InPageCount option:selected").val();
+        //    $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+        //    $.get("/Admin/Order/pList?PageId=1&InPageCount=0", function (result) {
+        //        $("#Content").html(result);
+        //    });
+        //});
+
+
+        function Cancel(Id) {
+            $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+            $.get("/Admin/Order/pCancel?Id=" + Id, function (result) {
+                $(".modal-dialog").removeClass("modal-xl");
+                $(".modal-dialog").removeClass("modal-lg");
+                $(".modal-dialog").addClass("modal-md");
+                $(".modal-content").html(result);
             });
-        </script>
+        }
 
-    }
+        function Info(Id) {
+            $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+            $.get("/Admin/Order/pInfo?Id=" + Id, function (result) {
+                $(".modal-dialog").removeClass("modal-xl");
+                $(".modal-dialog").removeClass("modal-md");
+                $(".modal-dialog").addClass("modal-lg");
+                $(".modal-content").html(result);
+            });
+        }
+    </script>
+
+}
