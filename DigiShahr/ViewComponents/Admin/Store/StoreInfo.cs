@@ -10,10 +10,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
     public class StoreInfo : ViewComponent
     {
         Core _core = new Core();
-        public async Task<IViewComponentResult> InvokeAsync(int id)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
 
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/Info.cshtml",_core.Store.GetById(id)));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/Info.cshtml"));
         }
     }
 }

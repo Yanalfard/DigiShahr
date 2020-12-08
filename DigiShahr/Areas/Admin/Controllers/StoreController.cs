@@ -28,12 +28,10 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult pInfo(int id)
+        public IActionResult pInfo()
         {
-            return ViewComponent("StoreInfo", new { id = id });
+            return ViewComponent("StoreInfo");
         }
-
-
 
         //StoreCategory
         [HttpGet]
@@ -46,34 +44,6 @@ namespace DigiShahr.Areas.Admin.Controllers
             ViewBag.PageCount = Count / 10;
 
             return View(_core.StoreCatagory.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
-        }
-
-        [HttpGet]
-        public IActionResult pEditCateogory(int id)
-        {
-            return ViewComponent("StoreInfo", new { id = id });
-        }
-
-        [HttpPost]
-        public IActionResult EditCategory(TblStoreCatagory tblStoreCatagory)
-        {
-            _core.StoreCatagory.Update(tblStoreCatagory);
-            Paging paging = new Paging();
-            paging.PageId = 1;
-            paging.InPageCount = 0;
-            return RedirectToAction("Category", paging);
-        }
-
-        [HttpGet]
-        public IActionResult pDeleteCategory(int id)
-        {
-            return ViewComponent("StoreCategoryInfo", new { id = id });
-        }
-
-        [HttpPost]
-        public IActionResult DeleteCategory(TblStoreCatagory tblStoreCatagory)
-        {
-            return RedirectToAction("Category");
         }
 
     }

@@ -85,13 +85,41 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle" href="javascript:void(0);">
+                                <span class="icon-holder">
+                                    <i uk-icon="storefront"></i>
+                                </span>
+                                <span class="title">فروشگاه</span>
+                                <span class="arrow" uk-icon="chevron-forward">
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item active">
+                                    <a href="/Admin/Store/Category">
+                                        <span class="icon-holder">
+                                            <i uk-icon="layers"></i>
+                                        </span>
+                                        <span class="title">دسته بندی</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a href="/Admin/Store">
+                                        <span class="icon-holder">
+                                            <i uk-icon="storefront"></i>
+                                        </span>
+                                        <span class="title">لیست فروشگاه ها</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @*<li class="nav-item active">
                             <a href="/Admin/Store">
                                 <span class="icon-holder" uk-icon="storefront">
                                 </span>
                                 <span class="title">فروشگاه</span>
                             </a>
-                        </li>
+                        </li>*@
                         <li class="nav-item active">
                             <a href="/Admin/User">
                                 <span class="icon-holder" uk-icon="people">
