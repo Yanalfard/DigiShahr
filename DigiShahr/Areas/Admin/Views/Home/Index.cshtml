@@ -1,8 +1,167 @@
-﻿
+﻿@model DataLayer.ViewModel.Statistics
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="row flex-div">
+    <div class="col-md-12 flex pb-3 pt-3">
+        <div class="col-md-12 mb-2">
+            <div class="card shadow-full border-0">
+                <div class="card-body user-card-bg">
+
+                </div>
+                <div class="card-body user-content">
+                    <div class="row">
+
+                        <a href="/Admin/User" class="col-md-3 text-dark">
+                            <div class="user-box alert alert-success p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="people"></i>
+                                </div>
+                                <div class="user-title mb-3">
+                                    <span class="icon-pic-success">مشتریان</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold">@Model.UserCount</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="/Admin/User" class="col-md-3">
+                            <div class="user-box alert alert-info px-3 p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="people"></i>
+                                </div>
+                                <div class="user-title  mb-3">
+                                    <span class="icon-pic-primary">فروشندگان</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold">@Model.SellerCount</span>
+                                </div>
+
+                            </div>
+                        </a>
+
+                        <a href="/Admin/User" class="col-md-3">
+                            <div class="user-box alert alert-warning px-3 p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="storefront"></i>
+                                </div>
+                                <div class="user-title  mb-3">
+                                    <span class="icon-pic-primary">فروشگاه فعال الان</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold">@Model.ActiveStoreCount</span>
+                                </div>
+
+                            </div>
+                        </a>
+
+                        <a href="/Admin/User" class="col-md-3">
+                            <div class="user-box alert alert-danger px-3 p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="map"></i>
+                                </div>
+                                <div class="user-title  mb-3">
+                                    <span class="icon-pic-primary">مناطق</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold">@Model.Naighborhood</span>
+                                </div>
+
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mb-2">
+            <div class="card shadow-full border-0">
+                <div class="card-body user-card-bg">
+
+                </div>
+                <div class="card-body user-content">
+                    <div class="row">
+                        <a href="/Admin/Package" class="col-md-6">
+
+                            <div class="user-box alert alert-success px-3 p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="basket"></i>
+                                </div>
+                                <div class="user-title  mb-3">
+                                    <span class="icon-pic-primary">سفارشات پرداخت شده</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold">@Model.OrderIsPayedCount</span>
+                                </div>
+
+                            </div>
+                        </a>
+                        <a href="/Admin/Order" class="col-md-6">
+                            <div class="user-box alert alert-danger px-3 p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="basket"></i>
+                                </div>
+                                <div class="user-title  mb-3">
+                                    <span class="icon-pic-primary">سفارشات پرداخت نشده</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold">@Model.OrderNoPayedCount</span>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mb-2">
+            <div class="card shadow-full border-0">
+                <div class="card-body user-card-bg">
+
+                </div>
+                <div class="card-body user-content">
+                    <div class="row">
+                        <a href="/Admin/Package" class="col-md-6">
+
+                            <div class="user-box alert alert-success px-3 p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="cash"></i>
+                                </div>
+                                <div class="user-title  mb-3">
+                                    <span class="icon-pic-primary">جمع سفارشات پرداخت شده</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold" id="PriceSpan">@Model.SumIsPayedOrder تومان</span>
+                                </div>
+
+                            </div>
+                        </a>
+                        <a href="/Admin/Order" class="col-md-6">
+                            <div class="user-box alert alert-info px-3 p-3 rounded shadow">
+                                <div class="user-icon mb-2">
+                                    <i uk-icon="basket"></i>
+                                </div>
+                                <div class="user-title  mb-3">
+                                    <span class="icon-pic-primary">فروش پکیج</span>
+                                </div>
+                                <div class="user-count">
+                                    <span class="icon-pic-primary font-weight-bold">@Model.PackageOrderCount</span>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Script{
+
+    <script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>
+
+}
 

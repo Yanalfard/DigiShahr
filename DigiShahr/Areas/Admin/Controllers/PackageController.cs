@@ -16,28 +16,13 @@ namespace DigiShahr.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index(Paging paging)
         {
+            return View();
+        }
 
-            if (paging.InPageCount == 0)
-            {
-                int skip = (paging.PageId - 1) * 10;
-                int Count = _core.Order.Get().Count();
-
-                ViewBag.PageId = paging.PageId;
-                ViewBag.PageCount = Count / 10;
-                ViewBag.InPageCount = paging.InPageCount;
-                return View(_core.Deal.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
-            }
-            else
-            {
-                int skip = (paging.PageId - 1) * 10;
-                int Count = _core.Order.Get().Count();
-
-                ViewBag.PageId = paging.PageId;
-                ViewBag.PageCount = Count / 10;
-                ViewBag.InPageCount = paging.InPageCount;
-                return View(_core.Deal.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
-            }
-
+        [HttpGet]
+        public IActionResult pList(Paging paging)
+        {
+            return ViewComponent("PackageList", new { Paging = paging });
         }
 
         [HttpGet]

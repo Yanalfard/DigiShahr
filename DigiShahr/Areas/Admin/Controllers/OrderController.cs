@@ -14,11 +14,13 @@ namespace DigiShahr.Areas.Admin.Controllers
     {
         private Core _core = new Core();
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult pList(Paging paging)
         {
             return ViewComponent("OrderList", new { Paging = paging });
@@ -31,17 +33,17 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult pCancel(int? id)
+        public IActionResult pCancel(int id)
         {
             return ViewComponent("OrderCancel", new { id = id });
         }
 
         [HttpPost]
-        public IActionResult Cancel(int? id)
+        public IActionResult Cancel(int id)
         {
             _core.Order.GetById(id).IsPayed = false;
             _core.Order.Save();
-            return Redirect("/Admin/Order");
+            return View();
         }
 
     }

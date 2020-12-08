@@ -32,6 +32,10 @@
 
   <ItemGroup>
 
+    <Folder Include="Areas\Seller\Controllers\" />
+
+    <Folder Include="Areas\Seller\Views\" />
+
     <Folder Include="Areas\User\Controllers\" />
 
     <Folder Include="Areas\User\Views\" />

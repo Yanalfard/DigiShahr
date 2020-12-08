@@ -9,13 +9,21 @@
 <h6 class="uk-margin-auto">آیا میخواهید سفارش @Model.Id حذف شود؟</h6>
 <div class="modal-footer justify-content-end">
     <img src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
-    <button type="button" class="btn btn-sm btn-danger">
+    <button onclick="Cancel(@Model.Id)" type="button" class="btn btn-sm btn-danger">
         بله
     </button>
     <button type="button" class="btn btn-sm btn-info">
         خیر
     </button>
 </div>
+
+<script>
+    function Cancel(id) {
+        $.get("/Admin/Order/Cancel?id=" + id, function () {
+
+        });
+    }
+</script>
 
 
 
