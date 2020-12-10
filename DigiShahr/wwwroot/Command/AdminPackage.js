@@ -1,19 +1,17 @@
-﻿$("#Create").click(function () {
-    $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-    $.get("/Admin/Package/pCreate", function (result) {
-        $(".modal-dialog").removeClass("modal-xl");
-        $(".modal-dialog").removeClass("modal-lg");
-        $(".modal-dialog").addClass("modal-md");
-        $(".modal-content").html(result);
+﻿$("#pageNumber").change(function () {
+    var PageId = $("#pageNumber option:selected").val();
+    var InPageCount = $("#InPageCount option:selected").val();
+    $.get("/Admin/Package/pList?PageId=" + PageId + "&InPageCount=" + InPageCount, function (result) {
+        $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+        $("#Content").html(result);
     });
 });
 
-function Info(Id) {
-    $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-    $.get("/Admin/Package/pInfo?Id" + Id, function (result) {
-        $(".modal-dialog").removeClass("modal-xl");
-        $(".modal-dialog").removeClass("modal-lg");
-        $(".modal-dialog").addClass("modal-md");
-        $(".modal-content").html(result);
+$("#InPageCount").change(function () {
+    var PageId = $("#pageNumber option:selected").val();
+    var InPageCount = $("#InPageCount option:selected").val();
+    $.get("/Admin/Package/pList?PageId=" + PageId + "&InPageCount=" + InPageCount, function (result) {
+        $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+        $("#Content").html(result);
     });
-}
+});

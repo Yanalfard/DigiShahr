@@ -48,20 +48,6 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
 
-            @if (ViewBag.PageId == 1)
-            {
-                <li class="page-item d-none">
-                    <a class="page-link" onclick="Page(@((int)ViewBag.PageId-1))">قبلی</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item">
-                    <a class="page-link" href="/Admin/Order?PageId=@((int)ViewBag.PageId-1)&ID=@ViewBag.ID&PhoneNumber=@ViewBag.phoneNumber&Status=@ViewBag.Status&InPageCount=@ViewBag.InPageCount">قبلی</a>
-                </li>
-
-            }
-
             <li class="page-item">
                 <select id="pageNumber" class="custom-select custom-select-sm">
                     @for (int i = 1; i <= (ViewBag.PageCount + 1); i++)
@@ -71,21 +57,6 @@
                 </select>
             </li>
 
-
-            @if ((int)ViewBag.PageId > (int)ViewBag.PageCount)
-            {
-                <li class="page-item d-none">
-                    <a class="page-link" onclick="Page(@((int)ViewBag.PageId + 1))">بعدی</a>
-                </li>
-            }
-            else
-
-            {
-                <li class="page-item">
-                    <a class="page-link" href="/Admin/Order?PageId=@((int)ViewBag.PageId+1)&ID=@ViewBag.ID&PhoneNumber=@ViewBag.phoneNumber&Status=@ViewBag.Status&InPageCount=@ViewBag.InPageCount">بعدی</a>
-                </li>
-
-            }
             <li>
                 <select id="InPageCount" class="custom-select custom-select-sm">
                     @if (ViewBag.InPageCount == 0)

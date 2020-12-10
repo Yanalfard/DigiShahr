@@ -13,62 +13,17 @@
 </div>
 
 @section Script{
-
     <script>
-
-        //$("form").on("submit", function (e) {
-        //    alert($(this).serialize());
-        //    e.preventDefault();
-        //});
 
         $(document).ready(function () {
             $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-            $.get("/Admin/Order/pList?PageId=1&InPageCount=0", function (result) {
+            $.get("/Admin/Order/pList?PageId=1&InPageCount=0" + "&orderId=" + "&phoneNumber=" + "&fromDate=" + "&toDate=", function (result) {
                 $("#Content").html(result);
             });
         });
 
-        //$("#pageNumber").change(function () {
-        //    $(".loding").removeClass("d-none");
-        //    var PageId = $("#pageNumber option:selected").val();
-        //    var InPageCount = $("#InPageCount option:selected").val();
-        //    $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-        //    $.get("/Admin/Order/pList?PageId=1&InPageCount=0", function (result) {
-        //        $("#Content").html(result);
-        //    });
-        //});
+        
 
-
-        //$("#InPageCount").change(function () {
-        //    $(".loding").removeClass("d-none");
-        //    var PageId = $("#pageNumber option:selected").val();
-        //    var InPageCount = $("#InPageCount option:selected").val();
-        //    $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-        //    $.get("/Admin/Order/pList?PageId=1&InPageCount=0", function (result) {
-        //        $("#Content").html(result);
-        //    });
-        //});
-
-
-        function Cancel(Id) {
-            $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-            $.get("/Admin/Order/pCancel?Id=" + Id, function (result) {
-                $(".modal-dialog").removeClass("modal-xl");
-                $(".modal-dialog").removeClass("modal-lg");
-                $(".modal-dialog").addClass("modal-md");
-                $(".modal-content").html(result);
-            });
-        }
-
-        function Info(Id) {
-            $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-            $.get("/Admin/Order/pInfo?Id=" + Id, function (result) {
-                $(".modal-dialog").removeClass("modal-xl");
-                $(".modal-dialog").removeClass("modal-md");
-                $(".modal-dialog").addClass("modal-lg");
-                $(".modal-content").html(result);
-            });
-        }
     </script>
 
 }

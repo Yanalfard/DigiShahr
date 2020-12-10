@@ -12,19 +12,20 @@
     <button onclick="Cancel(@Model.Id)" type="button" class="btn btn-sm btn-danger">
         بله
     </button>
-    <button type="button" class="btn btn-sm btn-info">
+    <button type="button" class="btn btn-sm btn-info" data-dismiss="modal" aria-label="Close">
         خیر
     </button>
 </div>
 
 <script>
     function Cancel(id) {
-        $.get("/Admin/Order/Cancel?id=" + id, function () {
-
+        $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+        $.get("/Admin/Order/Cancel?id=" + id + "&PageId=" + @ViewBag.PageId + "&InPageCount=" + @ViewBag.InPageCount + "&orderId=" + $("#orderId").val() + "&phoneNumber=" + $("#phoneNumber").val() + "&fromDate=" + $("#fromDate").val() + "&toDate=" + $("#toDate").val(), function (result) {
+            $("#modalSave").css('display', 'none');
+            $("#modalSave").removeClass('show');
+            document.querySelectorAll('.modal-backdrop')[0].parentElement.removeChild(document.querySelectorAll('.modal-backdrop')[0]);
+            $("#Content").html(result);
         });
     }
 </script>
-
-
-
 

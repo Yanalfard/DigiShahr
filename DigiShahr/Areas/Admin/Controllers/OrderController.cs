@@ -21,9 +21,9 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult pList(Paging paging)
+        public IActionResult pList(Paging paging, AdminOrderSearch adminOrderSearch)
         {
-            return ViewComponent("OrderList", new { Paging = paging });
+            return ViewComponent("OrderList", new { Paging = paging, AdminOrderSearch = adminOrderSearch });
 
         }
 
@@ -33,17 +33,23 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult pCancel(int id)
+        public IActionResult pCancel(int id, int PageId, int InPageCount)
         {
+            Paging paging = new Paging();
+            paging.PageId = PageId;
+            paging.InPageCount = InPageCount;
             return ViewComponent("OrderCancel", new { id = id });
         }
 
         [HttpPost]
-        public IActionResult Cancel(int id)
+        public IActionResult Cancel(int id, int PageId, int InPageCount)
         {
             _core.Order.GetById(id).IsPayed = false;
             _core.Order.Save();
-            return View();
+            Paging paging = new Paging();
+            paging.PageId = PageId;
+            paging.InPageCount = InPageCount;
+            return pList(paging, null);
         }
 
     }

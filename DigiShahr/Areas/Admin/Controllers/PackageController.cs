@@ -14,7 +14,7 @@ namespace DigiShahr.Areas.Admin.Controllers
         Core _core = new Core();
 
         [HttpGet]
-        public IActionResult Index(Paging paging)
+        public IActionResult Index()
         {
             return View();
         }
@@ -42,34 +42,14 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Order(Paging paging)
+        public IActionResult Order()
         {
-            if (paging.InPageCount == 0)
-            {
-                int skip = (paging.PageId - 1) * 10;
-                int Count = _core.Order.Get().Count();
-
-                ViewBag.PageId = paging.PageId;
-                ViewBag.PageCount = Count / 10;
-                ViewBag.InPageCount = paging.InPageCount;
-                return View(_core.DealOrder.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
-            }
-            else
-            {
-                int skip = (paging.PageId - 1) * 10;
-                int Count = _core.DealOrder.Get().Count();
-
-                ViewBag.PageId = paging.PageId;
-                ViewBag.PageCount = Count / 10;
-                ViewBag.InPageCount = paging.InPageCount;
-                return View(_core.DealOrder.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
-            }
+            return View();
         }
 
-        [HttpGet]
-        public IActionResult pInfo(int id)
+        public IActionResult OrderList(Paging paging, int? Id)
         {
-            return ViewComponent("PackageOrderInfo", new { id = id });
+            return ViewComponent("OrderPackageList", new { Paging = paging, Id = Id });
         }
 
         [HttpGet]
@@ -78,6 +58,27 @@ namespace DigiShahr.Areas.Admin.Controllers
             return ViewComponent("PackageOrderInfo", new { id = id });
         }
 
+        [HttpGet]
+        public IActionResult pOrderCancel(int Id, int PageId, int InPageCount)
+        {
+            Paging paging = new Paging();
+            paging.PageId = PageId;
+            paging.InPageCount = InPageCount;
+            return ViewComponent("OrderPackageCancel", new { Id = Id, Paging = paging });
+        }
+
+        public IActionResult OrderCancel(int id, Paging paging, int? SearchId)
+        {
+            _core.DealOrder.GetById(id).IsPayed = false;
+            _core.DealOrder.Save();
+            return OrderList(paging, SearchId);
+        }
+
+        [HttpGet]
+        public IActionResult pInfo(int id)
+        {
+            return ViewComponent("PackageOrderInfo", new { id = id });
+        }
 
 
     }
