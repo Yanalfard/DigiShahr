@@ -15,3 +15,14 @@ $("#InPageCount").change(function () {
         $("#Content").html(result);
     });
 });
+
+
+$("#Create").click(function () {
+    $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+    $.get("/Admin/Package/pCreate", function (result) {
+        $(".modal-dialog").removeClass("modal-xl");
+        $(".modal-dialog").removeClass("modal-md");
+        $(".modal-dialog").addClass("modal-lg");
+        $(".modal-content").html(result);
+    });
+});
