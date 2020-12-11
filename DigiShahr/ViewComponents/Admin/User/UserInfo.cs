@@ -14,7 +14,6 @@ namespace DigiShahr.ViewComponents.Admin.User
 
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-
             return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/UserInfo.cshtml", core.User.GetById(id)));
         }
     }

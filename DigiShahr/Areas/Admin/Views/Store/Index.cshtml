@@ -1,102 +1,26 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "فروشگاه ها | مدیریت";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="row flex-div">
     <div class="col-md-12 flex-div pb-3 pt-3">
-        <div class="card flex-div border-0 main-shadow">
-            <div class="card-header bg-white">
-                <form action="" method="post">
-                    <div class="card-form row pr-1 pb-0 mb-0">
-                        <div class="form-inline pb-0 mb-0">
-                            <input name="storeName" type="text" class="form-control form-control-sm mr-2" placeholder="نام فروشگاه">
-                            <input name="phoneNumber" type="tel" class="form-control form-control-sm mr-2 mt-2 mt-sm-0 " placeholder="شماره تماس">
-                        </div>
-                        <div class="form-toolbar pr-2">
-                            <button type="submit" class="btn btn-primary btn-sm mt-2 mt-sm-0">جستجو</button>
-                            <img id="SearchLoad" src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div id="card-table" class="card-body flex-div">
-                <div class="table-responsive flex">
-                    <table class="table fixed">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>نام فروشگاه</th>
-                                <th>نام صاحب فروشگاه</th>
-                                <th>شماره تماس</th>
-                                <th>وضعیت</th>
-                                <th>جزئیات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>هایپرمارکت ایرانی</td>
-                                <td>رضا عمرانی</td>
-                                <td>091478452</td>
-                                <td class="text-success">
-                                    فعال
-                                </td>
-                                <td>
-                                    <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات سفارش">
-                                        <a href="#" data-toggle="modal" data-target="#modalSave" id="Info" class="text-primary" uk-icon="information-circle-outline"></a>
-                                    </span>
-                                    <span data-placement="top" data-toggle="tooltip" title="" data-original-title="تایید اعتبار">
-                                        <a href="#" id="Accept" class="text-success" uk-icon="checkmark-done-circle-outline"></a>
-                                    </span>
-                                    <span data-placement="top" data-toggle="tooltip" title="" data-original-title="عدم تایید اعتبار">
-                                        <a href="#" id="Reject" class="text-danger" uk-icon="close-circle-outline"></a>
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card-footer bg-white">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item d-none">
-                            <a class="page-link" onclick="Page(0)">قبلی</a>
-                        </li>
-                        <li class="page-item">
-                            <select id="pageNumber" class="custom-select custom-select-sm">
-                                <option class="page-item" value="1" selected="">صفحه 1 از 1</option>
-                            </select>
-                        </li>
-                        <li class="page-item d-none">
-                            <a class="page-link" onclick="Page(2)">بعدی</a>
-                        </li>
-                        <li>
-                            <select id="InPageCount" class="custom-select custom-select-sm">
-                                <option value="0" selected="">18 در هر صفحه</option>
-                                <option value="20">20 در هر صفحه</option>
-                                <option value="30">30 در هر صفحه</option>
-                                <option value="40">40 در هر صفحه</option>
-                            </select>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+        <div id="Content" class="card flex-div border-0 main-shadow">
+            @*/////List/////*@
         </div>
     </div>
 </div>
 @section Script{
     <script>
-        $("#Info").click(function () {
-            $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-            $.get("/Admin/Store/pInfo", function (result) {
-                $(".modal-dialog").removeClass("modal-xl");
-                $(".modal-dialog").removeClass("modal-md");
-                $(".modal-dialog").addClass("modal-lg");
-                $(".modal-content").html(result);
+
+        $(document).ready(function () {
+            $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+            $.get("/Admin/Store/pStoreList?PageId=1&InPageCount=0&storeName=&phoneNumber=", function (result) {
+                $("#Content").html(result);
             });
         });
+
+        
     </script>
 }

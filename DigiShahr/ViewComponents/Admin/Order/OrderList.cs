@@ -16,8 +16,6 @@ namespace DigiShahr.ViewComponents.Admin.Order
 
         public async Task<IViewComponentResult> InvokeAsync(Paging paging, AdminOrderSearch adminOrderSearch)
         {
-
-
             if (adminOrderSearch.orderId != 0)
             {
                 if (paging.InPageCount == 0)

@@ -1,20 +1,15 @@
-﻿@model IEnumerable<DataLayer.Models.TblOrder>
+﻿@model IEnumerable<DataLayer.Models.TblStore>
 
-@using DigiShahr.Classes
 
 <div class="card-header bg-white">
 
     <div class="card-form row pr-1 pb-0 mb-0">
-        <div class="form-inline mb-0">
-            <input id="orderId" value="@ViewBag.OrderId" type="text" class="form-control form-control-sm mr-2" placeholder="کد سفارش">
-            <input id="phoneNumber" value="@ViewBag.PhoneNumber" type="tel" class="form-control form-control-sm mr-2 mt-2 mt-sm-0 " placeholder="شماره تماس">
+        <div class="form-inline pb-0 mb-0">
+            <input id="storeName" type="text" class="form-control form-control-sm mr-2" placeholder="نام فروشگاه" value="@ViewBag.storeName">
+            <input id="phoneNumber" type="tel" class="form-control form-control-sm mr-2 mt-2 mt-sm-0 " placeholder="شماره تماس" value="@ViewBag.phoneNumber">
         </div>
-        <div class="form-group mx-sm-2 mr-2 mb-0">
-            <input id="fromDate" type="text" value="@ViewBag.fromDate" class="form-control form-control-sm mb-2 mt-2" placeholder="از تاریخ">
-            <input id="toDate" type="text" value="@ViewBag.ToDate" class="form-control form-control-sm" placeholder="تا تاریخ">
-        </div>
-        <div class="form-toolbar pr-2 mb-0 ">
-            <button type="submit" id="search" class="btn btn-primary btn-sm mt-4">جستجو</button>
+        <div class="form-toolbar pr-2">
+            <button id="Search" class="btn btn-primary btn-sm mt-2 mt-sm-0">جستجو</button>
             <img id="SearchLoad" src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
         </div>
     </div>
@@ -26,16 +21,15 @@
         <table class="table fixed">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col">کد سفارش</th>
-                    <th scope="col">نام مشتری</th>
-                    <th scope="col">نام فروشگاه</th>
-                    <th scope="col">زمان ثبت سفارش</th>
-                    <th>وضعیت تایید اعتبار</th>
-                    <th>وضعیت پرداخت</th>
-                    <th>عملیات</th>
+                    <th>نام فروشگاه</th>
+                    <th>نام صاحب فروشگاه</th>
+                    <th>شماره تماس</th>
+                    <th>وضعیت</th>
+                    <th>جزئیات</th>
                 </tr>
             </thead>
             <tbody>
+
                 @if (Model.Count() == 0)
                 {
                     <tr>
@@ -45,43 +39,39 @@
 
                 @foreach (var item in Model)
                 {
-
                     <tr>
-                        <td>#@item.Id</td>
+                        <td>@item.Name</td>
                         <td>@item.User.Name</td>
-                        <td>@item.Store.Name</td>
-                        <td>@item.DateSubmited.AllToShamsi()</td>
+                        <td>@item.User.TellNo</td>
                         @if (item.IsValid == true)
                         {
                             <td class="text-success">
-                                تأیید شده
+                                تایید شده
                             </td>
                         }
                         else
                         {
-                            <td class="text-warning">
-                                تأیید شده
-                            </td>
-                        }
-                        @if (item.IsPayed == true)
-                        {
-                            <td class="text-success">
-                                پرداخت شده
-                            </td>
-                        }
-                        else
-                        {
-                            <td class="text-warning">
-                                در انتظار پرداخت
+                            <td class="text-danger">
+                                تایید نشده
                             </td>
                         }
                         <td>
-                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="لغو سفارش">
-                                <a onclick="Cancel(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-danger" uk-icon="close-circle-outline"></a>
+                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات فروشگاه">
+                                <a onclick="Info(@item.Id)" data-toggle="modal" data-target="#modalSave" id="Info" class="text-primary" uk-icon="information-circle-outline"></a>
                             </span>
-                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات سفارش">
-                                <a onclick="Info(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="information-circle-outline"></a>
-                            </span>
+                            @if (item.IsValid == true)
+                            {
+                                <span data-placement="top" data-toggle="tooltip" title="" data-original-title="تایید اعتبار">
+                                    <a onclick="Accept(@item.Id)" class="text-success" uk-icon="checkmark-done-circle-outline"></a>
+                                </span>
+                            }
+                            else
+                            {
+                                <span data-placement="top" data-toggle="tooltip" title="" data-original-title="عدم تایید اعتبار">
+                                    <a onclick="Reject(@item.Id)" class="text-danger" uk-icon="close-circle-outline"></a>
+                                </span>
+                            }
+
                         </td>
                     </tr>
                 }
@@ -146,4 +136,4 @@
 </div>
 
 
-<script src="~/Command/AdminOrder.js"></script>
+<script src="~/Command/AdminStore.js"></script>

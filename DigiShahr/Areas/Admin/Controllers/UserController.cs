@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.ViewModel;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
@@ -19,6 +20,11 @@ namespace DigiShahr.Areas.Admin.Controllers
         public IActionResult p_Info(int id)
         {
             return ViewComponent("UserInfo", new { id = id });
+        }
+
+        public IActionResult List(Paging paging)
+        {
+            return ViewComponent("UserList", new { Paging = paging });
         }
     }
 }
