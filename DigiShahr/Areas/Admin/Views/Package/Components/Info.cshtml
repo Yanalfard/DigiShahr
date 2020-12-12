@@ -1,4 +1,5 @@
-﻿<div class="modal-header">
+﻿@model DataLayer.Models.TblDeal
+<div class="modal-header">
     <h6 class="modal-title mr-3" id="modalCenterTitle">
         جزئیات پکیج
     </h6>
@@ -12,45 +13,71 @@
             <div class="form-row ">
                 <div class="form-group col-md-6">
                     <label>نام پکیج:</label>
-                    <span>پکیج ویژه</span>
+                    <span>@Model.Name</span>
                 </div>
                 <div class="form-group col-md-6">
                     <label>قیمت:</label>
-                    <span>485621</span>
+                    <span id="PriceSpan">@Model.Price تومان</span>
                 </div>
                 <div class="form-group col-md-6">
                     <label>تعداد ماه ها:</label>
-                    <span>6</span>
+                    <span>@Model.MonthCount</span>
                 </div>
                 <div class="form-group col-md-6">
                     <label>حداکثر تعداد دسته بندی:</label>
-                    <a href="#">5<span></span></a>
+                    <a href="#">@Model.CatagoryLimit<span></span></a>
                 </div>
                 <div class="form-group col-md-6">
                     <label>حداکثر تعداد محصول:</label>
-                    <a href="#">10<span></span></a>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>زمان ثبت سفارش:</label>
-                    <span></span>
+                    <a href="#">@Model.ProductLimit<span></span></a>
                 </div>
                 <div class="form-group col-md-3">
                     <label>حراج:</label>
-                    <span class="text-success">دارد</span>
+                    @if (Model.Haraj)
+                    {
+                        <span class="text-success">دارد</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">ندارد</span>
+                    }
                 </div>
                 <div class="form-group col-md-3">
                     <label>بنر1:</label>
-                    <span class="text-success">دارد</span>
+                    @if (Model.Banner1)
+                    {
+                        <span class="text-success">دارد</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">ندارد</span>
+                    }
                 </div>
                 <div class="form-group col-md-3">
                     <label>بنر2:</label>
-                    <span class="text-success">دارد</span>
+                    @if (Model.Banner2)
+                    {
+                        <span class="text-success">دارد</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">ندارد</span>
+                    }
                 </div>
                 <div class="form-group col-md-3">
                     <label>قرعه کشی:</label>
-                    <span class="text-success">دارد</span>
+                    @if (Model.Lottery)
+                    {
+                        <span class="text-success">دارد</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">ندارد</span>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </form>
+
+<script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>

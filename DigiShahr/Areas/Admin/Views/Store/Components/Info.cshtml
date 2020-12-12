@@ -1,4 +1,8 @@
-﻿<div class="modal-header">
+﻿@model DataLayer.Models.TblStore
+
+@using DigiShahr.Classes
+
+<div class="modal-header">
     <h6 class="modal-title mr-3" id="modalCenterTitle">
         جزئیات فروشگاه 
     </h6>
@@ -12,45 +16,59 @@
             <div class="form-row ">
                 <div class="form-group col-md-5">
                     <label>نام فروشگاه:</label>
-                    <span>هایپر مارکت رضایی</span>
+                    <span>@Model.Name</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>نام دسته بندی:</label>
-                    <span>دسته بندی 1</span>
+                    <span>@Model.Catagory.Name</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>نام صاحب فروشگاه:</label>
-                    <span>علیرضا رضایی</span>
+                    <span>@Model.User.Name</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>وضعیت:</label>
-                    <span class="text-success">فعال</span>
+                    @if (Model.IsValid)
+                    {
+                        <span class="text-success">فعال</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">غیر فعال</span>
+                    }
                 </div>
                 <div class="form-group col-md-5">
                     <label>تاریخ ثبت فروشگاه:</label>
-                    <span>تاریخ</span>
+                    <span>@Model.TblDealOrders.Last().DateSubmited.AllToShamsi()</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>وضعیت تایید اعتبار:</label>
-                    <span class="text-success"> تایید شده</span>
+                    @if (Model.IsValid)
+                    {
+                        <span class="text-success"> تایید شده</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger"> تایید نشده</span>
+                    }
                 </div>
                 <div class="form-group col-md-5">
                     <label>شماره تلفن ثابت:</label>
-                    <span>041...</span>
+                    <span>@Model.StaticTell</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>شماره موبایل:</label>
-                    <span>0914...</span>
+                    <span>@Model.User.TellNo</span>
                 </div>
                 <hr />
                 <div class="form-group col-md-12 bg-light p-3">
                     <label>آدرس فروشگاه:</label>
-                    <span>چهارراه منصور مجتمع پرنیان طبقه همکف پلاک25</span>
+                    <span>@Model.Address</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>لوگو:</label>
                     <span>
-                        <img src="~/img/adminStatic/load2.gif" width="100" height="100" />
+                        <img src="~/Document/Store/Logo/@Model.LogoUrl" width="100" height="100" />
                     </span>
                 </div>
                 <div class="form-group col-md-5">
@@ -61,11 +79,11 @@
                 </div>
                 <div class="form-group col-md-5">
                     <label>حداکثر تعداد دسته بندی:</label>
-                    <span>8</span>
+                    <span>@Model.TblDealOrders.Last().Deal.CatagoryLimit</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>حداکثر تعداد محصول:</label>
-                    <span>10</span>
+                    <span>@Model.TblDealOrders.Last().Deal.ProductLimit</span>
                 </div>
 
             </div>
