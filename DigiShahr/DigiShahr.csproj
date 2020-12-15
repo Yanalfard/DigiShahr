@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Seller\Views\Home\Index.cshtml" />
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Classes\ShamsiDateTimeConverter.cs" />
   </ItemGroup>
 
@@ -37,13 +42,20 @@
 
   <ItemGroup>
 
-    <Folder Include="Controllers\" />
+    <Folder Include="Areas\Seller\Views\Home\" />
 
-    <Folder Include="Views\Shared\" />
+    <Folder Include="Areas\Seller\Views\Shared\" />
+
+    <Folder Include="Areas\User\Controllers\" />
+
+    <Folder Include="Areas\User\Views\" />
+    <Folder Include="wwwroot\ScriptCenter\AdminViewScript\" />
+    <Folder Include="wwwroot\StyleCenter\Sass\layoutStyle\" />
     <Folder Include="wwwroot\StyleCenter\Tools\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="compilerconfig.json" />
     <None Include="wwwroot\Bootstrap\js\bootstrap-tagsinput.js" />
     <None Include="wwwroot\Bootstrap\js\bootstrap.bundle.js" />
     <None Include="wwwroot\Bootstrap\js\bootstrap.bundle.js.map" />

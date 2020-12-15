@@ -1,0 +1,155 @@
+﻿/*#region Global */
+
+$link: #34C9B5;
+$Title: #848484;
+$Title-secondary: #424245;
+$Text: #606060;
+$Background: #F0F0F2;
+$HighlightedBackground: #9EE250;
+$Overlay: #72A459;
+$Alert: #FF2E2E;
+$White-text: #FFFFFF;
+$Footer-background: #E5E5E5;
+$Footer-border: #bebebe;
+
+//////////////////////////////////////
+
+//body
+$bodybackground: #F4F4F4;
+//gradientButton
+$gradientButton: linear-gradient(268.37deg, #335C67 3.78%, #3A786A 62.62%, #84A98C 101.79%, #40916C 113.54%);
+//pageHeaderBackground
+$pageHeader: #335C67;
+
+//////////////////////////////////////
+/*#endregion */
+/*#region Card*/
+$Cardbackground: #fff;
+
+
+/*#endregion */
+
+
+/*#region Nav */
+$NavBackground: #FFFFFF;
+
+/*#endregion */
+
+/*#region Controls*/
+
+$ControlBackground: rgba(223, 223, 223, 0.85);
+$CallToAction: #48A839;
+$PriorityIcon: #46AE13;
+
+$Icon_Dark: #929292;
+$Icon_Dark_Hover: #53C41C;
+
+/*#endregion */
+
+@mixin shadow-mild {
+    -moz-box-shadow: rgba(72, 72, 72, 0.36) 0 0px .4vw;
+    -webkit-box-shadow: rgba(72, 72, 72, 0.36) 0 0px .4vw;
+    box-shadow: rgba(72, 72, 72, 0.36) 0 0px .4vw;
+}
+
+@mixin shadow-medium {
+    -moz-box-shadow: rgba(72, 72, 72, 0.54) 0 0px .8vw;
+    -webkit-box-shadow: rgba(72, 72, 72, 0.54) 0 0px .6vw;
+    box-shadow: rgba(72, 72, 72, 0.54) 0 0px .6vw;
+}
+
+@mixin shadow-more {
+    -moz-box-shadow: rgba(72, 72, 72, 0.54) 0 0px 1.2vw;
+    -webkit-box-shadow: rgba(72, 72, 72, 0.64) 0 0px .8vw;
+    box-shadow: rgba(72, 72, 72, 0.64) 0 0px .8vw;
+}
+
+@mixin shadow-mega {
+    -moz-box-shadow: rgba(72, 72, 72, 0.54) 0 0px 1.6vw;
+    -webkit-box-shadow: rgba(72, 72, 72, 0.78) 0 0px 1.2vw;
+    box-shadow: rgba(72, 72, 72, 0.78) 0 0px 1.2vw;
+}
+
+@mixin shadow-spread {
+    -moz-box-shadow: rgba(72, 72, 72, 0.42) 0 0px 3vw;
+    -webkit-box-shadow: rgba(72, 72, 72, 0.42) 0 0px 3vw;
+    box-shadow: rgba(72, 72, 72, 0.42) 0 0px 3vw;
+}
+
+
+
+
+@mixin backgroundBlur($pixels) {
+    filter: blur($pixels);
+    -webkit-filter: blur($pixels);
+    -moz-filter: blur($pixels);
+    -ms-filter: blur($pixels);
+}
+
+/*#region Form */
+
+$FormBackground: #fff;
+
+/*#endregion */
+
+/*#region Scrollbar */
+
+$ScrollbarHandle: #81cfe8;
+$ScrollbarTrack: #e0e0e4;
+
+
+/*#endregion */
+
+/*#region Controls*/
+
+$text-label: #9EE250;
+$text-color: #424245;
+$text-placeholder:lighten($text-color, 32%);
+$text-background: $ControlBackground;
+$text-underline: darken($ControlBackground,12%);
+$text-underline-active: #9EE250;
+
+/*#endregion */
+
+@mixin border-radius($tl, $tr, $bl, $br) {
+    -moz-border-radius: $tl $tr $bl $br;
+    -webkit-border-radius: $tl $tr $bl $br;
+    border-radius: $tl $tr $bl $br;
+}
+
+@mixin gradient($primary,$secondary,$angle) {
+    background-color: $primary;
+    background-image: -moz-linear-gradient($angle, $primary, $Secondary);
+    background-image: -o-linear-gradient($angle, $primary, $secondary);
+    background-image: -webkit-gradient($angle, left top, left bottom, from($primary), to($secondary));
+    background-image: -webkit-linear-gradient($angle, $primary, $secondary);
+    background-image: linear-gradient($angle, $primary, $secondary);
+}
+
+@mixin trans($seconds) {
+    -moz-transition: all ease $seconds;
+    -o-transition: all ease $seconds;
+    -webkit-transition: all ease $seconds;
+    transition: all ease $seconds;
+}
+
+@mixin mat() {
+    background: $FormBackground;
+    border: none;
+    @include shadow-mild();
+    @include border-radius(.3vw,.3vw,.3vw,.3vw);
+}
+
+.mat{
+    @include mat();
+}
+/*@mixin icon-glow() {
+    -webkit-filter: drop-shadow( 0px 0px 5px green);
+    filter: drop-shadow( 0px 0px 5px green);
+    @include trans(0.5s);
+}
+@mixin subtle-glow() {
+    -moz-box-shadow: #9EE250 0 6px 16px;
+    -webkit-box-shadow: #9EE250 0 6px 16px;
+    box-shadow: #9EE250 0 6px 16px;
+}*/

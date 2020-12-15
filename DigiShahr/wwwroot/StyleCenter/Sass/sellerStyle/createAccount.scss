@@ -1,0 +1,74 @@
+﻿
+.mat{
+    border-radius:8px;
+    }
+*{
+    overflow-x:hidden;
+}
+.formTitr {
+    h3 {
+        font-family: "Sahel" !important;
+        font-size: 16px !important;
+        overflow: hidden;
+        padding-right: 30px;
+    }
+
+    a {
+        padding-left: 30px;
+        color:black;
+        font-weight:400;
+    }
+}
+
+.createAccount {
+    *{
+        overflow:hidden;
+    }
+    input {
+        border: 0;
+        border-bottom: 1px solid #D7D7D7;
+    }
+
+    label {
+        margin-top: 16px;
+        margin-bottom: 8px;
+    }
+
+    .map {
+        width: 100%;
+        margin: auto !important;
+        height: 200px;
+    }
+}
+
+/*//////buyPackage region*/
+.firstPackage{
+    margin-top:-40px;
+}
+.packagesCard {
+    margin-bottom: 24px;
+
+    h3 {
+        font-family: "Sahel";
+        font-size: 18px;
+        overflow: hidden;
+        margin-bottom: 16px;
+        margin-top: 6px;
+    }
+
+    .periodOfPackage {
+        background: #F28F3B;
+        border-radius: 5px;
+        min-height: 75px;
+        min-width: 80px;
+        color: #fff;
+    }
+
+    .gradientButton {
+        width: 86px;
+        height: 32px;
+    }
+    hr{
+        margin-top:2px!important;
+    }
+}
