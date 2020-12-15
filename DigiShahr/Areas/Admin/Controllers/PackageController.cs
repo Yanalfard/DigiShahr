@@ -33,12 +33,48 @@ namespace DigiShahr.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(TblDeal tblDeal)
+        public string Create(TblDeal tblDeal)
         {
-            _core.Deal.Add(tblDeal);
-            _core.Deal.Save();
-            return View();
+            if (tblDeal.Price.ToString().Length > 10 || tblDeal.Price.ToString().Length < 3 || tblDeal.Price.ToString().StartsWith("0"))
+            {
+                return "لطفا قیمت مناسب وارد کنید";
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    int ConvertPrice = Convert.ToInt32(tblDeal.Price.ToString().Replace(",", ""));
+                    tblDeal.Price = ConvertPrice;
+                    _core.Deal.Add(tblDeal);
+                    _core.Deal.Save();
+                    return "true";
+                }
+                else
+                {
+                    return ModelState.Values.First().Errors.First().ErrorMessage;
+                }
+            }
 
+        }
+
+        [HttpGet]
+        public IActionResult pInfo(int id)
+        {
+            return ViewComponent("PackageInfo", new { id = id });
+        }
+
+        [HttpGet]
+        public IActionResult pRemove(int id, Paging paging)
+        {
+            return ViewComponent("PackageRemove", new { id = id });
+        }
+
+        [HttpPost]
+        public IActionResult Remove(int id, Paging paging)
+        {
+            _core.Deal.GetById(id).IsDeleted = true;
+            _core.Deal.Save();
+            return pList(paging);
         }
 
         [HttpGet]
@@ -72,14 +108,17 @@ namespace DigiShahr.Areas.Admin.Controllers
             _core.DealOrder.GetById(id).IsPayed = false;
             _core.DealOrder.Save();
             return OrderList(paging, SearchId);
+
         }
 
-        [HttpGet]
-        public IActionResult pInfo(int id)
+        protected override void Dispose(bool disposing)
         {
-            return ViewComponent("PackageOrderInfo", new { id = id });
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
         }
-
 
     }
 }

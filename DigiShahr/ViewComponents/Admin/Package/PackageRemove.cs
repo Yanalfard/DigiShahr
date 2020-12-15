@@ -7,12 +7,12 @@ using Services.Services;
 
 namespace DigiShahr.ViewComponents.Admin.Package
 {
-    public class PackageInfo : ViewComponent
+    public class PackageRemove:ViewComponent
     {
         Core _core = new Core();
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/Info.cshtml",_core.Deal.GetById(id)));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/Remove.cshtml",_core.Deal.GetById(id)));
         }
     }
 }

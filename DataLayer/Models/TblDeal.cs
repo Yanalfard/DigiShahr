@@ -19,9 +19,10 @@ namespace DataLayer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage ="لطفا نام را وارد کنید")]
+        [StringLength(100,ErrorMessage ="لطفا نام معتبر وارد کنید")]
         public string Name { get; set; }
+        [RegularExpression("^[1-9]*$", ErrorMessage = "لطفا مبلغ صحیح وارد کنید")]
         public int Price { get; set; }
         public short? MonthCount { get; set; }
         public short? CatagoryLimit { get; set; }

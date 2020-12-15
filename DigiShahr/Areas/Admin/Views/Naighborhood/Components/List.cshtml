@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataLayer.Models.TblDeal>
+﻿@model IEnumerable<DataLayer.Models.TblNaighborhood>
 
 <div class="card-header bg-white">
     <div class="pr-1 pt-2">
@@ -12,9 +12,7 @@
         <table class="table fixed">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col">نام پکیج</th>
-                    <th scope="col">مدت زمان</th>
-                    <th scope="col">قیمت</th>
+                    <th scope="col">نام منطقه</th>
                     <th scope="col">عملیات</th>
                 </tr>
             </thead>
@@ -31,14 +29,9 @@
                 {
                     <tr>
                         <td>@item.Name</td>
-                        <td>@item.MonthCount ماهه</td>
-                        <td id="PriceSpan">@item.Price</td>
                         <td>
-                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات">
-                                <a onclick="Info(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="information-circle-outline"></a>
-                            </span>
-                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="حذف">
-                                <a onclick="pDelete(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-danger" uk-icon="trash-outline"></a>
+                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
+                                <a onclick="Edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="information-circle-outline"></a>
                             </span>
                         </td>
                     </tr>
@@ -102,5 +95,31 @@
     </nav>
 </div>
 
-<script src="~/Command/AdminPackage.js"></script>
-<script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>
+<script>
+
+
+    $("#Create").click(function () {
+        $.get("/Admin/Naighborhood/pCreate", function (result) {
+            $(".modal-content").html(result);
+        });
+    });
+
+    $("#pageNumber").change(function () {
+        var PageId = $("#pageNumber option:selected").val();
+        var InPageCount = $("#InPageCount option:selected").val();
+        $.get("/Admin/Naighborhood/pList?PageId=" + PageId + "&InPageCount=" + InPageCount, function (result) {
+            $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+            $("#Content").html(result);
+        });
+    });
+
+    $("#InPageCount").change(function () {
+        var PageId = $("#pageNumber option:selected").val();
+        var InPageCount = $("#InPageCount option:selected").val();
+        $.get("/Admin/Naighborhood/pList?PageId=" + PageId + "&InPageCount=" + InPageCount, function (result) {
+            $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+            $("#Content").html(result);
+        });
+    });
+
+</script>

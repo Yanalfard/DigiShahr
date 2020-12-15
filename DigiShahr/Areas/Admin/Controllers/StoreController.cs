@@ -62,5 +62,16 @@ namespace DigiShahr.Areas.Admin.Controllers
         {
             return ViewComponent("StoreList", new { Paging = paging, storeName = storeName, phoneNumber = phoneNumber });
         }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }

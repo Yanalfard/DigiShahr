@@ -1,4 +1,6 @@
 ﻿@model DataLayer.Models.TblDeal
+
+
 <div class="modal-header">
     <h6 class="modal-title" id="modalCenterTitle">
         افزودن پکیج
@@ -7,47 +9,85 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form>
+
+<form id="PackageCreate" method="post">
+    @Html.AntiForgeryToken()
     <div class="modal-body">
         <div class="form-row">
             <div class="form-group col-md-4">
-                <input type="text" class="form-control form-control-sm" name="Name" placeholder="نام">
+                <input type="text" class="form-control form-control-sm" asp-for="Name" placeholder="نام">
+                <span id="Name" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
-                <input type="text" class="form-control form-control-sm" name="Price" placeholder="قیمت">
+                <input type="text" data-type='currency' id="currency" class="form-control form-control-sm" placeholder="قیمت">
+                <input type="hidden" id="Price" class="form-control form-control-sm" asp-for="Price" placeholder="قیمت">
+                <span id="Price" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
-                <input type="text" class="form-control form-control-sm" name="MonthCount" placeholder="تعداد ماه ها">
+                <input type="text" class="form-control form-control-sm" asp-for="MonthCount" placeholder="تعداد ماه ها">
+                <span id="MonthCount" class="text-danger"></span>
             </div>
             <div class="form-group col-md-3">
-                <input type="text" class="form-control form-control-sm" name="CatagoryLimit" placeholder="حداکثر تعداد دسته بندی">
+                <input type="text" class="form-control form-control-sm" asp-for="CatagoryLimit" placeholder="حداکثر تعداد دسته بندی">
+                <span id="CatagoryLimit" class="text-danger"></span>
             </div>
             <div class="form-group col-md-3">
-                <input type="text" class="form-control form-control-sm" name="ProductLimit" placeholder="حداکثر تعداد محصول">
+                <input type="text" class="form-control form-control-sm" asp-for="ProductLimit" placeholder="حداکثر تعداد محصول">
+                <span id="ProductLimit" class="text-danger"></span>
             </div>
         </div>
         <div class="form-row bg-light">
             <div class="form-group col-md-3 pt-3">
                 <label for="Haraj">حراج</label>
-                <input type="checkbox" name="Haraj" />
+                <input type="checkbox" asp-for="Haraj" />
             </div>
             <div class="form-group col-md-3 pt-3">
                 <label for="Banner1">بنر1</label>
-                <input type="checkbox" name="Banner1" />
+                <input type="checkbox" asp-for="Banner1" />
             </div>
             <div class="form-group col-md-3 pt-3">
                 <label for="Banner2">بنر2</label>
-                <input type="checkbox" name="Banner2" />
+                <input type="checkbox" asp-for="Banner2" />
             </div>
             <div class="form-group col-md-3 pt-3">
                 <label for="Lottery"> قرعه کشی</label>
-                <input type="checkbox" name="Lottery" />
+                <input type="checkbox" asp-for="Lottery" />
             </div>
         </div>
     </div>
     <div class="modal-footer justify-content-end">
+      <img src='/img/adminStatic/load2.gif' class='justify-content-center d-none loadingicon' width='60' height='60' />
+        <span id="Erorr" class="text-danger"></span>
         <button type="submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>افزودن</button>
+
     </div>
 </form>
+
+<script>
+
+    $("#currency").change(function () {
+        var price = $("#currency").val().replace(",", "");
+        $("#Price").val(price.replace(",",""));
+    });
+
+    $("#PackageCreate").submit(function (e) {
+        $(".loadingicon").removeClass("d-none");
+        e.preventDefault();
+        var data = $(this).serializeArray();
+        $.post("/Admin/Package/Create", data, function (result) {
+            if (result == "true") {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(null);
+                window.location.reload();
+            } else {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(result);
+            }
+        });
+
+    });
+</script>
+<script src="~/ScriptCenter/Tools/Auto_Formatting_Currency.js"></script>
+
 
 

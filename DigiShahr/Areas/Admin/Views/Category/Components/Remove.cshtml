@@ -1,0 +1,20 @@
+﻿@model DataLayer.Models.TblCatagory
+
+<div class="modal-header">
+    <h6 class="modal-title mr-3" id="modalCenterTitle">حذف سفارش</h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<h6 class="uk-margin-auto">آیا میخواهید دسته @Model.Name حذف شود؟</h6>
+<div class="modal-footer justify-content-end">
+    <img src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
+    <button onclick="Remove(@Model.Id)" type="button" class="btn btn-sm btn-danger">
+        بله
+    </button>
+    <button type="button" class="btn btn-sm btn-info" data-dismiss="modal" aria-label="Close">
+        خیر
+    </button>
+</div>
+
+<script src="~/Command/AdminPackage.js"></script>

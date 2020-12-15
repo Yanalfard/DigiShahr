@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.ViewModel;
+using Services.Services;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class UserController : Controller
     {
+        Core _core = new Core();
         [HttpGet]
         public IActionResult Index()
         {
@@ -25,6 +27,15 @@ namespace DigiShahr.Areas.Admin.Controllers
         public IActionResult List(Paging paging)
         {
             return ViewComponent("UserList", new { Paging = paging });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
