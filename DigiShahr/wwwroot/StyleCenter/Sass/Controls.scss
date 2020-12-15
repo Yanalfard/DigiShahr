@@ -1,0 +1,108 @@
+﻿@import '_colors.scss';
+@import '_global.scss';
+@import '_layout.scss';
+
+/*#header-region */
+@font-face {
+    font-family: 'Sahel';
+    src: url('/Fonts/Sahel.woff');
+    src: url('/Fonts/Sahel.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+    outline: none;
+    font-family: Sahel;
+}
+
+body {
+    background: $bodybackground !important;
+}
+
+.layoutHeader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index:100;
+
+    .mat {
+        border-radius: 0 0 8px 8px;
+    }
+
+    .uk-offcanvas-bar {
+        width: 318px;
+        background: #fff;
+        opacity:1;
+        color: #555;
+
+        .uk-table {
+            th {
+                color: #2b2b2b !important;
+                font-size: 16px;
+                text-align: right;
+                border-bottom: 1px solid #D7D7D7;
+            }
+
+            td {
+                text-align: right;
+                border-bottom: 1px solid #D7D7D7;
+                color: #2b2b2b !important;
+            }
+
+            a {
+                color: #2b2b2b !important;
+                font-weight: 400;
+            }
+
+            a:hover {
+                text-decoration: none !important;
+            }
+        }
+        /*.backIcon {
+            color: #555;
+            left:0!important;
+            float:left!important;
+            text-align:left!important;
+            margin-right:50px;
+            margin-top:10px;
+        }*/
+    }
+}
+
+.layoutFooter {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+
+    .mat {
+        border-radius: 8px 8px 0 0;
+
+        li {
+            // padding: 2px 20px;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+    }
+}
+.gradientButton {
+    color: white;
+    border-radius: 5px;
+    width: 150px;
+    height: 38px;
+    background: $gradientButton;
+    border:none;
+}
+.pageHeader {
+    background: $pageHeader;
+    width: 100%;
+    height: 200px;
+
+    .formTitr {
+        h3, a {
+            color: #FFFFFF !important;
+        }
+    }
+}

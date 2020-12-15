@@ -1,0 +1,58 @@
+﻿@import '_colors.scss';
+
+
+.visible {
+    visibility: visible;
+}
+
+.collapsed {
+    height: 0 !important;
+    width: 0 !important;
+    flex: 0 !important;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.unselectable {
+    user-select: none !important;
+    -moz-user-select: none !important;
+    -webkit-user-drag: none !important;
+    -webkit-user-select: none !important;
+    -ms-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+
+
+.dummy {
+    width: 100px;
+    height: 100px;
+    background: red;
+}
+
+.space-mobile {
+    visibility: collapse;
+
+    @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+        width: 100vw;
+        height: 10vw;
+    }
+}
+
+.space-desktop {
+    width: 100vw;
+    height: 4vw;
+
+    @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+        visibility: collapse;
+    }
+}
+

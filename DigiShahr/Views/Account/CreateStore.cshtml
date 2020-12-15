@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "CreateStore";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@*<h1>CreateStore</h1>*@
+<link href="~/StyleCenter/Sass/sellerStyle/createAccount.min.css" rel="stylesheet" />
+<div class="space-double"></div>
+<div class="space-mobile"></div>
+<div class="mat my-column my-clipped">
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">تنظیمات فروشگاه</h3>
+        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+    </div>
+    <form class="my-column createAccount uk-padding-small" action="" dir="rtl">
+        <div class="my-row uk-margin-top">
+            <img class="uk-margin-right" src="~/img/user/profile.png" width="80" height="80" />
+            <div class="uk-margin-auto-right uk-margin-auto-top uk-margin-auto-bottom uk-margin-left">
+                <div uk-form-custom>
+                    <input type="file">
+                    <button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب تصویر</button>
+                </div>
+            </div>
+        </div>
+        <hr class="uk-divider-icon" />
+        <label for="name">نام فروشگاه:</label>
+        <input type="text" name="name" placeholder="" value="">
+        <select class="uk-select uk-margin-top">
+            <option class="">دسته بندی را انتخاب کنید</option>
+            <option>دسته بندی1</option>
+            <option>دسته بندی2</option>
+            <option>دسته بندی3</option>
+        </select>
+        @*<input class="center gradientButton" type="submit" value="ایجاد حساب">*@
+    </form>
+</div>
+<div class="space-double"></div>
+<div class="space-mobile"></div>
+

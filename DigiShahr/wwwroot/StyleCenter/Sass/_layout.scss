@@ -1,0 +1,169 @@
+﻿@import '_colors.scss';
+
+.space {
+    width: 100vw;
+    height: 4vw;
+}
+
+.space-double {
+    width: 100vw;
+    height: 8vw;
+}
+
+.space-half {
+    width: 100vw;
+    height: 2vw;
+}
+
+.space-nav {
+    width: 100vw;
+    height: 140px;  
+}
+
+.space-nav-bottom {
+    width: 100vw;
+    height: 60px;
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .space-nav {
+        width: 100vw;
+        height: 7vw;
+    }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .space-nav {
+        width: 100vw;
+        height: 14vw;
+    }
+}
+
+/*#region Alignment */
+
+.my-column {
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -ms-align-content: center;
+    -webkit-align-content: center;
+    align-content: center;
+}
+
+@mixin my-column() {
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -ms-align-content: center;
+    -webkit-align-content: center;
+    align-content: center;
+}
+
+.my-row {
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -ms-align-content: center;
+    -webkit-align-content: center;
+    align-content: center;
+}
+
+@mixin my-row() {
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -ms-align-content: center;
+    -webkit-align-content: center;
+    align-content: center;
+}
+
+@mixin center() {
+    text-align: center;
+    align-content: center;
+    align-self: center;
+    margin: 0 auto;
+}
+
+.center {
+    @include center();
+}
+
+
+
+.fillwidth {
+    min-width: 100%;
+    height: auto;
+}
+
+.fillheight {
+    min-height: 100%;
+    width: auto;
+}
+
+/*#endregion */
+
+@mixin grid($width) {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: .6em;
+    grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
+}
+
+@mixin grid-gap($width, $gap) {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: $gap;
+    grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
+}
+
+.my-clipped {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90vw;
+}
+
+@mixin my-clipped() {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90vw;
+}
+
+    .full-width {
+        width: 100vw;
+    }
+
+    .full-height {
+        height: 100vh;
+    }
+
+    .overflow-visible {
+        overflow: visible !important;
+    }
+
+    .overflow-hidden {
+        overflow: hidden !important;
+    }
+    /*#region Margin */
+    .margin-auto-left {
+        margin-left: auto;
+    }
+
+    .margin-auto-right {
+        margin-right: auto;
+    }
+
+    .margin-auto-bottom {
+        margin-bottom: auto;
+    }
+
+    .margin-auto-top {
+        margin-top: auto;
+    }
+    /*#endregion */
+    .padding {
+        padding: 16px !important;
+    }
