@@ -19,8 +19,8 @@ namespace DataLayer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage ="نام دسته بندی اجباری میباشد")]
+        [StringLength(100,ErrorMessage ="لطفا نام مناسب برای دسته بندی وارد کنید")]
         public string Name { get; set; }
 
         [InverseProperty(nameof(TblStoreCatagoryRel.Catagory))]

@@ -20,8 +20,8 @@ namespace DataLayer.Models
         [Column("id")]
         public int Id { get; set; }
         public int StoreCatagoryId { get; set; }
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage ="نام محصول را وارد کنید")]
+        [StringLength(100,ErrorMessage ="نام محصول مناسب وارد کنید")]
         public string Name { get; set; }
         [StringLength(500)]
         public string MainImageUrl { get; set; }

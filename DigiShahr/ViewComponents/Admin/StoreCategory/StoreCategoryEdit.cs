@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using DataLayer.Models;
 using Services.Services;
 
+
 namespace DigiShahr.ViewComponents.Admin.Category
 {
-    public class CategoryCreate : ViewComponent
+    public class StoreCategoryEdit : ViewComponent
     {
         Core _core = new Core();
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Category/Components/Create.cshtml"));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/StoreCategory/Components/Edit.cshtml", _core.StoreCatagory.GetById(id)));
         }
     }
 }

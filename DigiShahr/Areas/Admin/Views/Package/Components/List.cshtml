@@ -14,7 +14,6 @@
                 <tr>
                     <th scope="col">نام پکیج</th>
                     <th scope="col">مدت زمان</th>
-                    <th scope="col">قیمت</th>
                     <th scope="col">عملیات</th>
                 </tr>
             </thead>
@@ -32,7 +31,6 @@
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.MonthCount ماهه</td>
-                        <td id="PriceSpan">@item.Price</td>
                         <td>
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات">
                                 <a onclick="Info(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="information-circle-outline"></a>
@@ -103,4 +101,3 @@
 </div>
 
 <script src="~/Command/AdminPackage.js"></script>
-<script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>

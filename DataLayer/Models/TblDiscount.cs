@@ -20,7 +20,7 @@ namespace DataLayer.Models
         [Column("id")]
         public int Id { get; set; }
         public int StoreId { get; set; }
-        [Required]
+        [Required(ErrorMessage ="کد اجباری میباشد")]
         [StringLength(64)]
         public string Code { get; set; }
         public int Count { get; set; }

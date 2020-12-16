@@ -37,6 +37,7 @@ namespace DataLayer.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+
                 optionsBuilder.UseSqlServer("Data Source=103.216.62.27;Initial Catalog=DigiShahr;User ID=Yanal;Password=1710ahmad.fard");
             }
         }

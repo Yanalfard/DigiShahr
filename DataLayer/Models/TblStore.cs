@@ -23,11 +23,11 @@ namespace DataLayer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage ="لطفا نام فروشگاه را وارد کنید")]
+        [StringLength(100,ErrorMessage ="نام فروشگاه مناسب وارد کنید")]
         public string Name { get; set; }
-        [Required]
-        [StringLength(15)]
+        [Required(ErrorMessage ="لطفا شماره تماس ثابت وارد کنید")]
+        [StringLength(15,ErrorMessage ="لطفا شماره تماس ثابت مناسب وارد کنید")]
         public string StaticTell { get; set; }
         public bool IsOpen { get; set; }
         [StringLength(500)]
@@ -42,10 +42,10 @@ namespace DataLayer.Models
         [Required]
         [StringLength(500)]
         public string Address { get; set; }
-        [Required]
+        [Required(ErrorMessage ="لطفا موقعیت را وارد کنید")]
         [StringLength(50)]
         public string Lat { get; set; }
-        [Required]
+        [Required(ErrorMessage = "لطفا موقعیت را وارد کنید")]
         [StringLength(50)]
         public string Lon { get; set; }
         [Column(TypeName = "datetime")]

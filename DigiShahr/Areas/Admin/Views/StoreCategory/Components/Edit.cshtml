@@ -1,30 +1,33 @@
-﻿@model DataLayer.Models.TblCatagory
+﻿@model DataLayer.Models.TblStoreCatagory
 
 <div class="modal-header">
     <h6 class="modal-title" id="modalCenterTitle">
-        افزودن دسته بندی
+
+        ویرایش دسته بندی @Model.Name
+
     </h6>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-
-
-
 <form id="CategoryCreate" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="ParentId" value="@Model.Id" />
+
     <div class="modal-body">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <input type="text" class="form-control form-control-sm" asp-for="Name" placeholder="نام">
-                <span id="Name" class="text-danger"></span>
+                <br />
+                <input type="checkbox" asp-for="IsRecent"> قابل انتخاب در ثبت فروشگاه باشد
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-4">
-                <label>رنگ تصویر زمینه</label>
-                <input type="color" class="form-control form-control-sm">
-                <span id="Name" class="text-danger"></span>
+            <div class="form-group col-md-2">
+                <label>رنگ پس زمینه فروشگاه ها</label>
+                <input type="color" id="colo" class="form-control form-control-sm" asp-for="Color">
             </div>
         </div>
     </div>
@@ -34,3 +37,4 @@
         <button type="submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>افزودن</button>
     </div>
 </form>
+

@@ -1,4 +1,5 @@
 ﻿@model DataLayer.Models.TblDeal
+
 <div class="modal-header">
     <h6 class="modal-title mr-3" id="modalCenterTitle">
         جزئیات پکیج
@@ -17,7 +18,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>قیمت:</label>
-                    <span id="PriceSpan">@Model.Price</span>
+                    <span id="PriceSpan">@Model.Price تومان</span>
                 </div>
                 <div class="form-group col-md-6">
                     <label>تعداد ماه ها:</label>
@@ -79,5 +80,4 @@
         </div>
     </div>
 </form>
-
 <script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>

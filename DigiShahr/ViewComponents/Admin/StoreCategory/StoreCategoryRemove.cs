@@ -8,13 +8,13 @@ using Services.Services;
 
 namespace DigiShahr.ViewComponents.Admin.Category
 {
-    public class CategoryRemove : ViewComponent
+    public class StoreCategoryRemove : ViewComponent
     {
         Core _core = new Core();
 
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Category/Components/Remove.cshtml", _core.Catagory.GetById(id)));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/StoreCategory/Components/Remove.cshtml", _core.Catagory.GetById(id)));
         }
     }
 }

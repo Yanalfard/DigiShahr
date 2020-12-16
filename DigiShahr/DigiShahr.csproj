@@ -6,18 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\User\**" />
     <Compile Remove="Models\**" />
     <Compile Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
+    <Content Remove="Areas\User\**" />
     <Content Remove="Models\**" />
     <Content Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
+    <EmbeddedResource Remove="Areas\User\**" />
     <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
+    <None Remove="Areas\User\**" />
     <None Remove="Models\**" />
     <None Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Seller\Views\Home\Index.cshtml" />
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -41,14 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-
-    <Folder Include="Areas\Seller\Views\Home\" />
-
-    <Folder Include="Areas\Seller\Views\Shared\" />
-
-    <Folder Include="Areas\User\Controllers\" />
-
-    <Folder Include="Areas\User\Views\" />
     <Folder Include="wwwroot\ScriptCenter\AdminViewScript\" />
     <Folder Include="wwwroot\StyleCenter\Sass\layoutStyle\" />
     <Folder Include="wwwroot\StyleCenter\Tools\" />

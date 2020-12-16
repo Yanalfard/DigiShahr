@@ -1,0 +1,77 @@
+﻿@model DataLayer.Models.TblStoreCatagory
+
+<div class="modal-header">
+    <h6 class="modal-title" id="modalCenterTitle">
+        @if (Model != null)
+        {
+
+            @:افزودن دسته بندی @Model.Name
+
+
+        }
+        else
+        {
+            @:افزودن دسته بندی اصلی
+        }
+    </h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+
+
+<form id="CategoryCreate" method="post">
+    @Html.AntiForgeryToken()
+    @if (Model != null)
+    {
+        <input type="hidden" asp-for="ParentId" value="@Model.Id" />
+    }
+    <div class="modal-body">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control form-control-sm" asp-for="Name" placeholder="نام">
+                <br />
+                <input type="checkbox" asp-for="IsRecent"> قابل انتخاب در ثبت فروشگاه باشد
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label>رنگ پس زمینه فروشگاه ها</label>
+                <input type="color" id="colo" class="form-control form-control-sm" asp-for="Color">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-end">
+        <img src='/img/adminStatic/load2.gif' class='justify-content-center d-none loadingicon' width='60' height='60' />
+        <span id="Erorr" class="text-danger"></span>
+        <button type="submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>افزودن</button>
+    </div>
+</form>
+
+<script>
+
+    $("#CategoryCreate").submit(function (e) {
+        $(".loadingicon").removeClass("d-none");
+        e.preventDefault();
+        var data = $(this).serializeArray();
+        $.post("/Admin/StoreCategory/Create", data, function (result) {
+            if (result == "true") {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(null);
+                window.location.reload();
+            }
+            if (result == "ParentIdtrue") {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(null);
+                $("/Admin/StoreCategory/");
+            }
+            else {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(result);
+            }
+        })
+    });
+
+</script>

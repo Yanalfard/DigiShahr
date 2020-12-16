@@ -1,0 +1,65 @@
+﻿@model DataLayer.Models.TblStoreCatagory
+
+<div class="modal-header">
+    <h6 class="modal-title" id="modalCenterTitle">
+
+        زیر مجموعه های دسته @Model.Name
+
+    </h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form class="flex-div">
+    <div class="modal-body flex-div">
+        <div class="card categry-box flex-div">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body flex p-0">
+                <ul class="list-group list-group-flush pb-4">
+                    @if (Model.InverseParent.Count() == 0)
+                    {
+                        @:<li>خالی است</li>
+                    }
+                    @foreach (var item in Model.InverseParent)
+                    {
+                        <li class="list-group-item">
+                            <div class="row">
+
+                                <a class="col-xl-10 col-lg-10  col-sm-9 col-5">@item.Name</a>
+
+                                <div class="col-xl-2 col-lg-2  col-sm-3 col-5">
+                                    <div class="option d-flex">
+
+                                        <a onclick="Child(@item.Id)" data-placement="top" data-toggle="tooltip"><i class="btn ml-2 text-primary" uk-icon="albums-outline"></i></a>
+
+                                        <a onclick="edit(@item.Id)" data-placement="top" data-toggle="tooltip"><i class="btn ml-2 text-primary" uk-icon="create-outline"></i></a>
+
+                                        <a onclick="Remove(@item.Id)" data-placement="top" data-toggle="tooltip"><i class="btn ml-2 text-danger" uk-icon="trash-outline"></i></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="input-group input-group-sm mt-3">
+            <div class="input-group-append">
+
+                <a onclick="CreateChild(@Model.Id)" class="btn btn-success btn-sm text-white float-right"><i class="fas fa-plus-circle"></i>افزودن زیر مجموعه</a>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function CreateChild(Id) {
+        $.get("/Admin/StoreCategory/pCreate?Id=" + Id, function (result) {
+            $(".modal-content").html(result);
+        });
+    }
+</script>
