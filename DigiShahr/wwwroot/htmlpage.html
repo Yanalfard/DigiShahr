@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <div id="map" style="width: 600px; height: 400px;"></div>
+    <div id="mapid" style="width: 600px; height: 400px;"></div>
+
+    <link href="leaflet/leaflet.css" rel="stylesheet" />
+    <script src="leaflet/leaflet.js"></script>
+
+    <script>
+        var map = L.map('map').setView([32.287, 52.954], 5);
+
+        L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Farzam Yamini - 09027159171'
+        }).addTo(map);
+
+        L.marker([32.287, 52.954]).addTo(map).bindPopup('سلام من <b><i>ایران</i></b> هستم').openPopup();
+    </script>
+
+</body>
+</html>

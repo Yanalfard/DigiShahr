@@ -1,9 +1,8 @@
-﻿
-.mat{
-    border-radius:8px;
-    }
-*{
+﻿body{
     overflow-x:hidden;
+}
+.mat {
+    border-radius: 8px;
 }
 .formTitr {
     h3 {
@@ -15,36 +14,62 @@
 
     a {
         padding-left: 30px;
-        color:black;
-        font-weight:400;
+        color: black;
+        font-weight: 400;
     }
 }
+.uk-checkbox {
+    border-radius: 50px;
+    background-color: #f5e7a6 !important;
+    border-color: #f5e7a6 !important;
+    // color: #3c3c3c;
+}
 
-.createAccount {
-    *{
-        overflow:hidden;
+.delivery {
+    input:checked {
+        background-color: #40916C !important;
+        border-color: #40916C !important;
     }
+}
+.createAccount {
     input {
         border: 0;
         border-bottom: 1px solid #D7D7D7;
+        font-size: 14px;
+    }
+
+    select{
+        font-size: 14px;
+        border-radius: 7px!important;
+
+        option{
+            border-radius: 7px!important;
+            font-family:"Sahel"!important;
+        }
     }
 
     label {
         margin-top: 16px;
         margin-bottom: 8px;
+        font-size: 14px;
     }
 
     .map {
         width: 100%;
         margin: auto !important;
-        height: 200px;
+        height: 160px;
+        overflow: hidden;
     }
 }
+    /*//////buyPackage region*/
+    .firstPackage {
+        margin-top: -40px;
+    }
 
-/*//////buyPackage region*/
-.firstPackage{
-    margin-top:-40px;
-}
+    ul {
+        list-style-type: none !important;
+    }
+
 .packagesCard {
     margin-bottom: 24px;
 
@@ -62,13 +87,51 @@
         min-height: 75px;
         min-width: 80px;
         color: #fff;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+        margin-bottom:7px;
     }
 
     .gradientButton {
         width: 86px;
         height: 32px;
     }
-    hr{
-        margin-top:2px!important;
+
+    hr {
+        margin-top: 2px !important;
+    }
+}
+.serviceArea {
+    border-radius: 7px;
+    border:1px solid #F28F3B;
+    color:#666!important;
+    padding:7px 0;
+    width:100%;
+    font-size:smaller;
+}
+.uk-link-toggle:focus .uk-link, .uk-link-toggle:hover .uk-link, .uk-link:hover, a:hover {
+
+     text-decoration:none;
+     }
+#modal-sections {
+    .uk-modal-dialog{
+        border-radius:7px;
+    }
+    z-index: 10000000;
+
+    h3 {
+        font-family: "Sahel";
+        font-size: 15px;
+        overflow: hidden;
+    }
+
+    .delivery {
+        .uk-checkbox {
+            margin-right: 5px !important;
+            margin-left: 5px !important;
+        }
+    }
+
+    .gradientButton {
+        width: 90px;
     }
 }
