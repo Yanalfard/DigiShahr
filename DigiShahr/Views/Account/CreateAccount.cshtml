@@ -1,11 +1,11 @@
-﻿
+﻿@model DataLayer.Models.TblUser
 @{
     ViewData["Title"] = "CreateAccount";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 @*<h1>CreateAccount</h1>*@
-
+@*<input asp-for="Name" />*@
 <link href="~/StyleCenter/Sass/sellerStyle/createAccount.min.css" rel="stylesheet" />
 <div class="space-double"></div>
 <div class="space-mobile"></div>
@@ -16,23 +16,18 @@
     </div>
     <form class="my-column createAccount uk-padding-small" action="" dir="rtl">
         <label for="name">نام و نام خانوادگی:</label>
-        <input type="text" name="name" placeholder="" value="">
-        <label for="phone">تلفن ثابت:</label>
-        <input type="text" name="phone" placeholder="" value="">
-        <label for="cellPhone">موبایل:</label>
-        <input type="text" name="cellPhone" placeholder="" value="">
+        <input type="text" asp-for="Name" placeholder="" value="">
+        <label for="cellPhone">شماره موبایل:</label>
+        <input type="text" asp-for="TellNo" placeholder="" value="">
         <label for="password">رمز عبور:</label>
-        <input type="text" name="password" placeholder="" value="">
+        <input type="text" asp-for="Password" placeholder="" value="">
         <label for="confirmPassword">تکرار رمز عبور:</label>
-        <input type="text" name="confirmPassword" placeholder="" value="">
-        <label for="addres">آدرس:</label>
-        <input type="text" name="confirmPassword" placeholder="" value="">
-        <div class="map column center">
-            <iframe class=""
-                    frameborder="0"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3140.737504409133!2d46.30713261520968!3d38.07649387970567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x401a052af04f17a7%3A0x1d32d4238cb5b126!2zRWFzdCBBemVyYmFpamFuIFByb3ZpbmNlLCBUYWJyaXosIFBvbCAtZS0gU2FuZ2ksIEFsbGFtZWggVGFiYXRhYmFpLCDYqNix2Kwg2LnZhdin2LHYqiDYtdio2Kdf2LTYsdqp2Kog2LPYp9iu2KrYp9ix2LPYp9iy2Ycg2KrYqNix24zYstiMIElyYW4!5e0!3m2!1sen!2snl!4v1600765196863!5m2!1sen!2snl"></iframe>
-        </div>
-        <select class="uk-select uk-margin-xlarge-bottom center">
+        <input type="text" asp-for="Name" placeholder="" value="">
+        <label for="address">آدرس:</label>
+        <input type="text" asp-for="Address" placeholder="" value="">
+        <div id="map" class="map"></div>
+        <label for="addres">انتخاب محله:</label>
+        <select class="uk-select uk-margin-xlarge-bottom">
             <option>ابوریحان</option>
             <option>چایکنار</option>
             <option>ولیعصر</option>
@@ -42,3 +37,20 @@
 </div>
 <div class="space-double"></div>
 <div class="space-mobile"></div>
+
+
+
+@section Script{
+
+    <link href="~/leaflet/leaflet.css" rel="stylesheet" />
+    <script src="~/leaflet/leaflet.js"></script>
+
+    <script>
+            var map = L.map('map').setView([32.287, 52.954], 5);
+            L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+                attribution: 'Farzam Yamini - 09027159171'
+            }).addTo(map);
+            L.marker([32.287, 52.954]).addTo(map).bindPopup('سلام من <b><i>ایران</i></b> هستم').openPopup();
+    </script>
+
+}

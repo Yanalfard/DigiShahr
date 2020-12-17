@@ -14,7 +14,6 @@
     outline: none;
     font-family: Sahel;
 }
-
 body {
     background: $bodybackground !important;
 }
@@ -24,7 +23,7 @@ body {
     left: 0;
     top: 0;
     width: 100%;
-    z-index:100;
+    z-index: 10000!important;
 
     .mat {
         border-radius: 0 0 8px 8px;
@@ -33,8 +32,9 @@ body {
     .uk-offcanvas-bar {
         width: 318px;
         background: #fff;
-        opacity:1;
+        opacity: 1;
         color: #555;
+        z-index: 10000;
 
         .uk-table {
             th {
@@ -76,6 +76,7 @@ body {
     bottom: 0;
     width: 100%;
     text-align: center;
+    z-index: 10000 !important;
 
     .mat {
         border-radius: 8px 8px 0 0;
@@ -93,7 +94,9 @@ body {
     width: 150px;
     height: 38px;
     background: $gradientButton;
-    border:none;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+   // box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
 }
 .pageHeader {
     background: $pageHeader;

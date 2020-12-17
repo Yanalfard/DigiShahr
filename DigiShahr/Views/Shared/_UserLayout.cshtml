@@ -2,16 +2,15 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
-    @*<link href="/Bootstrap/css/bootstrap.css" rel="stylesheet" />*@
-    @*<link href="/Bootstrap/css/bootstrap-grid.css" rel="stylesheet" />
-    <link href="/Bootstrap/css/bootstrap-reboot.css" rel="stylesheet" />*@
-    @*<link href="/Bootstrap/css/bootstrap-rtl.css" rel="stylesheet" />*@
-    @*<link href="/Bootstrap/css/bootstrap-tagsinput.css" rel="stylesheet" />*@
+  
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
+
 </head>
 <body>
 
@@ -31,7 +30,7 @@
                 <!--<div class="my-row uk-padding-small uk-margin-top center" dir="rtl">
                     <h3>دسته بندی مشاغل</h3>
                     <a><span class="icon-holder backIcon" uk-icon="backIcon"></span></a>-->
-                    @* <a><span class="icon-holder uk-position-left uk-margin-large-top uk-margin-small-left" uk-icon="return-up-back"></span></a>*@
+                @* <a><span class="icon-holder uk-position-left uk-margin-large-top uk-margin-small-left" uk-icon="return-up-back"></span></a>*@
                 <!--</div>
                 <ul dir="rtl">
                     <li><span class="icon-holder" uk-icon="person-add"></span>یسابلشاستنیشس</li>
@@ -45,49 +44,48 @@
                         یسابلشاستنیشس
                     </li>
                 </ul>-->
-            <table class="menu uk-table" dir="rtl">
-                <thead class="uk-margin-bottom">
-                    <tr>
-                        <th class="uk-text-bold">دسته بندی مشاغل</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپرمارکت</td>
-                        <td><a><span class="icon-holder" uk-icon="chevron-back"></span></a></td>
-                    </tr>
-                    <tr>
-                        <td><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپرمارکت</td>
-                        <td><a><span class="icon-holder" uk-icon="chevron-back"></span></a></td>
-                    </tr>
+                <table class="menu uk-table" dir="rtl">
+                    <thead class="uk-margin-bottom">
+                        <tr>
+                            <th class="uk-text-bold">دسته بندی مشاغل</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپرمارکت</td>
+                            <td><a><span class="icon-holder" uk-icon="chevron-back"></span></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپرمارکت</td>
+                            <td><a><span class="icon-holder" uk-icon="chevron-back"></span></a></td>
+                        </tr>
 
-                    @*<tr>
-                        <td>Table Data</td>
-                        <td>Table Data</td>
-                    </tr>*@
-                </tbody>
-            </table>
+                        @*<tr>
+                                <td>Table Data</td>
+                                <td>Table Data</td>
+                            </tr>*@
+                    </tbody>
+                </table>
 
             </div>
         </div>
     </section>
-        <div>
-            @RenderBody()
+    <div>
+        @RenderBody()
+    </div>
+    <section class="layoutFooter">
+        <div class="mat uk-padding-small center">
+            <ul class="uk-iconnav">
+                <li><span class="icon-holder" uk-icon="cart"></span></li>
+                <li><span class="icon-holder" uk-icon="home"></span></li>
+                <li><span class="icon-holder" uk-icon="changeAccount"></span></li>
+                <li><span class="icon-holder" uk-icon="person"></span></li>
+            </ul>
         </div>
-        <section class="layoutFooter">
-            <div class="mat uk-padding-small center">
-                <ul class="uk-iconnav">
-                    <li><span class="icon-holder" uk-icon="cart"></span></li>
-                    <li><span class="icon-holder" uk-icon="home"></span></li>
-                    <li><span class="icon-holder" uk-icon="changeAccount"></span></li>
-                    <li><span class="icon-holder" uk-icon="person"></span></li>
-                </ul>
-            </div>
-        </section>
+    </section>
 </body>
 </html>
-
 
 <script src="/Jquery/jquery-3.4.1.js"></script>
 <script src="/Jquery/jquery-3.4.1.min.js"></script>
@@ -101,7 +99,6 @@
 <script src="~/UIKit/js/uikit.min.js"></script>
 <script src="/icons/uikit-icons.js"></script>
 <script src="/ScriptCenter/DatePicker/jquery.md.bootstrap.datetimepicker.js"></script>
-<script src="/ScriptCenter/AdminLayoutJs/script.js"></script>
 
 
 @RenderSection("Script", false)
