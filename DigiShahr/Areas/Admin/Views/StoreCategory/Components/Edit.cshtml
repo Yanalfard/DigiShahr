@@ -11,10 +11,10 @@
     </button>
 </div>
 
-<form id="CategoryCreate" method="post">
+<form id="CategoryEdit" method="post">
     @Html.AntiForgeryToken()
-
-    <input type="hidden" asp-for="ParentId" value="@Model.Id" />
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ParentId" value="@Model.ParentId" />
 
     <div class="modal-body">
         <div class="form-row">
@@ -34,7 +34,34 @@
     <div class="modal-footer justify-content-end">
         <img src='/img/adminStatic/load2.gif' class='justify-content-center d-none loadingicon' width='60' height='60' />
         <span id="Erorr" class="text-danger"></span>
-        <button type="submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>افزودن</button>
+        <button type="submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>ویرایش</button>
     </div>
 </form>
+
+
+<script>
+    $("#CategoryEdit").submit(function (e) {
+        $(".loadingicon").removeClass("d-none");
+        e.preventDefault();
+        var data = $(this).serializeArray();
+        $.post("/Admin/StoreCategory/Edit", data, function (result) {
+            if (result == "true") {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(null);
+                window.location.reload();
+            }
+            if (result == "ParentIdtrue") {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(null);
+                $.get("/Admin/StoreCategory/pChild?id=" + $("#ParentId").val(), function (result) {
+                    $(".modal-content").html(result);
+                });
+            }
+            else {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(result);
+            }
+        });
+    });
+</script>
 

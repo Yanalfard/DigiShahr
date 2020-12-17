@@ -5,8 +5,7 @@
         @if (Model != null)
         {
 
-            @:افزودن دسته بندی @Model.Name
-
+            @:افزودن زیر مجموعه برای دسته @Model.Name
 
         }
         else
@@ -24,14 +23,19 @@
 
 <form id="CategoryCreate" method="post">
     @Html.AntiForgeryToken()
+
     @if (Model != null)
     {
-        <input type="hidden" asp-for="ParentId" value="@Model.Id" />
+        <input type="hidden" name="ParentId" id="ParentId" value="@Model.Id" />
+    }
+    else
+    {
+        <input type="hidden" name="ParentId" />
     }
     <div class="modal-body">
         <div class="form-row">
             <div class="form-group col-md-4">
-                <input type="text" class="form-control form-control-sm" asp-for="Name" placeholder="نام">
+                <input type="text" class="form-control form-control-sm" name="Name" placeholder="نام">
                 <br />
                 <input type="checkbox" asp-for="IsRecent"> قابل انتخاب در ثبت فروشگاه باشد
             </div>
@@ -39,7 +43,7 @@
         <div class="form-row">
             <div class="form-group col-md-2">
                 <label>رنگ پس زمینه فروشگاه ها</label>
-                <input type="color" id="colo" class="form-control form-control-sm" asp-for="Color">
+                <input type="color" id="colo" class="form-control form-control-sm" name="Color">
             </div>
         </div>
     </div>
@@ -57,21 +61,27 @@
         e.preventDefault();
         var data = $(this).serializeArray();
         $.post("/Admin/StoreCategory/Create", data, function (result) {
+
             if (result == "true") {
                 $(".loadingicon").addClass("d-none");
-                $("#Erorr").html(null);
+                $("#Erorr").html("ثبت شد");
                 window.location.reload();
             }
+
             if (result == "ParentIdtrue") {
                 $(".loadingicon").addClass("d-none");
-                $("#Erorr").html(null);
-                $("/Admin/StoreCategory/");
+                $("#Erorr").html("ثبت شد");
+                $.get("/Admin/StoreCategory/pChild?id=" + $("#ParentId").val(), function (result) {
+                    $(".modal-content").html(result);
+                });
             }
+
             else {
                 $(".loadingicon").addClass("d-none");
                 $("#Erorr").html(result);
             }
-        })
+
+        });
     });
 
 </script>

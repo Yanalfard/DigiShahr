@@ -14,7 +14,7 @@ namespace DigiShahr.ViewComponents.Admin.Category
 
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/StoreCategory/Components/Remove.cshtml", _core.Catagory.GetById(id)));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/StoreCategory/Components/Remove.cshtml", _core.StoreCatagory.GetById(id)));
         }
     }
 }

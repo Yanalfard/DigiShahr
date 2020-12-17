@@ -62,4 +62,10 @@
             $(".modal-content").html(result);
         });
     }
+
+    function Remove(Id) {
+        $.get("/Admin/StoreCategory/pRemove?Id=" + Id, function (result) {
+            $(".modal-content").html(result);
+        });
+    }
 </script>

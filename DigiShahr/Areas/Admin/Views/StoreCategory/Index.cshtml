@@ -67,7 +67,16 @@
                             <select id="pageNumber" class="custom-select custom-select-sm">
                                 @for (int i = 1; i <= (ViewBag.PageCount + 1); i++)
                                 {
-                                    <option class="page-item" value="@i" asp-route-dateNext='@(((int)ViewBag.pageId == i) ? "selected" : "" )'>صفحه @i از @((int)ViewBag.PageCount + 1)</option>
+                                    @if ((int)ViewBag.pageId == i)
+                                    {
+                                        <option class="page-item" value="@i" selected>صفحه @i از @((int)ViewBag.PageCount + 1)</option>
+                                    }
+                                    else
+                                    {
+                                        <option class="page-item" value="@i">صفحه @i از @((int)ViewBag.PageCount + 1)</option>
+                                    }
+
+
                                 }
                             </select>
                         </li>
@@ -118,5 +127,4 @@
 </div>
 @section Script{
     <script src="~/Command/AdminStoreCategory.js"></script>
-
 }

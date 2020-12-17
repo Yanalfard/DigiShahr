@@ -26,7 +26,7 @@ namespace DigiShahr.Areas.Admin.Controllers
                 ViewBag.PageCount = Count / 10;
                 ViewBag.InPageCount = paging.InPageCount;
 
-                return View(_core.StoreCatagory.Get().Where(sc=>sc.ParentId==null).OrderByDescending(o => o.Id).Skip(skip).Take(10));
+                return View(_core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id).Skip(skip).Take(10));
             }
             else
             {
@@ -37,7 +37,7 @@ namespace DigiShahr.Areas.Admin.Controllers
                 ViewBag.PageCount = Count / paging.InPageCount;
                 ViewBag.InPageCount = paging.InPageCount;
 
-                return View(_core.StoreCatagory.Get().Where(sc=>sc.ParentId==null).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount));
+                return View(_core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount));
             }
         }
 
@@ -91,9 +91,19 @@ namespace DigiShahr.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _core.StoreCatagory.Update(tblStoreCatagory);
-                _core.StoreCatagory.Save();
-                return "true";
+                if (tblStoreCatagory.ParentId == null)
+                {
+                    _core.StoreCatagory.Update(tblStoreCatagory);
+                    _core.StoreCatagory.Save();
+                    return "true";
+                }
+                else
+                {
+                    _core.StoreCatagory.Update(tblStoreCatagory);
+                    _core.StoreCatagory.Save();
+                    return "ParentIdtrue";
+                }
+
             }
             else
             {
@@ -112,7 +122,19 @@ namespace DigiShahr.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public string Remove(int id)
         {
-            return "true";
+            TblStoreCatagory tblStoreCatagory = _core.StoreCatagory.GetById(id);
+
+            if (tblStoreCatagory.ParentId == null)
+            {
+                _core.StoreCatagory.Delete(tblStoreCatagory);
+                return "true";
+            }
+            else
+            {
+                _core.StoreCatagory.Delete(tblStoreCatagory);
+                return "ParentIdtrue";
+            }
+
         }
 
         protected override void Dispose(bool disposing)
