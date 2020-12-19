@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.ViewModel;
+
 
 namespace DigiShahr.Controllers
 {
@@ -15,6 +17,20 @@ namespace DigiShahr.Controllers
         public IActionResult CreateAccount()
         {
             return View();
+        }
+
+
+
+
+
+
+
+        //Login Api
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            return await View();
         }
 
     }

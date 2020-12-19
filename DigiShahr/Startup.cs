@@ -42,6 +42,7 @@ namespace DigiShahr
             app.UseRouting();
             app.UseMvc();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
