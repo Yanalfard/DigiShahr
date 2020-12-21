@@ -18,11 +18,26 @@ namespace DigiShahr.Controllers
         {
             return View();
         }
-
-
-
-
-
+        public IActionResult FirstPage()
+        {
+            return View();
+        }
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult Register()
+        {
+            return View();
+        }
+        public IActionResult ConfirmPhoneNumber()
+        {
+            return View();
+        }
+        public IActionResult Success()
+        {
+            return View();
+        }
 
 
         //Login Api

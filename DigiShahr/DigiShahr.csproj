@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\StyleCenter\Sass\LoginRegister\loginRegister.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Classes\ShamsiDateTimeConverter.cs" />
   </ItemGroup>
 

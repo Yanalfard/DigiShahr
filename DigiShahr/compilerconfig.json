@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/StyleCenter/Sass/sellerStyle/createAccount.css",
     "inputFile": "wwwroot/StyleCenter/Sass/sellerStyle/createAccount.scss"
+  },
+  {
+    "outputFile": "wwwroot/StyleCenter/Sass/LoginRegister/loginRegister.css",
+    "inputFile": "wwwroot/StyleCenter/Sass/LoginRegister/loginRegister.scss"
   }
 ]
