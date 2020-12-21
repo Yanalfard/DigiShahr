@@ -34,6 +34,24 @@ namespace DigiShahr.Controllers
             return View();
         }
 
+        public IActionResult FirstPage()
+        {
+            return View();
+        }
+        public IActionResult Register()
+        {
+            return View();
+        }
+        public IActionResult ConfirmPhoneNumber()
+        {
+            return View();
+        }
+        public IActionResult Success()
+        {
+            return View();
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel)
@@ -54,6 +72,7 @@ namespace DigiShahr.Controllers
             }
 
             return View(loginViewModel);
+
 
 
         }
