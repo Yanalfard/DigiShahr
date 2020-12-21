@@ -119,19 +119,46 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public string Remove(int id)
         {
             TblStoreCatagory tblStoreCatagory = _core.StoreCatagory.GetById(id);
 
             if (tblStoreCatagory.ParentId == null)
             {
-                _core.StoreCatagory.Delete(tblStoreCatagory);
+
+                if (_core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id) == null)
+                {
+                    
+                    _core.StoreCatagory.Delete(tblStoreCatagory);
+                    _core.StoreCatagory.Save();
+                    return "true";
+                }
+                else
+                {
+                    foreach (var item in _core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id))
+                    {
+                        _core.StoreCatagory.Delete(item);
+                    }
+                }
+                _core.StoreCatagory.Save();
                 return "true";
             }
             else
             {
-                _core.StoreCatagory.Delete(tblStoreCatagory);
+                if (_core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id) == null)
+                {
+                    _core.StoreCatagory.Delete(tblStoreCatagory);
+                    _core.StoreCatagory.Save();
+                    return "ParentIdtrue";
+                }
+                else
+                {
+                    foreach (var item in _core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id))
+                    {
+                        _core.StoreCatagory.Delete(item);
+                    }
+                }
+                _core.StoreCatagory.Save();
                 return "ParentIdtrue";
             }
 

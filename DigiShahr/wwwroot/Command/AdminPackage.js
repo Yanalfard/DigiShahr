@@ -27,6 +27,16 @@ $("#Create").click(function () {
     });
 });
 
+function edit(Id) {
+    $(".modal-content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+    $.get("/Admin/Package/pEdit?id=" + Id, function (result) {
+        $(".modal-dialog").removeClass("modal-xl");
+        $(".modal-dialog").removeClass("modal-md");
+        $(".modal-dialog").addClass("modal-lg");
+        $(".modal-content").html(result);
+    });
+}
+
 function pDelete(id) {
     var PageId = $("#pageNumber option:selected").val();
     var InPageCount = $("#InPageCount option:selected").val();

@@ -35,23 +35,35 @@ namespace DigiShahr.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public string Create(TblDeal tblDeal)
         {
-            if (tblDeal.Price.ToString().Length > 10 || tblDeal.Price.ToString().Length < 3 || tblDeal.Price.ToString().StartsWith("0"))
+            if (string.IsNullOrEmpty(tblDeal.Name)
+                || string.IsNullOrEmpty(tblDeal.Price.ToString())
+                || string.IsNullOrEmpty(tblDeal.MonthCount.ToString())
+                || string.IsNullOrEmpty(tblDeal.CatagoryLimit.ToString())
+                || string.IsNullOrEmpty(tblDeal.ProductLimit.ToString())
+                )
             {
-                return "لطفا قیمت مناسب وارد کنید";
+                return "همه موارد اجباری میباشد";
             }
             else
             {
-                if (ModelState.IsValid)
+                if (tblDeal.Price.ToString().Length > 10 || tblDeal.Price.ToString().Length < 3 || tblDeal.Price.ToString().StartsWith("0"))
                 {
-                    int ConvertPrice = Convert.ToInt32(tblDeal.Price.ToString().Replace(",", ""));
-                    tblDeal.Price = ConvertPrice;
-                    _core.Deal.Add(tblDeal);
-                    _core.Deal.Save();
-                    return "true";
+                    return "لطفا قیمت مناسب وارد کنید";
                 }
                 else
                 {
-                    return ModelState.Values.First().Errors.First().ErrorMessage;
+                    if (ModelState.IsValid)
+                    {
+                        int ConvertPrice = Convert.ToInt32(tblDeal.Price.ToString().Replace(",", ""));
+                        tblDeal.Price = ConvertPrice;
+                        _core.Deal.Add(tblDeal);
+                        _core.Deal.Save();
+                        return "true";
+                    }
+                    else
+                    {
+                        return ModelState.Values.First().Errors.First().ErrorMessage;
+                    }
                 }
             }
 
@@ -61,6 +73,40 @@ namespace DigiShahr.Areas.Admin.Controllers
         public IActionResult pInfo(int id)
         {
             return ViewComponent("PackageInfo", new { id = id });
+        }
+
+        [HttpGet]
+        public IActionResult pEdit(int id)
+        {
+            return ViewComponent("EditPackage", new { id = id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string Edit(TblDeal tblDeal)
+        {
+            if (string.IsNullOrEmpty(tblDeal.Name)
+                || string.IsNullOrEmpty(tblDeal.Price.ToString())
+                || string.IsNullOrEmpty(tblDeal.MonthCount.ToString())
+                || string.IsNullOrEmpty(tblDeal.CatagoryLimit.ToString())
+                || string.IsNullOrEmpty(tblDeal.ProductLimit.ToString())
+                )
+            {
+                return "همه موارد اجباری میباشد";
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _core.Deal.Update(tblDeal);
+                    _core.Deal.Save();
+                    return "true";
+                }
+                else
+                {
+                    return ModelState.Values.First().Errors.First().ErrorMessage;
+                }
+            }
         }
 
         [HttpGet]

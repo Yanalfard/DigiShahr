@@ -33,9 +33,9 @@ namespace Services.Repositories
                 _context.Entry(entity).State = EntityState.Modified;
                 return true;
             }
-            catch
+            catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
