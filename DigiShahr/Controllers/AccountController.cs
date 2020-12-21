@@ -26,12 +26,12 @@ namespace DigiShahr.Controllers
 
 
         //Login Api
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
-        {
-            return await View();
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        //{
+        //    return await View();
+        //}
 
     }
 }
