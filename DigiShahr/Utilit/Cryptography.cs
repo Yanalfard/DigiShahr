@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DigiShahr.Classes
+namespace DigiShahr.Utilit
 {
-    public class Security
+    public class Cryptography
     {
-        public static string sha256_hash(string value)
+        public static String SHA256(String value)
         {
             StringBuilder Sb = new StringBuilder();
 
-            using (var hash = SHA256.Create())
+            using (SHA256 hash = SHA256Managed.Create())
             {
                 Encoding enc = Encoding.UTF8;
                 Byte[] result = hash.ComputeHash(enc.GetBytes(value));

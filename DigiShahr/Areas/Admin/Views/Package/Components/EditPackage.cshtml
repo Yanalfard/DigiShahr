@@ -1,0 +1,89 @@
+﻿@model DataLayer.Models.TblDeal
+
+
+<div class="modal-header">
+    <h6 class="modal-title" id="modalCenterTitle">
+        افزودن پکیج
+    </h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form id="PackageEdit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div class="modal-body">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control form-control-sm" asp-for="Name" placeholder="نام">
+                <span id="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <input type="text" data-type='currency' id="currency" class="form-control form-control-sm" value="@Model.Price" placeholder="قیمت">
+                <input type="hidden" id="Price" class="form-control form-control-sm" asp-for="Price" placeholder="قیمت">
+                <span id="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control form-control-sm" asp-for="MonthCount" placeholder="تعداد ماه ها">
+                <span id="MonthCount" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control form-control-sm" asp-for="CatagoryLimit" placeholder="حداکثر تعداد دسته بندی">
+                <span id="CatagoryLimit" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control form-control-sm" asp-for="ProductLimit" placeholder="حداکثر تعداد محصول">
+                <span id="ProductLimit" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row bg-light">
+            <div class="form-group col-md-3 pt-3">
+                <label for="Haraj">حراج</label>
+                <input type="checkbox" asp-for="Haraj" />
+            </div>
+            <div class="form-group col-md-3 pt-3">
+                <label for="Banner1">بنر1</label>
+                <input type="checkbox" asp-for="Banner1" />
+            </div>
+            <div class="form-group col-md-3 pt-3">
+                <label for="Banner2">بنر2</label>
+                <input type="checkbox" asp-for="Banner2" />
+            </div>
+            <div class="form-group col-md-3 pt-3">
+                <label for="Lottery"> قرعه کشی</label>
+                <input type="checkbox" asp-for="Lottery" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-end">
+        <img src='/img/adminStatic/load2.gif' class='justify-content-center d-none loadingicon' width='60' height='60' />
+        <span id="Erorr" class="text-danger"></span>
+        <button type="submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>افزودن</button>
+
+    </div>
+</form>
+
+<script>
+
+    $("#currency").change(function () {
+        var price = $("#currency").val().replace(",", "");
+        $("#Price").val(price.replace(",", ""));
+    });
+
+    $("#PackageEdit").submit(function (e) {
+        var data = $(this).serializeArray();
+        e.preventDefault();
+        $.post("/Admin/Package/Edit", data, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            } else {
+                $("#Erorr").html(result);
+            }
+        });
+    });
+</script>
+<script src="~/ScriptCenter/Tools/Auto_Formatting_Currency.js"></script>
+
+
+

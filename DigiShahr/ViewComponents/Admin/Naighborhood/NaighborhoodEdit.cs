@@ -14,7 +14,7 @@ namespace DigiShahr.ViewComponents.Admin.Naighborhood
 
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Naighborhood/Components/Edit.cshtml", _core.Order.GetById(id)));
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Naighborhood/Components/Edit.cshtml", _core.Naighborhood.GetById(id)));
         }
     }
 }

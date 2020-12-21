@@ -9,7 +9,7 @@
 <h6 class="uk-margin-auto">آیا میخواهید دسته @Model.Name حذف شود؟</h6>
 @if (Model.ParentId != null)
 {
-    <input id="ParentId" value="@Model.ParentId" />
+    <input id="ParentId" type="hidden" value="@Model.ParentId" />
 }
 <div class="modal-footer justify-content-end">
     <img src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
@@ -22,14 +22,16 @@
 </div>
 
 <script>
-    $.post("/Admin/StoreCategory/Remove?Id=" + Id, function (result) {
-        if (result == "true") {
-            window.location.reload();
-        }
-        if (result == "ParentIdtrue") {
-            $.get("/Admin/StoreCategory/pChild?Id=" + $("#ParentId").val(), function (result) {
-                $(".modal-content").html(result);
-            });
-        }
-    });
+    function Remove(id) {
+        $.post("/Admin/StoreCategory/Remove?Id=" + id, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            }
+            if (result == "ParentIdtrue") {
+                $.get("/Admin/StoreCategory/pChild?Id=" + $("#ParentId").val(), function (result) {
+                    $(".modal-content").html(result);
+                });
+            }
+        });
+    }
 </script>

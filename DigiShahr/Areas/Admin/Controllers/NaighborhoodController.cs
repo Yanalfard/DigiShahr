@@ -59,7 +59,24 @@ namespace DigiShahr.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public string Edit(TblNaighborhood tblNaighborhood)
         {
-            return "true";
+            if (string.IsNullOrEmpty(tblNaighborhood.Name))
+            {
+                return "نام منطقه اجباری میباشد";
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _core.Naighborhood.Update(tblNaighborhood);
+                    _core.Naighborhood.Save();
+                    return "true";
+                }
+                else
+                {
+                    return ModelState.Values.First().Errors.First().ErrorMessage;
+                }
+            }
+
         }
 
         protected override void Dispose(bool disposing)

@@ -35,6 +35,9 @@
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات">
                                 <a onclick="Info(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="information-circle-outline"></a>
                             </span>
+                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
+                                <a onclick="edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="create-outline"></a>
+                            </span>
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="حذف">
                                 <a onclick="pDelete(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-danger" uk-icon="trash-outline"></a>
                             </span>
@@ -53,7 +56,16 @@
                 <select id="pageNumber" class="custom-select custom-select-sm">
                     @for (int i = 1; i <= (ViewBag.PageCount + 1); i++)
                     {
-                        <option class="page-item" value="@i" asp-route-dateNext='@(((int)ViewBag.pageId == i) ? "selected" : "" )'>صفحه @i از @((int)ViewBag.PageCount + 1)</option>
+                        if ((int)ViewBag.pageId == i)
+                        {
+                            <option selected class="page-item" value="@i">صفحه @i از @((int)ViewBag.PageCount + 1)</option>
+
+                        }
+                        else
+                        {
+                            <option class="page-item" value="@i">صفحه @i از @((int)ViewBag.PageCount + 1)</option>
+
+                        }
                     }
                 </select>
             </li>

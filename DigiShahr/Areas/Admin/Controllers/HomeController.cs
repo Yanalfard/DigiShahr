@@ -5,10 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.ViewModel;
 using Services.Services;
+using DigiShahr.Utilit;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [WebAuthorize("XjBGXxx37M")]
+    //Admin
     public class HomeController : Controller
     {
         Core _core = new Core();

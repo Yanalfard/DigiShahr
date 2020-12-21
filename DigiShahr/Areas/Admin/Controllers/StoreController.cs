@@ -47,15 +47,88 @@ namespace DigiShahr.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Category(Paging paging)
         {
-            int skip = (paging.PageId - 1) * 10;
-            int Count = _core.StoreCatagory.Get().Count();
+            if (paging.InPageCount == 0)
+            {
+                int skip = (paging.PageId - 1) * 10;
+                int Count = _core.StoreCatagory.Get().Count();
 
-            ViewBag.PageId = paging.PageId;
-            ViewBag.PageCount = Count / 10;
+                ViewBag.PageId = paging.PageId;
+                ViewBag.PageCount = Count / 10;
+                ViewBag.InPageCount = paging.InPageCount;
 
-            return View(_core.StoreCatagory.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
+                return View(_core.Catagory.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10));
+            }
+            else
+            {
+                int skip = (paging.PageId - 1) * paging.InPageCount;
+                int Count = _core.StoreCatagory.Get().Count();
+
+                ViewBag.PageId = paging.PageId;
+                ViewBag.PageCount = Count / paging.InPageCount;
+                ViewBag.InPageCount = paging.InPageCount;
+
+                return View(_core.Catagory.Get().OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount));
+            }
         }
 
+        [HttpGet]
+        public IActionResult CreateCategory()
+        {
+            return ViewComponent("CreateCategory");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string CreateCategory(TblCatagory tblCatagory)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_core.Catagory.Get().Any(c => c.Name == tblCatagory.Name))
+                    return "دسته بندی تکراری میباشد";
+                else
+                    _core.Catagory.Add(tblCatagory);
+                _core.Catagory.Save();
+                return "true";
+
+            }
+            else
+            {
+                return ModelState.Values.First().Errors.First().ErrorMessage;
+            }
+        }
+
+
+        public IActionResult EditCategory(int Id)
+        {
+            return ViewComponent("EditCategory", new { Id = Id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string EditCateogry(TblCatagory tblCatagory)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_core.Catagory.Get().Any(c => c.Id != tblCatagory.Id && c.Name == tblCatagory.Name))
+                    return "دسته بندی تکراری میباشد";
+                else
+                {
+                    try
+                    {
+                        _core.Catagory.Update(tblCatagory);
+                        _core.Catagory.Save();
+                        return "true";
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        return "نمیتوانید تغییر دهید";
+                    }
+
+                }
+            }
+            else
+                return ModelState.Values.First().Errors.First().ErrorMessage;
+        }
 
         [HttpGet]
         public IActionResult pStoreList(Paging paging, string storeName, string phoneNumber)
@@ -64,14 +137,14 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _core.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        _core.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
     }
 }
