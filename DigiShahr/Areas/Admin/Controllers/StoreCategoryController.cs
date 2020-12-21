@@ -93,13 +93,19 @@ namespace DigiShahr.Areas.Admin.Controllers
             {
                 if (tblStoreCatagory.ParentId == null)
                 {
-                    _core.StoreCatagory.Update(tblStoreCatagory);
+                    TblStoreCatagory storeCatagory = _core.StoreCatagory.GetById(tblStoreCatagory.Id);
+                    storeCatagory.Name = tblStoreCatagory.Name;
+                    storeCatagory.IsRecent = tblStoreCatagory.IsRecent;
+                    storeCatagory.Color = tblStoreCatagory.Color;
                     _core.StoreCatagory.Save();
                     return "true";
                 }
                 else
                 {
-                    _core.StoreCatagory.Update(tblStoreCatagory);
+                    TblStoreCatagory storeCatagory = _core.StoreCatagory.GetById(tblStoreCatagory.Id);
+                    storeCatagory.Name = tblStoreCatagory.Name;
+                    storeCatagory.IsRecent = tblStoreCatagory.IsRecent;
+                    storeCatagory.Color = tblStoreCatagory.Color;
                     _core.StoreCatagory.Save();
                     return "ParentIdtrue";
                 }
@@ -116,52 +122,6 @@ namespace DigiShahr.Areas.Admin.Controllers
         public IActionResult pRemove(int id)
         {
             return ViewComponent("StoreCategoryRemove", new { id = id });
-        }
-
-        [HttpPost]
-        public string Remove(int id)
-        {
-            TblStoreCatagory tblStoreCatagory = _core.StoreCatagory.GetById(id);
-
-            if (tblStoreCatagory.ParentId == null)
-            {
-
-                if (_core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id) == null)
-                {
-                    
-                    _core.StoreCatagory.Delete(tblStoreCatagory);
-                    _core.StoreCatagory.Save();
-                    return "true";
-                }
-                else
-                {
-                    foreach (var item in _core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id))
-                    {
-                        _core.StoreCatagory.Delete(item);
-                    }
-                }
-                _core.StoreCatagory.Save();
-                return "true";
-            }
-            else
-            {
-                if (_core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id) == null)
-                {
-                    _core.StoreCatagory.Delete(tblStoreCatagory);
-                    _core.StoreCatagory.Save();
-                    return "ParentIdtrue";
-                }
-                else
-                {
-                    foreach (var item in _core.StoreCatagory.Get().Where(sc => sc.ParentId == tblStoreCatagory.Id))
-                    {
-                        _core.StoreCatagory.Delete(item);
-                    }
-                }
-                _core.StoreCatagory.Save();
-                return "ParentIdtrue";
-            }
-
         }
 
         protected override void Dispose(bool disposing)

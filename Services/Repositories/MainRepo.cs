@@ -27,16 +27,10 @@ namespace Services.Repositories
 
         public virtual bool Update(TEntity entity)
         {
-            try
-            {
-                _dbSet.Attach(entity);
-                _context.Entry(entity).State = EntityState.Modified;
-                return true;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+            return true;
+
         }
 
         public virtual bool Delete(TEntity entity)

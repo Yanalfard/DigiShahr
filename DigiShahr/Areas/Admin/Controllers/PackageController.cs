@@ -98,7 +98,16 @@ namespace DigiShahr.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _core.Deal.Update(tblDeal);
+                    TblDeal tblDealEdit = _core.Deal.GetById(tblDeal.Id);
+                    tblDealEdit.Name = tblDeal.Name;
+                    tblDealEdit.Price = tblDeal.Price;
+                    tblDealEdit.MonthCount = tblDeal.MonthCount;
+                    tblDealEdit.CatagoryLimit = tblDeal.CatagoryLimit;
+                    tblDealEdit.ProductLimit = tblDeal.ProductLimit;
+                    tblDealEdit.Haraj = tblDeal.Haraj;
+                    tblDealEdit.Banner1 = tblDeal.Banner1;
+                    tblDealEdit.Banner2 = tblDeal.Banner2;
+                    tblDealEdit.Lottery = tblDeal.Lottery;
                     _core.Deal.Save();
                     return "true";
                 }
@@ -113,14 +122,6 @@ namespace DigiShahr.Areas.Admin.Controllers
         public IActionResult pRemove(int id, Paging paging)
         {
             return ViewComponent("PackageRemove", new { id = id });
-        }
-
-        [HttpPost]
-        public IActionResult Remove(int id, Paging paging)
-        {
-            _core.Deal.GetById(id).IsDeleted = true;
-            _core.Deal.Save();
-            return pList(paging);
         }
 
         [HttpGet]

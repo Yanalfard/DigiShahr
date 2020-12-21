@@ -24,10 +24,9 @@ namespace DigiShahr.Controllers
         }
         public IActionResult CreateAccount()
         {
-
+            ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
             return View();
         }
-
         //Login
         [HttpGet]
         public IActionResult Login()

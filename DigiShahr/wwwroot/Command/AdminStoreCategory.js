@@ -22,12 +22,6 @@ function edit(Id) {
     });
 }
 
-function Remove(Id) {
-    $.get("/Admin/StoreCategory/pRemove?Id=" + Id, function (result) {
-        $(".modal-content").html(result);
-    });
-}
-
 $("#pageNumber").change(function () {
     var PageId = $("#pageNumber option:selected").val();
     var InPageCount = $("#InPageCount option:selected").val();

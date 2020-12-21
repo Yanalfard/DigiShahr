@@ -11,26 +11,31 @@
 <div class="space-mobile"></div>
 <div class="mat my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
-        <h3 class="center">ایجاد حساب فروشگاهی</h3>
+        <h3 class="center">ایجاد حساب</h3>
         <a><span class="icon-holder" uk-icon="backIcon"></span></a>
     </div>
     <form class="my-column createAccount uk-padding-small" action="" dir="rtl">
         <label for="name">نام و نام خانوادگی:</label>
-        <input type="text" asp-for="Name" placeholder="" value="">
+        <input type="text" asp-for="Name">
+        <span asp-validation-for="Name" class="uk-text-danger"></span>
         <label for="cellPhone">شماره موبایل:</label>
-        <input type="text" asp-for="TellNo" placeholder="" value="">
+        <input type="text" asp-for="TellNo">
+        <span asp-validation-for="TellNo" class="uk-text-danger"></span>
         <label for="password">رمز عبور:</label>
-        <input type="text" asp-for="Password" placeholder="" value="">
+        <input type="text" asp-for="Password">
+        <span asp-validation-for="Password" class="uk-text-danger"></span>
         <label for="confirmPassword">تکرار رمز عبور:</label>
-        <input type="text" asp-for="Name" placeholder="" value="">
+        <input type="text" name="confirmPassword">
         <label for="address">آدرس:</label>
-        <input type="text" asp-for="Address" placeholder="" value="">
+        <input type="text" asp-for="Address">
+        <span asp-validation-for="Address" class="uk-text-danger"></span>
         <div id="map" class="map"></div>
         <label for="addres">انتخاب محله:</label>
-        <select class="uk-select uk-margin-xlarge-bottom">
-            <option>ابوریحان</option>
-            <option>چایکنار</option>
-            <option>ولیعصر</option>
+        <select asp-for="NaighborhoodId" class="uk-select uk-margin-xlarge-bottom">
+            @foreach (var item in ViewBag.Naighborhood)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
         </select>
         <input class="center gradientButton" type="submit" value="ایجاد حساب">
     </form>
@@ -48,7 +53,7 @@
     <script>
             var map = L.map('map').setView([32.287, 52.954], 5);
             L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-                attribution: 'Farzam Yamini - 09027159171'
+                attribution: 'echoville'
             }).addTo(map);
             L.marker([32.287, 52.954]).addTo(map).bindPopup('سلام من <b><i>ایران</i></b> هستم').openPopup();
     </script>

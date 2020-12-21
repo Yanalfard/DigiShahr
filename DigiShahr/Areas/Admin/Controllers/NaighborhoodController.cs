@@ -67,7 +67,7 @@ namespace DigiShahr.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _core.Naighborhood.Update(tblNaighborhood);
+                    _core.Naighborhood.GetById(tblNaighborhood.Id).Name = tblNaighborhood.Name;
                     _core.Naighborhood.Save();
                     return "true";
                 }
