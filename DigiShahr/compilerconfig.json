@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/StyleCenter/Sass/LoginRegister/loginRegister.css",
     "inputFile": "wwwroot/StyleCenter/Sass/LoginRegister/loginRegister.scss"
+  },
+  {
+    "outputFile": "wwwroot/StyleCenter/Sass/_colors.css",
+    "inputFile": "wwwroot/StyleCenter/Sass/_colors.scss"
   }
 ]

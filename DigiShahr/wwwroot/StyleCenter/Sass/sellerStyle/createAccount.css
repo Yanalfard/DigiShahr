@@ -1,5 +1,6 @@
 ﻿body {
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  height: 100vh; }
 
 .mat {
   border-radius: 8px; }
@@ -91,15 +92,16 @@ ul {
   z-index: 10000000; }
   #modal-sections .uk-modal-dialog {
     border-radius: 7px; }
-  #modal-sections h3 {
-    font-family: "Sahel";
-    font-size: 15px;
-    overflow: hidden; }
   #modal-sections .delivery .uk-checkbox {
     margin-right: 5px !important;
     margin-left: 5px !important; }
   #modal-sections .gradientButton {
     width: 90px; }
+
+.uk-modal-header h3 {
+  font-family: "Sahel";
+  font-size: 15px;
+  overflow: hidden; }
 
 .BannerPlace {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -165,3 +167,19 @@ ul {
 
 .productSection hr {
   margin: 4px 20px !important; }
+
+.AddProductSection label {
+  background: #c6c6c6;
+  padding: 1px 20px;
+  border-radius: 7px;
+  margin-top: 5px; }
+
+.AddProductSection .ProductPicture {
+  background: #c6c6c6;
+  padding: 27px;
+  border-radius: 7px; }
+
+.AddProductSection .OFFPercent {
+  background: #F28F3B;
+  margin-right: 8px;
+  color: white; }

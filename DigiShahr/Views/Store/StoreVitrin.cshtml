@@ -72,34 +72,60 @@
         <div class="category">
             لبنیات
         </div>
-        <div class="category">
-            پروتئینی
+
+    </div>
+    <hr />
+    <h3 class="center"><a href="#AddProduct" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
+    <div class="my-row uk-padding-small AddProductSection" dir="rtl">
+        <div class="my-column uk-margin-small-right uk-text-center">
+            <label>نام محصول</label>
+            <div class="my-row">
+                <label class="uk-margin-top">قیمت</label>
+                <label class="OFFPercent uk-margin-top">%</label>
+            </div>
         </div>
-        <div class="category">
-            خشکبار
-        </div>
-        <div class="category">
-            نوشیدنی
-        </div>
-        <div class="category">
-            لبنیات
-        </div>
-        <div class="category">
-            پروتئینی
-        </div>
-        <div class="category">
-            خشکبار
-        </div>
-        <div class="category">
-            نوشیدنی
+        <div class="ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
+            تصویر
         </div>
     </div>
     <hr />
-    <h3 class="center"><a><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
-    <div class="my-row">
-        <div class="">
-
-        </div>
+    
+</div>
+<div class="space-double"></div>
+<div class="space-mobile"></div>
+<div id="AddProduct" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <form class="my-column createAccount uk-padding-small" action="" dir="rtl">
+            <div class="uk-modal-header uk-margin-bottom">
+                <h3 class="uk-modal-title uk-text-center">افزودن محصول</h3>
+            </div>
+            <div class="uk-modal-body my-column uk-padding-small">
+                <div class="uk-margin">
+                    <select class="uk-select">
+                        <option>انتخاب دسته بندی</option>
+                        <option>خشکبار</option>
+                        <option>لبنیات</option>
+                    </select>
+                </div>
+                <label for="name">نام محصول:</label>
+                <input type="text" name="Name">
+                <label for="price">قیمت:</label>
+                <input type="text" name="Name">
+                <label for="off">درصد تخفیف:</label>
+                <input type="text" name="off">
+                <div class="uk-margin ">
+                    <div class="my-row" uk-form-custom>
+                        @*<label>انتخاب تصویر برای محصول</label>*@
+                        <input type="file">
+                        @*< class="uk-button uk-button-default" type="button" tabindex="-1"><span class="icon-holder" uk-icon="attach"></span>انتخاب تصویر محصول</button>*@
+                        <button class="uk-margin-top serviceArea ">انتخاب تصویر برای محصول<span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="attach"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-center uk-margin-top">
+                <input class="center gradientButton" type="submit" value="افزودن">
+            </div>
+        </form>
     </div>
 </div>
-
