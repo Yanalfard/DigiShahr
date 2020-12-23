@@ -1,5 +1,6 @@
 ﻿body {
     overflow-x: hidden;
+    height:100vh;
 }
 
 .mat {
@@ -125,11 +126,7 @@ ul {
 
     z-index: 10000000;
 
-    h3 {
-        font-family: "Sahel";
-        font-size: 15px;
-        overflow: hidden;
-    }
+
 
     .delivery {
         .uk-checkbox {
@@ -140,6 +137,13 @@ ul {
 
     .gradientButton {
         width: 90px;
+    }
+}
+.uk-modal-header {
+    h3 {
+        font-family: "Sahel";
+        font-size: 15px;
+        overflow: hidden;
     }
 }
 
@@ -227,5 +231,25 @@ ul {
 
     hr {
         margin: 4px 20px !important;
+    }
+}
+.AddProductSection {
+    label {
+        background: #c6c6c6;
+        padding: 1px 20px;
+        border-radius: 7px;
+        margin-top: 5px;
+    }
+
+    .ProductPicture {
+        background: #c6c6c6;
+        padding: 27px;
+        border-radius: 7px;
+    }
+
+    .OFFPercent{
+        background:#F28F3B;
+        margin-right:8px;
+        color:white;
     }
 }

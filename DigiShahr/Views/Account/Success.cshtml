@@ -9,7 +9,25 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Success</title>
+    <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
+    <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
+    <link href="~/StyleCenter/Sass/LoginRegister/loginRegister.min.css" rel="stylesheet" />
 </head>
 <body>
+    <div class="RegisterContainer">
+        <div class="firstHead"></div>
+        <div class="LoginContent my-clipped mat ">
+            <div class="center my-column uk-margin-large-top">
+                <img class="center" src="~/img/user/confirm.gif" width="220" height="220"/>
+                @*<img class="center" src="~/img/user/ad.gif" width="210" height="210"/>*@
+                @*<img class="center" src="~/img/user/confirm.gif" width="210" height="210" />*@
+                <button class="gradientButton center uk-margin-top uk-margin-bottom" onclick="window.location.href='/Account/CreateAccount'">
+                    تکمیل اطلاعات و ایجاد حساب
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+<script src="~/UIKit/js/uikit.min.js"></script>
+<script src="/icons/uikit-icons.js"></script>
