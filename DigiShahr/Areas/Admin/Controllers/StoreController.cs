@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Services.Services;
-using DataLayer.Models;
+﻿using DataLayer.Models;
 using DataLayer.ViewModel;
+using Microsoft.AspNetCore.Mvc;
+using Services.Services;
+using System.Linq;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
@@ -113,16 +110,10 @@ namespace DigiShahr.Areas.Admin.Controllers
                     return "دسته بندی تکراری میباشد";
                 else
                 {
-                    try
-                    {
-                        _core.Catagory.Update(tblCatagory);
-                        _core.Catagory.Save();
-                        return "true";
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        return "نمیتوانید تغییر دهید";
-                    }
+
+                    _core.Catagory.GetById(tblCatagory.Id).Name = tblCatagory.Name;
+                    _core.Catagory.Save();
+                    return "true";
 
                 }
             }

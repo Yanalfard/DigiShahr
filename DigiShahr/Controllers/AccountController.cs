@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataLayer.Models;
+using DataLayer.ViewModel;
+using DigiShahr.Utilit;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using DataLayer.ViewModel;
-using DataLayer.Models;
-using Services.Services;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using DigiShahr.Utilit;
+using System.Threading.Tasks;
 
 namespace DigiShahr.Controllers
 {
@@ -22,11 +22,77 @@ namespace DigiShahr.Controllers
 
             return View();
         }
+
+        [HttpGet]
         public IActionResult CreateAccount()
         {
             ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAccountAsync(CreateAccountViewModel createAccountViewModel, string foo)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (createAccountViewModel.TellNo.StartsWith("0") == true)
+                {
+                    if (!GoogleReCaptcha.ReCaptchaPassed(Request.Form["foo"]))
+                    {
+                        ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                        ModelState.AddModelError("foo", "احراز هویت شما از طرف گوگل تایید نشد");
+                        return View(createAccountViewModel);
+                    }
+                    else
+                    {
+                        if (createAccountViewModel.Password != createAccountViewModel.ConfirmPassword)
+                        {
+                            ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                            ModelState.AddModelError("Password", "لطفا تایید رمز عبور را بدرستی وارد کنید");
+                        }
+                        else
+                        {
+                            if (await UserCrew.UserDuplication(createAccountViewModel.TellNo))
+                            {
+                                ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                                ModelState.AddModelError("TellNo", "شماره تماس وارد شده قبلا ثبت شده است");
+                                return View(createAccountViewModel);
+                            }
+                            else
+                            {
+                                if (createAccountViewModel.NaighborhoodId == 0)
+                                {
+                                    ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                                    ModelState.AddModelError("NaighborhoodId", "لطفا محله خود را انتخاب کنید");
+                                    return View(createAccountViewModel);
+                                }
+                                else
+                                {
+                                    bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
+                                    if (!CreateSuccess) { }
+                                        //Sms
+                                            else
+                                                return View(createAccountViewModel);
+                                }
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("TellNo", "لطفا شماره تماس معتبر وارد کنید");
+                    ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                    return View(createAccountViewModel);
+
+                }
+            }
+            ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+            return View(createAccountViewModel);
+        }
+
         //Login
         [HttpGet]
         public IActionResult Login()
@@ -50,7 +116,6 @@ namespace DigiShahr.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

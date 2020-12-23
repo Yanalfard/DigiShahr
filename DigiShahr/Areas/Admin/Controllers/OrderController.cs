@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DataLayer.ViewModel;
+using Microsoft.AspNetCore.Mvc;
 using Services.Services;
-using DataLayer.Models;
-using DataLayer.ViewModel;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
