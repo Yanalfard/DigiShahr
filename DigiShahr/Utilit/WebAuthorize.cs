@@ -24,7 +24,7 @@ namespace DigiShahr.Utilit
 
             if (!IsLoggedIn)
             {
-                throw new AuthenticationException("شما لاگین نکرده اید");
+               throw new AuthenticationException("شما لاگین نکرده اید");
             }
 
             var userClaim = GetUserClaim(context.HttpContext);

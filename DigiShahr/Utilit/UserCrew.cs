@@ -43,6 +43,7 @@ namespace DigiShahr.Utilit
             NewUser.Name = createAccountViewModel.Name;
             NewUser.Password = Cryptography.SHA256(createAccountViewModel.Password.Replace(" ", ""));
             NewUser.RoleId = 3;
+            NewUser.Role = _core.Role.GetById(3);
             NewUser.DateCreated = DateTime.Now;
             NewUser.IsActive = false;
             NewUser.Lat = createAccountViewModel.Lat;

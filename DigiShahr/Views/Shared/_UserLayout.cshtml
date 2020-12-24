@@ -99,19 +99,6 @@
 <script src="~/UIKit/js/uikit.min.js"></script>
 <script src="/icons/uikit-icons.js"></script>
 <script src="/ScriptCenter/DatePicker/jquery.md.bootstrap.datetimepicker.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=6LfeB-IZAAAAANpiuFCp-HURWmy1NGqmj-p4owkF&&hl=fa"></script>
-<script>
-    grecaptcha.ready(function () {
-        grecaptcha.execute('6LfeB-IZAAAAANpiuFCp-HURWmy1NGqmj-p4owkF', { action: 'contact_us' }).then(function (token) {
-            $('.GoogleCapcha').val(token);
-        });
-    });
-    function reloadRech() {
-        grecaptcha.execute('6LfeB-IZAAAAANpiuFCp-HURWmy1NGqmj-p4owkF', { action: 'contact_us' }).then(function (token) {
-            $('.GoogleCapcha').val(token);
-        });
-    }
-</script>
 
 @RenderSection("Script", false)
 

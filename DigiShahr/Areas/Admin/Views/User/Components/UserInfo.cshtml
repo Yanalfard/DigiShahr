@@ -1,8 +1,38 @@
 ﻿@model DataLayer.Models.TblUser
 
+@using DigiShahr.Classes
+
+
 @Model.Id
 
 @Model.Name
 
+@Model.TellNo
+
 @Model.TblOrders.Count()
+
+@Model.DateCreated.AllToShamsi()
+
+@if (Model.TblStores.Count() == 0)
+{
+    @:فروشگاه ندارد
+}
+else
+{
+    @:فروشگاه دارد
+}
+
+@if (Model.RoleId == 3)
+{
+    @:مشتری
+}
+else if (Model.RoleId == 2)
+{
+    @:فروشنده
+}
+else
+{
+    @:مدیریت
+}
+
 

@@ -24,8 +24,9 @@ namespace DigiShahr.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateAccount()
+        public IActionResult CreateAccount(string RetunUrl)
         {
+            ViewBag.RetrunUrl = RetunUrl;
             ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
             return View();
         }
@@ -72,9 +73,9 @@ namespace DigiShahr.Controllers
                                 {
                                     bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
                                     if (!CreateSuccess) { }
-                                        //Sms
-                                            else
-                                                return View(createAccountViewModel);
+                                    //Sms
+                                    else
+                                        return View(createAccountViewModel);
                                 }
 
                             }
@@ -95,8 +96,9 @@ namespace DigiShahr.Controllers
 
         //Login
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string RetunUrl)
         {
+            ViewBag.RetrunUrl = RetunUrl;
             return View();
         }
 
@@ -152,7 +154,7 @@ namespace DigiShahr.Controllers
                                           {
                                               AllowRefresh = true,
                                               IsPersistent = true,
-                                              ExpiresUtc = DateTime.Now.AddDays(100)
+                                              ExpiresUtc = DateTime.Now.AddDays(1000)
                                           });
         }
 
@@ -160,7 +162,7 @@ namespace DigiShahr.Controllers
         {
             return new ClaimsIdentity(new List<Claim>
                     {
-                        new Claim("UserRole",tblUser.Role.Name),
+                        new Claim("UserRole",_core.Role.GetById(tblUser.RoleId).Name.Trim()),
                         new Claim("Name",tblUser.Name),
                         new Claim("TellNo",tblUser.TellNo)
                     }, CookieAuthenticationDefaults.AuthenticationScheme);

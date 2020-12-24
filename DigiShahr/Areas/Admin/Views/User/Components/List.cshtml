@@ -25,6 +25,7 @@
                     <th>نام کاربر</th>
                     <th>شماره تماس</th>
                     <th>جزئیات</th>
+                    <th>جزئیات</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +38,7 @@
                         <td>@item.DateCreated.AllToShamsi()</td>
                         <td>
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات سفارش">
-                                <a href="#" data-toggle="modal" data-target="#modalSave" id="Info" class="text-primary" uk-icon="information-circle-outline"></a>
+                                <a onclick="UserInfo(@item.Id)" data-toggle="modal" data-target="#modalSave" id="Info" class="text-primary" uk-icon="information-circle-outline"></a>
                             </span>
                         </td>
                     </tr>
@@ -100,3 +101,11 @@
         </ul>
     </nav>
 </div>
+
+<script>
+    function UserInfo(id) {
+        $.get("/Admin/User/p_Info?id=" + id, function (result) {
+            $(".modal-content").html(result);
+        });
+    }
+</script>
