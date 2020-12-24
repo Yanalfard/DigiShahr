@@ -1,6 +1,6 @@
 ﻿body {
   overflow-x: hidden;
-  height: 100vh; }
+  min-height: 100vh; }
 
 .mat {
   border-radius: 8px; }
@@ -183,3 +183,6 @@ ul {
   background: #F28F3B;
   margin-right: 8px;
   color: white; }
+
+#AddProduct {
+  z-index: 10000000; }
