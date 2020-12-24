@@ -14,5 +14,13 @@
   {
     "outputFile": "wwwroot/StyleCenter/Sass/_colors.css",
     "inputFile": "wwwroot/StyleCenter/Sass/_colors.scss"
+  },
+  {
+    "outputFile": "wwwroot/StyleCenter/Sass/sellerStyle/FormsAndSeller.css",
+    "inputFile": "wwwroot/StyleCenter/Sass/sellerStyle/FormsAndSeller.scss"
+  },
+  {
+    "outputFile": "wwwroot/StyleCenter/Sass/Home/Home.css",
+    "inputFile": "wwwroot/StyleCenter/Sass/Home/Home.scss"
   }
 ]

@@ -4,4 +4,78 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-<h3>Index</h3>
+@*<h3>Index</h3>*@
+<link href="~/StyleCenter/Sass/Home/Home.min.css" rel="stylesheet" />
+<div class="index">
+    <div class="IndexContainer">
+        <div id="map" class="map"></div>
+        <div class="Search center">
+            <div class="center ">
+                <form class="uk-search uk-search-default">
+                    <a href="" uk-search-icon></a>
+                    <input class="center uk-search-input" type="search" placeholder="جستجو">
+                </form>
+            </div>
+        </div>
+        <div class="MenuGrid center my-clipped uk-margin-top">
+            <div class="grid uk-padding-small center uk-margin-auto-vertical" dir="rtl">
+                <label class="mat"> سوپرمارکت </label>
+                <label class="mat"> سوپرمارکت </label>
+                <label class="mat"> سوپرمارکت </label>
+                <label class="mat"> سوپرمارکت </label>
+                <label class="mat"> سوپرمارکت </label>
+                <label class="mat"> سوپرمارکت </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+
+    <link href="~/leaflet/leaflet.css" rel="stylesheet" />
+    <script src="~/leaflet/leaflet.js"></script>
+
+    <script>
+
+        var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 10);
+
+        L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'echoville'
+        }).addTo(map);
+
+        var theMarker = {};
+
+        map.on('click', function (e) {
+            lat = e.latlng.lat;
+            lon = e.latlng.lng;
+
+            //Clear existing marker,
+
+            if (theMarker != undefined) {
+                map.removeLayer(theMarker);
+            };
+
+            var iconSetting = L.Icon.extend({
+                options: {
+                    iconSize: [20, 29],
+                    iconAnchor: [10, 29]
+                }
+            });
+
+            var customIcon = new iconSetting({ iconUrl: '/location.png' });
+            //Add a marker to show where you clicked.
+            $("#Lat").val(lat.toString());
+            $("#Lon").val(lon.toString());
+            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت شما ثبت شد</h6>').openPopup();
+        });
+
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj', { action: 'Create' }).then(function (token) {
+                document.getElementById("foo").value = token;
+            });
+        });
+    </script>
+}
