@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,6 +15,8 @@ namespace DataLayer.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage = "لطفا نام دسته بندی را وارد کنید")]
+        [StringLength(100, ErrorMessage = "لطفا نام دسته بندی مناسب وارد کنید")]
         public string Name { get; set; }
         public int? ParentId { get; set; }
         public bool IsRecent { get; set; }

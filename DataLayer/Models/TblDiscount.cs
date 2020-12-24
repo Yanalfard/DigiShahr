@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,6 +15,8 @@ namespace DataLayer.Models
 
         public int Id { get; set; }
         public int StoreId { get; set; }
+        [Required(ErrorMessage = "کد اجباری میباشد")]
+        [StringLength(64)]
         public string Code { get; set; }
         public int Count { get; set; }
 

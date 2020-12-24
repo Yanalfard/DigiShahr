@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -13,6 +14,8 @@ namespace DataLayer.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage = "نام را وارد کنید")]
+        [StringLength(100, ErrorMessage = "نام مناسب وارد کنید")]
         public string Name { get; set; }
         public int Price { get; set; }
         public short? MonthCount { get; set; }
