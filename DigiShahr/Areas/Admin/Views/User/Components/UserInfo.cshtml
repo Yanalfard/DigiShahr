@@ -2,8 +2,72 @@
 
 @using DigiShahr.Classes
 
+<div class="modal-header">
+    <h6 class="modal-title mr-3" id="modalCenterTitle">
+        اطلاعات کاربر
+    </h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form>
+    <div class="modal-body">
+        <div id="card-table" class="card-body flex-div">
+            <div class="form-row ">
+                <div class="form-group col-md-6">
+                    <label>کد کاربر:</label>
+                    <span>@Model.Id</span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>نام کاربر:</label>
+                    <span>@Model.Name</span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>شماره تماس:</label>
+                    <span>@Model.TellNo</span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>تعداد سفارشات:</label>
+                    <span>@Model.TblOrders.Count()</span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>تاریخ و زمان ثبت سفارش:</label>
+                    <span>@Model.DateCreated.AllToShamsi()</span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>فروشگاه:</label>
+                    @if (Model.TblStores.Count() == 0)
+                    {
+                        <span class="text-danger">ندارد</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">دارد</span>
+                    }
+                </div>
+                <div class="form-group col-md-6">
+                    <label>نقش:</label>
+                    @if (Model.RoleId == 3)
+                    {
+                        <span>مشتری</span>
+                    }
+                    else if (Model.RoleId == 2)
+                    {
+                        <span>فروشنده</span>
+                    }
+                    else
+                    {
+                        <span>مدیریت</span>
+                    }
+                </div>
 
-@Model.Id
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@*@Model.Id
 
 @Model.Name
 
@@ -33,6 +97,6 @@ else if (Model.RoleId == 2)
 else
 {
     @:مدیریت
-}
+}*@
 
 

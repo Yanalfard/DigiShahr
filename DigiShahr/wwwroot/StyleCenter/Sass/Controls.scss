@@ -13,6 +13,9 @@
     outline: none;
     font-family: Sahel;
 }
+a:hover{
+    text-decoration:none!important;
+}
 body {
     margin: 0;
     padding: 0;
@@ -22,53 +25,73 @@ body {
 }
 
 .layoutHeader {
-   // position: fixed;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
-    z-index: 10000!important;
+    z-index: 10000 !important;
+
     .mat {
         border-radius: 0 0 8px 8px;
     }
 
+    #offcanvas-flip {
+        z-index: 10000 !important;
+    }
+
+    .uk-offcanvas-close{
+        color:black!important;
+    }
     .uk-offcanvas-bar {
+        /* * {
+            overflow: hidden;
+        }*/
+        .chevron-back {
+            margin-right: 90px !important;
+        }
+
+        h3 {
+            font-family: "Sahel";
+            font-size: 20px;
+            font-weight: 600;
+            text-align: right;
+            color: #555;
+            margin-top: 70px;
+            overflow: hidden;
+        }
+
         width: 318px;
         background: #fff;
         opacity: 1;
         color: #555;
-        z-index: 10000;
+        //   z-index: 10000000;
+        .uk-menu-accordion {
+            margin-top: 40px;
 
-        .uk-table {
-            th {
+            ul, li, a {
                 color: #2b2b2b !important;
+                font-family: "Sahel";
                 font-size: 16px;
-                text-align: right;
-                border-bottom: 1px solid #D7D7D7;
             }
 
-            td {
-                text-align: right;
-                border-bottom: 1px solid #D7D7D7;
+            .main-title {
                 color: #2b2b2b !important;
-            }
-
-            a {
-                color: #2b2b2b !important;
+                font-size: 18px;
                 font-weight: 400;
+                font-family: "Sahel";
+                text-align: right;
+                overflow: hidden;
+                //  border-bottom: 1px solid #D7D7D7;
             }
 
-            a:hover {
-                text-decoration: none !important;
+            .uk-accordion-title::before {
+                display: none !important;
+            }
+
+            .uk-accordion-title::after {
+                display: none !important;
             }
         }
-        /*.backIcon {
-            color: #555;
-            left:0!important;
-            float:left!important;
-            text-align:left!important;
-            margin-right:50px;
-            margin-top:10px;
-        }*/
     }
 }
 

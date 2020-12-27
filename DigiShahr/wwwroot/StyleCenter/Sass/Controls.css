@@ -254,6 +254,9 @@
   outline: none;
   font-family: Sahel; }
 
+a:hover {
+  text-decoration: none !important; }
+
 body {
   margin: 0;
   padding: 0;
@@ -262,40 +265,52 @@ body {
   background: #F4F4F4 !important; }
 
 .layoutHeader {
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   z-index: 10000 !important; }
   .layoutHeader .mat {
     border-radius: 0 0 8px 8px; }
+  .layoutHeader #offcanvas-flip {
+    z-index: 10000 !important; }
+  .layoutHeader .uk-offcanvas-close {
+    color: black !important; }
   .layoutHeader .uk-offcanvas-bar {
+    /* * {
+            overflow: hidden;
+        }*/
     width: 318px;
     background: #fff;
     opacity: 1;
-    color: #555;
-    z-index: 10000;
-    /*.backIcon {
-            color: #555;
-            left:0!important;
-            float:left!important;
-            text-align:left!important;
-            margin-right:50px;
-            margin-top:10px;
-        }*/ }
-    .layoutHeader .uk-offcanvas-bar .uk-table th {
-      color: #2b2b2b !important;
-      font-size: 16px;
+    color: #555; }
+    .layoutHeader .uk-offcanvas-bar .chevron-back {
+      margin-right: 90px !important; }
+    .layoutHeader .uk-offcanvas-bar h3 {
+      font-family: "Sahel";
+      font-size: 20px;
+      font-weight: 600;
       text-align: right;
-      border-bottom: 1px solid #D7D7D7; }
-    .layoutHeader .uk-offcanvas-bar .uk-table td {
-      text-align: right;
-      border-bottom: 1px solid #D7D7D7;
-      color: #2b2b2b !important; }
-    .layoutHeader .uk-offcanvas-bar .uk-table a {
-      color: #2b2b2b !important;
-      font-weight: 400; }
-    .layoutHeader .uk-offcanvas-bar .uk-table a:hover {
-      text-decoration: none !important; }
+      color: #555;
+      margin-top: 70px;
+      overflow: hidden; }
+    .layoutHeader .uk-offcanvas-bar .uk-menu-accordion {
+      margin-top: 40px; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion ul, .layoutHeader .uk-offcanvas-bar .uk-menu-accordion li, .layoutHeader .uk-offcanvas-bar .uk-menu-accordion a {
+        color: #2b2b2b !important;
+        font-family: "Sahel";
+        font-size: 16px; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion .main-title {
+        color: #2b2b2b !important;
+        font-size: 18px;
+        font-weight: 400;
+        font-family: "Sahel";
+        text-align: right;
+        overflow: hidden; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion .uk-accordion-title::before {
+        display: none !important; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion .uk-accordion-title::after {
+        display: none !important; }
 
 .layoutFooter {
   position: fixed;
