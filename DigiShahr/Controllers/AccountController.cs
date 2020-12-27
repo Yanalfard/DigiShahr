@@ -71,9 +71,10 @@ namespace DigiShahr.Controllers
                                 }
                                 else
                                 {
+                                    createAccountViewModel.TellNo = createAccountViewModel.TellNo.Trim();
                                     bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
-                                    if (!CreateSuccess) { }
-                                    //Sms
+                                    if (!CreateSuccess) 
+                                        return Redirect("/Account/ConfirmPhoneNumber?TellNo="+createAccountViewModel.TellNo.Trim());
                                     else
                                         return View(createAccountViewModel);
                                 }
@@ -94,6 +95,13 @@ namespace DigiShahr.Controllers
             return View(createAccountViewModel);
         }
 
+        [HttpGet]
+        public IActionResult ConfirmPhoneNumber(string TellNo)
+        {
+            ViewBag.TellNo = TellNo;
+            return View();
+        }
+
         //Login
         [HttpGet]
         public IActionResult Login(string RetunUrl)
@@ -107,10 +115,6 @@ namespace DigiShahr.Controllers
             return View();
         }
         public IActionResult Register()
-        {
-            return View();
-        }
-        public IActionResult ConfirmPhoneNumber()
         {
             return View();
         }

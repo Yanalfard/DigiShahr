@@ -23,24 +23,24 @@
         </div>
         <hr class="uk-divider-icon uk-margin-remove-bottom" />
         <label for="name">نام فروشگاه:</label>
-        <input type="text" asp-for="Name" placeholder="" value="">
+        <input type="text" asp-for="Name">
         <label for="name">تلفن ثابت:</label>
-        <input type="text" asp-for="StaticTell" placeholder="" value="">
+        <input type="text" asp-for="StaticTell">
         <label for="name">آدرس فروشگاه:</label>
-        <input type="text" asp-for="StaticTell" placeholder="" value="">
+        <input type="text" asp-for="StaticTell">
         <div id="map" class="map"></div>
-        <select class="uk-select uk-margin-top">
-            <option class="">دسته بندی را انتخاب کنید</option>
-            <option>دسته بندی1</option>
-            <option>دسته بندی2</option>
-            <option>دسته بندی3</option>
-        </select>
-        <select class="uk-select uk-margin-top">
-            <option class="">زیردسته بندی را انتخاب کنید</option>
-            <option>زیردسته بندی</option>
-            <option>زیردسته بندی</option>
-            <option>زیردسته بندی</option>
-        </select>
+        <span>
+            <select id="ParentCategory" class="uk-select uk-margin-top">
+                <option value="0">دسته بندی را انتخاب کنید</option>
+                <option>دسته بندی1</option>
+                <option>دسته بندی2</option>
+                <option>دسته بندی3</option>
+            </select>
+            <span id="Child">
+
+            </span>
+        </span>
+        <input type="hidden" asp-for="CatagoryId" id="CatagoryId" />
         <hr class="uk-divider-icon uk-margin-remove-bottom" />
         <label for="name">انتخاب نحوه تحویل و تسویه:</label>
         <div class="delivery uk-grid-small uk-child-width-auto uk-grid">
@@ -49,7 +49,7 @@
         </div>
         <hr class="uk-divider-icon uk-margin-remove-bottom uk-margin-remove-top" />
         <label for="name">مدت زمان تایید سفارش:</label>
-        <input type="text" asp-for="SubscribtionTill" placeholder="" value="">
+        <input type="text" asp-for="SubscribtionTill">
         <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>انتخاب محله های سرویس دهی</a>
         <div id="modal-sections" uk-modal>
             <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
@@ -59,17 +59,7 @@
                 </div>
                 <div class="uk-modal-body uk-padding-small">
                     <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox" checked>ولیعصر</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">باغمیشه</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">پروین اعتصامی</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">ابوریحان</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">منظریه</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">پروین اعتصامی</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">ابوریحان</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">منظریه</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox" checked>ولیعصر</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">باغمیشه</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">پروین اعتصامی</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">ولیعصر</label>
                     </div>
                 </div>
                 <div class="uk-modal-footer uk-text-center">
@@ -89,12 +79,39 @@
     <script src="~/leaflet/leaflet.js"></script>
 
     <script>
-        var map = L.map('map').setView([32.287, 52.954], 5);
+
+        var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 11);
+
         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'echoville'
         }).addTo(map);
-        L.marker([32.287, 52.954]).addTo(map).bindPopup('سلام من <b><i>ایران</i></b> هستم').openPopup();
+
+        var theMarker = {};
+
+        map.on('click', function (e) {
+            lat = e.latlng.lat;
+            lon = e.latlng.lng;
+
+            //Clear existing marker,
+
+            if (theMarker != undefined) {
+                map.removeLayer(theMarker);
+            };
+
+            var iconSetting = L.Icon.extend({
+                options: {
+                    iconSize: [20, 29],
+                    iconAnchor: [10, 29]
+                }
+            });
+
+            var customIcon = new iconSetting({ iconUrl: '/location.png' });
+            //Add a marker to show where you clicked.
+            $("#Lat").val(lat.toString());
+            $("#Lon").val(lon.toString());
+            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت فروشگاه شما ثبت شد</h6>').openPopup();
+        });
+
     </script>
 
 }
-

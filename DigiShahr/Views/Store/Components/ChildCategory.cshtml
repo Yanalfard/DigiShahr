@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DataLayer.Models.TblStoreCatagory>
+
+<select id="ChildCategory" class="uk-select uk-margin-top">
+    <option class="">دسته بندی را انتخاب کنید</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
+<span id="ChildCategoryInner">
+
+</span>
+
+<script>
+    $("#ChildCategory").change(function () {
+        $.get("/Store/ChildStoreCategory?id=" + $("#ChildCategory option:selected").val(), function (result) {
+            $("#CatagoryId").val($("#ChildCategory option:selected").val());
+            $("#ChildCategoryInner").html(resut);
+        });
+    });
+</script>

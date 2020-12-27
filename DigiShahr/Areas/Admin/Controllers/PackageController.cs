@@ -106,6 +106,7 @@ namespace DigiShahr.Areas.Admin.Controllers
                     tblDealEdit.Banner1 = tblDeal.Banner1;
                     tblDealEdit.Banner2 = tblDeal.Banner2;
                     tblDealEdit.Lottery = tblDeal.Lottery;
+                    tblDealEdit.Music = tblDeal.Music;
                     _core.Deal.Save();
                     return "true";
                 }

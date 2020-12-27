@@ -7,7 +7,7 @@ using System.Linq;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [WebAuthorize("XjBGXxx37M")]
+    [WebAuthorize("rTPh32gmK8")]
     //Admin
     public class HomeController : Controller
     {

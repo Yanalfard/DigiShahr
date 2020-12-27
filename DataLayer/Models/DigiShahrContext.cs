@@ -169,7 +169,6 @@ namespace DataLayer.Models
             modelBuilder.Entity<TblMusic>(entity =>
             {
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.MusicUrl)
