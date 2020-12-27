@@ -1,31 +1,75 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "خانه";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 @*<h3>Index</h3>*@
 <link href="~/StyleCenter/Sass/Home/Home.min.css" rel="stylesheet" />
+<div class="space"></div>
+<div class="space-mobile"></div>
 <div class="index">
     <div class="IndexContainer">
         <div id="map" class="map"></div>
         <div class="Search center">
-            <div class="center ">
-                <form class="uk-search uk-search-default">
+            <div class="center">
+                <form class="uk-search uk-search-default uk-margin-left">
                     <a href="" uk-search-icon></a>
                     <input class="center uk-search-input" type="search" placeholder="جستجو">
                 </form>
+                <a><span class="icon-holder uk-margin-left" uk-icon="locate"></span></a>
             </div>
         </div>
         <div class="MenuGrid center my-clipped uk-margin-top">
             <div class="grid uk-padding-small center uk-margin-auto-vertical" dir="rtl">
-                <label class="mat"> سوپرمارکت </label>
-                <label class="mat"> سوپرمارکت </label>
-                <label class="mat"> سوپرمارکت </label>
-                <label class="mat"> سوپرمارکت </label>
-                <label class="mat"> سوپرمارکت </label>
-                <label class="mat"> سوپرمارکت </label>
+                <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
+                <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
+                <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
+                <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
+                <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
+                <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
             </div>
+        </div>
+    </div>
+</div>
+<div class="space-double"></div>
+<div class="space-mobile"></div>
+
+<div id="modal" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical subCategory" uk-overflow-auto dir="rtl">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h3 class="uk-modal-title uk-text-center">انتخاب زیردسته بندی</h3>
+        </div>
+        <div class="uk-modal-body uk-padding-small">
+            <ul uk-accordion>
+                <li>
+                    <a class="uk-accordion-title" href="#">سوپرمارکت</a>
+                    <div class="uk-accordion-content">
+                        <ul class="uk-margin-right" uk-accordion>
+                            <li>
+                                <a class="uk-accordion-title" href="#">زیرزیر دسته1</a>
+                                <div class="uk-accordion-content">
+                                    <a class="uk-margin-medium-right">فلان</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="uk-open">
+                    <a class="uk-accordion-title" href="#">پروتئینی</a>
+                    <div class="uk-accordion-content">
+                        <ul class="uk-margin-right" uk-accordion>
+                            <li>
+                                <a class="uk-accordion-title" href="#">زیرزیر دسته2</a>
+                                <div class="uk-accordion-content">
+                                    <a class="uk-margin-medium-right">فلان</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
@@ -34,6 +78,7 @@
 
     <link href="~/leaflet/leaflet.css" rel="stylesheet" />
     <script src="~/leaflet/leaflet.js"></script>
+    <script src="~/UIKit/js/uikit.min.js"></script>
 
     <script>
 

@@ -23,7 +23,6 @@
                 <div class="center my-column uk-margin-large-top">
                     <form class="my-column loginForm uk-padding-small" action="Login" method="post" dir="rtl">
                         @Html.AntiForgeryToken()
-                        <h3>خوش آمدید</h3>
                         <label class="uk-text-right" for="">شماره تلفن:</label>
                         <input asp-for="TellNo">
                         <span asp-validation-for="TellNo" class="uk-text-danger"></span>

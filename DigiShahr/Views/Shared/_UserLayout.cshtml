@@ -25,48 +25,37 @@
         </div>
         <div id="offcanvas-flip" uk-offcanvas="flip: true; overlay: true">
             <div class="uk-offcanvas-bar">
-
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <!--<div class="my-row uk-padding-small uk-margin-top center" dir="rtl">
-                    <h3>دسته بندی مشاغل</h3>
-                    <a><span class="icon-holder backIcon" uk-icon="backIcon"></span></a>-->
-                @* <a><span class="icon-holder uk-position-left uk-margin-large-top uk-margin-small-left" uk-icon="return-up-back"></span></a>*@
-                <!--</div>
-                <ul dir="rtl">
-                    <li><span class="icon-holder" uk-icon="person-add"></span>یسابلشاستنیشس</li>
-                    <li>
-                        یسابلشاستنیشس
+                <h3>دسته بندی مشاغل</h3>
+                <ul class="uk-menu-accordion" uk-accordion="multiple: true" dir="rtl">
+                    <li class="uk-open">
+                        <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
+                        <div class="uk-accordion-content uk-margin-small-right">
+                            <ul class="uk-margin-right" uk-accordion>
+                                <li>
+                                    <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
+                                    <div class="uk-accordion-content">
+                                        <a class="uk-margin-medium-right">زیرزیردسته</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li>
-                        یسابلشاستنیشس
+                        <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
+                        <div class="uk-accordion-content uk-margin-small-right">
+                            <ul class="uk-margin-right" uk-accordion>
+                                <li>
+                                    <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
+                                    <div class="uk-accordion-content">
+                                        <a class="uk-margin-medium-right">زیرزیردسته</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                    <li>
-                        یسابلشاستنیشس
-                    </li>
-                </ul>-->
-                <table class="menu uk-table" dir="rtl">
-                    <thead class="uk-margin-bottom">
-                        <tr>
-                            <th class="uk-text-bold">دسته بندی مشاغل</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپرمارکت</td>
-                            <td><a><span class="icon-holder" uk-icon="chevron-back"></span></a></td>
-                        </tr>
-                        <tr>
-                            <td><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپرمارکت</td>
-                            <td><a><span class="icon-holder" uk-icon="chevron-back"></span></a></td>
-                        </tr>
-
-                        @*<tr>
-                                <td>Table Data</td>
-                                <td>Table Data</td>
-                            </tr>*@
-                    </tbody>
-                </table>
+               
+                </ul>
 
             </div>
         </div>

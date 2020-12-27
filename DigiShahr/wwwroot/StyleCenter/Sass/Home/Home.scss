@@ -24,9 +24,10 @@
         margin-top: -75px !important;
         @include center();
 
-        .uk-search{
-            width:250px;
+        .uk-search {
+            width: 250px;
         }
+
         input {
             text-align: right;
             background: white;
@@ -37,27 +38,91 @@
             box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
             border-radius: 25px;
         }
+
+        input:focus {
+            background-color: white !important;
+        }
     }
 
     .MenuGrid {
         position: relative;
 
-        label {
+        a {
             @include center();
+            color: #666 !important;
+            cursor: pointer;
+        }
+
+        .category:hover {
+            text-decoration: none !important;
+        }
+
+        .category:active{
+            text-decoration: none !important;
         }
     }
 }
 .grid {
-    @include grid-gap(80px,1.5em);
+    @include grid-gap(94px,1.2em);
     padding: 20px 2vw;
 
     .mat {
-        width: 90px;
+        width: 94px;
         border-radius: 22px;
         background: #FAE893;
         border: 1px solid #FFDCCC;
         box-sizing: border-box;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         padding:7px;
+    }
+}
+.subCategory{
+    h3{
+        font-family:"Sahel";
+        font-size:18px;
+
+    }
+}
+#modal {
+    z-index: 10000000;
+
+    .uk-accordion-title {
+        /*       width: 180px;
+        border-radius: 8px;
+        background: white;
+        border: 1px solid #FAE893;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        //padding: 0 8px;*/
+    }
+
+    .uk-accordion-title::before {
+        border-radius: 8px;
+        background-color: #FAE893;
+        border: 1px solid #FAE893;
+        box-sizing: border-box;
+    }
+
+    .uk-accordion-title::after {
+        border-radius: 8px;
+        background-color: #FAE893;
+        border: 1px solid #FAE893;
+        box-sizing: border-box;
+    }
+
+    .uk-modal-dialog {
+        border-radius: 7px;
+    }
+
+    a {
+        color: #666 !important;
+    }
+
+    a:hover {
+        text-decoration: none !important;
+    }
+
+    a:active {
+        text-decoration: none !important;
     }
 }

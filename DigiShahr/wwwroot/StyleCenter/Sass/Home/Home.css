@@ -274,26 +274,67 @@
     box-sizing: border-box;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     border-radius: 25px; }
+  .IndexContainer .Search input:focus {
+    background-color: white !important; }
 
 .IndexContainer .MenuGrid {
   position: relative; }
-  .IndexContainer .MenuGrid label {
+  .IndexContainer .MenuGrid a {
     text-align: center;
     align-content: center;
     align-self: center;
-    margin: 0 auto; }
+    margin: 0 auto;
+    color: #666 !important;
+    cursor: pointer; }
+  .IndexContainer .MenuGrid .category:hover {
+    text-decoration: none !important; }
+  .IndexContainer .MenuGrid .category:active {
+    text-decoration: none !important; }
 
 .grid {
   display: grid;
   grid-template-rows: auto;
-  grid-gap: 1.5em;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  grid-gap: 1.2em;
+  grid-template-columns: repeat(auto-fit, minmax(94px, 1fr));
   padding: 20px 2vw; }
   .grid .mat {
-    width: 90px;
+    width: 94px;
     border-radius: 22px;
     background: #FAE893;
     border: 1px solid #FFDCCC;
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 7px; }
+
+.subCategory h3 {
+  font-family: "Sahel";
+  font-size: 18px; }
+
+#modal {
+  z-index: 10000000; }
+  #modal .uk-accordion-title {
+    /*       width: 180px;
+        border-radius: 8px;
+        background: white;
+        border: 1px solid #FAE893;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        //padding: 0 8px;*/ }
+  #modal .uk-accordion-title::before {
+    border-radius: 8px;
+    background-color: #FAE893;
+    border: 1px solid #FAE893;
+    box-sizing: border-box; }
+  #modal .uk-accordion-title::after {
+    border-radius: 8px;
+    background-color: #FAE893;
+    border: 1px solid #FAE893;
+    box-sizing: border-box; }
+  #modal .uk-modal-dialog {
+    border-radius: 7px; }
+  #modal a {
+    color: #666 !important; }
+  #modal a:hover {
+    text-decoration: none !important; }
+  #modal a:active {
+    text-decoration: none !important; }

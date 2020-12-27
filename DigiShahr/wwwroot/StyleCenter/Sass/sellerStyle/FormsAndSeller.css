@@ -186,3 +186,5 @@ ul {
 
 #AddProduct {
   z-index: 10000000; }
+  #AddProduct .uk-modal-dialog {
+    border-radius: 7px; }
