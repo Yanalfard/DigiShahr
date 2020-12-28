@@ -30,6 +30,7 @@
                         <input asp-for="Password">
                         <span asp-validation-for="Password" class="uk-text-danger"></span>
                         <input type="hidden" id="foo" name="foo" />
+                        <input value="@ViewBag.ReturnUrl" type="hidden" name="RetunUrl" />
                         <button type="submit" class="gradientButton center uk-margin-large-top">
                             ورود
                         </button>

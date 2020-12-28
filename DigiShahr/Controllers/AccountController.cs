@@ -106,8 +106,45 @@ namespace DigiShahr.Controllers
         [HttpGet]
         public IActionResult Login(string RetunUrl)
         {
-            ViewBag.RetrunUrl = RetunUrl;
-            return View();
+            if (string.IsNullOrEmpty(RetunUrl))
+            {
+                ViewBag.ReturnUrl = HttpContext.Request.Path;
+                return View();
+            }
+            else
+            {
+                ViewBag.ReturnUrl = RetunUrl;
+                return View();
+            }
+            
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel,string RetunUrl)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (await UserCrew.UserIsExist(loginViewModel))
+                {
+                    await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
+                    return Redirect(RetunUrl);
+                }
+                else
+                {
+                    ModelState.AddModelError("TellNo", "حساب با این مشخصات وجود ندارد");
+
+                }
+
+            }
+
+            ViewBag.ReturnUrl = RetunUrl;
+            return View(loginViewModel);
+
+
+
         }
 
         public IActionResult FirstPage()
@@ -121,31 +158,6 @@ namespace DigiShahr.Controllers
         public IActionResult Success()
         {
             return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel)
-        {
-
-            if (ModelState.IsValid)
-            {
-                if (await UserCrew.UserIsExist(loginViewModel))
-                {
-                    await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
-                }
-                else
-                {
-                    ModelState.AddModelError("TellNo", "حساب با این مشخصات وجود ندارد");
-
-                }
-
-            }
-
-            return View(loginViewModel);
-
-
-
         }
 
         private async Task SignInAsync(TblUser tblUser)

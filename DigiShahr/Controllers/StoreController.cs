@@ -9,7 +9,7 @@ using DigiShahr.Utilit;
 
 namespace DigiShahr.Controllers
 {
-    [WebAuthorize("d7tpmTdwXL")]
+
     public class StoreController : Controller
     {
         Core _core = new Core();
@@ -26,22 +26,15 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                if (User.Claims.First().Value == "d7tpmTdwXL")
-                {
-                    return Redirect("/Account/BuyPackage");
-                }
-
-                ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
-                ViewBag.Naighborhood = _core.Naighborhood.Get();
-                return View();
+                return View(_core.Deal.Get());
             }
-
         }
+
         public IActionResult CreateStore()
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return Redirect("/Account/Login");
+                return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
             }
             else
             {

@@ -13,67 +13,66 @@
 
 </head>
 <body>
-
-    <section class="layoutHeader">
-        <div class="mat my-row uk-padding-small">
-            <ul class="uk-iconnav">
-                <li><span class="icon-holder" uk-icon="person-add"></span></li>
-                <li><span class="icon-holder" uk-icon="addStore"></span></li>
-                <li><span class="icon-holder" uk-icon="bookmark"></span></li>
-            </ul>
-            <span class="icon-holder uk-margin-auto-left" uk-icon="reorder-four" uk-toggle="target: #offcanvas-flip"></span>
-        </div>
-        <div id="offcanvas-flip" uk-offcanvas="flip: true; overlay: true">
-            <div class="uk-offcanvas-bar">
-                <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <h3>دسته بندی مشاغل</h3>
-                <ul class="uk-menu-accordion" uk-accordion="multiple: true" dir="rtl">
-                    <li class="uk-open">
-                        <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
-                        <div class="uk-accordion-content uk-margin-small-right">
-                            <ul class="uk-margin-right" uk-accordion>
-                                <li>
-                                    <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
-                                    <div class="uk-accordion-content">
-                                        <a class="uk-margin-medium-right">زیرزیردسته</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
-                        <div class="uk-accordion-content uk-margin-small-right">
-                            <ul class="uk-margin-right" uk-accordion>
-                                <li>
-                                    <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
-                                    <div class="uk-accordion-content">
-                                        <a class="uk-margin-medium-right">زیرزیردسته</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-               
+        <section class="layoutHeader">
+            <div class="mat my-row uk-padding-small">
+                <ul class="uk-iconnav">
+                    <li><span class="icon-holder" uk-icon="person-add"></span></li>
+                    <li><span class="icon-holder" uk-icon="addStore"></span></li>
+                    <li><span class="icon-holder" uk-icon="bookmark"></span></li>
                 </ul>
-
+                <span class="icon-holder uk-margin-auto-left" uk-icon="reorder-four" uk-toggle="target: #offcanvas-flip"></span>
             </div>
+            <div id="offcanvas-flip" uk-offcanvas="flip: true; overlay: true">
+                <div class="uk-offcanvas-bar">
+                    <button class="uk-offcanvas-close" type="button" uk-close></button>
+                    <h3>دسته بندی مشاغل</h3>
+                    <ul class="uk-menu-accordion" uk-accordion="multiple: true" dir="rtl">
+                        <li class="uk-open">
+                            <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
+                            <div class="uk-accordion-content uk-margin-small-right">
+                                <ul class="uk-margin-right" uk-accordion>
+                                    <li>
+                                        <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
+                                        <div class="uk-accordion-content">
+                                            <a class="uk-margin-medium-right">زیرزیردسته</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
+                            <div class="uk-accordion-content uk-margin-small-right">
+                                <ul class="uk-margin-right" uk-accordion>
+                                    <li>
+                                        <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
+                                        <div class="uk-accordion-content">
+                                            <a class="uk-margin-medium-right">زیرزیردسته</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </section>
+        <div>
+            @RenderBody()
         </div>
-    </section>
-    <div>
-        @RenderBody()
-    </div>
-    <section class="layoutFooter">
-        <div class="mat uk-padding-small center">
-            <ul class="uk-iconnav">
-                <li><span class="icon-holder" uk-icon="cart"></span></li>
-                <li><span class="icon-holder" uk-icon="home"></span></li>
-                <li><span class="icon-holder" uk-icon="changeAccount"></span></li>
-                <li><span class="icon-holder" uk-icon="person"></span></li>
-            </ul>
-        </div>
-    </section>
-</body>
+        <section class="layoutFooter">
+            <div class="mat uk-padding-small center">
+                <ul class="uk-iconnav">
+                    <li><span class="icon-holder" uk-icon="cart"></span></li>
+                    <li><span class="icon-holder" uk-icon="home"></span></li>
+                    <li><span class="icon-holder" uk-icon="changeAccount"></span></li>
+                    <li><span class="icon-holder" uk-icon="person"></span></li>
+                </ul>
+            </div>
+        </section>
+    </body>
 </html>
 
 <script src="/Jquery/jquery-3.4.1.js"></script>
