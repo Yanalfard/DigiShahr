@@ -7,26 +7,38 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-    height:100vh;
-.firstHead {
-    background: #40916C;
-   // height: 50vw;
-   // padding-top: 200px !important;
-}
-.LoginContent {
-    background: #F4F4F4;
-    border-radius: 22px 22px 0 0;
-    margin-top: -18px !important;
-    h3{
-font-family:"Sahel"
+    height: 100vh;
+
+    .firstHead {
+        background: #40916C;
+        // height: 50vw;
+        // padding-top: 200px !important;
     }
-}
-.gradientButton {
-    width: 230px;
-    margin: 10px auto;
-    height: 44px;
-    font-size:16px;
-}
+
+    .LoginContent {
+        background: #F4F4F4;
+        border-radius: 22px 22px 0 0;
+        margin-top: -18px !important;
+
+        h3 {
+            font-family: "Sahel"
+        }
+    }
+
+    .gradientButton {
+        width: 110px;
+        margin: 10px auto;
+        height: 42px;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .gradientButtonLink {
+        width: 110px;
+        margin: 10px auto;
+        font-size: 16px;
+        margin-right: 10px;
+    }
 }
 .loginForm {
     label {
@@ -72,7 +84,11 @@ font-family:"Sahel"
         font-size: 16px;
     }
 }
-
+.Forget{
+    input{
+        width:230px;
+    }
+}
 @media only screen and (min-device-width : 760px) and (max-device-width :1125px) {
     .RegisterContainer {
         grid-template-columns: 1fr;

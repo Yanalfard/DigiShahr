@@ -31,9 +31,15 @@
                         <span asp-validation-for="Password" class="uk-text-danger"></span>
                         <input type="hidden" id="foo" name="foo" />
                         <input value="@ViewBag.ReturnUrl" type="hidden" name="RetunUrl" />
-                        <button type="submit" class="gradientButton center uk-margin-large-top">
-                            ورود
-                        </button>
+                        <div class="my-row uk-margin-top center">
+                            <button type="submit" class="gradientButton center">
+                                ورود
+                            </button>
+                            <a class="gradientButtonLink center" href="CreateAccount">
+                                ایجاد حساب
+                            </a>
+                        </div>
+                        <a href="/Account/ResetPassword" class="uk-text-warning center uk-margin-small-top">فراموشی رمز عبور</a>
                     </form>
                 </div>
             </div>

@@ -167,6 +167,17 @@ namespace DigiShahr.Controllers
 
 
 
+        public IActionResult FirstPage()
+        {
+            return View();
+        }
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+        public IActionResult Success()
+        {
+            return View();
         }
 
         private async Task SignInAsync(TblUser tblUser)

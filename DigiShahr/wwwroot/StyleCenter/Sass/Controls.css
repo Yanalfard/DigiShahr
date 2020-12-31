@@ -292,7 +292,7 @@ body {
       font-weight: 600;
       text-align: right;
       color: #555;
-      margin-top: 70px;
+      margin-top: 50px;
       overflow: hidden; }
     .layoutHeader .uk-offcanvas-bar .uk-menu-accordion {
       margin-top: 40px; }
@@ -333,6 +333,20 @@ body {
   background: linear-gradient(92.26deg, #84A98C 0.29%, #40916C 100.32%);
   border: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12); }
+
+.gradientButtonLink {
+  color: white !important;
+  border-radius: 5px;
+  width: 150px;
+  height: 25px;
+  padding: 8px 0;
+  background: linear-gradient(92.26deg, #84A98C 0.29%, #40916C 100.32%);
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12); }
+
+.gradientButton:hover, .gradientButtonLink:hover {
+  opacity: 0.9;
+  color: white !important; }
 
 .pageHeader {
   background: #40916C;

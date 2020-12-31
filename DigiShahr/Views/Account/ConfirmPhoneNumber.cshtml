@@ -17,20 +17,36 @@
     <div class="RegisterContainer">
         <div class="firstHead"></div>
         <div class="LoginContent my-clipped mat ">
-            <div class="center my-column uk-margin-large-top">
+            <div class="center my-column uk-margin-large-top Forget">
                 <form class="my-column uk-padding-small" action="" dir="rtl">
                     <h3>کد فعالسازی را وارد کنید</h3>
                     <div class="uk-margin">
                         <input type="hidden" name="TellNo" value="@ViewBag.TellNo" />
                             <input class="uk-input" type="text" style="width:230px">
                     </div>
-                    <button class="gradientButton center uk-margin-large-top">
+                    <a class="gradientButtonLink center uk-text-center uk-margin-large-top" href="#success" uk-toggle>
                         ارسال
-                    </button>
+                    </a>
                     <div class="space-double"></div>
                 </form>
             </div>
         </div>
     </div>
+    <div id="success" uk-modal>
+        <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-body my-column uk-padding-small">
+                <div class="center my-column uk-margin-large-top">
+                    <img class="center" src="~/img/user/confirm.gif" width="220" height="220" />
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-center uk-margin-top">
+                <button class="gradientButton center uk-margin-top uk-margin-bottom">
+                    تایید
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+<script src="~/UIKit/js/uikit.min.js"></script>

@@ -6,22 +6,24 @@
 
 @*<h3>Index</h3>*@
 <link href="~/StyleCenter/Sass/Home/Home.min.css" rel="stylesheet" />
-<div class="space"></div>
-<div class="space-mobile"></div>
 <div class="index">
+    <div class="space"></div>
+    <div class="space-mobile"></div>
+
     <div class="IndexContainer">
         <div id="map" class="map"></div>
-        <div class="Search center">
+        <div id="search" class="Search center">
             <div class="center">
                 <form class="uk-search uk-search-default uk-margin-left">
                     <a href="" uk-search-icon></a>
                     <input class="center uk-search-input" type="search" placeholder="جستجو">
                 </form>
-                <a><span class="icon-holder uk-margin-left" uk-icon="locate"></span></a>
+                <a id="Location"><span class="icon-holder uk-margin-left" uk-icon="locate"></span></a>
             </div>
         </div>
-        <div class="MenuGrid center my-clipped uk-margin-top">
+        <div class="MenuGrid center my-clipped">
             <div class="grid uk-padding-small center uk-margin-auto-vertical" dir="rtl">
+                @*<a class="mat category" onclick="Response()"> هایپر مارکت </a>*@
                 <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
                 <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
                 <a class="mat category" href="#modal" uk-toggle> هایپر مارکت </a>
@@ -98,6 +100,14 @@
         var customIcon = new iconSetting({ iconUrl: '/location.png' });
         var theMarker = {};
         theMarker = L.marker([38.07674409597339, 46.29700302496191], { icon: customIcon }).addTo(map).bindPopup("فروشگاه");
+
+        //function Response() {
+        //    document.getElementById("map").style.height = "90vh";
+        //    document.getElementById("Location").style.display="none";   
+        //}
+
+
+
     </script>
     
 }
