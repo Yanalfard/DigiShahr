@@ -151,7 +151,7 @@ namespace DigiShahr.Controllers
         {
             return View();
         }
-        public IActionResult Register()
+        public IActionResult ResetPassword()
         {
             return View();
         }

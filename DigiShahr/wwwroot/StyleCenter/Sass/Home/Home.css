@@ -294,26 +294,28 @@
 .grid {
   display: grid;
   grid-template-rows: auto;
-  grid-gap: 1.2em;
-  grid-template-columns: repeat(auto-fit, minmax(94px, 1fr));
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
   padding: 20px 2vw; }
   .grid .mat {
-    width: 94px;
+    width: 85px;
     border-radius: 22px;
     background: #FAE893;
     border: 1px solid #FFDCCC;
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 7px; }
+    padding: 7px;
+    font-size: 14px; }
 
 .subCategory h3 {
   font-family: "Sahel";
-  font-size: 18px; }
+  font-size: 14px; }
 
 #modal {
   z-index: 10000000; }
   #modal .uk-accordion-title {
-    /*       width: 180px;
+    font-size: 15px !important;
+    /*width: 180px;
         border-radius: 8px;
         background: white;
         border: 1px solid #FAE893;
