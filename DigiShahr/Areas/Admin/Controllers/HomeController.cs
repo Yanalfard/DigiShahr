@@ -7,7 +7,6 @@ using System.Linq;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [WebAuthorize("rTPh32gmK8")]
     //Admin
     public class HomeController : Controller
     {
@@ -26,6 +25,15 @@ namespace DigiShahr.Areas.Admin.Controllers
             statistics.Naighborhood = _core.Naighborhood.Get().Count();
             statistics.SumIsPayedOrder = _core.Order.Get().Select(o => o.Price).Sum();
             return View(statistics);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

@@ -15,7 +15,7 @@
     $("#ChildCategory").change(function () {
         $.get("/Store/ChildStoreCategory?id=" + $("#ChildCategory option:selected").val(), function (result) {
             $("#CatagoryId").val($("#ChildCategory option:selected").val());
-            $("#ChildCategoryInner").html(resut);
+            $("#ChildCategoryInner").html(result);
         });
     });
 </script>

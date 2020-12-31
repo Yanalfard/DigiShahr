@@ -13,42 +13,52 @@
         <a><span class="icon-holder" uk-icon="backIcon"></span></a>
     </div>
 </div>
-<content class="grid" dir="rtl">
-    <article class="packagesCard firstPackage my-column mat my-clipped">
-        <content>
-            <h3 class="center">پکیج رایگان</h3>
-            <div class="my-row">
-                <ul class="uk-padding-remove-right uk-margin-right">
-                    <li>
-                        <span class="icon-holder" uk-icon="caret-back">
-                        </span>
-                        <label>تعداد دسته بندی : 10</label>
-                    </li>
-                    <li>
-                        <span class="icon-holder" uk-icon="caret-back">
-                        </span>
-                        <label>تعداد محصول : 30</label>
-                    </li>
-                    <li>
-                        <span class="icon-holder" uk-icon="caret-back">
-                        </span>
-                        <label>تصویر پس زمینه</label>
-                    </li>
-                </ul>
-                <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
-                    <div class="periodOfPackage my-column">
-                        <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
-                        </span>
-                        <label class="uk-margin-auto-bottom">یک ماهه</label>
-                    </div>
-                    <label>رایگان</label>
-                </div>
 
-            </div>
-            <hr />
-        </content>
-        <button class="gradientButton uk-margin-auto-right uk-margin-left uk-margin-bottom">انتخاب</button>
-    </article>
+
+
+<content class="grid" dir="rtl">
+
+    @if (User.Claims.First().Value == "d7tpmTdwXL")
+    {
+
+        <article class="packagesCard firstPackage my-column mat my-clipped">
+            <content>
+                <h3 class="center">پکیج رایگان</h3>
+                <h1></h1>
+                <div class="my-row">
+                    <ul class="uk-padding-remove-right uk-margin-right">
+                        <li>
+                            <span class="icon-holder" uk-icon="caret-back">
+                            </span>
+                            <label>تعداد دسته بندی : 10</label>
+                        </li>
+                        <li>
+                            <span class="icon-holder" uk-icon="caret-back">
+                            </span>
+                            <label>تعداد محصول : 30</label>
+                        </li>
+                        <li>
+                            <span class="icon-holder" uk-icon="caret-back">
+                            </span>
+                            <label>تصویر پس زمینه</label>
+                        </li>
+                    </ul>
+                    <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
+                        <div class="periodOfPackage my-column">
+                            <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
+                            </span>
+                            <label class="uk-margin-auto-bottom">یک ماهه</label>
+                        </div>
+                        <label>رایگان</label>
+                    </div>
+
+                </div>
+                <hr />
+            </content>
+            <a class="gradientButton uk-margin-auto-right uk-margin-left uk-margin-bottom" href="/Store/CreateStore?DealId=0">انتخاب</a>
+        </article>
+
+    }
 
     @foreach (var item in Model)
     {
@@ -119,22 +129,24 @@
                             </span>
                             <label class="uk-margin-auto-bottom">@item.MonthCount ماهه</label>
                         </div>
-                        <label class="PriceSpan">@item.Price تومان</label>
+                        <label id="PriceSpan">@item.Price تومان</label>
+
                     </div>
 
                 </div>
                 <hr />
 
             </content>
-            <button class="gradientButton uk-margin-auto-right uk-margin-left uk-margin-bottom">انتخاب</button>
+            <a class="gradientButton uk-margin-auto-right uk-margin-left uk-margin-bottom" href="/Store/CreateStore?DealId=@item.Id">انتخاب</a>
         </article>
     }
 
 </content>
 <div class="space-double"></div>
 <div class="space-mobile"></div>
-@section Script{ 
+@section Script{
     <script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>
 }
+
 
 

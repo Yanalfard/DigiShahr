@@ -73,10 +73,11 @@ namespace DigiShahr.Controllers
                                 {
                                     createAccountViewModel.TellNo = createAccountViewModel.TellNo.Trim();
                                     bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
-                                    if (!CreateSuccess) 
-                                        return Redirect("/Account/ConfirmPhoneNumber?TellNo="+createAccountViewModel.TellNo.Trim());
+                                    if (CreateSuccess)
+                                        return Redirect("/Account/ConfirmPhoneNumber?TellNo=" + createAccountViewModel.TellNo.Trim());
                                     else
-                                        return View(createAccountViewModel);
+                                        ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                                    return View(createAccountViewModel);
                                 }
 
                             }
@@ -102,6 +103,28 @@ namespace DigiShahr.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public Task<string> ConfirmPhoneNumber(string TellNo, string ActiveCode)
+        {
+            if (UserCrew.UserByTellNo(TellNo).Auth == ActiveCode)
+            {
+                int UserId = UserCrew.UserByTellNo(TellNo).Id;
+                _core.User.GetById(UserId).IsActive = true;
+                _core.User.Save();
+                return Task.FromResult("true");
+            }
+            else
+            {
+                return Task.FromResult("false");
+            }
+        }
+
+        public IActionResult Success(bool Status)
+        {
+            return ViewComponent("UserActiveSuccess", new { Status = Status });
+        }
+
         //Login
         [HttpGet]
         public IActionResult Login(string RetunUrl)
@@ -116,20 +139,19 @@ namespace DigiShahr.Controllers
                 ViewBag.ReturnUrl = RetunUrl;
                 return View();
             }
-            
+
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel,string RetunUrl)
+        public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel, string RetunUrl)
         {
 
             if (ModelState.IsValid)
             {
                 if (await UserCrew.UserIsExist(loginViewModel))
                 {
-                    await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
+                    await SignInAsync(UserCrew.UserByTellNo(loginViewModel.TellNo));
                     return Redirect(RetunUrl);
                 }
                 else
@@ -145,19 +167,6 @@ namespace DigiShahr.Controllers
 
 
 
-        }
-
-        public IActionResult FirstPage()
-        {
-            return View();
-        }
-        public IActionResult Register()
-        {
-            return View();
-        }
-        public IActionResult Success()
-        {
-            return View();
         }
 
         private async Task SignInAsync(TblUser tblUser)
@@ -184,10 +193,20 @@ namespace DigiShahr.Controllers
                     }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task SignOut()
+        public async Task<IActionResult> SignOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/Account/Login");
         }
 
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

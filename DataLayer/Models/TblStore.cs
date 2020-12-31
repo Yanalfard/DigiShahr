@@ -32,8 +32,9 @@ namespace DataLayer.Models
         public int? AbilityId { get; set; }
         public short CatagoryLimit { get; set; }
         public short ProductLimit { get; set; }
-        [Required]
-        [StringLength(500)]
+        [Required(ErrorMessage = "لطفا آدرس خود را وارد کنید")]
+        [StringLength(500, ErrorMessage = "لطفا کارکتر های کمتری وارد کنید")]
+        [MinLength(10, ErrorMessage = "لطفا کارکتر های کمتری وارد کنید")]
         public string Address { get; set; }
         [Required(ErrorMessage = "لطفا موقعیت را وارد کنید")]
         public string Lat { get; set; }

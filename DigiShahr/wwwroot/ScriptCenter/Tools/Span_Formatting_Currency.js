@@ -4,10 +4,9 @@
         num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return num_parts.join(".");
     }
-    alert($(".PriceSpan").length);
-    for (var i = 0; i < $(".PriceSpan").length; i++) {
-        $(".PriceSpan").html(thousands_separators($(".PriceSpan").html()[i]))[i];
-    }
+    
+        $("#PriceSpan").html(thousands_separators($("#PriceSpan").html()));
+    
         
     
 });

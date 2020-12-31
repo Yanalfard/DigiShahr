@@ -86,5 +86,15 @@ namespace DigiShahr.Areas.Admin.Controllers
             _core.Music.Save();
             return Redirect("/Admin/Music");
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }
