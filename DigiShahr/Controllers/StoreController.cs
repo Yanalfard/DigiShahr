@@ -16,6 +16,7 @@ namespace DigiShahr.Controllers
     public class StoreController : Controller
     {
         Core _core = new Core();
+
         public IActionResult Index()
         {
             return View();
@@ -63,9 +64,7 @@ namespace DigiShahr.Controllers
                     ViewBag.Naighborhood = _core.Naighborhood.Get();
                     return View();
                 }
-
             }
-
         }
 
         [HttpPost]
@@ -79,84 +78,192 @@ namespace DigiShahr.Controllers
                     ModelState.AddModelError("LogoUrl", "حجم لوگو بیش از اندازه میباشد");
                     return await Task.FromResult(View(createStoreViewModel));
                 }
-
-                if (LogoUrl.ContentType != "image/jpeg" || LogoUrl.ContentType != "image/png")
-                {
-                    ModelState.AddModelError("LogoUrl", "فرمت لوگو معتبر نیست");
-                    return await Task.FromResult(View(createStoreViewModel));
-                }
-
-                if (createStoreViewModel.StaticTell.StartsWith("0"))
-                {
-                    ModelState.AddModelError("StaticTell", "شماره تماس ثابت باید از 0 شروع شود");
-                    return await Task.FromResult(View(createStoreViewModel));
-                }
-
-                //Free Deal
-                if (createStoreViewModel.DealId == 0)
-                {
-                    TblStore tblStore = new TblStore();
-                    tblStore.Name = createStoreViewModel.Name;
-                    tblStore.StaticTell = createStoreViewModel.StaticTell;
-                    tblStore.IsOpen = false;
-                    tblStore.MainBannerUrl = null;
-                    tblStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
-                    string savePath = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", tblStore.LogoUrl
-                    );
-                    tblStore.Rate = 0;
-                    tblStore.RateCount = 0;
-                    tblStore.CatagoryLimit = 10;
-                    tblStore.ProductLimit = 30;
-                    tblStore.Address = createStoreViewModel.Address;
-                    tblStore.Lat = createStoreViewModel.Lat;
-                    tblStore.Lon = createStoreViewModel.Lon;
-                    tblStore.SubscribtionTill = DateTime.Now.AddMonths(1);
-                    tblStore.CatagoryId = createStoreViewModel.CatagoryId;
-                    tblStore.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Id;
-
-                    ////Create Ability
-                    TblAbility tblAbility = new TblAbility();
-
-                    if (createStoreViewModel.TahvilVaTasvieDarMahal)
-                    {
-                        tblAbility.TahvilVaTasvieDarMahal = 1;
-                    }
-                    else
-                    {
-                        tblAbility.TahvilVaTasvieDarMahal = 2;
-                    }
-                    if (createStoreViewModel.TahvilVaTasvieDarForushgah)
-                    {
-                        tblAbility.TahvilVaTasvieDarForushgah = 1;
-                    }
-                    else
-                    {
-                        tblAbility.TahvilVaTasvieDarForushgah = 2;
-                    }
-                    tblAbility.Haraj = 0;
-                    tblAbility.IsBanner1Enable = false;
-                    tblAbility.BannerImageUrl1 = null;
-                    tblAbility.BannerLink1 = null;
-                    tblAbility.IsBanner2Enable = false;
-                    tblAbility.BannerImageUrl2 = null;
-                    tblAbility.BannerLink2 = null;
-                    tblAbility.IsLotteryEnable = false;
-                    tblAbility.LotteryDisplayDate = null;
-                    tblAbility.LotteryDisplayPrize = null;
-                    tblAbility.LotteryWinner = null;
-                    tblAbility.ValidationTimeSpan = createStoreViewModel.ValidationTimeSpan;
-                    tblAbility.IsMusicEnable = false;
-                    tblAbility.MusicId = null;
-                    _core.Ability.Add(tblAbility);
-                    _core.Ability.Save();
-                    tblStore.AbilityId = tblAbility.Id;
-                    _core.Store.Add(tblStore);
-                    _core.Store.Save();
-                }
                 else
                 {
 
+                    if (LogoUrl.ContentType != "image/jpeg" || LogoUrl.ContentType != "image/png")
+                    {
+                        ModelState.AddModelError("LogoUrl", "فرمت لوگو معتبر نیست");
+                        return await Task.FromResult(View(createStoreViewModel));
+                    }
+                    else
+                    {
+
+                        if (createStoreViewModel.StaticTell.StartsWith("0"))
+                        {
+                            ModelState.AddModelError("StaticTell", "شماره تماس ثابت باید از 0 شروع شود");
+                            return await Task.FromResult(View(createStoreViewModel));
+                        }
+                        else
+                        {
+                            //Free Deal
+                            if (createStoreViewModel.DealId == 0)
+                            {
+                                TblStore tblStore = new TblStore();
+                                tblStore.Name = createStoreViewModel.Name;
+                                tblStore.StaticTell = createStoreViewModel.StaticTell;
+                                tblStore.IsOpen = false;
+                                tblStore.MainBannerUrl = null;
+                                tblStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
+                                string savePath = Path.Combine(
+                                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", tblStore.LogoUrl
+                                );
+                                tblStore.Rate = 0;
+                                tblStore.RateCount = 0;
+                                tblStore.CatagoryLimit = 10;
+                                tblStore.ProductLimit = 30;
+                                tblStore.Address = createStoreViewModel.Address;
+                                tblStore.Lat = createStoreViewModel.Lat;
+                                tblStore.Lon = createStoreViewModel.Lon;
+                                tblStore.SubscribtionTill = DateTime.Now.AddMonths(1);
+                                tblStore.CatagoryId = createStoreViewModel.CatagoryId;
+                                tblStore.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Id;
+
+                                ////Create Ability
+                                TblAbility tblAbility = new TblAbility();
+
+                                if (createStoreViewModel.TahvilVaTasvieDarMahal)
+                                {
+                                    tblAbility.TahvilVaTasvieDarMahal = 1;
+                                }
+                                else
+                                {
+                                    tblAbility.TahvilVaTasvieDarMahal = 2;
+                                }
+                                if (createStoreViewModel.TahvilVaTasvieDarForushgah)
+                                {
+                                    tblAbility.TahvilVaTasvieDarForushgah = 1;
+                                }
+                                else
+                                {
+                                    tblAbility.TahvilVaTasvieDarForushgah = 2;
+                                }
+                                tblAbility.Haraj = 0;
+                                tblAbility.IsBanner1Enable = false;
+                                tblAbility.BannerImageUrl1 = null;
+                                tblAbility.BannerLink1 = null;
+                                tblAbility.IsBanner2Enable = false;
+                                tblAbility.BannerImageUrl2 = null;
+                                tblAbility.BannerLink2 = null;
+                                tblAbility.IsLotteryEnable = false;
+                                tblAbility.LotteryDisplayDate = null;
+                                tblAbility.LotteryDisplayPrize = null;
+                                tblAbility.LotteryWinner = null;
+                                tblAbility.ValidationTimeSpan = createStoreViewModel.ValidationTimeSpan;
+                                tblAbility.IsMusicEnable = false;
+                                tblAbility.MusicId = null;
+                                _core.Ability.Add(tblAbility);
+                                _core.Ability.Save();
+                                tblStore.AbilityId = tblAbility.Id;
+                                _core.Store.Add(tblStore);
+                                _core.Store.Save();
+                                _core.User.GetById(UserCrew.UserByTellNo(User.Claims.Last().Value).Id);
+                                _core.User.Save();
+
+                            }
+                            else
+                            {
+                                TblStore tblStore = new TblStore();
+                                tblStore.Name = createStoreViewModel.Name;
+                                tblStore.StaticTell = createStoreViewModel.StaticTell;
+                                tblStore.IsOpen = false;
+                                tblStore.MainBannerUrl = null;
+                                tblStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
+                                string savePath = Path.Combine(
+                                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", tblStore.LogoUrl
+                                );
+                                tblStore.Rate = 0;
+                                tblStore.RateCount = 0;
+                                tblStore.CatagoryLimit = (short)_core.Deal.GetById(createStoreViewModel.DealId).CatagoryLimit;
+                                tblStore.ProductLimit = (short)_core.Deal.GetById(createStoreViewModel.DealId).ProductLimit;
+                                tblStore.Address = createStoreViewModel.Address;
+                                tblStore.Lat = createStoreViewModel.Lat;
+                                tblStore.Lon = createStoreViewModel.Lon;
+                                tblStore.SubscribtionTill = DateTime.Now.AddMonths((int)_core.Deal.GetById(createStoreViewModel.DealId).MonthCount);
+                                tblStore.CatagoryId = createStoreViewModel.CatagoryId;
+                                tblStore.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Id;
+
+
+                                //Create Ability
+                                TblAbility tblAbility = new TblAbility();
+
+                                if (createStoreViewModel.TahvilVaTasvieDarMahal)
+                                {
+                                    tblAbility.TahvilVaTasvieDarMahal = 1;
+                                }
+                                else
+                                {
+                                    tblAbility.TahvilVaTasvieDarMahal = 2;
+                                }
+                                if (createStoreViewModel.TahvilVaTasvieDarForushgah)
+                                {
+                                    tblAbility.TahvilVaTasvieDarForushgah = 1;
+                                }
+                                else
+                                {
+                                    tblAbility.TahvilVaTasvieDarForushgah = 2;
+                                }
+                                if (_core.Deal.GetById(createStoreViewModel.DealId).Haraj)
+                                {
+                                    tblAbility.Haraj = 1;
+                                }
+                                else
+                                {
+                                    tblAbility.Haraj = 0;
+                                }
+
+                                if (_core.Deal.GetById(createStoreViewModel.DealId).Banner1)
+                                {
+                                    tblAbility.IsBanner1Enable = true;
+                                }
+                                else
+                                {
+                                    tblAbility.IsBanner1Enable = false;
+                                }
+
+                                if (_core.Deal.GetById(createStoreViewModel.DealId).Banner2)
+                                {
+                                    tblAbility.IsBanner2Enable = true;
+                                }
+                                else
+                                {
+                                    tblAbility.IsBanner2Enable = false;
+                                }
+
+                                if (_core.Deal.GetById(createStoreViewModel.DealId).Lottery)
+                                {
+                                    tblAbility.IsLotteryEnable = true;
+                                    tblAbility.LotteryDisplayDate = null;
+                                    tblAbility.LotteryDisplayPrize = null;
+                                }
+                                else
+                                {
+                                    tblAbility.IsLotteryEnable = false;
+                                    tblAbility.LotteryDisplayDate = null;
+                                    tblAbility.LotteryDisplayPrize = null;
+                                }
+
+                                tblAbility.ValidationTimeSpan = createStoreViewModel.ValidationTimeSpan;
+
+                                if (_core.Deal.GetById(createStoreViewModel.DealId).Music)
+                                {
+                                    tblAbility.IsMusicEnable = true;
+                                }
+                                else
+                                {
+                                    tblAbility.IsMusicEnable = false;
+                                }
+
+                                _core.Ability.Add(tblAbility);
+                                _core.Ability.Save();
+                                _core.Store.Add(tblStore);
+                                _core.Store.Save();
+                                _core.User.GetById(UserCrew.UserByTellNo(User.Claims.Last().Value).Id);
+                                _core.User.Save();
+
+                            }
+                        }
+                    }
                 }
 
             }
@@ -173,5 +280,10 @@ namespace DigiShahr.Controllers
         {
             return ViewComponent("ChildStoreCategory", new { id = id });
         }
+
+
+        //private Task Recharge(int DealId)
+        //{ 
+        //}
     }
 }

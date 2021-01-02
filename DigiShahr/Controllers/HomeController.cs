@@ -12,10 +12,9 @@ namespace DigiShahr.Controllers
         public IActionResult Index()
         {
             IndexViewModel indexViewModel = new IndexViewModel();
-            indexViewModel.AllStoreCategoryParent = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null);
             indexViewModel.AllStore = _core.Store.Get();
             indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().OrderByDescending(o => o.Id);
-            return View();
+            return View(indexViewModel);
         }
     }
 }
