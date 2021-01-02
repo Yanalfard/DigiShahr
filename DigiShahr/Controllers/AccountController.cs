@@ -120,7 +120,7 @@ namespace DigiShahr.Controllers
             }
         }
 
-        public IActionResult Success(bool Status)
+        public IActionResult Success(string TellNo,string ActiveCode)
         {
             return ViewComponent("UserActiveSuccess", new { Status = Status });
         }
