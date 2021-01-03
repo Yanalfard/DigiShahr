@@ -7,6 +7,5 @@
     
         $("#PriceSpan").html(thousands_separators($("#PriceSpan").html()));
     
-        
     
 });

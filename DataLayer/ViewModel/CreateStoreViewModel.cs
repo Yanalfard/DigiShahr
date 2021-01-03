@@ -9,7 +9,6 @@ namespace DataLayer.ViewModel
     {
         public int DealId { get; set; }
 
-        [Required(ErrorMessage = "لوگو اجباری میباشد")]
         public string LogoUrl { get; set; }
 
         [Required(ErrorMessage = "لطفا نام فروشگاه را وارد کنید")]
@@ -35,9 +34,12 @@ namespace DataLayer.ViewModel
         public bool TahvilVaTasvieDarMahal { get; set; }
         public bool TahvilVaTasvieDarForushgah { get; set; }
 
+        [Required(ErrorMessage = "لطفا مدت زمان تایید سفارش را تعیین کنید")]
         [MaxLength(1, ErrorMessage = "لطفا زمان کمتری وارد کنید")]
         [MinLength(1, ErrorMessage = "لطفا زمان بیشتری وارد کنید")]
-        public short ValidationTimeSpan { get; set; }
+        public string ValidationTimeSpan { get; set; }
+
+        public int? Music { get; set; }
 
     }
 }

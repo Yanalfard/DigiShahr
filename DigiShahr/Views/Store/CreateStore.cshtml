@@ -43,7 +43,7 @@
                 <option value="0">دسته بندی را انتخاب کنید</option>
                 @foreach (var item in ViewBag.ParentCategory)
                 {
-                    <option value="id">@item.Name</option>
+                    <option value="@item.Id">@item.Name</option>
                 }
             </select>
             <span id="Child">
@@ -95,6 +95,9 @@
             </div>
         </div>
         <span id="checkedNaighborhood">
+        </span>
+        <span class="uk-text-danger">
+            @ViewBag.NaighborhoodErorr
         </span>
         <input class="uk-margin-large-top uk-margin-bottom center gradientButton" type="submit" value="ایجاد فروشگاه">
     </form>

@@ -17,6 +17,7 @@ namespace DigiShahr.Controllers
     {
         Core _core = new Core();
 
+        [HttpGet]
         public IActionResult Index()
         {
 
@@ -105,18 +106,19 @@ namespace DigiShahr.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public Task<string> ConfirmPhoneNumber(string TellNo, string ActiveCode)
+        public async Task<string> ConfirmPhoneNumber(string TellNo, string ActiveCode)
         {
-            if (UserCrew.UserByTellNo(TellNo).Auth == ActiveCode)
+            TblUser user = await UserCrew.UserByTellNo(TellNo);
+            if (user.Auth == ActiveCode)
             {
                 int UserId = UserCrew.UserByTellNo(TellNo).Id;
                 _core.User.GetById(UserId).IsActive = true;
                 _core.User.Save();
-                return Task.FromResult("true");
+                return await Task.FromResult("true");
             }
             else
             {
-                return Task.FromResult("false");
+                return await Task.FromResult("false");
             }
         }
 
@@ -151,7 +153,7 @@ namespace DigiShahr.Controllers
             {
                 if (await UserCrew.UserIsExist(loginViewModel))
                 {
-                    await SignInAsync(UserCrew.UserByTellNo(loginViewModel.TellNo));
+                    await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
                     return Redirect(RetunUrl);
                 }
                 else

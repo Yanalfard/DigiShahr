@@ -8,7 +8,7 @@ using Services.Services;
 
 namespace DigiShahr.ViewComponents.Admin.StoreCategory
 {
-    public class ChildStoreCategory : ViewComponent
+    public class ChildStoreCategoryAdmin : ViewComponent
     {
         Core _core = new Core();
 

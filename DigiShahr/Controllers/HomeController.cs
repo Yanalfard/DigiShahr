@@ -16,5 +16,7 @@ namespace DigiShahr.Controllers
             indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().OrderByDescending(o => o.Id);
             return View(indexViewModel);
         }
+
+
     }
 }

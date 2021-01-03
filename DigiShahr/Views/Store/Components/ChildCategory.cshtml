@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DataLayer.Models.TblStoreCatagory>
 
 <select id="ChildCategory" class="uk-select uk-margin-top">
-    <option class="">دسته بندی را انتخاب کنید</option>
+    <option class="">لطفا زیر مجموعه را انتخاب کنید</option>
     @foreach (var item in Model)
     {
         <option value="@item.Id">@item.Name</option>

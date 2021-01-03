@@ -9,6 +9,7 @@ using DigiShahr.Utilit;
 using DataLayer.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using ZarinpalSandbox;
 
 namespace DigiShahr.Controllers
 {
@@ -34,241 +35,256 @@ namespace DigiShahr.Controllers
             }
         }
 
-        public IActionResult CreateStore(int DealId)
+        public IActionResult PaymentBuyPackage(int DealId)
         {
-
-            if (!User.Identity.IsAuthenticated)
+            TblDeal deal = _core.Deal.GetById(DealId);
+            int id = deal.Id;
+            string TellNo = User.Claims.Last().Value.ToString();
+            var payment = new Payment(_core.Deal.GetById(DealId).Price);
+            var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
+                "https://localhost:44321/Store/CreateStore/" + id, "hadi1234@yahoo.com", TellNo);
+            if (res.Result.Status == 100)
             {
-                return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
+                return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
             }
             else
             {
-                if (DealId == 0)
+                return BadRequest();
+            }
+        }
+
+        public IActionResult CreateStore(int? id)
+        {
+            if (id != null && id != 0)
+            {
+                if (HttpContext.Request.Query["Status"] != "" &&
+                HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
+                HttpContext.Request.Query["Authority"] != "")
                 {
-                    if (User.Claims.First().Value == "8f32nFmU6m")
+                    string authority = HttpContext.Request.Query["Authority"].ToString();
+                    var Deal = _core.Deal.GetById(id);
+                    var payment = new Payment(Deal.Price);
+                    var res = payment.Verification(authority).Result;
+                    if (res.Status == 100)
                     {
-                        return Redirect("/Account/BuyPackage");
+                        if (!User.Identity.IsAuthenticated)
+                        {
+                            return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
+                        }
+                        else
+                        {
+
+                            if (User.Claims.First().Value == "8f32nFmU6m")
+                            {
+                                return Redirect("/Store/BuyPackage");
+                            }
+                            else
+                            {
+                                ViewBag.DealId = id;
+                                ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+                                ViewBag.Naighborhood = _core.Naighborhood.Get();
+                                return View();
+                            }
+                        }
                     }
                     else
                     {
-                        ViewBag.DealId = DealId;
-                        ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
-                        ViewBag.Naighborhood = _core.Naighborhood.Get();
-                        return View();
+                        return BadRequest();
                     }
                 }
                 else
                 {
-                    ViewBag.DealId = DealId;
-                    ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
-                    ViewBag.Naighborhood = _core.Naighborhood.Get();
-                    return View();
+                    return BadRequest();
                 }
             }
+            else
+            {
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
+                }
+                else
+                {
+                    if (id == 0)
+                    {
+                        ViewBag.DealId = id;
+                        ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+                        ViewBag.Naighborhood = _core.Naighborhood.Get();
+                        return View();
+                    }
+                    else
+                    {
+                        return Redirect("/Store/BuyPackage");
+                    }
+                }
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateStoreAsync(CreateStoreViewModel createStoreViewModel, IFormFile LogoUrl, List<int> naighborhood)
         {
-            if (ModelState.IsValid)
+            if (createStoreViewModel.DealId == 0)
             {
-                if (LogoUrl.Length > 3000000)
+                ///New Ability
+                TblAbility NewAbility = new TblAbility();
+                if (createStoreViewModel.TahvilVaTasvieDarMahal == true)
                 {
-                    ModelState.AddModelError("LogoUrl", "حجم لوگو بیش از اندازه میباشد");
-                    return await Task.FromResult(View(createStoreViewModel));
+                    NewAbility.TahvilVaTasvieDarMahal = 1;
                 }
                 else
                 {
-
-                    if (LogoUrl.ContentType != "image/jpeg" || LogoUrl.ContentType != "image/png")
-                    {
-                        ModelState.AddModelError("LogoUrl", "فرمت لوگو معتبر نیست");
-                        return await Task.FromResult(View(createStoreViewModel));
-                    }
-                    else
-                    {
-
-                        if (createStoreViewModel.StaticTell.StartsWith("0"))
-                        {
-                            ModelState.AddModelError("StaticTell", "شماره تماس ثابت باید از 0 شروع شود");
-                            return await Task.FromResult(View(createStoreViewModel));
-                        }
-                        else
-                        {
-                            //Free Deal
-                            if (createStoreViewModel.DealId == 0)
-                            {
-                                TblStore tblStore = new TblStore();
-                                tblStore.Name = createStoreViewModel.Name;
-                                tblStore.StaticTell = createStoreViewModel.StaticTell;
-                                tblStore.IsOpen = false;
-                                tblStore.MainBannerUrl = null;
-                                tblStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
-                                string savePath = Path.Combine(
-                                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", tblStore.LogoUrl
-                                );
-                                tblStore.Rate = 0;
-                                tblStore.RateCount = 0;
-                                tblStore.CatagoryLimit = 10;
-                                tblStore.ProductLimit = 30;
-                                tblStore.Address = createStoreViewModel.Address;
-                                tblStore.Lat = createStoreViewModel.Lat;
-                                tblStore.Lon = createStoreViewModel.Lon;
-                                tblStore.SubscribtionTill = DateTime.Now.AddMonths(1);
-                                tblStore.CatagoryId = createStoreViewModel.CatagoryId;
-                                tblStore.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Id;
-
-                                ////Create Ability
-                                TblAbility tblAbility = new TblAbility();
-
-                                if (createStoreViewModel.TahvilVaTasvieDarMahal)
-                                {
-                                    tblAbility.TahvilVaTasvieDarMahal = 1;
-                                }
-                                else
-                                {
-                                    tblAbility.TahvilVaTasvieDarMahal = 2;
-                                }
-                                if (createStoreViewModel.TahvilVaTasvieDarForushgah)
-                                {
-                                    tblAbility.TahvilVaTasvieDarForushgah = 1;
-                                }
-                                else
-                                {
-                                    tblAbility.TahvilVaTasvieDarForushgah = 2;
-                                }
-                                tblAbility.Haraj = 0;
-                                tblAbility.IsBanner1Enable = false;
-                                tblAbility.BannerImageUrl1 = null;
-                                tblAbility.BannerLink1 = null;
-                                tblAbility.IsBanner2Enable = false;
-                                tblAbility.BannerImageUrl2 = null;
-                                tblAbility.BannerLink2 = null;
-                                tblAbility.IsLotteryEnable = false;
-                                tblAbility.LotteryDisplayDate = null;
-                                tblAbility.LotteryDisplayPrize = null;
-                                tblAbility.LotteryWinner = null;
-                                tblAbility.ValidationTimeSpan = createStoreViewModel.ValidationTimeSpan;
-                                tblAbility.IsMusicEnable = false;
-                                tblAbility.MusicId = null;
-                                _core.Ability.Add(tblAbility);
-                                _core.Ability.Save();
-                                tblStore.AbilityId = tblAbility.Id;
-                                _core.Store.Add(tblStore);
-                                _core.Store.Save();
-                                _core.User.GetById(UserCrew.UserByTellNo(User.Claims.Last().Value).Id);
-                                _core.User.Save();
-
-                            }
-                            else
-                            {
-                                TblStore tblStore = new TblStore();
-                                tblStore.Name = createStoreViewModel.Name;
-                                tblStore.StaticTell = createStoreViewModel.StaticTell;
-                                tblStore.IsOpen = false;
-                                tblStore.MainBannerUrl = null;
-                                tblStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
-                                string savePath = Path.Combine(
-                                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", tblStore.LogoUrl
-                                );
-                                tblStore.Rate = 0;
-                                tblStore.RateCount = 0;
-                                tblStore.CatagoryLimit = (short)_core.Deal.GetById(createStoreViewModel.DealId).CatagoryLimit;
-                                tblStore.ProductLimit = (short)_core.Deal.GetById(createStoreViewModel.DealId).ProductLimit;
-                                tblStore.Address = createStoreViewModel.Address;
-                                tblStore.Lat = createStoreViewModel.Lat;
-                                tblStore.Lon = createStoreViewModel.Lon;
-                                tblStore.SubscribtionTill = DateTime.Now.AddMonths((int)_core.Deal.GetById(createStoreViewModel.DealId).MonthCount);
-                                tblStore.CatagoryId = createStoreViewModel.CatagoryId;
-                                tblStore.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Id;
-
-
-                                //Create Ability
-                                TblAbility tblAbility = new TblAbility();
-
-                                if (createStoreViewModel.TahvilVaTasvieDarMahal)
-                                {
-                                    tblAbility.TahvilVaTasvieDarMahal = 1;
-                                }
-                                else
-                                {
-                                    tblAbility.TahvilVaTasvieDarMahal = 2;
-                                }
-                                if (createStoreViewModel.TahvilVaTasvieDarForushgah)
-                                {
-                                    tblAbility.TahvilVaTasvieDarForushgah = 1;
-                                }
-                                else
-                                {
-                                    tblAbility.TahvilVaTasvieDarForushgah = 2;
-                                }
-                                if (_core.Deal.GetById(createStoreViewModel.DealId).Haraj)
-                                {
-                                    tblAbility.Haraj = 1;
-                                }
-                                else
-                                {
-                                    tblAbility.Haraj = 0;
-                                }
-
-                                if (_core.Deal.GetById(createStoreViewModel.DealId).Banner1)
-                                {
-                                    tblAbility.IsBanner1Enable = true;
-                                }
-                                else
-                                {
-                                    tblAbility.IsBanner1Enable = false;
-                                }
-
-                                if (_core.Deal.GetById(createStoreViewModel.DealId).Banner2)
-                                {
-                                    tblAbility.IsBanner2Enable = true;
-                                }
-                                else
-                                {
-                                    tblAbility.IsBanner2Enable = false;
-                                }
-
-                                if (_core.Deal.GetById(createStoreViewModel.DealId).Lottery)
-                                {
-                                    tblAbility.IsLotteryEnable = true;
-                                    tblAbility.LotteryDisplayDate = null;
-                                    tblAbility.LotteryDisplayPrize = null;
-                                }
-                                else
-                                {
-                                    tblAbility.IsLotteryEnable = false;
-                                    tblAbility.LotteryDisplayDate = null;
-                                    tblAbility.LotteryDisplayPrize = null;
-                                }
-
-                                tblAbility.ValidationTimeSpan = createStoreViewModel.ValidationTimeSpan;
-
-                                if (_core.Deal.GetById(createStoreViewModel.DealId).Music)
-                                {
-                                    tblAbility.IsMusicEnable = true;
-                                }
-                                else
-                                {
-                                    tblAbility.IsMusicEnable = false;
-                                }
-
-                                _core.Ability.Add(tblAbility);
-                                _core.Ability.Save();
-                                _core.Store.Add(tblStore);
-                                _core.Store.Save();
-                                _core.User.GetById(UserCrew.UserByTellNo(User.Claims.Last().Value).Id);
-                                _core.User.Save();
-
-                            }
-                        }
-                    }
+                    NewAbility.TahvilVaTasvieDarMahal = 0;
                 }
+                if (createStoreViewModel.TahvilVaTasvieDarForushgah == true)
+                {
+                    NewAbility.TahvilVaTasvieDarForushgah = 1;
+                }
+                else
+                {
+                    NewAbility.TahvilVaTasvieDarForushgah = 0;
+                }
+                NewAbility.PardakhteOnline = 0;
+                NewAbility.Haraj = 0;
+                NewAbility.IsBanner1Enable = false;
+                NewAbility.BannerImageUrl1 = null;
+                NewAbility.BannerLink1 = null;
+                NewAbility.IsBanner2Enable = false;
+                NewAbility.BannerImageUrl2 = null;
+                NewAbility.BannerLink2 = null;
+                NewAbility.IsLotteryEnable = false;
+                NewAbility.LotteryDisplayDate = null;
+                NewAbility.LotteryDisplayPrize = null;
+                NewAbility.LotteryWinner = null;
+                NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
+                NewAbility.IsMusicEnable = false;
+                NewAbility.MusicId = null;
+                _core.Ability.Add(NewAbility);
+                _core.Ability.Save();
+
+                //New Store
+                TblStore NewStore = new TblStore();
+                NewStore.Name = createStoreViewModel.Name;
+                NewStore.StaticTell = createStoreViewModel.StaticTell;
+                NewStore.IsOpen = false;
+                NewStore.MainBannerUrl = null;
+                NewStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
+                string savePath = Path.Combine(
+                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", NewStore.LogoUrl
+                );
+
+                using (var stream = new FileStream(savePath, FileMode.Create))
+                {
+                    _ = LogoUrl.CopyToAsync(stream);
+                }
+                NewStore.Rate = 0;
+                NewStore.RateCount = 0;
+                NewStore.AbilityId = 0;
+                NewStore.CatagoryLimit = 10;
+                NewStore.ProductLimit = 30;
+                NewStore.Address = createStoreViewModel.Address;
+                NewStore.Lat = createStoreViewModel.Lat;
+                NewStore.Lon = createStoreViewModel.Lon;
+                NewStore.SubscribtionTill = DateTime.Now.AddMonths(1);
+                NewStore.IsValid = false;
+                NewStore.CatagoryId = createStoreViewModel.CatagoryId;
+                NewStore.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Id;
+                _core.Store.Add(NewStore);
+                _core.Store.Save();
+
+                //New Naighborhood
+                foreach (var item in naighborhood)
+                {
+                    TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
+                    NewNaighborhoodRel.StoreId = NewStore.Id;
+                    NewNaighborhoodRel.NaighborhoodId = item;
+                    _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
+                }
+                _core.StoreNaighborhoodRel.Save();
 
             }
+            else
+            {
+                TblAbility NewAbility = new TblAbility();
+                TblDeal Deal = _core.Deal.GetById(createStoreViewModel.DealId);
+                if (createStoreViewModel.TahvilVaTasvieDarMahal == true)
+                {
+                    NewAbility.TahvilVaTasvieDarMahal = 1;
+                }
+                else
+                {
+                    NewAbility.TahvilVaTasvieDarMahal = 0;
+                }
+                if (createStoreViewModel.TahvilVaTasvieDarForushgah == true)
+                {
+                    NewAbility.TahvilVaTasvieDarForushgah = 1;
+                }
+                else
+                {
+                    NewAbility.TahvilVaTasvieDarForushgah = 0;
+                }
+                NewAbility.PardakhteOnline = 0;
+                NewAbility.Haraj = 0;
+                NewAbility.IsBanner1Enable = Deal.Banner1;
+                NewAbility.BannerImageUrl1 = null;
+                NewAbility.BannerLink1 = null;
+                NewAbility.IsBanner2Enable = Deal.Banner2;
+                NewAbility.BannerImageUrl2 = null;
+                NewAbility.BannerLink2 = null;
+                NewAbility.IsLotteryEnable = Deal.Lottery;
+                NewAbility.LotteryDisplayDate = null;
+                NewAbility.LotteryDisplayPrize = null;
+                NewAbility.LotteryWinner = null;
+                NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
+                NewAbility.IsMusicEnable = Deal.Music;
+                NewAbility.MusicId = createStoreViewModel.Music;
+                _core.Ability.Add(NewAbility);
+                _core.Ability.Save();
 
-            return await Task.FromResult(View(createStoreViewModel));
+
+                //New Store
+                TblStore NewStore = new TblStore();
+                NewStore.Name = createStoreViewModel.Name;
+                NewStore.StaticTell = createStoreViewModel.StaticTell;
+                NewStore.IsOpen = false;
+                NewStore.MainBannerUrl = null;
+                NewStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
+                string savePath = Path.Combine(
+                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", NewStore.LogoUrl
+                );
+                using (var stream = new FileStream(savePath, FileMode.Create))
+                {
+                    _ = LogoUrl.CopyToAsync(stream);
+                }
+                NewStore.Rate = 0;
+                NewStore.RateCount = 0;
+                NewStore.AbilityId = NewAbility.Id;
+                NewStore.CatagoryLimit = (short)Deal.CatagoryLimit;
+                NewStore.ProductLimit = (short)Deal.ProductLimit;
+                NewStore.Address = createStoreViewModel.Address;
+                NewStore.Lat = createStoreViewModel.Lat;
+                NewStore.Lon = createStoreViewModel.Lon;
+                NewStore.SubscribtionTill = DateTime.Now.AddMonths((int)Deal.MonthCount);
+                NewStore.IsValid = false;
+                NewStore.CatagoryId = createStoreViewModel.CatagoryId;
+                NewStore.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Id;
+                _core.Store.Add(NewStore);
+                _core.Store.Save();
+
+                //New Naighborhood
+                foreach (var item in naighborhood)
+                {
+                    TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
+                    NewNaighborhoodRel.StoreId = NewStore.Id;
+                    NewNaighborhoodRel.NaighborhoodId = item;
+                    _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
+                }
+                _core.StoreNaighborhoodRel.Save();
+
+            }
+            return View();
         }
 
         public IActionResult StoreVitrin()
@@ -281,9 +297,5 @@ namespace DigiShahr.Controllers
             return ViewComponent("ChildStoreCategory", new { id = id });
         }
 
-
-        //private Task Recharge(int DealId)
-        //{ 
-        //}
     }
 }
