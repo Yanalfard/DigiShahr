@@ -7,8 +7,9 @@
 @if (!User.Identity.IsAuthenticated)
 {
     <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
-    <div class="space-double"></div>
-    <div class="space-mobile"></div>
+    <div class="my-space"></div>
+    @*<div class="space-double"></div>
+        <div class="space-mobile"></div>*@
     <div class="mat my-column my-clipped">
         <div class="formTitr my-row uk-margin-top" dir="rtl">
             <h3 class="center">ایجاد حساب</h3>
@@ -35,21 +36,41 @@
             <input asp-for="Lat" id="Lat" type="hidden" />
             <input asp-for="Lon" id="Lon" type="hidden" />
             <span asp-validation-for="Lat" class="uk-text-danger"></span>
-            <label for="addres">انتخاب محله:</label>
-            <select asp-for="NaighborhoodId" class="uk-select uk-margin-xlarge-bottom">
-                <option selected value="0">انتخاب کنید</option>
-                @foreach (var item in ViewBag.Naighborhood)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
-            </select>
+          @*  <label for="addres">انتخاب محله:</label>*@
+            <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>انتخاب محله</a>
+            <div id="modal-sections" uk-modal>
+                <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <div class="uk-modal-header">
+                        <h3 class="uk-modal-title uk-text-center">لطفا محله خود را انتخاب کنبد</h3>
+                    </div>
+                    <div class="uk-modal-body uk-padding-small">
+                        <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
+                            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood" checked>ولیعصر</label>
+                            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood">ابوریحان</label>
+                            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood">ارتش</label>
+                        </div>
+                    </div>
+                    <div class="uk-modal-footer uk-text-center">
+                        <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
+                    </div>
+                </div>
+            </div>
+            @*<select asp-for="NaighborhoodId" class="uk-select uk-margin-xlarge-bottom">
+            <option selected value="0">انتخاب کنید</option>
+            @foreach (var item in ViewBag.Naighborhood)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>*@
             <span asp-validation-for="NaighborhoodId" class="uk-text-danger"></span>
             <input type="hidden" id="foo" name="foo" />
-            <input class="center gradientButton" type="submit" value="ایجاد حساب">
+            <input class="center gradientButton uk-margin-large-top" type="submit" value="ایجاد حساب">
         </form>
     </div>
-    <div class="space-double"></div>
-    <div class="space-mobile"></div>
+    @*<div class="space-double"></div>
+    <div class="space-mobile"></div>*@
+    <div class="my-space"></div>
 
 
 

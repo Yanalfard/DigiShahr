@@ -1,7 +1,7 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 .contentContainer {
     display: grid;
@@ -44,7 +44,7 @@
     label {
         margin-right: 60px !important;
         margin-top: 8px;
-        margin-bottom:0!important;
+        margin-bottom: 0 !important;
         font-size: 17px
     }
 
@@ -53,8 +53,12 @@
         border-bottom: 1px solid #aeabab;
         font-size: 14px;
         padding: 10px 0;
-        margin:0 60px;
-        background-color: #F4F4F4!important;
+        margin: 0 60px;
+        background-color: #F4F4F4 !important;
+    }
+
+    input:focus {
+        border-bottom: 2px solid #F28F3B;
     }
 }
 .RegisterContainer {
