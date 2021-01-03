@@ -1,6 +1,5 @@
 ﻿body {
-  overflow-x: hidden;
-  min-height: 100vh; }
+  overflow-x: hidden; }
 
 .mat {
   border-radius: 8px; }
@@ -30,6 +29,9 @@
   border-bottom: 1px solid #D7D7D7;
   font-size: 14px; }
 
+.createAccount input:focus {
+  border-bottom: 2px solid #F28F3B; }
+
 .createAccount select {
   font-size: 14px;
   border-radius: 7px !important; }
@@ -56,24 +58,29 @@ ul {
   list-style-type: none !important; }
 
 .packagesCard {
+  /*background: #FFF8D2!important;*/
   margin-bottom: 24px; }
+  .packagesCard ul {
+    list-style-type: disc !important; }
+    .packagesCard ul li {
+      margin-right: 15px; }
   .packagesCard h3 {
     font-family: "Sahel";
     font-size: 18px;
     overflow: hidden;
     margin-bottom: 16px;
-    margin-top: 6px; }
+    margin-top: 15px; }
   .packagesCard .periodOfPackage {
     background: #F28F3B;
     border-radius: 5px;
-    min-height: 75px;
-    min-width: 80px;
+    min-height: 100px;
+    min-width: 86px;
     color: #fff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
     margin-bottom: 7px; }
-  .packagesCard .gradientButton {
+  .packagesCard .gradientButtonLink {
     width: 86px;
-    height: 32px; }
+    /*height: 32px;*/ }
   .packagesCard hr {
     margin-top: 2px !important; }
 
@@ -88,14 +95,14 @@ ul {
 .uk-link-toggle:focus .uk-link, .uk-link-toggle:hover .uk-link, .uk-link:hover, a:hover {
   text-decoration: none; }
 
-#modal-sections {
+.modal-sections {
   z-index: 10000000; }
-  #modal-sections .uk-modal-dialog {
+  .modal-sections .uk-modal-dialog {
     border-radius: 7px; }
-  #modal-sections .delivery .uk-checkbox {
+  .modal-sections .delivery .uk-checkbox {
     margin-right: 5px !important;
     margin-left: 5px !important; }
-  #modal-sections .gradientButton {
+  .modal-sections .gradientButton {
     width: 90px; }
 
 .uk-modal-header h3 {

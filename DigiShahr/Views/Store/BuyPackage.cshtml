@@ -6,8 +6,9 @@
 }
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="pageHeader">
-    <div class="space-double"></div>
-    <div class="space-mobile"></div>
+    @*<div class="space-double"></div>
+    <div class="space-mobile"></div>*@
+    <div class="my-spaceInMap"></div>
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">انتخاب پکیج</h3>
         <a><span class="icon-holder" uk-icon="backIcon"></span></a>
@@ -21,42 +22,40 @@
     @if (User.Claims.First().Value == "d7tpmTdwXL")
     {
 
-        <article class="packagesCard firstPackage my-column mat my-clipped">
-            <content>
-                <h3 class="center">پکیج رایگان</h3>
-                <h1></h1>
-                <div class="my-row">
-                    <ul class="uk-padding-remove-right uk-margin-right">
-                        <li>
-                            <span class="icon-holder" uk-icon="caret-back">
-                            </span>
-                            <label>تعداد دسته بندی : 10</label>
-                        </li>
-                        <li>
-                            <span class="icon-holder" uk-icon="caret-back">
-                            </span>
-                            <label>تعداد محصول : 30</label>
-                        </li>
-                        <li>
-                            <span class="icon-holder" uk-icon="caret-back">
-                            </span>
-                            <label>تصویر پس زمینه</label>
-                        </li>
-                    </ul>
-                    <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
-                        <div class="periodOfPackage my-column">
-                            <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
-                            </span>
-                            <label class="uk-margin-auto-bottom">یک ماهه</label>
-                        </div>
-                        <label>رایگان</label>
+    <article class="packagesCard firstPackage my-column mat my-clipped">
+        <content>
+            <h3 class="center">پکیج رایگان</h3>
+            <h1></h1>
+            <div class="my-row">
+                <ul class="uk-padding-remove-right uk-margin-right">
+                    <li>
+                        <label>تعداد دسته بندی : 10</label>
+                    </li>
+                    <li>
+                        <label>تعداد محصول : 30</label>
+                    </li>
+                    <li>
+                        <label>تصویر پس زمینه</label>
+                    </li>
+                </ul>
+                <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
+                    <div class="periodOfPackage my-column">
+                        <span class="icon-holder uk-margin-auto-top uk-margin-bottom" uk-icon="calendar-outline">
+                        </span>
+                        <label class="uk-margin-auto-bottom">یک ماهه</label>
                     </div>
-
+                    @*  <label class="uk-text-danger">رایگان</label>*@
                 </div>
-                <hr />
-            </content>
-            <a class="gradientButton uk-margin-auto-right uk-margin-left uk-margin-bottom" href="/Store/CreateStore?DealId=0">انتخاب</a>
-        </article>
+
+            </div>
+            <hr />
+        </content>
+        <div class="my-row">
+            <label class=" uk-margin-right uk-margin-small-top uk-text-danger">رایگان</label>
+            <a class="gradientButtonLink uk-margin-auto-right uk-margin-left uk-text-center uk-margin-bottom" href="/Store/CreateStore?DealId=0">انتخاب</a>
+        </div>
+        
+    </article>
 
     }
 
@@ -64,172 +63,149 @@
     {
         @foreach (var item in Model)
         {
-            <article class="packagesCard my-column mat my-clipped">
-                <content>
-                    <h3 class="center">@item.Name</h3>
-                    <div class="my-row">
-                        <ul class="uk-padding-remove-right uk-margin-right">
-                            <li>
-                                <span class="icon-holder" uk-icon="caret-back">
-                                </span>
-                                <label>تعداد دسته بندی : @item.CatagoryLimit</label>
-                            </li>
-                            <li>
-                                <span class="icon-holder" uk-icon="caret-back">
-                                </span>
-                                <label>تعداد محصول : @item.ProductLimit</label>
-                            </li>
-                            <li>
-                                <span class="icon-holder" uk-icon="caret-back">
-                                </span>
-                                <label>تصویر پس زمینه</label>
-                            </li>
-                            @if (item.Banner1)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
+<article class="packagesCard my-column mat my-clipped">
+    <content>
+        <h3 class="center">@item.Name</h3>
+        <div class="my-row">
+            <ul class="uk-padding-remove-right uk-margin-right">
+                <li>
+                    <label>تعداد دسته بندی : @item.CatagoryLimit</label>
+                </li>
+                <li>
+                    <label>تعداد محصول : @item.ProductLimit</label>
+                </li>
+                <li>
+                    <label>تصویر پس زمینه</label>
+                </li>
+                @if (item.Banner1)
+                {
+                    <li>
+                        <label>امکان نصب بنر اول</label>
 
-                                    <label>امکان نصب بنر اول</label>
+                    </li>
+                }
+                @if (item.Banner2)
+                {
+                    <li>
 
-                                </li>
-                            }
-                            @if (item.Banner2)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
+                        <label>امکان نصب بنر دوم</label>
 
-                                    <label>امکان نصب بنر دوم</label>
+                    </li>
+                }
+                @if (item.Lottery)
+                {
+                    <li>
 
-                                </li>
-                            }
-                            @if (item.Lottery)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
+                        <label>امکان قرعه کشی کاربران</label>
 
-                                    <label>امکان قرعه کشی کاربران</label>
+                    </li>
+                }
+                @if (item.Music)
+                {
+                    <li>
 
-                                </li>
-                            }
-                            @if (item.Music)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
+                        <label>امکان پخش موزیک در فروشگاه</label>
 
-                                    <label>امکان پخش موزیک در فروشگاه</label>
+                    </li>
+                }
+            </ul>
+            <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
+                <div class="periodOfPackage my-column">
+                    <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
+                    </span>
+                    <label class="uk-margin-auto-bottom">@item.MonthCount ماهه</label>
+                </div>
+                @* <label id="PriceSpan">@item.Price تومان</label>*@
 
-                                </li>
-                            }
-                        </ul>
-                        <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
-                            <div class="periodOfPackage my-column">
-                                <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
-                                </span>
-                                <label class="uk-margin-auto-bottom">@item.MonthCount ماهه</label>
-                            </div>
-                            <label id="PriceSpan">@item.Price تومان</label>
+            </div>
 
-                        </div>
+        </div>
+        <hr />
 
-                    </div>
-                    <hr />
-
-                </content>
-                <a class="gradientButton uk-margin-auto-right uk-margin-left uk-margin-bottom" href="/Store/Recharge?DealId=@item.Id">انتخاب</a>
-            </article>
+    </content>
+    <div class="my-row">
+        <label id="PriceSpan" class="uk-margin-right uk-margin-small-top uk-text-danger">@item.Price تومان</label>
+        <a class="gradientButtonLink uk-margin-auto-right uk-margin-left uk-margin-bottom uk-text-center" href="/Store/CreateStore?DealId=@item.Id">انتخاب</a>
+    </div>
+</article>
         }
     }
     else
     {
         @foreach (var item in Model)
         {
-            <article class="packagesCard my-column mat my-clipped">
-                <content>
-                    <h3 class="center">@item.Name</h3>
-                    <div class="my-row">
-                        <ul class="uk-padding-remove-right uk-margin-right">
-                            <li>
-                                <span class="icon-holder" uk-icon="caret-back">
-                                </span>
-                                <label>تعداد دسته بندی : @item.CatagoryLimit</label>
-                            </li>
-                            <li>
-                                <span class="icon-holder" uk-icon="caret-back">
-                                </span>
-                                <label>تعداد محصول : @item.ProductLimit</label>
-                            </li>
-                            <li>
-                                <span class="icon-holder" uk-icon="caret-back">
-                                </span>
-                                <label>تصویر پس زمینه</label>
-                            </li>
-                            @if (item.Banner1)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
+<article class="packagesCard my-column mat my-clipped">
+    <content>
+        <h3 class="center">@item.Name</h3>
+        <div class="my-row">
+            <ul class="uk-padding-remove-right uk-margin-right">
+                <li>
+                    <label>تعداد دسته بندی : @item.CatagoryLimit</label>
+                </li>
+                <li>
+                    <label>تعداد محصول : @item.ProductLimit</label>
+                </li>
+                <li>
+                    <label>تصویر پس زمینه</label>
+                </li>
+                @if (item.Banner1)
+                {
+                    <li>
+                        <label>امکان نصب بنر اول</label>
 
-                                    <label>امکان نصب بنر اول</label>
+                    </li>
+                }
+                @if (item.Banner2)
+                {
+                    <li>
+                        <label>امکان نصب بنر دوم</label>
 
-                                </li>
-                            }
-                            @if (item.Banner2)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
+                    </li>
+                }
+                @if (item.Lottery)
+                {
+                    <li>
+                        <label>امکان قرعه کشی کاربران</label>
 
-                                    <label>امکان نصب بنر دوم</label>
+                    </li>
+                }
+                @if (item.Music)
+                {
+                    <li>
+                        <label>امکان پخش موزیک در فروشگاه</label>
 
-                                </li>
-                            }
-                            @if (item.Lottery)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
+                    </li>
+                }
+            </ul>
+            <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
+                <div class="periodOfPackage my-column">
+                    <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
+                    </span>
+                    <label class="uk-margin-auto-bottom">@item.MonthCount ماهه</label>
+                </div>
+                @* <div class="" style="width:100px; border:1px solid red; border-radius:10px;">*@
+                @*<span class="icon-holder uk-text-danger" uk-icon="logo-usd">
+                    </span>*@
+              @*<label id="PriceSpan" class="uk-text-danger">@item.Price تومان</label>*@
+                @*  *@ <!--</div>-->
+            </div>
 
-                                    <label>امکان قرعه کشی کاربران</label>
+        </div>
+        <hr />
 
-                                </li>
-                            }
-                            @if (item.Music)
-                            {
-                                <li>
-                                    <span class="icon-holder" uk-icon="caret-back">
-                                    </span>
-
-                                    <label>امکان پخش موزیک در فروشگاه</label>
-
-                                </li>
-                            }
-                        </ul>
-                        <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
-                            <div class="periodOfPackage my-column">
-                                <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
-                                </span>
-                                <label class="uk-margin-auto-bottom">@item.MonthCount ماهه</label>
-                            </div>
-                            <label id="PriceSpan">@item.Price تومان</label>
-
-                        </div>
-
-                    </div>
-                    <hr />
-
-                </content>
-                <a class="gradientButton uk-margin-auto-right uk-margin-left uk-margin-bottom" href="/Store/CreateStore?DealId=@item.Id">انتخاب</a>
-            </article>
+    </content>
+    <div class="my-row">
+        <label id="PriceSpan" class="uk-margin-right uk-margin-small-top uk-text-danger">@item.Price تومان</label>
+        <a class="gradientButtonLink uk-margin-auto-right uk-margin-left uk-margin-bottom uk-text-center" href="/Store/CreateStore?DealId=@item.Id">انتخاب</a>
+    </div>
+</article>
         }
     }
 
 </content>
-<div class="space-double"></div>
-<div class="space-mobile"></div>
+@*<div class="space-double"></div>
+<div class="space-mobile"></div>*@
+<div class="my-space"></div>
 @section Script{
     <script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>
 }

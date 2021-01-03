@@ -250,6 +250,12 @@
   font-weight: normal;
   font-style: normal; }
 
+.my-space {
+  height: 65px; }
+
+.my-spaceInMap {
+  height: 53px; }
+
 * {
   outline: none;
   font-family: Sahel; }
@@ -347,6 +353,9 @@ body {
 .gradientButton:hover, .gradientButtonLink:hover {
   opacity: 0.9;
   color: white !important; }
+
+.gradientButton:focus, .gradientButtonLink:focus {
+  border: none !important; }
 
 .pageHeader {
   background: #40916C;

@@ -4,8 +4,9 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
-<div class="space-double"></div>
-<div class="space-mobile"></div>
+@*<div class="space-double"></div>
+<div class="space-mobile"></div>*@
+<div class="my-space"></div>
 <div class="mat my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">تنظیمات فروشگاه</h3>
@@ -63,7 +64,7 @@
         <input asp-for="ValidationTimeSpan">
         <span asp-validation-for="ValidationTimeSpan" class="uk-text-danger"></span>
         <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>انتخاب محله های سرویس دهی</a>
-        <div id="modal-sections" uk-modal>
+        <div id="modal-sections" class="modal-sections" uk-modal>
             <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
                 <button class="uk-modal-close-default" type="button" uk-close></button>
                 <div class="uk-modal-header">
@@ -96,11 +97,46 @@
         </div>
         <span id="checkedNaighborhood">
         </span>
+        <a class="uk-margin-top serviceArea uk-margin-auto" href="#music-modal" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="musical-notes"></span>انتخاب موزیک برای فروشگاه</a>
+        <div id="music-modal" class="modal-sections" uk-modal>
+            <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <div class="uk-modal-header">
+                    <h3 class="uk-modal-title uk-text-center">یکی از موزیک های زیر را انتخاب کنید</h3>
+                </div>
+                <div class="uk-modal-body uk-padding-small">
+                    <div class="delivery uk-grid-small uk-child-width-1-1 uk-grid">
+                        <label class="uk-margin-top">
+                            <input class="uk-checkbox uk-margin-remove-top" type="radio" name="Music" checked>نام موزیک اول
+                            <audio controls="controls">
+                                <source src="~/Upload/Music/083173b2-e59d-41cd-84ae-96aa200c4503.mp3" type="audio/mpeg" />
+                            </audio>
+                        </label>
+                        <label class="uk-margin-top">
+                            <input class="uk-checkbox uk-margin-remove-top" type="radio" name="Music" checked>نام موزیک دوم
+                            <audio controls="controls">
+                                <source src="~/Upload/Music/083173b2-e59d-41cd-84ae-96aa200c4503.mp3" type="audio/mpeg" />
+                            </audio>
+                        </label>
+                        <label class="uk-margin-top">
+                            <input class="uk-checkbox uk-margin-remove-top" type="radio" name="Music" checked>نام موزیک سوم
+                            <audio controls="controls">
+                                <source src="~/Upload/Music/083173b2-e59d-41cd-84ae-96aa200c4503.mp3" type="audio/mpeg" />
+                            </audio>
+                        </label>
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-text-center">
+                    <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
+                </div>
+            </div>
+        </div>
         <input class="uk-margin-large-top uk-margin-bottom center gradientButton" type="submit" value="ایجاد فروشگاه">
     </form>
 </div>
-<div class="space-double"></div>
-<div class="space-mobile"></div>
+@*<div class="space-double"></div>
+<div class="space-mobile"></div>*@
+<div class="my-space"></div>
 
 
 

@@ -42,6 +42,9 @@
   margin: 0 60px;
   background-color: #F4F4F4 !important; }
 
+.loginForm input:focus {
+  border-bottom: 2px solid #F28F3B; }
+
 .RegisterContainer {
   display: grid;
   grid-template-columns: 1fr;
