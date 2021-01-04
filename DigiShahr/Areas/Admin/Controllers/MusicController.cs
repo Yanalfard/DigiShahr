@@ -6,6 +6,7 @@ using Services.Services;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
@@ -47,7 +48,7 @@ namespace DigiShahr.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormFile file)
+        public async Task<IActionResult> Create(IFormFile file)
         {
             TblMusic tblMusic = new TblMusic();
             tblMusic.MusicUrl = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
@@ -57,7 +58,7 @@ namespace DigiShahr.Areas.Admin.Controllers
 
             using (var stream = new FileStream(savePath, FileMode.Create))
             {
-                file.CopyToAsync(stream);
+                await file.CopyToAsync(stream);
             }
 
             _core.Music.Add(tblMusic);

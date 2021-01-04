@@ -26,6 +26,8 @@ namespace DataLayer.Models
         public string StaticTell { get; set; }
         public bool IsOpen { get; set; }
         public string MainBannerUrl { get; set; }
+
+        [Required(ErrorMessage = "لطفا تصویر فروشگاه را وارد کنید")]
         public string LogoUrl { get; set; }
         public double Rate { get; set; }
         public int RateCount { get; set; }
@@ -43,9 +45,9 @@ namespace DataLayer.Models
         public DateTime SubscribtionTill { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsValid { get; set; }
+        [Required(ErrorMessage = "لطفا دسته بندی را وارد کنید")]
         public int CatagoryId { get; set; }
         public int UserId { get; set; }
-
         public virtual TblAbility Ability { get; set; }
         public virtual TblStoreCatagory Catagory { get; set; }
         public virtual TblUser User { get; set; }

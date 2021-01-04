@@ -49,84 +49,85 @@
             </content>
             <div class="my-row">
                 <label class=" uk-margin-right uk-margin-small-top uk-text-danger">رایگان</label>
-                <a class="gradientButtonLink uk-margin-auto-right uk-margin-left uk-text-center uk-margin-bottom" href="/Store/PaymentBuyPackage?DealId=0">انتخاب</a>
+                <a class="gradientButtonLink uk-margin-auto-right uk-margin-left uk-text-center uk-margin-bottom" href="/Store/CreateStore/0">انتخاب</a>
             </div>
 
         </article>
 
     }
 
-        @foreach (var item in Model)
-        {
-            <article class="packagesCard my-column mat my-clipped">
-                <content>
-                    <h3 class="center">@item.Name</h3>
-                    <div class="my-row">
-                        <ul class="uk-padding-remove-right uk-margin-right">
-                            <li>
-                                <label>تعداد دسته بندی : @item.CatagoryLimit</label>
-                            </li>
-                            <li>
-                                <label>تعداد محصول : @item.ProductLimit</label>
-                            </li>
-                            <li>
-                                <label>تصویر پس زمینه</label>
-                            </li>
-                            @if (item.Banner1)
-                            {
-                                <li>
-                                    <label>امکان نصب بنر اول</label>
-
-                                </li>
-                            }
-                            @if (item.Banner2)
-                            {
-                                <li>
-
-                                    <label>امکان نصب بنر دوم</label>
-
-                                </li>
-                            }
-                            @if (item.Lottery)
-                            {
-                                <li>
-
-                                    <label>امکان قرعه کشی کاربران</label>
-
-                                </li>
-                            }
-                            @if (item.Music)
-                            {
-                                <li>
-
-                                    <label>امکان پخش موزیک در فروشگاه</label>
-
-                                </li>
-                            }
-                        </ul>
-                        <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
-                            <div class="periodOfPackage my-column">
-                                <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
-                                </span>
-                                <label class="uk-margin-auto-bottom">@item.MonthCount ماهه</label>
-                            </div>
-                        </div>
-
-                    </div>
-                    <hr />
-
-                </content>
+    @foreach (var item in Model)
+    {
+        <article class="packagesCard my-column mat my-clipped">
+            <content>
+                <h3 class="center">@item.Name</h3>
                 <div class="my-row">
-                    <label id="PriceSpan" class="uk-margin-right uk-margin-small-top uk-text-danger">@item.Price تومان</label>
-                    <a class="gradientButtonLink uk-margin-auto-right uk-margin-left uk-margin-bottom uk-text-center" href="/Store/PaymentBuyPackage?DealId=@item.Id">انتخاب</a>
+                    <ul class="uk-padding-remove-right uk-margin-right">
+                        <li>
+                            <label>تعداد دسته بندی : @item.CatagoryLimit</label>
+                        </li>
+                        <li>
+                            <label>تعداد محصول : @item.ProductLimit</label>
+                        </li>
+                        <li>
+                            <label>تصویر پس زمینه</label>
+                        </li>
+                        @if (item.Banner1)
+                        {
+                            <li>
+                                <label>امکان نصب بنر اول</label>
+
+                            </li>
+                        }
+                        @if (item.Banner2)
+                        {
+                            <li>
+
+                                <label>امکان نصب بنر دوم</label>
+
+                            </li>
+                        }
+                        @if (item.Lottery)
+                        {
+                            <li>
+
+                                <label>امکان قرعه کشی کاربران</label>
+
+                            </li>
+                        }
+                        @if (item.Music)
+                        {
+                            <li>
+
+                                <label>امکان پخش موزیک در فروشگاه</label>
+
+                            </li>
+                        }
+                    </ul>
+                    <div class="uk-margin-auto-right uk-margin-left uk-text-center uk-margin-auto-top uk-margin-auto-bottom">
+                        <div class="periodOfPackage my-column">
+                            <span class="icon-holder uk-margin-auto-top uk-margin-auto-bottom" uk-icon="calendar-outline">
+                            </span>
+                            <label class="uk-margin-auto-bottom">@item.MonthCount ماهه</label>
+                        </div>
+                    </div>
+
                 </div>
-            </article>
-        }
+                <hr />
+
+            </content>
+            <div class="my-row">
+                <label id="PriceSpan" class="uk-margin-right price uk-margin-small-top uk-text-danger">@item.Price تومان</label>
+                <a class="gradientButtonLink uk-margin-auto-right uk-margin-left uk-margin-bottom uk-text-center" href="/Store/PaymentBuyPackage?DealId=@item.Id">انتخاب</a>
+            </div>
+        </article>
+    }
 
 </content>
 <div class="my-space"></div>
 @section Script{
-    <script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>
+    <script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
+
 }
 
 

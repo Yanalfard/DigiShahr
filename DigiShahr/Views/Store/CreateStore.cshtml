@@ -5,7 +5,7 @@
 }
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 @*<div class="space-double"></div>
-<div class="space-mobile"></div>*@
+    <div class="space-mobile"></div>*@
 <div class="my-space"></div>
 <div class="mat my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
@@ -19,8 +19,8 @@
             <img class="uk-margin-right" src="~/img/Store/logo-defult.png" width="80" height="80" />
             <div class="uk-margin-auto-right uk-margin-auto-top uk-margin-auto-bottom uk-margin-left">
                 <div uk-form-custom>
-                    <button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب لوگو</button>
-                    <input type="file" asp-for="LogoUrl" accept="image/jpeg,image/png">
+                    <button id="LogoUrlbtn" class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب لوگو</button>
+                    <input type="file" asp-for="LogoUrl" id="LogoUrl" accept="image/jpeg,image/png">
                     <span asp-validation-for="LogoUrl" class="uk-text-danger"></span>
                 </div>
             </div>
@@ -80,18 +80,6 @@
                 </div>
                 <div class="uk-modal-footer uk-text-center">
                     <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
-                    <script src="~/Jquery/jquery-3.4.1.js"></script>
-                    <script>
-                        $("#btnubni").click(function () {
-                            var selected = [];
-                            $('.j:checked').each(function () {
-                                selected.push($(this).attr('value'));
-                            });
-                            for (var i = 0; i < selected.length; i++) {
-                                $("#checkedNaighborhood").html($("#checkedNaighborhood").html() + "<input name='naighborhood' type='hidden' value='" + selected[i] + "' />");
-                            }
-                        });
-                    </script>
                 </div>
             </div>
         </div>
@@ -100,45 +88,42 @@
         <span class="uk-text-danger">
             @ViewBag.NaighborhoodErorr
         </span>
-        <a class="uk-margin-top serviceArea uk-margin-auto" href="#music-modal" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="musical-notes"></span>انتخاب موزیک برای فروشگاه</a>
-        <div id="music-modal" class="modal-sections" uk-modal>
-            <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
-                <button class="uk-modal-close-default" type="button" uk-close></button>
-                <div class="uk-modal-header">
-                    <h3 class="uk-modal-title uk-text-center">یکی از موزیک های زیر را انتخاب کنید</h3>
-                </div>
-                <div class="uk-modal-body uk-padding-small">
-                    <div class="delivery uk-grid-small uk-child-width-1-1 uk-grid">
-                        <label class="uk-margin-top">
-                            <input class="uk-checkbox uk-margin-remove-top" type="radio" name="Music" checked>نام موزیک اول
-                            <audio controls="controls">
-                                <source src="~/Upload/Music/083173b2-e59d-41cd-84ae-96aa200c4503.mp3" type="audio/mpeg" />
-                            </audio>
-                        </label>
-                        <label class="uk-margin-top">
-                            <input class="uk-checkbox uk-margin-remove-top" type="radio" name="Music" checked>نام موزیک دوم
-                            <audio controls="controls">
-                                <source src="~/Upload/Music/083173b2-e59d-41cd-84ae-96aa200c4503.mp3" type="audio/mpeg" />
-                            </audio>
-                        </label>
-                        <label class="uk-margin-top">
-                            <input class="uk-checkbox uk-margin-remove-top" type="radio" name="Music" checked>نام موزیک سوم
-                            <audio controls="controls">
-                                <source src="~/Upload/Music/083173b2-e59d-41cd-84ae-96aa200c4503.mp3" type="audio/mpeg" />
-                            </audio>
-                        </label>
+        @if (ViewBag.Music != null)
+        {
+            <a class="uk-margin-top serviceArea uk-margin-auto" href="#music-modal" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="musical-notes"></span>انتخاب موزیک برای فروشگاه</a>
+            <div id="music-modal" class="modal-sections" uk-modal>
+                <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <div class="uk-modal-header">
+                        <h3 class="uk-modal-title uk-text-center">یکی از موزیک های زیر را انتخاب کنید</h3>
+                    </div>
+                    <div class="uk-modal-body uk-padding-small">
+                        <div class="delivery uk-grid-small uk-child-width-1-1 uk-grid">
+                            @foreach (var item in ViewBag.Music)
+                            {
+                                <label class="uk-margin-top">
+                                    <input class="uk-checkbox uk-margin-remove-top m" type="radio" value="@item.Id">نام موزیک اول
+                                    <audio controls="controls">
+                                        <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
+                                    </audio>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                    <div class="uk-modal-footer uk-text-center">
+                        <button id="btnMusic" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
+                        
                     </div>
                 </div>
-                <div class="uk-modal-footer uk-text-center">
-                    <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
-                </div>
             </div>
-        </div>
+            <span id="checkedMusic">
+            </span>
+        }
         <input class="uk-margin-large-top uk-margin-bottom center gradientButton" type="submit" value="ایجاد فروشگاه">
     </form>
 </div>
 @*<div class="space-double"></div>
-<div class="space-mobile"></div>*@
+    <div class="space-mobile"></div>*@
 <div class="my-space"></div>
 
 
@@ -148,6 +133,38 @@
 
     <link href="~/leaflet/leaflet.css" rel="stylesheet" />
     <script src="~/leaflet/leaflet.js"></script>
+    <script>
+        $("#btnubni").click(function () {
+            var selected = [];
+            $('.m:checked').each(function () {
+                selected.push($(this).attr('value'));
+            });
+            for (var i = 0; i < selected.length; i++) {
+                $("#checkedMusic").html($("#checkedMusic").html() + "<input name='Music' type='hidden' value='" + selected[i] + "' />");
+            }
+        });
+    </script>
+    <script>
+        $("#btnubni").click(function () {
+            var selected = [];
+            $('.j:checked').each(function () {
+                selected.push($(this).attr('value'));
+            });
+            for (var i = 0; i < selected.length; i++) {
+                $("#checkedNaighborhood").html($("#checkedNaighborhood").html() + "<input name='naighborhood' type='hidden' value='" + selected[i] + "' />");
+            }
+        });
+    </script>
+    <script>
+        $("#LogoUrl").change(function () {
+            if ($(this).val() != null) {
+                $("#LogoUrlbtn").css("border", "2px solid green");
+                $("#LogoUrlbtn").html("تصویرانتخاب شد");
+            } else {
+                $("#LogoUrlbtn").css("border", null);
+            }
+        });
+    </script>
 
     <script>
 
@@ -183,6 +200,17 @@
             theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت فروشگاه شما ثبت شد</h6>').openPopup();
         });
 
+    </script>
+
+    <script>
+        $("#LogoUrl").change(function () {
+            if ($(this).val() != null) {
+                $("#LogoUrlbtn").css("border", "2px solid green");
+                $("#LogoUrlbtn").html("تصویرانتخاب شد");
+            } else {
+                $("#LogoUrlbtn").css("border", null);
+            }
+        });
     </script>
 
     <script>
