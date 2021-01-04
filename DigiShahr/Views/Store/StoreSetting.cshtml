@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewData["Title"] = "تنظیمات فروشگاه";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="my-space"></div>
+<div class="mat my-column my-clipped">
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">تنظیمات فروشگاه</h3>
+        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+    </div>
+    <form class="my-column createAccount uk-padding-small" action="CreateStore" method="post" enctype="multipart/form-data" dir="rtl">
+
+        <input name="DealId" type="hidden" value="" />
+        <div class="my-row uk-margin-top uk-margin-small-right">
+            <div uk-form-custom>
+                <input type="file">
+              @*  <span class="icon-holder uk-position-absolute uk-position-bottom-left" uk-icon="create-outline"></span>*@
+                <img class="" src="~/img/Store/logo-defult.png" width="80" height="80" />
+                
+                @*<button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">تغییر لوگو</button>*@
+            </div>
+            @*<img class="" src="~/img/Store/logo-defult.png" width="80" height="80" />*@
+            <div class="my-column uk-margin-right">
+                <label class="uk-margin-remove-bottom">نام فروشگاه</label>
+                <label class="uk-margin-remove-top">وضعیت:<span id="statusResult">باز</span></label>
+            </div>
+            @*<div class="uk-margin-auto-right uk-margin-auto-top uk-margin-auto-bottom uk-margin-left">
+                <div uk-form-custom>
+                    <input type="file">
+                    <button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">تغییر لوگو</button>
+                </div>
+            </div>*@
+        </div>
+        <hr class="uk-divider-icon uk-margin-remove-bottom" />
+        <div class="my-row">
+            <label for="" id="StoreStatus" onclick="closeStore()">بستن فروشگاه</label>
+            <div class="OpenCloseStore my-column center uk-margin-auto-right uk-margin-top uk-margin-left">
+
+                <img class="center upOfdoor" src="~/img/Store/window shade/upOfdoor.svg" />
+                <div class="center door" id="door"></div>
+                <img class="center bottomOfdoor" src="~/img/Store/window shade/bottomOfdoor.svg" onclick="closeStore()" />
+
+            </div>
+        </div>
+        <hr class="uk-divider-icon uk-margin-remove-bottom" />
+        <label for="StaticTell">تلفن ثابت:</label>
+        <input type="text">
+
+        <label for="Address">آدرس فروشگاه:</label>
+        <input type="text">
+
+        <div id="map" class="map"></div>
+        <hr class="uk-divider-icon uk-margin-remove-bottom" />
+        <label for="name">انتخاب نحوه تحویل و تسویه:</label>
+        <div class="delivery uk-grid-small uk-child-width-auto uk-grid">
+            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox" checked> تحویل و تسویه درب منزل</label>
+            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox"> تحویل و تسویه در محل فروشگاه</label>
+        </div>
+        <hr class="uk-divider-icon uk-margin-remove-bottom uk-margin-remove-top" />
+        <label for="name">مدت زمان تایید سفارش:</label>
+        <input>
+
+        <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>انتخاب محله های سرویس دهی</a>
+        <div id="modal-sections" class="modal-sections" uk-modal>
+            <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <div class="uk-modal-header">
+                    <h3 class="uk-modal-title uk-text-center">لطفا محله های مورد نظر برای سرویس دهی را انتخاب کنید</h3>
+                </div>
+                <div class="uk-modal-body uk-padding-small">
+                    <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox" checked>ولیعصر</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">باغمیشه</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">پروین اعتصامی</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">ابوریحان</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">منظریه</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">پروین اعتصامی</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">ابوریحان</label>
+                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox">منظریه</label>
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-text-center">
+                    <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
+                </div>
+            </div>
+        </div>
+        <a class="uk-margin-top serviceArea uk-margin-auto" href="#music-modal" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="musical-notes"></span>انتخاب موزیک برای فروشگاه</a>
+        <div id="music-modal" class="modal-sections" uk-modal>
+            <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <div class="uk-modal-header">
+                    <h3 class="uk-modal-title uk-text-center">یکی از موزیک های زیر را انتخاب کنید</h3>
+                </div>
+                <div class="uk-modal-body uk-padding-small">
+                    <div class="delivery uk-grid-small uk-child-width-1-1 uk-grid">
+
+                        <label class="uk-margin-top">
+                            <input class="uk-checkbox uk-margin-remove-top m" type="radio">نام موزیک اول
+                            <audio controls="controls">
+                                <source src="#" type="audio/mpeg" />
+                            </audio>
+                        </label>
+
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-text-center">
+                    <button id="btnMusic" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
+
+                </div>
+            </div>
+        </div>
+        <span id="checkedMusic">
+        </span>
+        <input class="uk-margin-large-top uk-margin-bottom center gradientButton" type="submit" value="ایجاد فروشگاه">
+    </form>
+</div>
+<div class="my-space"></div>
+
+@section Script{
+
+    <link href="~/leaflet/leaflet.css" rel="stylesheet" />
+    <script src="~/leaflet/leaflet.js"></script>
+    <script>
+
+        var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 11);
+
+        L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'echoville'
+        }).addTo(map);
+
+        var theMarker = {};
+
+        map.on('click', function (e) {
+            lat = e.latlng.lat;
+            lon = e.latlng.lng;
+
+            //Clear existing marker,
+
+            if (theMarker != undefined) {
+                map.removeLayer(theMarker);
+            };
+
+            var iconSetting = L.Icon.extend({
+                options: {
+                    iconSize: [20, 29],
+                    iconAnchor: [10, 29]
+                }
+            });
+
+            var customIcon = new iconSetting({ iconUrl: '/location.png' });
+            //Add a marker to show where you clicked.
+            $("#Lat").val(lat.toString());
+            $("#Lon").val(lon.toString());
+            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت فروشگاه شما ثبت شد</h6>').openPopup();
+        });
+
+    </script>
+    <script>
+        function closeStore() {
+            if (document.getElementById("door").style.height == "23px") {
+                document.getElementById("door").style.height = "8px";
+                document.getElementById("StoreStatus").innerHTML = "بستن فروشگاه";
+                document.getElementById("statusResult").style.color = "#32d296";
+                document.getElementById("statusResult").innerHTML = "باز";
+            } else {
+                document.getElementById("door").style.height = "23px";
+                document.getElementById("StoreStatus").innerHTML = "بازکردن فروشگاه";
+                document.getElementById("statusResult").style.color = "red";
+                document.getElementById("statusResult").innerHTML = "بسته";
+            }
+        }
+    </script>
+    
+}
