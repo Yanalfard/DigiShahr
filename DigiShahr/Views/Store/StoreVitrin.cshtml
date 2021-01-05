@@ -1,4 +1,4 @@
-﻿
+﻿@model DataLayer.Models.TblStore
 @{
     ViewData["Title"] = "ویترین فروشگاه";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -11,36 +11,58 @@
 <form>
     <div class="mat BannerPlace my-column my-clipped">
         <h3 class="center absolute uk-margin-top">
-            افزودن یا ویرایش بنر
+            @if (string.IsNullOrEmpty(Model.MainBannerUrl))
+            {
+                @:افزودن بنر
+            }
+            else
+            {
+                @:ویرایش بنر
+            }
         </h3>
-        <div class="js-upload uk-position-absolute" uk-form-custom>
-            <input type="file" multiple>
-            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-        </div>
-        <div class="js-upload uk-position-absolute" uk-form-custom>
-            <input type="file" multiple>
-            <a><span class="icon-holder uk-margin-left uk-margin-large-top" uk-icon="create-outline" tabindex="-1"></span></a>
-        </div>
+        @if (string.IsNullOrEmpty(Model.MainBannerUrl))
+        {
+            <div class="js-upload uk-position-absolute" uk-form-custom>
+                <input type="file" multiple>
+                <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            </div>
+
+        }
+        else
+        {
+            <div class="js-upload uk-position-absolute" uk-form-custom>
+                <input type="file" multiple>
+                <a><span class="icon-holder uk-margin-left uk-margin-large-top" uk-icon="create-outline" tabindex="-1"></span></a>
+            </div>
+        }
         <!--<div uk-form-custom>
         <input type="file" name="banner">
         <a><span class="icon-holder uk-position-absolute uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>-->
         @*<button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب لوگو</button>*@
         <!--</div>-->
-        <div class="uk-margin-auto-vertical logoPlace mat center">
+        <div class="uk-margin-auto-vertical center">
             <h3 class="center uk-margin-auto-vertical">
-                افزودن یا ویرایش لوگو
+                @if (!string.IsNullOrEmpty(Model.LogoUrl))
+                {
+                    <img class="uk-margin-right" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
+                }
             </h3>
 
             <div class=" center uk-margin-small-top">
-
-                <div class="js-upload" uk-form-custom>
-                    <input type="file" multiple>
-                    <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-                </div>
-                <div class="js-upload" uk-form-custom>
-                    <input type="file" multiple>
-                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                </div>
+                @if (string.IsNullOrEmpty(Model.LogoUrl))
+                {
+                    <div class="js-upload" uk-form-custom>
+                        <input type="file" multiple>
+                        <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+                    </div>
+                }
+                else
+                {
+                    <div class="js-upload" uk-form-custom>
+                        <input type="file" multiple>
+                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    </div>
+                }
             </div>
         </div>
 
@@ -48,48 +70,50 @@
 </form>
 <div class="mat productSection my-column my-clipped uk-margin-small-top">
     <a><span class="icon-holder uk-position-absolute uk-margin-small-top uk-margin-left" uk-icon="backIcon"></span></a>
-    <div class="my-row uk-margin-top">
-        <div class="uk-inline productCategory uk-margin-top" style="left:0;">
-            <a class="uk-form-icon uk-margin-auto-vertical" href="#"><span class="icon-holder" uk-icon="add-outline"></span></a>
-            <input class="uk-input" type="text">
-        </div>
-        <h3 class="center">:افزودن دسته بندی</h3>
-    </div>
+    <form id="CreateCategory">
+        <div class="my-row uk-margin-top">
+            <div class="uk-inline productCategory uk-margin-top" style="left:0;">
+                <a id="SubmitCatagory" class="uk-form-icon uk-margin-auto-vertical"><span class="icon-holder" uk-icon="add-outline"></span></a>
+                <input class="uk-input" id="CategoryName" type="text">
+            </div>
+            <span class="uk-text-danger" id="CreateCategoryErorr"></span>
+            <h3 class="center">:افزودن دسته بندی</h3>
 
+        </div>
+    </form>
     <div class="my-row CategoryList">
-        <div class="category">
-            لبنیات
-        </div>
-        <div class="category">
-            پروتئینی
-        </div>
-        <div class="category">
-            خشکبار
-        </div>
-        <div class="category">
-            نوشیدنی
-        </div>
-        <div class="category">
-            لبنیات
-        </div>
-
+        @foreach (var item in Model.TblStoreCatagoryRels)
+        {
+            <div class="category">
+                @item.Catagory.Name
+            </div>
+        }
     </div>
     <hr />
     <h3 class="center"><a href="#AddProduct" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
-    <div class="my-row uk-padding-small AddProductSection" dir="rtl">
-        <div class="my-column uk-margin-small-right uk-text-center">
-            <label>نام محصول</label>
-            <div class="my-row">
-                <label class="uk-margin-top">قیمت</label>
-                <label class="OFFPercent uk-margin-top">%</label>
+    <br>
+    @foreach (var items in Model.TblStoreCatagoryRels)
+    {
+        foreach (var item in items.TblProducts)
+        {
+            <div class="my-row uk-padding-small AddProductSection" dir="rtl">
+                <div class="my-column uk-margin-small-right uk-text-center">
+                    <label>@item.Name</label>
+                    <div class="my-row">
+                        <label class="uk-margin-top price">@item.Price تومان</label>
+                        @if (item.Discount != 0)
+                        {
+                            <label class="OFFPercent uk-margin-top">@item.Discount%</label>
+                        }
+                    </div>
+                </div>
+                <div class="ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
+                    <img class="uk-margin-right" src="~/Upload/Product/@item.MainImageUrl" width="80" height="80" />
+                </div>
             </div>
-        </div>
-        <div class="ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-            تصویر
-        </div>
-    </div>
-    <hr />
-
+            <hr />
+        }
+    }
 </div>
 <div class="space-double"></div>
 <div class="space-mobile"></div>
@@ -129,3 +153,19 @@
         </form>
     </div>
 </div>
+
+@section Script{
+    <script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
+    <script>
+        $("#SubmitCatagory").click(function () {
+            $.post("/Store/CreatCategory?Name=" + $("#CategoryName").val(), function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+                else {
+                    $("#CreateCategoryErorr").html(result);
+                }
+            });
+        });
+    </script>
+}

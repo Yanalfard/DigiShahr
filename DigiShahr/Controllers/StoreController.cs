@@ -32,11 +32,14 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                if (User.Claims.Last().Value == "8f32nFmU6m")
+                if (User.Claims.First().Value == "8f32nFmU6m")
                 {
                     return Redirect("/Store/StoreVitrin");
                 }
-                return View(_core.Deal.Get());
+                else
+                {
+                    return View(_core.Deal.Get());
+                }
             }
         }
 
@@ -394,13 +397,62 @@ namespace DigiShahr.Controllers
                     return Redirect("/Store/BuyPackage");
                 }
                 TblUser Seller = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-                return View(_core.Store.Get().Where(s => s.UserId == Seller.Id));
+                TblStore Store = _core.Store.Get().Where(s => s.UserId == Seller.Id).SingleOrDefault();
+                return View(Store);
             }
         }
 
         public IActionResult ChildStoreCategory(int id)
         {
             return ViewComponent("ChildStoreCategory", new { id = id });
+        }
+
+        public async Task<string> CreatCategory(string Name)
+        {
+            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            if (Name.Length > 100 || Name.Length < 2)
+            {
+                return await Task.FromResult("دسته بندی مناسب وارد کنید");
+            }
+            else
+            {
+                if (Name.Contains("'"))
+                {
+                    return await Task.FromResult("دسته بندی مناسب وارد کنید");
+                }
+                else
+                {
+                    TblStore Store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
+                    TblCatagory Category = _core.Catagory.Get().Where(c => c.Name == Name).SingleOrDefault();
+                    if (Category == null)
+                    {
+                        TblCatagory catagory = new TblCatagory();
+                        catagory.Name = Name;
+                        _core.Catagory.Add(catagory);
+                        _core.Catagory.Save();
+                        TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
+                        catagoryRel.CatagoryId = catagory.Id;
+                        catagoryRel.Catagory = catagory;
+                        catagoryRel.IsDeleted = false;
+                        _core.StoreCatagoryRel.Add(catagoryRel);
+                        _core.StoreCatagoryRel.Save();
+                        return await Task.FromResult("true");
+
+                    }
+                    else
+                    {
+                        TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
+                        catagoryRel.Catagory = Category;
+                        catagoryRel.CatagoryId = Category.Id;
+                        catagoryRel.Store = Store;
+                        catagoryRel.StoreId = Store.Id;
+                        catagoryRel.IsDeleted = false;
+                        _core.StoreCatagoryRel.Add(catagoryRel);
+                        _core.StoreCatagoryRel.Save();
+                        return await Task.FromResult("true");
+                    }
+                }
+            }
         }
 
     }
