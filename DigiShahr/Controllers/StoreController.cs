@@ -383,6 +383,10 @@ namespace DigiShahr.Controllers
         {
             return View();
         }
+        public IActionResult StoreSetting()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> StoreVitrin()
         {

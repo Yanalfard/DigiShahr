@@ -68,6 +68,9 @@
     <None Include="wwwroot\Bootstrap\js\bootstrap.js.map" />
     <None Include="wwwroot\Bootstrap\js\bootstrap.min.js" />
     <None Include="wwwroot\Bootstrap\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\img\Store\window shade\bottomOfdoor.svg" />
+    <None Include="wwwroot\img\Store\window shade\door.svg" />
+    <None Include="wwwroot\img\Store\window shade\upOfdoor.svg" />
   </ItemGroup>
 
   <ItemGroup>

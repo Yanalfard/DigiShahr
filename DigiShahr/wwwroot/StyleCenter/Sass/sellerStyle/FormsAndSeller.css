@@ -195,3 +195,21 @@ ul {
   z-index: 10000000; }
   #AddProduct .uk-modal-dialog {
     border-radius: 7px; }
+
+#StoreStatus {
+  cursor: pointer; }
+
+#statusResult {
+  margin-right: 2px;
+  color: #32d296; }
+
+.OpenCloseStore .door {
+  margin-top: -7px;
+  transition: height 1s;
+  width: 25px;
+  height: 8px;
+  border-radius: 0 0 2px 2px;
+  background-color: #242424; }
+
+.OpenCloseStore .bottomOfdoor {
+  cursor: pointer; }
