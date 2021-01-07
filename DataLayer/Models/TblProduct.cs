@@ -17,6 +17,7 @@ namespace DataLayer.Models
         public int StoreCatagoryId { get; set; }
         public string Name { get; set; }
         public string MainImageUrl { get; set; }
+        public int Count { get; set; }
         public int Price { get; set; }
         public short Discount { get; set; }
         public bool IsDeleted { get; set; }
