@@ -7,10 +7,11 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
-  height: 100vh; }
+  /*height: 100vh;*/ }
   .contentContainer .firstHead {
     background: #40916C; }
   .contentContainer .LoginContent {
+    overflow-y: hidden !important;
     background: #F4F4F4;
     border-radius: 22px 22px 0 0;
     margin-top: -18px !important; }

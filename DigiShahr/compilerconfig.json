@@ -22,5 +22,9 @@
   {
     "outputFile": "wwwroot/StyleCenter/Sass/Home/Home.css",
     "inputFile": "wwwroot/StyleCenter/Sass/Home/Home.scss"
+  },
+  {
+    "outputFile": "wwwroot/StyleCenter/Sass/LoginRegister/BodyStyle.css",
+    "inputFile": "wwwroot/StyleCenter/Sass/LoginRegister/BodyStyle.scss"
   }
 ]
