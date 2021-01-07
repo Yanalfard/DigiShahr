@@ -4,70 +4,76 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-@*<h1>StoreVitrin</h1>*@
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="space-double"></div>
 <div class="space-mobile"></div>
-<form>
-    <div class="mat BannerPlace my-column my-clipped">
-        <h3 class="center absolute uk-margin-top">
-            @if (string.IsNullOrEmpty(Model.MainBannerUrl))
-            {
-                @:افزودن بنر
-            }
-            else
-            {
-                @:ویرایش بنر
-            }
-        </h3>
+
+<div class="BannerPlace my-column my-clipped"
+     @if (Model.MainBannerUrl != null) { @: style="background-image: url('/Upload/StoreMainBanner/@Model.MainBannerUrl');background-repeat:no-repeat;"
+     }>
+    <h3 class="center absolute uk-margin-top">
         @if (string.IsNullOrEmpty(Model.MainBannerUrl))
         {
-            <div class="js-upload uk-position-absolute" uk-form-custom>
-                <input type="file" multiple>
-                <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-            </div>
-
+            @:افزودن بنر
         }
         else
         {
-            <div class="js-upload uk-position-absolute" uk-form-custom>
-                <input type="file" multiple>
-                <a><span class="icon-holder uk-margin-left uk-margin-large-top" uk-icon="create-outline" tabindex="-1"></span></a>
-            </div>
+            @:ویرایش بنر
         }
-        <!--<div uk-form-custom>
-        <input type="file" name="banner">
-        <a><span class="icon-holder uk-position-absolute uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>-->
-        @*<button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب لوگو</button>*@
-        <!--</div>-->
-        <div class="uk-margin-auto-vertical center">
-            <h3 class="center uk-margin-auto-vertical">
-                @if (!string.IsNullOrEmpty(Model.LogoUrl))
-                {
-                    <img class="uk-margin-right" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
-                }
-            </h3>
+    </h3>
+    @if (string.IsNullOrEmpty(Model.MainBannerUrl))
+    {
+        <div class="js-upload uk-position-absolute" uk-form-custom>
 
-            <div class=" center uk-margin-small-top">
-                @if (string.IsNullOrEmpty(Model.LogoUrl))
-                {
-                    <div class="js-upload" uk-form-custom>
-                        <input type="file" multiple>
-                        <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-                    </div>
-                }
-                else
-                {
-                    <div class="js-upload" uk-form-custom>
-                        <input type="file" multiple>
-                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                    </div>
-                }
-            </div>
+            <input type="file" id="MainBannerFile">
+            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <span class="uk-text-danger" id="MainBannerFileErorr"></span>
         </div>
 
+    }
+    else
+    {
+        <div class="js-upload uk-position-absolute" uk-form-custom>
+
+            <input type="file" id="MainBannerFile">
+            <span class="uk-text-danger" id="MainBannerFileErorr"></span>
+            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <span class="uk-text-danger"></span>
+        </div>
+    }
+    <div class="uk-margin-auto-vertical center">
+        <h3 class="center uk-margin-auto-vertical">
+            @if (!string.IsNullOrEmpty(Model.LogoUrl))
+            {
+                <img class="uk-margin-right" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
+            }
+        </h3>
+
+        <div class=" center uk-margin-small-top">
+            @if (string.IsNullOrEmpty(Model.LogoUrl))
+            {
+                <div class="js-upload" uk-form-custom>
+                    <input type="file" id="LogoFile">
+                    <span class="uk-text-danger">
+                    </span>
+                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <span class="uk-text-danger" id="LogoFileErorr"></span>
+                </div>
+            }
+            else
+            {
+                <div class="js-upload" uk-form-custom>
+                    <input type="file" id="LogoFile">
+                    <span class="uk-text-danger">
+                    </span>
+                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <span class="uk-text-danger" id="LogoFileErorr"></span>
+                </div>
+            }
+        </div>
     </div>
-</form>
+
+</div>
 <div class="mat productSection my-column my-clipped uk-margin-small-top">
     <a><span class="icon-holder uk-position-absolute uk-margin-small-top uk-margin-left" uk-icon="backIcon"></span></a>
     <form id="CreateCategory">
@@ -82,6 +88,26 @@
         </div>
     </form>
     <div class="my-row CategoryList">
+
+        @if (Model.TblStoreCatagoryRels.Count() == 0)
+        {
+            <div class="category">
+                دسته بندی اول
+            </div>
+            <div class="category">
+                دسته بندی دوم
+            </div>
+            <div class="category">
+                دسته بندی سوم
+            </div>
+            <div class="category">
+                دسته بندی چهارم
+            </div>
+            <div class="category">
+                دسته بندی پنجم
+            </div>
+        }
+
         @foreach (var item in Model.TblStoreCatagoryRels)
         {
             <div class="category">
@@ -90,7 +116,7 @@
         }
     </div>
     <hr />
-    <h3 class="center"><a href="#AddProduct" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
+    <h3 class="center"><a href="#AddProduct" id="AddProductPapaer" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
     <br>
     @foreach (var items in Model.TblStoreCatagoryRels)
     {
@@ -119,43 +145,19 @@
 <div class="space-mobile"></div>
 <div id="AddProduct" uk-modal>
     <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <form class="my-column createAccount uk-padding-small" action="" dir="rtl">
-            <div class="uk-modal-header uk-margin-bottom">
-                <h3 class="uk-modal-title uk-text-center">افزودن محصول</h3>
-            </div>
-            <div class="uk-modal-body my-column uk-padding-small">
-                <div class="uk-margin">
-                    <select class="uk-select">
-                        <option>انتخاب دسته بندی</option>
-                        <option>خشکبار</option>
-                        <option>لبنیات</option>
-                    </select>
-                </div>
-                <label for="name">نام محصول:</label>
-                <input type="text" name="Name">
-                <label for="price">قیمت(تومان):</label>
-                <input type="text" name="Name">
-                <label for="off">درصد تخفیف:</label>
-                <input type="text" name="off">
-                <div class="uk-margin ">
-                    <div class="my-row" uk-form-custom>
-                        @*<label>انتخاب تصویر برای محصول</label>*@
-                        <input type="file">
-                        @*< class="uk-button uk-button-default" type="button" tabindex="-1"><span class="icon-holder" uk-icon="attach"></span>انتخاب تصویر محصول</button>*@
-                        <button class="uk-margin-top serviceArea ">انتخاب تصویر برای محصول<span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="attach"></span></button>
-                    </div>
-                </div>
-            </div>
-            <div class="uk-modal-footer uk-text-center uk-margin-top">
-                <input class="center gradientButton" type="submit" value="افزودن">
-            </div>
-        </form>
+
     </div>
 </div>
 
 @section Script{
     <script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
+    <script>
+        $("#AddProductPapaer").click(function () {
+            $.get("/Store/AddProduct/@Model.Id", function (result) {
+                $(".uk-modal-dialog").html(result);
+            });
+    });
+    </script>
     <script>
         $("#SubmitCatagory").click(function () {
             $.post("/Store/CreatCategory?Name=" + $("#CategoryName").val(), function (result) {
@@ -165,6 +167,62 @@
                 else {
                     $("#CreateCategoryErorr").html(result);
                 }
+            });
+        });
+    </script>
+    <script>
+        $("#MainBannerFile").change(function () {
+            var fileUpload = $("#MainBannerFile").get(0);
+            var files = fileUpload.files;
+            var data = new FormData();
+            data.append("file", files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "/Store/UploadMainBanner",
+                contentType: false,
+                processData: false,
+                data: data,
+                async: false,
+                beforeSend: function () {
+                    $("#divloader").show()
+                },
+                success: function (message) {
+                    if (message == "true") {
+                        window.location.reload();
+                    } else {
+                        $("#MainBannerFileErorr").html(message);
+                    }
+                },
+
+            });
+        });
+
+        $("#LogoFile").change(function () {
+            var fileUpload = $("#LogoFile").get(0);
+            var files = fileUpload.files;
+            var data = new FormData();
+            data.append("file", files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "/Store/UploadLogo",
+                contentType: false,
+                processData: false,
+                data: data,
+                async: false,
+                beforeSend: function () {
+                    $("#divloader").show()
+                },
+                success: function (message) {
+                    if (message == "true") {
+                        window.location.reload();
+                    } else {
+                        $("#LogoFileErorr").html(message);
+                    }
+
+                },
+
             });
         });
     </script>

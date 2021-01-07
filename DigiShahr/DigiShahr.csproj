@@ -54,7 +54,7 @@
     <Folder Include="wwwroot\StyleCenter\Sass\layoutStyle\" />
     <Folder Include="wwwroot\StyleCenter\Tools\" />
     <Folder Include="wwwroot\Upload\Music\" />
-    <Folder Include="wwwroot\Upload\StoreLogo\" />
+    <Folder Include="wwwroot\Upload\Product\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,7 @@ namespace DigiShahr.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
@@ -383,6 +384,12 @@ namespace DigiShahr.Controllers
         {
             return View();
         }
+
+        public IActionResult ChildStoreCategory(int id)
+        {
+            return ViewComponent("ChildStoreCategory", new { id = id });
+        }
+
         public IActionResult StoreSetting()
         {
             return View();
@@ -406,11 +413,6 @@ namespace DigiShahr.Controllers
             }
         }
 
-        public IActionResult ChildStoreCategory(int id)
-        {
-            return ViewComponent("ChildStoreCategory", new { id = id });
-        }
-
         public async Task<string> CreatCategory(string Name)
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
@@ -428,36 +430,253 @@ namespace DigiShahr.Controllers
                 {
                     TblStore Store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
                     TblCatagory Category = _core.Catagory.Get().Where(c => c.Name == Name).SingleOrDefault();
-                    if (Category == null)
-                    {
-                        TblCatagory catagory = new TblCatagory();
-                        catagory.Name = Name;
-                        _core.Catagory.Add(catagory);
-                        _core.Catagory.Save();
-                        TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
-                        catagoryRel.CatagoryId = catagory.Id;
-                        catagoryRel.Catagory = catagory;
-                        catagoryRel.IsDeleted = false;
-                        _core.StoreCatagoryRel.Add(catagoryRel);
-                        _core.StoreCatagoryRel.Save();
-                        return await Task.FromResult("true");
 
+                    if (_core.StoreCatagoryRel.Get().Where(scr => scr.StoreId == Store.Id).Count() >= Store.CatagoryLimit)
+                    {
+                        return await Task.FromResult("تعداد ثبت دسته بندی شما به پایان رسیده است");
                     }
                     else
                     {
-                        TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
-                        catagoryRel.Catagory = Category;
-                        catagoryRel.CatagoryId = Category.Id;
-                        catagoryRel.Store = Store;
-                        catagoryRel.StoreId = Store.Id;
-                        catagoryRel.IsDeleted = false;
-                        _core.StoreCatagoryRel.Add(catagoryRel);
-                        _core.StoreCatagoryRel.Save();
-                        return await Task.FromResult("true");
+                        if (Category == null)
+                        {
+                            TblCatagory catagory = new TblCatagory();
+                            catagory.Name = Name;
+                            _core.Catagory.Add(catagory);
+                            _core.Catagory.Save();
+                            TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
+                            catagoryRel.CatagoryId = catagory.Id;
+                            catagoryRel.Catagory = catagory;
+                            catagoryRel.IsDeleted = false;
+                            _core.StoreCatagoryRel.Add(catagoryRel);
+                            _core.StoreCatagoryRel.Save();
+                            return await Task.FromResult("true");
+
+                        }
+                        else
+                        {
+                            if (_core.StoreCatagoryRel.Get().Any(scr => scr.StoreId == Store.Id && scr.Catagory.Name == Name))
+                            {
+                                return await Task.FromResult("دسته بندی وارد شده تکراری میباشد");
+                            }
+                            else
+                            {
+                                TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
+                                catagoryRel.Catagory = Category;
+                                catagoryRel.CatagoryId = Category.Id;
+                                catagoryRel.Store = Store;
+                                catagoryRel.StoreId = Store.Id;
+                                catagoryRel.IsDeleted = false;
+                                _core.StoreCatagoryRel.Add(catagoryRel);
+                                _core.StoreCatagoryRel.Save();
+                                return await Task.FromResult("true");
+                            }
+                        }
                     }
                 }
             }
         }
 
+        [HttpPost]
+        public async Task<string> UploadLogo()
+        {
+            var file = Request.Form.Files;
+            if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
+            {
+                return await Task.FromResult("لطفا تصویر با فرمت مناسب وارد کنید");
+            }
+            else
+            {
+                if (file[0].Length > 3000000)
+                {
+                    return await Task.FromResult("حجم فایل بیش از اندازه میباشد");
+                }
+                else
+                {
+                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblStore Store = user.TblStores.FirstOrDefault();
+
+                    if (string.IsNullOrEmpty(Store.LogoUrl))
+                    {
+                        Store.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                        string savePath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", Store.LogoUrl
+                        );
+
+                        using (var stream = new FileStream(savePath, FileMode.Create))
+                        {
+                            await file[0].CopyToAsync(stream);
+                        }
+                        _core.Store.Update(Store);
+                        _core.Store.Save();
+                        return await Task.FromResult("true");
+                    }
+                    else
+                    {
+                        var fullPath = "wwwroot/Upload/StoreLogo/" + Store.LogoUrl;
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+
+                            Store.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                            string savePath = Path.Combine(
+                                Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", Store.LogoUrl
+                            );
+
+                            using (var stream = new FileStream(savePath, FileMode.Create))
+                            {
+                                await file[0].CopyToAsync(stream);
+                            }
+                            _core.Store.Update(Store);
+                            _core.Store.Save();
+                        }
+                    }
+
+                    return await Task.FromResult("true");
+                }
+            }
+        }
+
+        [HttpPost]
+        public async Task<string> UploadMainBanner()
+        {
+            var file = Request.Form.Files;
+            if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
+            {
+                return await Task.FromResult("لطفا تصویر با فرمت مناسب وارد کنید");
+            }
+            else
+            {
+                if (file[0].Length > 3000000)
+                {
+                    return await Task.FromResult("حجم فایل بیش از اندازه میباشد");
+                }
+                else
+                {
+                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblStore Store = user.TblStores.FirstOrDefault();
+
+                    if (string.IsNullOrEmpty(Store.MainBannerUrl))
+                    {
+                        Store.MainBannerUrl = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                        string savePath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreMainBanner", Store.MainBannerUrl
+                        );
+
+                        using (var stream = new FileStream(savePath, FileMode.Create))
+                        {
+                            await file[0].CopyToAsync(stream);
+                        }
+                        _core.Store.Update(Store);
+                        _core.Store.Save();
+                        return await Task.FromResult("true");
+                    }
+                    else
+                    {
+                        var fullPath = "wwwroot/Upload/StoreMainBanner/" + Store.MainBannerUrl;
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+
+                            Store.MainBannerUrl = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                            string savePath = Path.Combine(
+                                Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreMainBanner", Store.MainBannerUrl
+                            );
+
+                            using (var stream = new FileStream(savePath, FileMode.Create))
+                            {
+                                await file[0].CopyToAsync(stream);
+                            }
+                            _core.Store.Update(Store);
+                            _core.Store.Save();
+                        }
+                    }
+
+                    return await Task.FromResult("true");
+                }
+            }
+        }
+
+        public IActionResult AddProduct(int id)
+        {
+
+            return ViewComponent("CreateProduct", new { id = id });
+        }
+
+        [HttpPost]
+        public async Task<string> CreateProduct(TblProduct Product)
+        {
+            var t = ModelState;
+            if (Product.StoreCatagoryId == 0)
+            {
+                return await Task.FromResult("لطفا دسته بندی را وارد کنید");
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(Product.Name) || Product.Name.Length > 100)
+                {
+                    return await Task.FromResult("لطفا نام محصول را وارد کنید");
+                }
+                else
+                {
+                    if (Product.Price.ToString().Length > 10 || Product.Price.ToString().Length < 3 || Product.Price == 0)
+                    {
+                        return await Task.FromResult("لطفا قیمت مناسب وارد کنید");
+                    }
+                    else
+                    {
+                        TblProduct NewProduct = new TblProduct();
+                        NewProduct.StoreCatagoryId = Product.StoreCatagoryId;
+                        NewProduct.Name = Product.Name;
+                        NewProduct.Price = Product.Price;
+                        NewProduct.MainImageUrl = null;
+                        NewProduct.IsDeleted = false;
+                        NewProduct.Discount = Product.Discount;
+                        _core.Product.Add(NewProduct);
+                        _core.Product.Save();
+                        return await Task.FromResult(NewProduct.Id.ToString());
+                    }
+                }
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<string> UploadProductImage(int ProductId)
+        {
+            var file = Request.Form.Files;
+            TblProduct product = _core.Product.GetById(ProductId);
+            if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
+            {
+                return await Task.FromResult("لطفا تصویر با فرمت مناسب وارد کنید");
+            }
+            else
+            {
+                if (file[0].Length > 3000000)
+                {
+                    return await Task.FromResult("حجم فایل بیش از اندازه میباشد");
+                }
+                else
+                {
+
+                    product.MainImageUrl = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                    string savePath = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot/Upload/Product", product.MainImageUrl
+                    );
+
+                    using (var stream = new FileStream(savePath, FileMode.Create))
+                    {
+                        await file[0].CopyToAsync(stream);
+                    }
+                    _core.Product.Update(product);
+                    _core.Product.Save();
+                    return await Task.FromResult("true");
+                }
+            }
+        }
+
+        public IActionResult SubscribtionTillErorr()
+        {
+            return View();
+        }
     }
 }
