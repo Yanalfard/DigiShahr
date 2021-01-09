@@ -91,7 +91,7 @@ namespace DigiShahr.Controllers
 
                                 if (User.Claims.First().Value == "8f32nFmU6m")
                                 {
-                                    return Redirect("/Store/BuyPackage");
+                                    return Redirect("/Store/StoreVitrin");
                                 }
                                 else
                                 {
@@ -133,7 +133,7 @@ namespace DigiShahr.Controllers
                         {
                             if (User.Claims.First().Value == "8f32nFmU6m")
                             {
-                                return Redirect("/Store/BuyPackage");
+                                return Redirect("/Store/StoreVitrin");
                             }
                             ViewBag.DealId = id;
                             ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
@@ -390,9 +390,63 @@ namespace DigiShahr.Controllers
             return ViewComponent("ChildStoreCategory", new { id = id });
         }
 
-        public IActionResult StoreSetting()
+        [HttpGet]
+        public async Task<IActionResult> StoreSetting()
         {
-            return View();
+            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
+            ViewBag.Naighborhood = _core.Naighborhood.Get();
+            ViewBag.Music = _core.Music.Get();
+            EditStoreViewModel editStore = new EditStoreViewModel();
+            editStore.Id = store.Id;
+            editStore.IsOpen = store.IsOpen;
+            editStore.Lat = store.Lat;
+            editStore.Lon = store.Lon;
+            editStore.StaticTell = store.StaticTell;
+            if (store.Ability.TahvilVaTasvieDarForushgah == 0)
+            {
+                editStore.TahvilVaTasvieDarForushgah = false;
+            }
+            else if (store.Ability.TahvilVaTasvieDarForushgah == 1)
+            {
+                editStore.TahvilVaTasvieDarForushgah = true;
+            }
+            if (store.Ability.TahvilVaTasvieDarMahal == 0)
+            {
+                editStore.TahvilVaTasvieDarMahal = false;
+            }
+            else if (store.Ability.TahvilVaTasvieDarMahal == 1)
+            {
+                editStore.TahvilVaTasvieDarMahal = true;
+            }
+            editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
+            editStore.LogoUrl = store.LogoUrl;
+            editStore.Address = store.Address;
+            return View(editStore);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StoreSetting(EditStoreViewModel EditStore)
+        {
+            return await Task.FromResult(View());
+        }
+
+        public async Task<string> StatusChange(int Id)
+        {
+            TblStore store = _core.Store.GetById(Id);
+            if (store.IsOpen)
+            {
+                store.IsOpen = false;
+                _core.Store.Save();
+                return await Task.FromResult("true");
+            }
+            else
+            {
+                store.IsOpen = true;
+                _core.Store.Save();
+                return await Task.FromResult("true");
+            }
         }
 
         public async Task<IActionResult> StoreVitrin()
@@ -703,6 +757,7 @@ namespace DigiShahr.Controllers
                 }
             }
         }
+
 
         public IActionResult SubscribtionTillErorr()
         {

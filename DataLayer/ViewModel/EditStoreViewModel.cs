@@ -7,6 +7,10 @@ namespace DataLayer.ViewModel
 {
     public class EditStoreViewModel
     {
+        public int Id { get; set; }
+
+        public bool IsOpen { get; set; }
+
         public string LogoUrl { get; set; }
         [Required(ErrorMessage = "لطفا شماره تماس ثابت وارد کنید")]
         [StringLength(15, ErrorMessage = "لطفا شماره تماس ثابت مناسب وارد کنید")]

@@ -18,7 +18,6 @@
             <ul class="uk-iconnav">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a class="icon-holder" uk-icon="person" href="/Account/Profile?RetunUrl=@Context.Request.Host"></a></li>
                     if (User.Claims.First().Value == "d7tpmTdwXL")
                     {
                         <li><a class="icon-holder" uk-icon="addStore" href="/Store/CreateStore"></a></li>
