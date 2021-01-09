@@ -8,20 +8,20 @@
 <link href="~/StyleCenter/Sass/Home/Home.min.css" rel="stylesheet" />
 <link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />
 <div class="index">
-<div class="my-spaceInMap"></div>
+    <div class="my-spaceInMap"></div>
 
     <div class="IndexContainer">
         <div id="map" class="map"></div>
         <div id="search" class="Search center">
-       
-                <div class="center">
 
-                    <form class="uk-search uk-search-default uk-margin-left">
-                        <a href="" uk-search-icon></a>
-                        <input class="center uk-search-input" type="search" placeholder="جستجو">
-                    </form>
-                    <a id="Location"><span class="icon-holder uk-margin-left" uk-icon="locate"></span></a>
-                </div>
+            <div class="center">
+
+                <form class="uk-search uk-search-default uk-margin-left">
+                    <a href="" uk-search-icon></a>
+                    <input class="center uk-search-input" type="search" placeholder="جستجو">
+                </form>
+                <a id="Location"><span class="icon-holder uk-margin-left" uk-icon="locate"></span></a>
+            </div>
 
         </div>
         <div class="MenuGrid center my-clipped">
@@ -37,7 +37,7 @@
     </div>
 </div>
 @*<div class="space-double"></div>
-<div class="space-mobile"></div>*@
+    <div class="space-mobile"></div>*@
 <div class="my-spaceInMap"></div>
 <div id="modal" uk-modal>
     <div class="uk-modal-dialog uk-margin-auto-vertical subCategory" uk-overflow-auto dir="rtl">
@@ -80,11 +80,12 @@
 <span id="AllStore" class="hidden">
     @foreach (var item in Model.AllStore)
     {
-    <span class="storeinmap">
-        <s>@item.Name</s>
-        <i>@item.Lat</i>
-        <u>@item.Lon</u>
-    </span>
+        <span class="storeinmap">
+            <a>@item.Id</a>
+            <b>@item.Name</b>
+            <c>@item.Lat</c>
+            <d>@item.Lon</d>
+        </span>
     }
 </span>
 
@@ -112,8 +113,12 @@
         var customIcon = new iconSetting({ iconUrl: '/location.png' });
         var theMarker = {};
 
-        theMarker = L.marker([38.07674409597339, 46.29700302496191], { icon: customIcon }).addTo(map).bindPopup("فروشگاه");
-        
+        for (var i = 0; i < $(".storeinmap").length; i++) {
+            theMarker = L.marker([$(".storeinmap c")[i].innerHTML, $(".storeinmap d")[i].innerHTML],
+                { icon: customIcon }).addTo(map).bindPopup(
+                    $(".storeinmap b")[i].innerHTML + "<br /><br /><a class='gradientButtonLink center' href=/Store/" + $(".storeinmap a")[i].innerHTML + ">ورود</a>"
+                );
+        }
     </script>
 
 }

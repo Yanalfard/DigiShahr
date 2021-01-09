@@ -413,62 +413,78 @@ namespace DigiShahr.Controllers
             }
         }
 
-        public async Task<string> CreatCategory(string Name)
+        public async Task<string> CreateCategory(string Name)
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-            if (Name.Length > 100 || Name.Length < 2)
+
+            if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit == user.TblStores.First().TblStoreCatagoryRels.Count())
             {
-                return await Task.FromResult("دسته بندی مناسب وارد کنید");
+                return await Task.FromResult("SubscribtionTillErorr");
             }
             else
             {
-                if (Name.Contains("'"))
+
+                if (string.IsNullOrEmpty(Name))
                 {
-                    return await Task.FromResult("دسته بندی مناسب وارد کنید");
+                    return await Task.FromResult("لطفا نام دسته بندی را وارد کنید");
                 }
                 else
                 {
-                    TblStore Store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-                    TblCatagory Category = _core.Catagory.Get().Where(c => c.Name == Name).SingleOrDefault();
-
-                    if (_core.StoreCatagoryRel.Get().Where(scr => scr.StoreId == Store.Id).Count() >= Store.CatagoryLimit)
+                    if (Name.Length > 100 || Name.Length < 2)
                     {
-                        return await Task.FromResult("تعداد ثبت دسته بندی شما به پایان رسیده است");
+                        return await Task.FromResult("دسته بندی مناسب وارد کنید");
                     }
                     else
                     {
-                        if (Category == null)
+                        if (Name.Contains("'"))
                         {
-                            TblCatagory catagory = new TblCatagory();
-                            catagory.Name = Name;
-                            _core.Catagory.Add(catagory);
-                            _core.Catagory.Save();
-                            TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
-                            catagoryRel.CatagoryId = catagory.Id;
-                            catagoryRel.Catagory = catagory;
-                            catagoryRel.IsDeleted = false;
-                            _core.StoreCatagoryRel.Add(catagoryRel);
-                            _core.StoreCatagoryRel.Save();
-                            return await Task.FromResult("true");
-
+                            return await Task.FromResult("دسته بندی مناسب وارد کنید");
                         }
                         else
                         {
-                            if (_core.StoreCatagoryRel.Get().Any(scr => scr.StoreId == Store.Id && scr.Catagory.Name == Name))
+                            TblStore Store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
+                            TblCatagory Category = _core.Catagory.Get().Where(c => c.Name == Name).SingleOrDefault();
+
+                            if (_core.StoreCatagoryRel.Get().Where(scr => scr.StoreId == Store.Id).Count() >= Store.CatagoryLimit)
                             {
-                                return await Task.FromResult("دسته بندی وارد شده تکراری میباشد");
+                                return await Task.FromResult("تعداد ثبت دسته بندی شما به پایان رسیده است");
                             }
                             else
                             {
-                                TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
-                                catagoryRel.Catagory = Category;
-                                catagoryRel.CatagoryId = Category.Id;
-                                catagoryRel.Store = Store;
-                                catagoryRel.StoreId = Store.Id;
-                                catagoryRel.IsDeleted = false;
-                                _core.StoreCatagoryRel.Add(catagoryRel);
-                                _core.StoreCatagoryRel.Save();
-                                return await Task.FromResult("true");
+                                if (Category == null)
+                                {
+                                    TblCatagory catagory = new TblCatagory();
+                                    catagory.Name = Name;
+                                    _core.Catagory.Add(catagory);
+                                    _core.Catagory.Save();
+                                    TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
+                                    catagoryRel.CatagoryId = catagory.Id;
+                                    catagoryRel.Catagory = catagory;
+                                    catagoryRel.IsDeleted = false;
+                                    _core.StoreCatagoryRel.Add(catagoryRel);
+                                    _core.StoreCatagoryRel.Save();
+                                    return await Task.FromResult("true");
+
+                                }
+                                else
+                                {
+                                    if (_core.StoreCatagoryRel.Get().Any(scr => scr.StoreId == Store.Id && scr.Catagory.Name == Name))
+                                    {
+                                        return await Task.FromResult("دسته بندی وارد شده تکراری میباشد");
+                                    }
+                                    else
+                                    {
+                                        TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
+                                        catagoryRel.Catagory = Category;
+                                        catagoryRel.CatagoryId = Category.Id;
+                                        catagoryRel.Store = Store;
+                                        catagoryRel.StoreId = Store.Id;
+                                        catagoryRel.IsDeleted = false;
+                                        _core.StoreCatagoryRel.Add(catagoryRel);
+                                        _core.StoreCatagoryRel.Save();
+                                        return await Task.FromResult("true");
+                                    }
+                                }
                             }
                         }
                     }
@@ -598,46 +614,60 @@ namespace DigiShahr.Controllers
 
         public IActionResult AddProduct(int id)
         {
-
             return ViewComponent("CreateProduct", new { id = id });
         }
 
         [HttpPost]
         public async Task<string> CreateProduct(TblProduct Product)
         {
-            var t = ModelState;
-            if (Product.StoreCatagoryId == 0)
+            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            int ProductCount = _core.Product.Get().Where(p => p.StoreCatagoryId == user.TblStores.First().Id).Count();
+            if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().ProductLimit <= ProductCount)
             {
-                return await Task.FromResult("لطفا دسته بندی را وارد کنید");
+                return await Task.FromResult("SubscribtionTillErorr");
             }
             else
             {
-                if (string.IsNullOrEmpty(Product.Name) || Product.Name.Length > 100)
+                if (Product.StoreCatagoryId == 0)
                 {
-                    return await Task.FromResult("لطفا نام محصول را وارد کنید");
+                    return await Task.FromResult("لطفا دسته بندی را وارد کنید");
                 }
                 else
                 {
-                    if (Product.Price.ToString().Length > 10 || Product.Price.ToString().Length < 3 || Product.Price == 0)
+                    if (string.IsNullOrEmpty(Product.Name) || Product.Name.Length > 100)
                     {
-                        return await Task.FromResult("لطفا قیمت مناسب وارد کنید");
+                        return await Task.FromResult("لطفا نام محصول را وارد کنید");
                     }
                     else
                     {
-                        TblProduct NewProduct = new TblProduct();
-                        NewProduct.StoreCatagoryId = Product.StoreCatagoryId;
-                        NewProduct.Name = Product.Name;
-                        NewProduct.Price = Product.Price;
-                        NewProduct.MainImageUrl = null;
-                        NewProduct.IsDeleted = false;
-                        NewProduct.Discount = Product.Discount;
-                        _core.Product.Add(NewProduct);
-                        _core.Product.Save();
-                        return await Task.FromResult(NewProduct.Id.ToString());
+                        if (Product.Price.ToString().Length > 10 || Product.Price.ToString().Length < 3 || Product.Price == 0)
+                        {
+                            return await Task.FromResult("لطفا قیمت مناسب وارد کنید");
+                        }
+                        else
+                        {
+
+                            if (Product.Count < 1)
+                            {
+                                return await Task.FromResult("لطفا تعداد محصول را وارد کنید");
+                            }
+                            else
+                            {
+                                TblProduct NewProduct = new TblProduct();
+                                NewProduct.StoreCatagoryId = Product.StoreCatagoryId;
+                                NewProduct.Name = Product.Name;
+                                NewProduct.Price = Product.Price;
+                                NewProduct.MainImageUrl = null;
+                                NewProduct.IsDeleted = false;
+                                NewProduct.Discount = Product.Discount;
+                                _core.Product.Add(NewProduct);
+                                _core.Product.Save();
+                                return await Task.FromResult(NewProduct.Id.ToString());
+                            }
+                        }
                     }
                 }
             }
-
         }
 
         [HttpPost]

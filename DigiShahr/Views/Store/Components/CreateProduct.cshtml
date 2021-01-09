@@ -16,8 +16,10 @@
         </div>
         <label for="name">نام محصول:</label>
         <input asp-for="Name">
+        <label for="Count">موجودی نزد شما:</label>
+        <input asp-for="Count" />
         <label for="price">قیمت(تومان):</label>
-        <input type="text" asp-for="Price">
+        <input type="text" data-type="currency" asp-for="Price">
         <label for="off">درصد تخفیف:</label>
         <input asp-for="Discount">
         <div class="uk-margin ">
@@ -34,43 +36,51 @@
 </form>
 
 <script src="~/Jquery/jquery-3.4.1.js"></script>
+<script src="~/ScriptCenter/Tools/Auto_Formatting_Currency.js"></script>
 <script>
     $("#CreateProduct").submit(function (e) {
         e.preventDefault();
-        var data = $(this).serializeArray();
-        
-        $.post("/Store/CreateProduct", data, function (result) {
-            alert($.isNumeric(result));
-            if ($.isNumeric(result)) {
-                var fileUpload = $("#ProductImage").get(0);
-                var files = fileUpload.files;
-                var data = new FormData();
-                data.append("file", files[0]);
+        if ($("#ProductImage").val() == "" || $("#ProductImage").val() == null) {
+            $("#ProductSubmitErorr").html("لطفا تصویر محصول را وارد کنید");
+        } else {
+            $("#ProductSubmitErorr").html("");
+            var data = $(this).serializeArray();
+            $.post("/Store/CreateProduct", data, function (result) {
+                if (result == "SubscribtionTillErorr") {
+                    window.location.href = "/Store/SubscribtionTillErorr";
+                } else {
+                    if ($.isNumeric(result)) {
+                        var fileUpload = $("#ProductImage").get(0);
+                        var files = fileUpload.files;
+                        var data = new FormData();
+                        data.append("file", files[0]);
 
-                $.ajax({
-                    type: "POST",
-                    url: "/Store/UploadProductImage",
-                    contentType: false,
-                    processData: false,
-                    data: { data: data, ProductId: result },
-                    async: false,
-                    beforeSend: function () {
-                        $("#divloader").show()
-                    },
-                    success: function (message) {
-                        if (message == "true") {
-                            window.location.reload();
-                        } else {
-                            $("#ProductSubmitErorr").html(message);
-                        }
-                    },
+                        $.ajax({
+                            type: "POST",
+                            url: "/Store/UploadProductImage?ProductId=" + result,
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            async: false,
+                            beforeSend: function () {
+                            },
+                            success: function (message) {
+                                if (message == "true") {
+                                    window.location.reload();
+                                } else {
+                                    $("#ProductSubmitErorr").html(message);
+                                }
+                            },
 
-                });
+                        });
 
 
-            } else {
-                $("#ProductSubmitErorr").html(result);
-            }
-        });
+                    } else {
+                        $("#ProductSubmitErorr").html(result);
+                    }
+                }
+                
+            });
+        }
     });
 </script>
