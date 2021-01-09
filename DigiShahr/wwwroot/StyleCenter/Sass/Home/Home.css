@@ -1,4 +1,5 @@
-﻿/*#region Global */
+﻿@charset "UTF-8";
+/*#region Global */
 /*#endregion */
 /*#region Card*/
 /*#endregion */
@@ -340,3 +341,116 @@
     text-decoration: none !important; }
   #modal a:active {
     text-decoration: none !important; }
+
+.leaflet-popup {
+  z-index: 100000; }
+
+.leaflet-popup-content-wrapper {
+  background: #FFF8D2 !important;
+  z-index: 100000; }
+
+.leaflet-popup-content {
+  text-align: right !important;
+  margin: 12px 3px !important;
+  width: 220px;
+  height: 230px;
+  z-index: 100000; }
+
+.PopUpContent {
+  z-index: 100000;
+  height: 180px;
+  width: 180px;
+  border-radius: 8px; }
+  .PopUpContent .gradientButtonLink {
+    width: 103px !important;
+    padding: 6px 0 !important;
+    height: 15px; }
+    .PopUpContent .gradientButtonLink a {
+      color: white !important; }
+  .PopUpContent .gly-rotate-45 {
+    /*filter: progid : DXImageTransform.Microsoft.BasicImage(rotation=0.5);*/
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+    display: inline-block; }
+  .PopUpContent .stars {
+    color: #ffd300 !important; }
+
+:root {
+  --star-size: 24px;
+  --star-color: #b5b5b5;
+  --star-background: #fc0; }
+
+@font-face {
+  font-family: 'timesr';
+  src: url("../fonts/timesr.ttf") format("truetype");
+  font-display: swap; }
+
+.Stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: var(--star-size);
+  font-family: timesr;
+  line-height: 1;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  overflow: hidden; }
+  .Stars::before {
+    content: '★★★★★';
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none; }
+
+.star-container .star-cb-group {
+  /* remove inline-block whitespace */
+  font-size: 0;
+  /* flip the order so we can use the + and ~ combinators */
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  /* the hidden clearer */ }
+  .star-container .star-cb-group * {
+    font-size: 1rem;
+    font-family: 'timesr'; }
+  .star-container .star-cb-group > input {
+    display: none; }
+    .star-container .star-cb-group > input + label {
+      /* only enough room for the star */
+      display: inline-block;
+      overflow: hidden;
+      text-indent: 9999px;
+      width: 1em;
+      white-space: nowrap;
+      cursor: pointer;
+      font-size: 32px; }
+      .star-container .star-cb-group > input + label:before {
+        font-family: 'timesr';
+        display: inline-block;
+        text-indent: -9999px;
+        content: '★';
+        color: #b5b5b5; }
+    .star-container .star-cb-group > input:checked ~ label:before,
+    .star-container .star-cb-group > input + label:hover ~ label:before,
+    .star-container .star-cb-group > input + label:hover:before {
+      font-family: 'timesr';
+      content: '★';
+      color: #fc0;
+      text-shadow: 0 0 1px #333; }
+  .star-container .star-cb-group > .star-cb-clear + label {
+    text-indent: -9999px;
+    width: .5em;
+    margin-left: -.5em; }
+  .star-container .star-cb-group > .star-cb-clear + label:before {
+    width: .5em; }
+  .star-container .star-cb-group:hover > input + label:before {
+    content: '★';
+    color: #b5b5b5;
+    text-shadow: none; }
+  .star-container .star-cb-group:hover > input + label:hover ~ label:before,
+  .star-container .star-cb-group:hover > input + label:hover:before {
+    content: '★';
+    color: #fc0;
+    text-shadow: 0 0 1px #333; }
