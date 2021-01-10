@@ -98,10 +98,12 @@
     @foreach (var item in Model.AllStore)
     {
         <span class="storeinmap">
-            <image>@item.LogoUrl</image>
+            <logo>@item.LogoUrl</logo>
             <i>@item.Id</i>
             <n>@item.Name</n>
             <tell>@item.StaticTell</tell>
+            <category>@item.Catagory.Name</category>
+            <rate>@item.Rate</rate>
             <lat>@item.Lat</lat>
             <lon>@item.Lon</lon>
         </span>
@@ -135,15 +137,14 @@
         for (var i = 0; i < $(".storeinmap").length; i++) {
             theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
                 { icon: customIcon }).addTo(map).bindPopup(
-                    "<div class='my-clipped PopUpContent' dir='rtl'><div class= 'my-row'><img src="+"'/Upload/StoreLogo/' width='80' height='80'/><div class= 'my-column center' ><label>" + $(".storeinmap n")[i].innerHTML + "</label><div class='star-container' uk-tooltip='4'><div class='Stars' style='--rating:4'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder  uk-text-danger' uk-icon='location'></span> نشانی فروشگاه</label><label><span class='icon-holder uk-margin-small-top gly-rotate-45' uk-icon='call-outline'></span> 09145281056</label>  </div><div class='center gradientButtonLink uk-margin-small-top'><a class='center'>ورود به فروشگاه</a> </div> </div > "
-                
+                    `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='4'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Store/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div> </div >`
+
                 );
         }
 
-
         function Response() {
             document.getElementById("map").style.height = "calc(100vh - 106px)";
-            document.getElementById("MenuGrid").style.display="none";
+            document.getElementById("MenuGrid").style.display = "none";
         }
 
     </script>

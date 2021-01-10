@@ -3,6 +3,8 @@ using DataLayer.ViewModel;
 using DataLayer.Models;
 using Services.Services;
 using System.Linq;
+using System.Threading.Tasks;
+using System;
 
 namespace DigiShahr.Controllers
 {
@@ -17,6 +19,11 @@ namespace DigiShahr.Controllers
             return View(indexViewModel);
         }
 
+        [Route("Piece/{Id}")]
+        public async Task<IActionResult> Piece(int Id)
+        {
+            return await Task.FromResult(View(_core.Store.GetById(Id)));
+        }
 
     }
 }
