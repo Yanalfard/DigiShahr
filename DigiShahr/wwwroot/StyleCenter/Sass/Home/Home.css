@@ -243,16 +243,18 @@
 .padding {
   padding: 16px !important; }
 
-/*index {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    height: 100vh;
-}*/
+.index {
+  height: calc(100vh - 65px);
+  display: grid;
+  grid-column-gap: 0px !important;
+  grid-template-rows: 2fr 1fr;
+  grid-template-columns: 1fr;
+  padding: 0px; }
+
 .IndexContainer .map {
   width: 100%;
-  margin: auto !important;
-  height: 58vh; }
+  height: 100%;
+  margin: auto !important; }
 
 .IndexContainer .Search {
   z-index: 1000;
@@ -278,26 +280,32 @@
   .IndexContainer .Search input:focus {
     background-color: white !important; }
 
-.IndexContainer .MenuGrid {
-  position: relative; }
-  .IndexContainer .MenuGrid a {
-    text-align: center;
-    align-content: center;
-    align-self: center;
-    margin: 0 auto;
-    color: #666 !important;
-    cursor: pointer; }
-  .IndexContainer .MenuGrid .category:hover {
-    text-decoration: none !important; }
-  .IndexContainer .MenuGrid .category:active {
-    text-decoration: none !important; }
+.MenuGrid {
+  margin: 0;
+  margin-top: -54px;
+  padding: 0 10px !important;
+  /*background-color: coral;*/
+  height: 100%;
+  grid-gap: 12px;
+  padding: 0; }
+  .MenuGrid .category {
+    margin: auto;
+    color: #666 !important; }
+
+.leaflet-control-zoom {
+  display: none; }
+
+#AllStore {
+  display: none !important;
+  height: 0 !important; }
 
 .grid {
   display: grid;
   grid-template-rows: auto;
-  grid-gap: 0.5em;
+  grid-gap: 1em;
   grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
-  padding: 20px 2vw; }
+  padding: 20px 2vw;
+  grid-template-columns: 1fr 1fr 1fr; }
   .grid .mat {
     width: 85px;
     border-radius: 22px;
@@ -307,6 +315,24 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 7px;
     font-size: 14px; }
+
+@media only screen and (max-device-width: 300px) {
+  .grid {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 1em;
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+    padding: 20px 2vw;
+    grid-template-columns: 1fr 1fr; } }
+
+@media only screen and (max-width: 300px) {
+  .grid {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 1em;
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+    padding: 20px 2vw;
+    grid-template-columns: 1fr 1fr; } }
 
 .subCategory h3 {
   font-family: "Sahel";
@@ -351,10 +377,14 @@
 
 .leaflet-popup-content {
   text-align: right !important;
-  margin: 12px 3px !important;
   width: 220px;
   height: 230px;
   z-index: 100000; }
+
+.image-popup {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%; }
 
 .PopUpContent {
   z-index: 100000;

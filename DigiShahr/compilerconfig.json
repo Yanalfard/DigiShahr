@@ -26,5 +26,9 @@
   {
     "outputFile": "wwwroot/StyleCenter/Sass/LoginRegister/BodyStyle.css",
     "inputFile": "wwwroot/StyleCenter/Sass/LoginRegister/BodyStyle.scss"
+  },
+  {
+    "outputFile": "wwwroot/StyleCenter/Sass/test.css",
+    "inputFile": "wwwroot/StyleCenter/Sass/test.scss"
   }
 ]
