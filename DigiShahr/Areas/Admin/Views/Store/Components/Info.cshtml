@@ -2,9 +2,12 @@
 
 @using DigiShahr.Classes
 
+<link href="~/StyleCenter/Sass/Home/Home.min.css" rel="stylesheet" />
+<script src="~/UIKit/js/uikit.min.js"></script>
+
 <div class="modal-header">
     <h6 class="modal-title mr-3" id="modalCenterTitle">
-        جزئیات فروشگاه 
+        جزئیات فروشگاه
     </h6>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -38,10 +41,6 @@
                     }
                 </div>
                 <div class="form-group col-md-5">
-                    <label>تاریخ ثبت فروشگاه:</label>
-                    <span>@Model.TblDealOrders.Last().DateSubmited.AllToShamsi()</span>
-                </div>
-                <div class="form-group col-md-5">
                     <label>وضعیت تایید اعتبار:</label>
                     @if (Model.IsValid)
                     {
@@ -68,22 +67,22 @@
                 <div class="form-group col-md-5">
                     <label>لوگو:</label>
                     <span>
-                        <img src="~/Document/Store/Logo/@Model.LogoUrl" width="100" height="100" />
+                        <img src="~/Upload/StoreLogo/@Model.LogoUrl" width="100" height="100" />
                     </span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>امتیاز فروشگاه:</label>
-                    <span>
-                        <img src="~/img/adminStatic/load2.gif"  width="100" height="100" />
-                    </span>
+                    <div class="star-container" uk-tooltip="@Model.Rate">
+                        <div class="Stars" style="--rating:@Model.Rate"></div>
+                    </div>
                 </div>
                 <div class="form-group col-md-5">
                     <label>حداکثر تعداد دسته بندی:</label>
-                    <span>@Model.TblDealOrders.Last().Deal.CatagoryLimit</span>
+                    <span>@Model.CatagoryLimit</span>
                 </div>
                 <div class="form-group col-md-5">
                     <label>حداکثر تعداد محصول:</label>
-                    <span>@Model.TblDealOrders.Last().Deal.ProductLimit</span>
+                    <span>@Model.ProductLimit</span>
                 </div>
 
             </div>

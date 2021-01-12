@@ -14,7 +14,7 @@ namespace DigiShahr.Controllers
         public IActionResult Index()
         {
             IndexViewModel indexViewModel = new IndexViewModel();
-            indexViewModel.AllStore = _core.Store.Get();
+            indexViewModel.AllStore = _core.Store.Get().Where(s => s.SubscribtionTill > DateTime.Now);
             indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().OrderByDescending(o => o.Id);
             return View(indexViewModel);
         }

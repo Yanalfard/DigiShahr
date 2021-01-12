@@ -14,7 +14,8 @@
     <form class="my-column createAccount uk-padding-small" action="StoreSetting" method="post" enctype="multipart/form-data" dir="rtl">
         @Html.AntiForgeryToken()
         <input asp-for="Id" type="hidden" />
-        <input asp-for="IsOpen" type="hidden" />
+        <input asp-for="IsMusicEnable" type="hidden" />
+        <input asp-for="Name" type="hidden" />
         <div class="my-row uk-margin-top uk-margin-small-right">
             <div uk-form-custom>
                 <input type="file" asp-for="LogoUrl">
@@ -22,7 +23,7 @@
             </div>
 
             <div class="my-column uk-margin-right">
-                <label class="uk-margin-remove-bottom">نام فروشگاه</label>
+                <label class="uk-margin-remove-bottom">@Model.Name</label>
                 <label class="uk-margin-remove-top">
                     وضعیت:<span style="color:@((Model.IsOpen) ? "#32d296" : "red")" id="statusResult">
                         @if (Model.IsOpen)
@@ -54,7 +55,14 @@
             <div class="OpenCloseStore my-column center uk-margin-auto-right uk-margin-top uk-margin-left">
 
                 <img class="center upOfdoor" src="~/img/Store/window shade/upOfdoor.svg" />
-                <div class="center door" id="door"></div>
+                @if (Model.IsOpen)
+                {
+                    <div class="center door" id="door"></div>
+                }
+                else
+                {
+                    <div class="center door" style="height:23px" id="door"></div>
+                }
                 <img class="center bottomOfdoor" src="~/img/Store/window shade/bottomOfdoor.svg" onclick="ChangeStatus(@Model.Id)" />
 
             </div>
@@ -72,8 +80,8 @@
         <input asp-for="Lon" type="hidden" />
         <label for="name">انتخاب نحوه تحویل و تسویه:</label>
         <div class="delivery uk-grid-small uk-child-width-auto uk-grid">
-            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox" @((Model.TahvilVaTasvieDarForushgah) ? "checked" : "")> تحویل و تسویه درب منزل</label>
-            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="checkbox" @((Model.TahvilVaTasvieDarMahal) ? "checked" : "")> تحویل و تسویه در محل فروشگاه</label>
+            <label class="uk-margin-remove-top"><input name="TahvilVaTasvieDarMahal" class="uk-checkbox uk-margin-remove-top" type="checkbox" asp-for="TahvilVaTasvieDarMahal"> تحویل و تسویه درب منزل</label>
+            <label class="uk-margin-remove-top"><input name="TahvilVaTasvieDarForushgah" class="uk-checkbox uk-margin-remove-top" type="checkbox" asp-for="TahvilVaTasvieDarForushgah"> تحویل و تسویه در محل فروشگاه</label>
         </div>
         <hr class="uk-divider-icon uk-margin-remove-bottom uk-margin-remove-top" />
         <label for="name">مدت زمان تایید سفارش:</label>
@@ -93,7 +101,7 @@
                         }
                         @foreach (var item in ViewBag.Naighborhood)
                         {
-                            <label class="uk-margin-remove-top"><input class="uk-checkbox j uk-margin-remove-top" type="checkbox">@item.Name</label>
+                            <label class="uk-margin-remove-top"><input class="uk-checkbox j uk-margin-remove-top" type="checkbox" value="@item.Id">@item.Name</label>
                         }
                     </div>
                 </div>
@@ -102,38 +110,41 @@
                 </div>
             </div>
         </div>
-        <a class="uk-margin-top serviceArea uk-margin-auto" href="#music-modal" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="musical-notes"></span>انتخاب موزیک برای فروشگاه</a>
-        <div id="music-modal" class="modal-sections" uk-modal>
-            <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
-                <button class="uk-modal-close-default" type="button" uk-close></button>
-                <div class="uk-modal-header">
-                    <h3 class="uk-modal-title uk-text-center">یکی از موزیک های زیر را انتخاب کنید</h3>
-                </div>
-                <div class="uk-modal-body uk-padding-small">
-                    <div class="delivery uk-grid-small uk-child-width-1-1 uk-grid">
-                        @{
-                            List<DataLayer.Models.TblMusic> musics = ViewBag.Music;
-                        }
-                        @foreach (var item in musics)
-                        {
-                            <label class="uk-margin-top">
-                                <input class="uk-checkbox uk-margin-remove-top m" type="radio" value="@item.Id">نام موزیک اول
-                                <audio controls="controls">
-                                    <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
-                                </audio>
-                            </label>
-                        }
+        <span id="NaighborhoodChecked"></span>
+        @if (Model.IsMusicEnable)
+        {
+            <a class="uk-margin-top serviceArea uk-margin-auto" href="#music-modal" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="musical-notes"></span>انتخاب موزیک برای فروشگاه</a>
+            <div id="music-modal" class="modal-sections" uk-modal>
+                <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <div class="uk-modal-header">
+                        <h3 class="uk-modal-title uk-text-center">یکی از موزیک های زیر را انتخاب کنید</h3>
+                    </div>
+                    <div class="uk-modal-body uk-padding-small">
+                        <div class="delivery uk-grid-small uk-child-width-1-1 uk-grid">
+                            @{
+                                List<DataLayer.Models.TblMusic> musics = ViewBag.Music;
+                            }
+                            @foreach (var item in musics)
+                            {
+                                <label class="uk-margin-top">
+                                    <input class="uk-checkbox uk-margin-remove-top m" type="radio" value="@item.Id">نام موزیک اول
+                                    <audio controls="controls">
+                                        <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
+                                    </audio>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                    <div class="uk-modal-footer uk-text-center">
+                        <button id="btnMusic" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
+
                     </div>
                 </div>
-                <div class="uk-modal-footer uk-text-center">
-                    <button id="btnMusic" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
-
-                </div>
             </div>
-        </div>
-        <span id="checkedMusic">
-        </span>
-        <input class="uk-margin-large-top uk-margin-bottom center gradientButton" type="submit" value="ایجاد فروشگاه">
+            <input type="hidden" asp-for="MusicId" />
+        }
+        <input class="uk-margin-large-top uk-margin-bottom center gradientButton" type="submit" value="ویرایش فروشگاه">
     </form>
 </div>
 <div class="my-space"></div>
@@ -142,6 +153,23 @@
 
     <link href="~/leaflet/leaflet.css" rel="stylesheet" />
     <script src="~/leaflet/leaflet.js"></script>
+    <script>
+        $("#btnubni").click(function () {
+            var selected = [];
+            $('.j:checked').each(function () {
+                selected.push($(this).attr('value'));
+            });
+            $("#NaighborhoodChecked").html("");
+            for (var i = 0; i < selected.length; i++) {
+                $("#NaighborhoodChecked").html($("#NaighborhoodChecked").html() + "<input name='Naighborhood' type='hidden' value='" + selected[i] + "' />");
+            }
+        });
+
+        $("#btnMusic").click(function () {
+            $("#MusicId").val($('.m:checked').val());
+        });
+
+    </script>
     <script>
 
         var map = L.map('map').setView([@Model.Lat,@Model.Lon], 11);
@@ -203,5 +231,6 @@
             }
         }
     </script>
+
 
 }

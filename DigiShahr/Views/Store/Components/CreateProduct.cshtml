@@ -19,10 +19,10 @@
         <label for="Count">موجودی نزد شما:</label>
         <input asp-for="Count" />
         <label for="price">قیمت(تومان):</label>
-        <input type="text" data-type="currency" asp-for="Price">
+        <input type="text" asp-for="Price">
         <label for="off">درصد تخفیف:</label>
         <input asp-for="Discount">
-        <div class="uk-margin ">
+        <div class="uk-margin">
             <div class="my-row" uk-form-custom>
                 <input type="file" id="ProductImage">
                 <button class="uk-margin-top serviceArea">انتخاب تصویر برای محصول<span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="attach"></span></button>
@@ -37,6 +37,7 @@
 
 <script src="~/Jquery/jquery-3.4.1.js"></script>
 <script src="~/ScriptCenter/Tools/Auto_Formatting_Currency.js"></script>
+
 <script>
     $("#CreateProduct").submit(function (e) {
         e.preventDefault();
@@ -44,7 +45,9 @@
             $("#ProductSubmitErorr").html("لطفا تصویر محصول را وارد کنید");
         } else {
             $("#ProductSubmitErorr").html("");
+            var Price = $("#Price").val().replace(",", "");
             var data = $(this).serializeArray();
+            alert(data);
             $.post("/Store/CreateProduct", data, function (result) {
                 if (result == "SubscribtionTillErorr") {
                     window.location.href = "/Store/SubscribtionTillErorr";
@@ -83,4 +86,6 @@
             });
         }
     });
+
 </script>
+

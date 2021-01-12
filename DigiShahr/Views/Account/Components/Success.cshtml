@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="uk-modal-footer uk-text-center uk-margin-top">
-            <button class="gradientButton center uk-margin-top uk-margin-bottom">
+            <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-top uk-margin-bottom">
                 تایید
             </button>
         </div>
@@ -18,18 +18,18 @@
 }
 else
 {
-<div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
-    <button class="uk-modal-close-default" type="button" uk-close></button>
-    <div class="uk-modal-body my-column uk-padding-small">
-        <div class="center my-column uk-margin-large-top">
-            <img src="~/img/user/Error.svg" width="220" height="220" />
+    <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-body my-column uk-padding-small">
+            <div class="center my-column uk-margin-large-top">
+                <img src="~/img/user/Error.svg" width="220" height="220" />
+            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-center uk-margin-top">
+            <button class="gradientButton center uk-margin-top uk-margin-bottom" uk-close>
+            کد صحیح نیست
+            </button>
         </div>
     </div>
-    <div class="uk-modal-footer uk-text-center uk-margin-top">
-        <button class="gradientButton center uk-margin-top uk-margin-bottom">
-            کد صحیح نیست
-        </button>
-    </div>
-</div>
 }
 

@@ -9,6 +9,10 @@ namespace DataLayer.ViewModel
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "لطفا نام فروشگاه را وارد کنید")]
+        [StringLength(100, ErrorMessage = "نام فروشگاه مناسب وارد کنید")]
+        public string Name { get; set; }
+
         public bool IsOpen { get; set; }
 
         public string LogoUrl { get; set; }
@@ -30,6 +34,10 @@ namespace DataLayer.ViewModel
         [MaxLength(1, ErrorMessage = "لطفا زمان کمتری وارد کنید")]
         [MinLength(1, ErrorMessage = "لطفا زمان بیشتری وارد کنید")]
         public string ValidationTimeSpan { get; set; }
+
+        public bool IsMusicEnable { get; set; }
+
+        public int MusicId { get; set; }
 
 
     }

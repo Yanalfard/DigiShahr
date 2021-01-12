@@ -19,44 +19,43 @@
         <div class="firstHead"></div>
         <div class="LoginContent my-clipped mat ">
             <div class="center my-column uk-margin-large-top Forget">
-                <form class="my-column uk-padding-small" action="" dir="rtl">
+                <form id="ConfirmUser" class="my-column uk-padding-small" dir="rtl">
+                    @Html.AntiForgeryToken()
                     <h3>کد فعالسازی را وارد کنید</h3>
                     <div class="uk-margin">
-                        <input type="hidden" id="TellNo" value="@ViewBag.TellNo" />
-                            <input id="ActiveCode" class="uk-input" type="text" style="width:230px">
+                        <input type="hidden" name="TellNo" value="@ViewBag.TellNo" />
+                        <input name="ActiveCode" class="uk-input" type="text" style="width:230px">
                     </div>
-                    <a id="Submit" class="gradientButtonLink center uk-text-center uk-margin-large-top" href="#success" uk-toggle>
+                    <button class="gradientButtonLink center uk-text-center uk-margin-large-top" href="#success" uk-toggle>
                         ارسال
-                    </a>
-                    <script>
-                        $("#Submit").click(function () {
-                            
-
-                            $.post("/Account/Success?TellNo=" + $("#TellNo").val() + "&ActiveCode=" + $("#ActiveCode").val(), function (result) {
-                                $("#success").html(result)
-                            });
-                        });
-                    </script>
+                    </button>
                     <div class="space-double"></div>
                 </form>
             </div>
         </div>
     </div>
     <div id="success" uk-modal>
-        @*<div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
-            <button class="uk-modal-close-default" type="button" uk-close></button>
-            <div class="uk-modal-body my-column uk-padding-small">
-                <div class="center my-column uk-margin-large-top">
-                    <img class="center" src="~/img/user/confirm.gif" width="220" height="220" />
-                </div>
-            </div>
-            <div class="uk-modal-footer uk-text-center uk-margin-top">
-                <button class="gradientButton center uk-margin-top uk-margin-bottom">
-                    تایید
-                </button>
-            </div>
-        </div>*@
     </div>
 </body>
 </html>
 <script src="~/UIKit/js/uikit.min.js"></script>
+<script src="~/Jquery/jquery-3.4.1.js"></script>
+<script>
+
+    $("#ConfirmUser").submit(function (e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        $.post("/Account/ConfirmPhoneNumber", data, function (result) {
+            if (result == "true") {
+                $.get("/Account/Success?Status=true", function (result) {
+                    $("#success").html(result);
+                });
+            } else {
+                $.get("/Account/Success?Status=false", function (result) {
+                    $("#success").html(result);
+                });
+            }
+        });
+    });
+
+</script>

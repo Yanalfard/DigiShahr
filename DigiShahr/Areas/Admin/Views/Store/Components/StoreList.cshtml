@@ -59,19 +59,12 @@
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات فروشگاه">
                                 <a onclick="Info(@item.Id)" data-toggle="modal" data-target="#modalSave" id="Info" class="text-primary" uk-icon="information-circle-outline"></a>
                             </span>
-                            @if (item.IsValid == true)
+                            @if (!item.IsValid)
                             {
-                                <span data-placement="top" data-toggle="tooltip" title="" data-original-title="تایید اعتبار">
-                                    <a onclick="Accept(@item.Id)" class="text-success" uk-icon="checkmark-done-circle-outline"></a>
+                                <span data-placement="top" data-toggle="tooltip" title="">
+                                    <a onclick="Accept(@item.Id)" class="text-success" uk-icon="checkmark-circle-outline"></a>
                                 </span>
                             }
-                            else
-                            {
-                                <span data-placement="top" data-toggle="tooltip" title="" data-original-title="عدم تایید اعتبار">
-                                    <a onclick="Reject(@item.Id)" class="text-danger" uk-icon="close-circle-outline"></a>
-                                </span>
-                            }
-
                         </td>
                     </tr>
                 }

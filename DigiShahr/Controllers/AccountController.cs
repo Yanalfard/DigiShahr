@@ -27,9 +27,16 @@ namespace DigiShahr.Controllers
         [HttpGet]
         public IActionResult CreateAccount(string RetunUrl)
         {
-            ViewBag.RetrunUrl = RetunUrl;
-            ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                ViewBag.RetrunUrl = RetunUrl;
+                ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                return View();
+            }
         }
 
         [HttpPost]
@@ -111,8 +118,7 @@ namespace DigiShahr.Controllers
             TblUser user = await UserCrew.UserByTellNo(TellNo);
             if (user.Auth == ActiveCode)
             {
-                int UserId = UserCrew.UserByTellNo(TellNo).Id;
-                _core.User.GetById(UserId).IsActive = true;
+                _core.User.GetById(user.Id).IsActive = true;
                 _core.User.Save();
                 return await Task.FromResult("true");
             }
@@ -131,15 +137,22 @@ namespace DigiShahr.Controllers
         [HttpGet]
         public IActionResult Login(string RetunUrl)
         {
-            if (string.IsNullOrEmpty(RetunUrl))
+            if (User.Identity.IsAuthenticated)
             {
-                ViewBag.ReturnUrl = HttpContext.Request.Path;
-                return View();
+                return Redirect("/");
             }
             else
             {
-                ViewBag.ReturnUrl = RetunUrl;
-                return View();
+                if (string.IsNullOrEmpty(RetunUrl))
+                {
+                    ViewBag.ReturnUrl = HttpContext.Request.Path;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.ReturnUrl = RetunUrl;
+                    return View();
+                }
             }
 
         }
@@ -169,15 +182,7 @@ namespace DigiShahr.Controllers
 
         }
 
-        public IActionResult FirstPage()
-        {
-            return View();
-        }
         public IActionResult ResetPassword()
-        {
-            return View();
-        }
-        public IActionResult Success()
         {
             return View();
         }
@@ -211,7 +216,6 @@ namespace DigiShahr.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/Account/Login");
         }
-
 
         protected override void Dispose(bool disposing)
         {

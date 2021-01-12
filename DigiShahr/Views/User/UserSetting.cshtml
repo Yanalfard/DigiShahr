@@ -1,4 +1,4 @@
-﻿
+﻿@model DataLayer.ViewModel.EditUserViewModel
 @{
     ViewData["Title"] = "ویرایش حساب کاربری";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -9,24 +9,26 @@
 <div class="matCart valid-feedback my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">ویرایش حساب کاربری</h3>
+        <span class="uk-text-success">@ViewBag.Success</span>
         <a href="/"><span class="icon-holder" uk-icon="backIcon"></span></a>
     </div>
-    <form class="my-column createAccount uk-padding-small" dir="rtl" action="">
+    <form action="UserSetting" class="my-column createAccount uk-padding-small" dir="rtl" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
         <label for="name">نام و نام خانوادگی:</label>
-        <input name="Name">
-        <label for="TellNo">شماره موبایل:</label>
-        <input name="TellNo">
+        <input asp-for="Name">
+        <span class="uk-text-danger" asp-validation-for="Name"></span>
         <a class="uk-margin-top serviceArea uk-margin-auto" href="#change-password" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="key"></span>تغییر رمز عبور</a>
-
-        @*<label for="password">رمز عبور:</label>
-            <input name="Password">
-            <label for="confirmPassword">تکرار رمز عبور:</label>
-            <input name="ConfirmPassword">*@
         <label for="Address">آدرس:</label>
-        <input name="Address">
+        <input asp-for="Address">
+        <span class="uk-text-danger" asp-validation-for="Address"></span>
         <label for="address">موقعیت مکانی خود را کلیک کنید:</label>
         <div id="map" class="map"></div>
+        <input type="hidden" asp-for="Lat" />
+        <input type="hidden" asp-for="Lon" />
+        <span class="uk-text-danger" asp-validation-for="Lat"></span>
         <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>تغییر محله</a>
+        <span class="uk-text-danger" asp-validation-for="NaighborhoodId"></span>
         <div id="modal-sections" class="modal-sections" uk-modal>
             <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
                 <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -35,9 +37,10 @@
                 </div>
                 <div class="uk-modal-body uk-padding-small">
                     <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood" checked>ولیعصر</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood">ابوریحان</label>
-                        <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood">ارتش</label>
+                        @foreach (var item in ViewBag.Naighborhood)
+                        {
+                            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood" value="@item.Id">@item.Name</label>
+                        }
                     </div>
                 </div>
                 <div class="uk-modal-footer uk-text-center">
@@ -45,6 +48,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" asp-for="NaighborhoodId" />
         <input class="center gradientButton uk-margin-large-top" type="submit" value="اعمال تغییرات">
     </form>
 </div>
@@ -54,25 +58,7 @@
         <div class="uk-modal-header">
             <h3 class="uk-modal-title uk-text-center">تغییر رمز عبور</h3>
         </div>
-        <div class="uk-modal-body uk-padding-small">
-            <form class="my-column  uk-padding-small" action="" dir="rtl">
-                <label>رمز عبور فعلی را وارد کنید</label>
-                <div class="uk-margin">
-                    <input class="uk-input uk-border-rounded" type="text">
-                </div>
-                <label>رمز عبور جدید را وارد کنید</label>
-                <div class="uk-margin">
-                    <input class="uk-input uk-border-rounded" type="text">
-                </div>
-                <label>تکرار رمز عبور جدید</label>
-                <div class="uk-margin">
-                    <input class="uk-input uk-border-rounded" type="text">
-                </div>
-            </form>
-        </div>
-        <div class="uk-modal-footer uk-text-center">
-            <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
-        </div>
+        @await Component.InvokeAsync("ChangeUserPassword", Model.Id)
     </div>
 </div>
 <div class="my-space"></div>
