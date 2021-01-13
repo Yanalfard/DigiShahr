@@ -3,6 +3,40 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="my-space"></div>
+<div class="matCart my-column my-clipped">
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">داشبورد فروشگاه</h3>
+        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+    </div>
+    <div class="DashboardGrid grid uk-padding-small center uk-child-width-1-2 uk-margin-top" dir="rtl">
+        <div class="matCart my-column AcceptedOrders center" href="">
+            <span class="icon-holder CheckmarkIcon" uk-icon="checkmark-circle-outline"></span>
+            <label class="">سفارشات تائید شده</label>
+            <span>5</span>
+        </div>
+        <div class="matCart my-column RejectedOrders center" href="">
+            <span class="icon-holder CloseIcon" uk-icon="close-circle-outline"></span>
+            <label class="">سفارشات تائید نشده</label>
+            <span>5</span>
+        </div>
+        <div class="matCart my-column PackageTime center" href="">
+            <span class="icon-holder calndarIcon" uk-icon="calendar"></span>
+            <label class="">زمان باقیمانده از پکیج </label>
+            <span>5</span>
+        </div>
+        <div class="matCart my-column CustomersNumber center" href="">
+            <span class="icon-holder PeopleIcon" uk-icon="people"></span>
+            <label class="">تعداد کل مشتریان</label>
+            <span>5</span>
+        </div>
+    </div>
+    <div class="my-column my-clipped DashboardLinks uk-margin-large-bottom" dir="rtl">
+        <a class="uk-margin-top LinkBox uk-margin-auto" href="/Store/Orders"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="receipt"></span>لیست سفارشات مشتریان</a>
+        <a class="uk-margin-top LinkBox uk-margin-auto" href="/Store/storeVitrin"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="storefront"></span>ویترین فروشگاه من</a>
+        <a class="uk-margin-top LinkBox uk-margin-auto" href="/store/storesetting"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="settings"></span>تنطیمات فروشگاه من</a>
+    </div>
+</div>
 
-<h1>Index</h1>
-
+<div class="my-space"></div>
