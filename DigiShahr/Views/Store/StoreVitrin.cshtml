@@ -5,9 +5,7 @@
 }
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
-<div class="space-double"></div>
-<div class="space-mobile"></div>
-
+<div class="my-space"></div>
 <div class="BannerPlace my-column my-clipped"
      @if (Model.MainBannerUrl != null) { @: style="background-image: url('/Upload/StoreMainBanner/@Model.MainBannerUrl');background-repeat:no-repeat;"
      }>
@@ -74,7 +72,7 @@
     </div>
 
 </div>
-<div class="mat productSection my-column my-clipped uk-margin-small-top">
+<div class="matCart productSection my-column my-clipped uk-margin-small-top">
     <a><span class="icon-holder uk-position-absolute uk-margin-small-top uk-margin-left" uk-icon="backIcon"></span></a>
     <form id="CreateCategory">
         <div class="my-row uk-margin-top">
@@ -92,19 +90,19 @@
         @if (Model.TblStoreCatagoryRels.Count() == 0)
         {
             <div class="category">
-                دسته بندی اول
+                دسته بندی 1
             </div>
             <div class="category">
-                دسته بندی دوم
+                دسته بندی 2
             </div>
             <div class="category">
-                دسته بندی سوم
+                دسته بندی 3
             </div>
             <div class="category">
-                دسته بندی چهارم
+                دسته بندی 4
             </div>
             <div class="category">
-                دسته بندی پنجم
+                دسته بندی 5
             </div>
         }
 
@@ -141,8 +139,7 @@
         }
     }
 </div>
-<div class="space-double"></div>
-<div class="space-mobile"></div>
+<div class="my-space"></div>
 <div id="AddProduct" uk-modal>
     <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
 

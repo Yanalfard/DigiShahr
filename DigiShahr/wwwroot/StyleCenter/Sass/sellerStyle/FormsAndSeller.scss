@@ -1,4 +1,8 @@
-﻿body {
+﻿@import '../_colors.scss';
+@import '../_global.scss';
+@import '../_layout.scss';
+
+body {
     overflow-x: hidden;
  //  min-height:100vh;
 }
@@ -303,4 +307,112 @@ ul {
         font-family: "Sahel";
         font-size: 16px;
     }
+}
+///////////store index styles
+.OrdersTable {
+    .tabelHearder {
+        border: 1px solid #F28F3B;
+        border-radius: 8px !important;
+    }
+
+    thead {
+        border: 1px solid #F28F3B;
+        border-radius: 20px !important;
+    }
+
+    th {
+        text-align: center;
+        background-color: #F28F3B;
+        color: white !important;
+    }
+
+    tr:hover {
+        background-color: #f5e7a6;
+    }
+
+    .infoIcon{
+        color:#40916C!important;
+    }
+}
+#OrderInfo {
+    .gradientButtonLink {
+        height: 50px;
+        padding: 5px 0;
+    }
+
+    overflow-x: hidden !important;
+}
+.OrderInfoModal {
+    overflow-x: hidden !important;
+
+    label {
+        margin: 4px 0 !important;
+    }
+
+    .locationIcon{
+        position:absolute;
+        left:40px;
+        top:120px;
+        
+        
+
+    }
+}
+.ScrollabelTabel {
+    overflow-x: scroll !important;
+}
+.ScrollabelTabel::-webkit-scrollbar {
+    width: 0 !important;
+}
+.DashboardGrid {
+
+    @include grid-gap(100px,2em);
+    padding: 20px 2vw;
+    grid-template-columns: 1fr 1fr;
+
+    .matCart {
+        width: 100px;
+        height: 100px;
+        border-radius: 13px;
+        box-sizing: border-box;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        padding: 7px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .AcceptedOrders {
+        background: #d5f7e8;
+
+        .CheckmarkIcon {
+            color: #40916C !important;
+        }
+    }
+
+    .RejectedOrders {
+        background: #ffd8d8;
+
+        .CloseIcon {
+            color: #ad1616 !important;
+        }
+    }
+
+    .PackageTime {
+        background: #fff8d6;
+
+        .calndarIcon {
+            color: #c8b141 !important;
+        }
+    }
+
+    .CustomersNumber {
+        background: #ffe5cf;
+
+        .PeopleIcon {
+            color: #F28F3B !important;
+        }
+    }
+}
+.LinkBox {
+    width:75vw;
 }
