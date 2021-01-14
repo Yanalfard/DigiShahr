@@ -1,0 +1,33 @@
+﻿@model IEnumerable<DataLayer.Models.TblStoreCatagory>
+
+<div class="uk-modal-dialog uk-margin-auto-vertical subCategory" uk-overflow-auto dir="rtl">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+        <h3 class="uk-modal-title uk-text-center">انتخاب زیردسته بندی</h3>
+    </div>
+    <div class="uk-modal-body uk-padding-small">
+        <ul uk-accordion>
+            @foreach (var item in Model)
+            {
+            <li>
+                @if (item.IsRecent)
+                {
+                    <a href="?Search=&Category=@item.Id" class="uk-margin-medium-right" onclick="Response(@item.Id)">@item.Name</a>
+                    
+                }
+                else
+                {
+                    <a class="uk-accordion-title" href="#">@item.Name</a>
+                    <div class="uk-accordion-content">
+                        <ul class="uk-margin-right" uk-accordion>
+                            @await Component.InvokeAsync("SubCategoryInIndex", item.Id)
+                        </ul>
+                    </div>
+                }
+
+            </li>
+            }
+        </ul>
+    </div>
+</div>
+

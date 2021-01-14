@@ -1,0 +1,23 @@
+﻿@model IEnumerable<DataLayer.Models.TblStoreCatagory>
+
+@foreach (var item in Model)
+{
+    @if (item.IsRecent)
+    {
+        <a href="?Search=&Category=@item.Id" class="uk-margin-medium-right">@item.Name</a>
+        
+    }
+    else
+    {
+        <li>
+            <a class="uk-accordion-title">@item.Name</a>
+            <div class="uk-accordion-content uk-margin-small-right">
+                <ul class="uk-margin-right" uk-accordion>
+                    @await Component.InvokeAsync("ChildCategoryLayout", item.Id)
+                </ul>
+            </div>
+        </li>
+    }
+}
+
+

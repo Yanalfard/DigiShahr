@@ -38,32 +38,8 @@
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 <h3>دسته بندی مشاغل</h3>
                 <ul class="uk-menu-accordion" uk-accordion="multiple: true" dir="rtl">
-                    <li class="uk-open">
-                        <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
-                        <div class="uk-accordion-content uk-margin-small-right">
-                            <ul class="uk-margin-right" uk-accordion>
-                                <li>
-                                    <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
-                                    <div class="uk-accordion-content">
-                                        <a class="uk-margin-medium-right">زیرزیردسته</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="uk-accordion-title main-title" href="#"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>سوپر مارکت<span class="icon-holder chevron-back" uk-icon="chevron-back"></span></a>
-                        <div class="uk-accordion-content uk-margin-small-right">
-                            <ul class="uk-margin-right" uk-accordion>
-                                <li>
-                                    <a class="uk-accordion-title" href="#">زیردسته سوپرمارکت</a>
-                                    <div class="uk-accordion-content">
-                                        <a class="uk-margin-medium-right">زیرزیردسته</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    
+                    @await Component.InvokeAsync("ParentCateogoryLayout")
 
                 </ul>
 
