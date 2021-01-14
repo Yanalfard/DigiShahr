@@ -22,7 +22,7 @@ namespace DigiShahr.Controllers
                     IndexViewModel indexViewModel = new IndexViewModel();
                     ViewBag.Search = Search;
                     indexViewModel.AllStore = _core.Store.Get().Where(s => s.SubscribtionTill > DateTime.Now);
-                    indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6).OrderByDescending(o => o.Id);
+                    indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                     return View(indexViewModel);
                 }
                 else
@@ -31,7 +31,7 @@ namespace DigiShahr.Controllers
                     IEnumerable<TblStore> AllStore = _core.Store.Get().Where(s => s.Name.Contains(Search) || s.Catagory.Name.Contains(Search) && s.SubscribtionTill > DateTime.Now);
                     ViewBag.Search = Search;
                     indexViewModel.AllStore = AllStore;
-                    indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6).OrderByDescending(o => o.Id);
+                    indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                     return View(indexViewModel);
                 }
             }
@@ -40,7 +40,7 @@ namespace DigiShahr.Controllers
                 IndexViewModel indexViewModel = new IndexViewModel();
                 ViewBag.Search = null;
                 indexViewModel.AllStore = _core.Store.Get().Where(s => s.SubscribtionTill > DateTime.Now && s.Catagory.Id == Category);
-                indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6).OrderByDescending(o => o.Id);
+                indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                 return View(indexViewModel);
             }
 

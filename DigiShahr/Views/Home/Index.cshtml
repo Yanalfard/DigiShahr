@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-@*<h3>Index</h3>*@
+
 <link href="~/StyleCenter/Sass/Home/Home.min.css" rel="stylesheet" />
 <link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />
 
@@ -32,12 +32,7 @@
             <a onclick="ChildCategory(@item.Id)" class="mat category" href="#modal" uk-toggle>@item.Name</a>
         }
 
-        <div class="mat category" href="#modal" uk-toggle> هایپر مارکت </div>
-        <div class="mat category" href="#modal" uk-toggle> هایپر مارکت </div>
-        <div class="mat category" href="#modal" uk-toggle> هایپر مارکت </div>
-        <div class="mat category" href="#modal" uk-toggle> هایپر مارکت </div>
-        <div class="mat category" href="#modal" uk-toggle> هایپر مارکت </div>
-        <div class="mat category" href="#modal" uk-toggle> هایپر مارکت </div>
+        
     </div>
     <script>
         function ChildCategory(Id) {
