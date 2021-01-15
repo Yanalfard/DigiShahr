@@ -1,8 +1,9 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "داشبورد فروشگاه";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
 <div class="matCart my-column my-clipped">
@@ -14,22 +15,22 @@
         <div class="matCart my-column AcceptedOrders center" href="">
             <span class="icon-holder CheckmarkIcon" uk-icon="checkmark-circle-outline"></span>
             <label class="">سفارشات تائید شده</label>
-            <span>5</span>
+            <span>@ViewData["SuccessOrders"]</span>
         </div>
         <div class="matCart my-column RejectedOrders center" href="">
             <span class="icon-holder CloseIcon" uk-icon="close-circle-outline"></span>
             <label class="">سفارشات تائید نشده</label>
-            <span>5</span>
+            <span>@ViewData["NotSuccessOrders"]</span>
         </div>
         <div class="matCart my-column PackageTime center" href="">
             <span class="icon-holder calndarIcon" uk-icon="calendar"></span>
-            <label class="">زمان باقیمانده از پکیج </label>
-            <span>5</span>
+            <label class="">زمان باقیمانده استفاده</label>
+            <span>@ViewData["SubscribtionTill"]</span>
         </div>
         <div class="matCart my-column CustomersNumber center" href="">
             <span class="icon-holder PeopleIcon" uk-icon="people"></span>
             <label class="">تعداد کل مشتریان</label>
-            <span>5</span>
+            <span>@ViewData["Customers"]</span>
         </div>
     </div>
     <div class="my-column my-clipped DashboardLinks uk-margin-large-bottom" dir="rtl">

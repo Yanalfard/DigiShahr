@@ -20,14 +20,54 @@ namespace DigiShahr.Controllers
 
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Account/Login");
+            }
+            else
+            {
+                if (User.Claims.First().Value == "d7tpmTdwXL")
+                {
+                    return Redirect("/Store/BuyPackage");
+                }
+                else
+                {
+                    TblStore store = _core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault();
 
-            return View();
+                    ViewData["SuccessOrders"] = store.TblOrders.Where(o => o.IsValid == true).Count();
+                    ViewData["NotSuccessOrders"] = store.TblOrders.Where(o => o.IsValid == false).Count();
+                    ViewData["SubscribtionTill"] = store.SubscribtionTill.Subtract(DateTime.Now).Days.ToString() + "روز" + store.SubscribtionTill.Subtract(DateTime.Now).Hours.ToString() + "ساعت";
+                    ViewData["Customers"] = store.TblOrders.GroupBy(o => o.UserId).Count();
+                    return View();
+                }
+            }
+
+
         }
 
         public IActionResult Orders()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Account/Login");
+            }
+            else
+            {
+                if (User.Claims.First().Value == "d7tpmTdwXL")
+                {
+                    return Redirect("/Store/BuyPackage");
+                }
+                else
+                {
+                    TblStore store = _core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault();
+                    return View(store.TblOrders);
+                }
+            }
+        }
 
-            return View();
+        public IActionResult OrderInfo(int Id)
+        {
+            return ViewComponent("OrderInfoInStore", new { Id = Id });
         }
 
         public IActionResult BuyPackage()
@@ -426,7 +466,7 @@ namespace DigiShahr.Controllers
                 else
                 {
                     TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-                    
+
                     if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit < user.TblStores.First().TblStoreCatagoryRels.Count() || user.TblStores.First().IsValid == false)
                     {
                         return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));

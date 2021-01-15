@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 
@@ -38,7 +37,7 @@
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 <h3>دسته بندی مشاغل</h3>
                 <ul class="uk-menu-accordion" uk-accordion="multiple: true" dir="rtl">
-                    
+
                     @await Component.InvokeAsync("ParentCateogoryLayout")
 
                 </ul>
@@ -54,8 +53,22 @@
             <ul class="uk-iconnav">
                 <li><a class="icon-holder CartNotif" uk-icon="cart"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">3</span></a></li>
                 <li><a class="icon-holder" uk-icon="home"></a></li>
-                <li><a class="icon-holder" uk-icon="changeAccount"></a></li>
-                <li><a class="icon-holder" uk-icon="person"></a></li>
+                @if (User.Claims.First().Value == "8f32nFmU6m")
+                {
+                    <li><a class="icon-holder" uk-icon="changeAccount" href="/Store"></a></li>
+                }
+                else if (User.Claims.First().Value == "d7tpmTdwXL")
+                {
+                    <li><a class="icon-holder" uk-icon="changeAccount" href="/Store/BuyPackage"></a></li>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a class="icon-holder" uk-icon="person" href="/User/UserSetting"></a></li>
+                }
+                else
+                {
+                    <li><a class="icon-holder" uk-icon="person" href="/Account/Login"></a></li>
+                }
             </ul>
         </div>
     </section>

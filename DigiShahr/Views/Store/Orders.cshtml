@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<DataLayer.Models.TblOrder>
 @{
     ViewData["Title"] = "Orders";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -21,32 +21,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td> وحید رضایی </td>
-                    <td>ابوریحان</td>
-                    <td><a href="#OrderInfo" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
-                </tr>
-                <tr>
-                    <td> وحید رضایی </td>
-                    <td>ابوریحان</td>
-                    <td><a href="#OrderInfo" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
-                </tr>
-                <tr>
-                    <td> وحید رضایی </td>
-                    <td>ابوریحان</td>
-                    <td><a href="#OrderInfo" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
-                </tr>
-                <tr>
-                    <td> وحید رضایی </td>
-                    <td>ابوریحان</td>
-                    <td><a href="#OrderInfo" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
-                </tr>
-                <tr>
-                    <td> وحید رضایی </td>
-                    <td>ابوریحان</td>
-                    <td><a href="#OrderInfo" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
-                </tr>
-
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.User.Name</td>
+                        <td>@item.User.Naighborhood.Name</td>
+                        <td><a onclick="OrderInfo(@item.Id)" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -65,65 +47,16 @@
 </div>
 <div class="my-space"></div>
 <div id="OrderInfo" class="modal-sections" uk-modal>
-    <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <div class="my-column uk-padding-small" dir="rtl">
-            <div class="uk-modal-header uk-margin-bottom">
-                <h3 class="uk-modal-title uk-text-center">جزئیات سفارش</h3>
-            </div>
-            <div class="uk-modal-body OrderInfoModal my-column uk-padding-small">
 
-                <label> کد سفارش:<apan>4587456</apan></label>
-                <label> نام مشتری:<apan>محمد رضایی</apan></label>
-                <label> شماره تماس:<apan>09145861521</apan></label>
-                <a class="uk-position-absolute uk-margin-auto-right locationIcon"><span class="icon-holder uk-text-danger" uk-icon="location"></span></a>
-                <hr class="uk-divider-icon" />
-                <label> وضعیت سفارش:<span class="uk-text-success">تایید شده</span></label>
-                <label> تاریخ ثبت سفارش:<apan>تاریخ و زمان</apan></label>
-                <label> محله:<apan>پروین اعتصامی</apan></label>
-                <label> آدرس:<apan>خیابان فلان کوچه فلان پلاک2 </apan></label>
-            </div>
-            <div class="ScrollabelTabel">
-                <table class="uk-table OrdersTable center" dir="rtl">
-                    <thead class="uk-text-center uk-text-bold tabelHearder">
-                        <tr>
-                            <th>نام محصول</th>
-                            <th>تعداد </th>
-                            <th>قیمت</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td> محصول اول </td>
-                            <td>2</td>
-                            <td>200000 تومان</td>
-                        </tr>
-                        <tr>
-                            <td> محصول دوم </td>
-                            <td>2</td>
-                            <td>200000 تومان</td>
-                        </tr>
-                        <tr>
-                            <td> محصول سوم </td>
-                            <td>2</td>
-                            <td>200000 تومان</td>
-                        </tr>
-                        <tr>
-                            <td> محصول چهارم </td>
-                            <td>2</td>
-                            <td>200000 تومان</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="uk-modal-footer uk-text-center uk-margin-top ">
-                <div class="center my-column  gradientButtonLink">
-                    <label>مبلغ کل سفارش:</label>
-                    <label>160000 <span> تومان</span></label>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
+
+@section Script{
+    <script>
+        function OrderInfo(Id) {
+            $.get("/Store/OrderInfo?Id=" + Id, function (result) {
+                $("#OrderInfo").html(result);
+            });
+        }
+    </script>
+}
 

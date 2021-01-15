@@ -1,0 +1,62 @@
+﻿@model DataLayer.Models.TblOrder
+
+@using DigiShahr.Classes
+
+<div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="my-column uk-padding-small" dir="rtl">
+        <div class="uk-modal-header uk-margin-bottom">
+            <h3 class="uk-modal-title uk-text-center">جزئیات سفارش</h3>
+        </div>
+        <div class="uk-modal-body OrderInfoModal my-column uk-padding-small">
+
+            <label> کد سفارش:<apan>#@Model.Id</apan></label>
+            <label> نام مشتری:<apan>@Model.User.Name</apan></label>
+            <label> شماره تماس:<apan>@Model.User.TellNo</apan></label>
+            <a class="uk-position-absolute uk-margin-auto-right locationIcon"><span class="icon-holder uk-text-danger" uk-icon="location"></span></a>
+            <hr class="uk-divider-icon" />
+            <label>
+                وضعیت سفارش:
+                @if (Model.IsValid)
+                {
+                    <span class="uk-text-success">تایید شده</span>
+                }
+                else
+                {
+                    <span class="uk-text-danger">تایید نشده</span>
+                }
+            </label>
+            <label> تاریخ ثبت سفارش:<apan>@Model.DateSubmited.AllToShamsi()</apan></label>
+            <label> محله:<apan>@Model.User.Naighborhood.Name</apan></label>
+            <label> آدرس:<apan>@Model.User.Address</apan></label>
+        </div>
+        <div class="ScrollabelTabel">
+            <table class="uk-table OrdersTable center" dir="rtl">
+                <thead class="uk-text-center uk-text-bold tabelHearder">
+                    <tr>
+                        <th>نام محصول</th>
+                        <th>تعداد </th>
+                        <th>قیمت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TblOrderDetails)
+                    {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>@item.Count</td>
+                            <td class="price">@(item.Product.Price * item.Count) تومان</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="uk-modal-footer uk-text-center uk-margin-top">
+            <div class="center my-column  gradientButtonLink">
+                <label>مبلغ کل سفارش:</label>
+                <label class="price">@Model.Price<span> تومان</span></label>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
