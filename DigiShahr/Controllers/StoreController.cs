@@ -635,7 +635,7 @@ namespace DigiShahr.Controllers
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
 
-            if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit == user.TblStores.First().TblStoreCatagoryRels.Count() || user.TblStores.First().IsValid != false)
+            if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit <= user.TblStores.First().TblStoreCatagoryRels.Count() || !user.TblStores.First().IsValid)
             {
                 return await Task.FromResult("SubscribtionTillErorr");
             }

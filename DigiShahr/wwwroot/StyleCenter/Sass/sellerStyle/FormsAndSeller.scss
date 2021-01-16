@@ -4,7 +4,8 @@
 
 body {
     overflow-x: hidden;
- //  min-height:100vh;
+    min-height: 100vh;
+    //  min-height:100vh;
 }
 
 .mat {
@@ -186,7 +187,10 @@ ul {
 
 .uploadButton {
 }
-
+.LogoPicture {
+    max-width: 100px;
+    max-height: 100px;
+}
 .logoPlace {
     width: 170px;
     height: 60px;
@@ -226,6 +230,7 @@ ul {
         overflow-x: scroll !important;
         margin:20px 15px 5px 15px;
 
+
         .category {
             border-radius: 5px !important;
             border: none !important;
@@ -255,23 +260,39 @@ ul {
     }
 }
 .AddProductSection {
+    padding:10px 2px;
+    .ProductName {
+        text-align: right !important
+    }
+
     label {
         background: #c6c6c6;
-        padding: 1px 20px;
         border-radius: 7px;
         margin-top: 5px;
+        text-align: right !important
     }
 
     .ProductPicture {
         background: #c6c6c6;
-        padding: 27px;
+        // padding: 27px;
         border-radius: 7px;
+        height: 80px;
+        width: 80px;
+
+        img {
+            height: 80px;
+            width: 80px;
+            border-radius: 7px;
+            background-size: contain;
+        }
     }
 
-    .OFFPercent{
-        background:#F28F3B;
-        margin-right:8px;
-        color:white;
+    .OFFPercent {
+        background: #F28F3B;
+        margin-right: 4px;
+        color: white;
+        height: 23px;
+        padding: 2px 7px !important;
     }
 }
 #AddProduct {
@@ -415,4 +436,29 @@ ul {
 }
 .LinkBox {
     width:75vw;
+}
+.ErrorMessage {
+    .errmsg {
+        width: 80vw;
+        padding: 20px;
+        background: #FFF8D2;
+        border: 2px solid #F9EFBE;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+
+        p {
+            text-align: justify;
+            -ms-text-justify: kashida;
+            text-justify: kashida;
+        }
+    }
+
+    ul {
+        text-align: right;
+        list-style-type: disc !important;
+        li{
+            margin:10px 0;
+        }
+    }
 }

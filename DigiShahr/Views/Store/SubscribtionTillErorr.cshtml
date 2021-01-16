@@ -4,5 +4,33 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-<h1>SubscribtionTillErorr</h1>
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+@*<link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />*@
+<div class="my-space"></div>
+<div class="matCart my-clipped my-column center ErrorMessage" dir="rtl">
+    <label class="uk-margin-large-top uk-margin-bottom"><span class="icon-holder uk-text-danger" uk-icon="alert-circle"></span> بروز خطا</label>
+    <div class="matCart errmsg my-column  center ">
+        <p class="uk-margin-remove-bottom">خطایی رخ داده است که ممکن است  به خاطر دلایل زیر باشد لطفا هریک از موارد را بررسی کرده و در صورت نیاز با شماره تلفن <a class="uk-text-success"> 09145281548</a> تماس حاصل کنید.</a></p>
+    </div>
+    @*<img class="center" src="~/img/user/Error.svg" width="100" height="100" />
+            <h3 class="uk-margin-small-top">خطایی رخ داده است</h3>
+            <h3 class="uk-margin-small-top">ممکن است به خاطر یکی از دلایل زیر باشد:</h3>*@
+<ul class="uk-padding-remove-right uk-padding-remove-left uk-margin-large-right">
+    <li>
+        مدت زمان پکیج شما به پایان رسیده است.
+    </li>
+    <li>
+        حداکثر تعداد دسته بندی را ثبت کرده اید.
+    </li>
+    <li>
+        حداکثر تعداد محصول را ثبت کرده اید.
+    </li>
+    <li>
+        درخواست ایجاد فروشگاه شما تایید نشده است.
+    </li>
+</ul>
+        <a class="gradientButtonLink center uk-margin-top uk-margin-bottom">برگشت</a>
 
+
+    </div>
+    <div class="my-space"></div>
