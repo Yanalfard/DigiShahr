@@ -182,9 +182,68 @@ namespace DigiShahr.Controllers
 
         }
 
-        public IActionResult ResetPassword()
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(string Erorr)
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return await Task.FromResult(Redirect("/User/UserSetting"));
+            }
+            else
+            {
+                if (Erorr == "1")
+                {
+                    ViewBag.Erorr = "شماره تماس وجود ندارد";
+                }
+                return await Task.FromResult(View());
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string TellNo)
+        {
+            ChangePasswordInNotSignInViewModel changePassword = new ChangePasswordInNotSignInViewModel();
+            TblUser user = await UserCrew.UserByTellNo(TellNo);
+            if (user != null)
+            {
+                var CodeCreator = Guid.NewGuid().ToString();
+                string Code = CodeCreator.Substring(CodeCreator.Length - 5);
+                user.Auth = Code;
+                _core.User.Save();
+                changePassword.TellNo = user.TellNo;
+                return await Task.FromResult(View());
+            }
+            else
+            {
+                return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
+            }
+
+        }
+
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordInNotSignInViewModel changePassword)
+        {
+            if (changePassword.NewPassword != changePassword.NewPasswrdConfirm)
+            {
+                ModelState.AddModelError("NewPasswrdConfirm", "لطفا تایید رمز عبور را صحیح وارد کنید");
+                return await Task.FromResult(View(changePassword));
+            }
+            else
+            {
+                if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Auth != changePassword.Auth)
+                {
+                    ModelState.AddModelError("Auth", "کد معتبر نیست");
+                    return await Task.FromResult(View(changePassword));
+                }
+                else
+                {
+                    TblUser user = UserCrew.UserByTellNo(User.Claims.Last().Value).Result;
+                    user.Password = Cryptography.SHA256(changePassword.NewPassword);
+                    user.Auth = changePassword.Auth;
+                    _core.User.Save();
+                    return await Task.FromResult(Redirect("/Account/Login"));
+                }
+            }
         }
 
         private async Task SignInAsync(TblUser tblUser)

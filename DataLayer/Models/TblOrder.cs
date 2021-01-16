@@ -20,8 +20,8 @@ namespace DataLayer.Models
         public int Price { get; set; }
         public bool IsValid { get; set; }
         public bool IsPayed { get; set; }
+        public bool IsFinaly { get; set; }
         public string LotteryCode { get; set; }
-
         public virtual TblDiscount Discount { get; set; }
         public virtual TblStore Store { get; set; }
         public virtual TblUser User { get; set; }
