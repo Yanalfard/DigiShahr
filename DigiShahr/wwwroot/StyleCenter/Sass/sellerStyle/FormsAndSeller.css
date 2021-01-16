@@ -243,7 +243,8 @@
   padding: 16px !important; }
 
 body {
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  min-height: 100vh; }
 
 .mat {
   border-radius: 8px; }
@@ -365,6 +366,10 @@ ul {
   .BannerPlace a {
     color: #5F5F5F; }
 
+.LogoPicture {
+  max-width: 100px;
+  max-height: 100px; }
+
 .logoPlace {
   width: 170px;
   height: 60px;
@@ -419,21 +424,31 @@ ul {
 .productSection hr {
   margin: 4px 20px !important; }
 
-.AddProductSection label {
-  background: #c6c6c6;
-  padding: 1px 20px;
-  border-radius: 7px;
-  margin-top: 5px; }
-
-.AddProductSection .ProductPicture {
-  background: #c6c6c6;
-  padding: 27px;
-  border-radius: 7px; }
-
-.AddProductSection .OFFPercent {
-  background: #F28F3B;
-  margin-right: 8px;
-  color: white; }
+.AddProductSection {
+  padding: 10px 2px; }
+  .AddProductSection .ProductName {
+    text-align: right !important; }
+  .AddProductSection label {
+    background: #c6c6c6;
+    border-radius: 7px;
+    margin-top: 5px;
+    text-align: right !important; }
+  .AddProductSection .ProductPicture {
+    background: #c6c6c6;
+    border-radius: 7px;
+    height: 80px;
+    width: 80px; }
+    .AddProductSection .ProductPicture img {
+      height: 80px;
+      width: 80px;
+      border-radius: 7px;
+      background-size: contain; }
+  .AddProductSection .OFFPercent {
+    background: #F28F3B;
+    margin-right: 4px;
+    color: white;
+    height: 23px;
+    padding: 2px 7px !important; }
 
 #AddProduct {
   z-index: 10000000; }
@@ -537,3 +552,22 @@ ul {
 
 .LinkBox {
   width: 75vw; }
+
+.ErrorMessage .errmsg {
+  width: 80vw;
+  padding: 20px;
+  background: #FFF8D2;
+  border: 2px solid #F9EFBE;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px; }
+  .ErrorMessage .errmsg p {
+    text-align: justify;
+    -ms-text-justify: kashida;
+    text-justify: kashida; }
+
+.ErrorMessage ul {
+  text-align: right;
+  list-style-type: disc !important; }
+  .ErrorMessage ul li {
+    margin: 10px 0; }

@@ -47,7 +47,7 @@
             $("#ProductSubmitErorr").html("");
             var Price = $("#Price").val().replace(",", "");
             var data = $(this).serializeArray();
-            alert(data);
+            
             $.post("/Store/CreateProduct", data, function (result) {
                 if (result == "SubscribtionTillErorr") {
                     window.location.href = "/Store/SubscribtionTillErorr";
