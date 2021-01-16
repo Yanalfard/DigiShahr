@@ -360,11 +360,56 @@ ul {
   border-radius: 8px;
   height: 200px;
   background: #F28F3B; }
+  .BannerPlace .absolute-right {
+    right: 10vw; }
   .BannerPlace h3 {
     font-size: 12px;
     font-family: "Sahel"; }
   .BannerPlace a {
     color: #5F5F5F; }
+
+.Lottery .LotteryIcon {
+  color: #40916C !important;
+  text-align: right; }
+  .Lottery .LotteryIcon img {
+    width: 30vw; }
+
+.Lottery .uk-input {
+  border: none !important; }
+
+.DiscountCode input {
+  border-radius: 5px !important;
+  border: none !important;
+  height: 30px !important;
+  background: #FAE893 !important; }
+
+.DiscountCode .Count {
+  width: 90px !important; }
+
+.DiscountCode .gradientButtonLink {
+  width: 90px;
+  height: 22px !important;
+  padding: 4px 0 !important; }
+
+.DiscountCodeResult {
+  text-align: right !important; }
+
+.StoreSlider img {
+  width: 60px;
+  height: 60px; }
+
+.StoreSlider .uk-s-slider-container {
+  color: #5F5F5F !important; }
+
+.BannerInStore {
+  width: 90vw;
+  background: #F28F3B;
+  width: 90vw;
+  height: 184px; }
+  .BannerInStore img {
+    width: 90vw;
+    height: 184px;
+    border-radius: 8px; }
 
 .LogoPicture {
   max-width: 100px;
@@ -429,12 +474,12 @@ ul {
   .AddProductSection .ProductName {
     text-align: right !important; }
   .AddProductSection label {
-    background: #c6c6c6;
+    background: white;
     border-radius: 7px;
     margin-top: 5px;
     text-align: right !important; }
   .AddProductSection .ProductPicture {
-    background: #c6c6c6;
+    background: white;
     border-radius: 7px;
     height: 80px;
     width: 80px; }
