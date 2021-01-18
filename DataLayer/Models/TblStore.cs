@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace DataLayer.Models
 {
+    [Table("TblStore")]
     public partial class TblStore
     {
         public TblStore()
         {
+            TblCatagories = new HashSet<TblCatagory>();
             TblDealOrders = new HashSet<TblDealOrder>();
             TblDiscounts = new HashSet<TblDiscount>();
             TblOrders = new HashSet<TblOrder>();
-            TblStoreCatagoryRels = new HashSet<TblStoreCatagoryRel>();
             TblStoreNaighborhoodRels = new HashSet<TblStoreNaighborhoodRel>();
         }
 
@@ -48,13 +51,25 @@ namespace DataLayer.Models
         [Required(ErrorMessage = "لطفا دسته بندی را وارد کنید")]
         public int CatagoryId { get; set; }
         public int UserId { get; set; }
+
+        [ForeignKey(nameof(AbilityId))]
+        [InverseProperty(nameof(TblAbility.TblStores))]
         public virtual TblAbility Ability { get; set; }
+        [ForeignKey(nameof(CatagoryId))]
+        [InverseProperty(nameof(TblStoreCatagory.TblStores))]
         public virtual TblStoreCatagory Catagory { get; set; }
+        [ForeignKey(nameof(UserId))]
+        [InverseProperty(nameof(TblUser.TblStores))]
         public virtual TblUser User { get; set; }
+        [InverseProperty(nameof(TblCatagory.Store))]
+        public virtual ICollection<TblCatagory> TblCatagories { get; set; }
+        [InverseProperty(nameof(TblDealOrder.Store))]
         public virtual ICollection<TblDealOrder> TblDealOrders { get; set; }
+        [InverseProperty(nameof(TblDiscount.Store))]
         public virtual ICollection<TblDiscount> TblDiscounts { get; set; }
+        [InverseProperty(nameof(TblOrder.Store))]
         public virtual ICollection<TblOrder> TblOrders { get; set; }
-        public virtual ICollection<TblStoreCatagoryRel> TblStoreCatagoryRels { get; set; }
+        [InverseProperty(nameof(TblStoreNaighborhoodRel.Store))]
         public virtual ICollection<TblStoreNaighborhoodRel> TblStoreNaighborhoodRels { get; set; }
     }
 }

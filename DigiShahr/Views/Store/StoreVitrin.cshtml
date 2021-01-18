@@ -9,7 +9,7 @@
 <div class="BannerPlace my-column my-clipped"
      @if (Model.MainBannerUrl != null) { @: style="background-image: url('/Upload/StoreMainBanner/@Model.MainBannerUrl');background-repeat:no-repeat;"
      }>
-    <a><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left" uk-icon="backIcon"></span></a>
+    <a href="/Store"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left" uk-icon="backIcon"></span></a>
     <h3 class=" absolute absolute-right uk-margin-large-top uk-margin-small-left">
         @if (string.IsNullOrEmpty(Model.MainBannerUrl))
         {
@@ -23,8 +23,8 @@
     @if (string.IsNullOrEmpty(Model.MainBannerUrl))
     {
         <div class="js-upload uk-position-absolute absolute-right" uk-form-custom>
-            <input type="file" id="MainBannerFile">
-            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <input type="file" id="MainBannerFile" accept="image/x-png,image/jpeg">
+            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="create-outline" tabindex="-1"></span></a>
             <span class="uk-text-danger" id="MainBannerFileErorr"></span>
         </div>
 
@@ -33,9 +33,9 @@
     {
         <div class="js-upload uk-position-absolute absolute-right" uk-form-custom>
 
-            <input type="file" id="MainBannerFile">
+            <input type="file" id="MainBannerFile" accept="image/x-png,image/jpeg">
             <span class="uk-text-danger" id="MainBannerFileErorr"></span>
-            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="create-outline" tabindex="-1"></span></a>
             <span class="uk-text-danger"></span>
         </div>
     }
@@ -51,7 +51,7 @@
             @if (string.IsNullOrEmpty(Model.LogoUrl))
             {
                 <div class="js-upload" uk-form-custom>
-                    <input type="file" id="LogoFile">
+                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
                     <span class="uk-text-danger">
                     </span>
                     <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
@@ -61,7 +61,7 @@
             else
             {
                 <div class="js-upload" uk-form-custom>
-                    <input type="file" id="LogoFile">
+                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
                     <span class="uk-text-danger">
                     </span>
                     <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
@@ -73,55 +73,71 @@
 
 </div>
 <hr class="uk-divider-icon" />
-<div class="Lottery my-row matCart my-column my-clipped">
-    <img src="~/img/Store/lottery.webp" />
+@if (Model.Ability.IsLotteryEnable)
+{
+    <div class="Lottery my-row matCart my-column my-clipped">
+        <img src="~/img/Store/lottery.webp" />
 
-    <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
-        <div class="uk-inline">
-            <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
-            <input class="uk-input" type="text" placeholder="تاریخ قرعه کشی ">
+        <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
+            <div class="uk-inline">
+                <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
+                <input class="uk-input" type="text" placeholder="تاریخ قرعه کشی">
+            </div>
         </div>
     </div>
-
-   @* <span class="icon-holder LotteryIcon uk-margin-auto-vertical uk-margin-large-right" uk-icon="calendar"> <input class="uk-margin-auto-left uk-margin-auto-vertical" placeholder="تاریخ را وارد کنید " /> </span>*@
-</div>
-<div class=" matCart my-column my-clipped uk-margin-top " dir="rtl">
-    <div class="DiscountCode my-column uk-padding">
+}
+<div class="matCart my-column my-clipped uk-margin-top " dir="rtl">
+    <form id="CreateDiscount" class="DiscountCode my-column uk-padding">
         <label>کد تخفیف:</label>
-        <input class="uk-input" type="text">
+        <input type="hidden" value="@Model.Id" name="StoreId" />
+        <input maxlength="50" name="Code" class="uk-input" type="text">
         <div class="my-row">
             <div class="my-column">
                 <label class="uk-margin-top">تعداد استفاده:</label>
-                <input class="uk-input Count" type="number">
+                <input class="uk-input Count" type="number" name="Count">
             </div>
-            <a class="gradientButtonLink uk-text-center uk-margin-auto-top uk-margin-auto-right">افزودن</a>
+            <span id="CreateDiscountErorr" class="uk-text-danger"></span>
+            <button class="gradientButtonLink uk-text-center uk-margin-auto-top uk-margin-auto-right">افزودن</button>
         </div>
-    </div>
+    </form>
     <hr class="uk-margin-remove" />
     <div class="my-column uk-padding">
-        <div class="my-row DiscountCodeResult uk-margin-bottom">
-            <label>84dscda1595</label>
-            <label class="uk-margin-auto-left uk-margin-auto-right">5 عدد</label>
-            <a><span class="icon-holder uk-text-danger" uk-icon="trash"> </span></a>
-        </div>
-        <div class="my-row DiscountCodeResult uk-margin-bottom">
-            <label>84157ug5</label>
-            <label class="uk-margin-auto-left uk-margin-auto-right">12 عدد</label>
-            <a><span class="icon-holder uk-text-danger" uk-icon="trash"> </span></a>
-        </div>
+        @if (Model.TblDiscounts.Count() == 0)
+        {
+            <div class="my-row DiscountCodeResult uk-margin-bottom">
+                <label>کد تخفیف وجود ندارد</label>
+                <label class="uk-margin-auto-left uk-margin-auto-right"></label>
+            </div>
+        }
+        @foreach (var item in Model.TblDiscounts)
+        {
+            <div class="my-row DiscountCodeResult uk-margin-bottom">
+                <label>@item.Code</label>
+                <label class="uk-margin-auto-left uk-margin-auto-right">@item.Count عدد</label>
+                <a onclick="RemoveDiscount(@item.Id)"><span class="icon-holder uk-text-danger" uk-icon="trash"></span></a>
+            </div>
+        }
     </div>
 </div>
-<div class="BannerInStore matCart center my-clipped uk-margin-small-top">
-    @* <img src="~/img/Store/banner-sample.jpg" />*@
-    <div class="js-upload" uk-form-custom>
-        <input type="file">
-        <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-        <label> افزودن بنر اول</label>
-    </div>
 
-</div>
+
+@if (Model.Ability.IsBanner1Enable)
+{
+    <div class="BannerInStore matCart center my-clipped uk-margin-small-top">
+        @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
+        {
+            <img src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
+        }
+        <div class="js-upload" uk-form-custom>
+            <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
+            <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <label> افزودن بنر اول</label>
+        </div>
+    </div>
+}
+
 <div class="matCart productSection my-column my-clipped uk-margin-small-top">
-    
+
     <form id="CreateCategory">
         <div class="my-row uk-margin-top">
             <div class="uk-inline productCategory uk-margin-top" style="left:0;">
@@ -135,7 +151,7 @@
     </form>
     <div class="my-row CategoryList">
 
-        @if (Model.TblStoreCatagoryRels.Count() == 0)
+        @if (Model.TblCatagories.Count() == 0)
         {
             <div class="category">
                 دسته بندی 1
@@ -154,10 +170,9 @@
             </div>
         }
 
-        @foreach (var item in Model.TblStoreCatagoryRels)
+        @foreach (var item in Model.TblCatagories)
         {
-            <input class="category" value="@item.Catagory.Name">
-            // @item.Catagory.Name
+            <input class="category" value="@item.Name">
 
         }
     </div>
@@ -165,7 +180,7 @@
     <h3 class="center"><a href="#AddProduct" id="AddProductPapaer" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
     <br>
 
-    @foreach (var items in Model.TblStoreCatagoryRels)
+    @foreach (var items in Model.TblCatagories)
     {
 
         foreach (var item in items.TblProducts)
@@ -189,15 +204,16 @@
         }
     }
 </div>
-<div class="BannerInStore matCart center my-clipped uk-margin-small-top">
-    @* <img src="~/img/Store/banner-sample.jpg" />*@
-    <div class="js-upload" uk-form-custom>
-        <input type="file">
-        <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-        <label> افزودن بنر دوم</label>
+@if (Model.Ability.IsBanner2Enable)
+{
+    <div class="BannerInStore matCart center my-clipped uk-margin-small-top">
+        <div class="js-upload" uk-form-custom>
+            <input type="file">
+            <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <label> افزودن بنر دوم</label>
+        </div>
     </div>
-
-</div>
+}
 <div class="my-space"></div>
 <div id="AddProduct" uk-modal>
     <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
@@ -212,7 +228,28 @@
             $.get("/Store/AddProduct/@Model.Id", function (result) {
                 $(".uk-modal-dialog").html(result);
             });
-    });
+        });
+
+        $("#CreateDiscount").submit(function (e) {
+            e.preventDefault();
+            var data = $(this).serializeArray();
+            $.post("/Store/CreateDiscount", data, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                } else {
+                    $("#CreateDiscountErorr").html(result);
+                }
+            });
+        });
+
+        function RemoveDiscount(Id) {
+            $.post("/Store/RemoveDiscount?Id=" + Id, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+
     </script>
     <script src="~/Command/StoreVitrin.js"></script>
 }

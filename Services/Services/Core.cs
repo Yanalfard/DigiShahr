@@ -19,7 +19,6 @@ namespace Services.Services
         private MainRepo<TblStore> _store;
         private MainRepo<TblDiscount> _discount;
         private MainRepo<TblOrder> _order;
-        private MainRepo<TblStoreCatagoryRel> _storeCatagoryRel;
         private MainRepo<TblProduct> _product;
         private MainRepo<TblOrderDetail> _orderDetail;
         private MainRepo<TblStoreNaighborhoodRel> _storeNaighborhoodRel;
@@ -36,7 +35,6 @@ namespace Services.Services
         public MainRepo<TblStore> Store => _store ??= new MainRepo<TblStore>(_context);
         public MainRepo<TblDiscount> Discount => _discount ??= new MainRepo<TblDiscount>(_context);
         public MainRepo<TblOrder> Order => _order ??= new MainRepo<TblOrder>(_context);
-        public MainRepo<TblStoreCatagoryRel> StoreCatagoryRel => _storeCatagoryRel ??= new MainRepo<TblStoreCatagoryRel>(_context);
         public MainRepo<TblProduct> Product => _product ??= new MainRepo<TblProduct>(_context);
         public MainRepo<TblOrderDetail> OrderDetail => _orderDetail ??= new MainRepo<TblOrderDetail>(_context);
         public MainRepo<TblStoreNaighborhoodRel> StoreNaighborhoodRel => _storeNaighborhoodRel ??= new MainRepo<TblStoreNaighborhoodRel>(_context);

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReflectionIT.Mvc.Paging;
 
 namespace DigiShahr
 {
@@ -22,6 +23,14 @@ namespace DigiShahr
             services.AddControllersWithViews();
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+            //Pager
+            services.AddPaging(options =>
+            {
+                options.ViewName = "Paging";
+                options.HtmlIndicatorDown = " <span>&darr;</span>";
+                options.HtmlIndicatorUp = " <span>&uarr;</span>";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

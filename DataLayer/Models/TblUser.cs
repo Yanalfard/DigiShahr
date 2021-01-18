@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace DataLayer.Models
 {
+    [Table("TblUser")]
     public partial class TblUser
     {
         public TblUser()
@@ -18,27 +20,21 @@ namespace DataLayer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required(ErrorMessage = "لطفا شماره تماس خود را وارد کنید")]
-        [StringLength(11, ErrorMessage = "لطفا شماره تماس مناسب وارد کنید")]
-        [MinLength(11, ErrorMessage = "لطفا شماره تماس مناسب وارد کنید")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "شماره تماس معتبر نیست")]
+        [Required]
+        [StringLength(11)]
         public string TellNo { get; set; }
-        [Required(ErrorMessage = "لطفا رمز عبور خود را وارد کنید")]
-        [MinLength(4, ErrorMessage = "لطفا کارکتر های بیشتری وارد کنید")]
+        [Required]
         [StringLength(64)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "لطفا نام خود را وارد کنید")]
-        [StringLength(100, ErrorMessage = "لطفا نام مناسب وارد کنید")]
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
-        [StringLength(500, ErrorMessage = "لطفا آدرس مناسب وارد کنید")]
-        [MinLength(4, ErrorMessage = "لطفا کارکتر های بیشتری وارد کنید")]
+        [StringLength(500)]
         public string Address { get; set; }
         public int? NaighborhoodId { get; set; }
-        [StringLength(50, ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
-        [Required(ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
+        [StringLength(50)]
         public string Lat { get; set; }
-        [StringLength(50, ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
-        [Required(ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
+        [StringLength(50)]
         public string Lon { get; set; }
         [StringLength(64)]
         public string Auth { get; set; }

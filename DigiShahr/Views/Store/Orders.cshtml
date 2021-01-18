@@ -9,7 +9,7 @@
 <div class="matCart my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">اطلاعات سفارشات فروشگاه</h3>
-        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+        <a href="/Store"><span class="icon-holder" uk-icon="backIcon"></span></a>
     </div>
     <div class="uk-padding-small ScrollabelTabel" dir="rtl">
         <table class="uk-table OrdersTable center" dir="rtl">
@@ -21,6 +21,12 @@
                 </tr>
             </thead>
             <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="5">سفارشی وجود ندارد</td>
+                    </tr>
+                }
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -33,18 +39,9 @@
         </table>
     </div>
 </div>
-<div class="matCart my-clipped uk-margin-medium-top">
-    <ul class=" uk-pagination uk-flex-center" uk-margin>
-        <li><a href="#"><span uk-pagination-previous></span></a></li>
-        <li><a href="#">1</a></li>
-        <li class="uk-disabled"><span>...</span></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">6</a></li>
-        <li class="uk-active"><span>7</span></li>
-        <li><a href="#">8</a></li>
-        <li><a href="#"><span uk-pagination-next></span></a></li>
-    </ul>
-</div>
+<nav class="pagenav" style="text-align:center;">
+    @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
+</nav>
 <div class="my-space"></div>
 <div id="OrderInfo" class="modal-sections" uk-modal>
 

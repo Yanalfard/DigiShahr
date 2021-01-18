@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiShahr", "DigiShahr\Digi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{432889F1-B2B9-4DA3-AE5C-688541323683}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{79D1462F-4D59-4F4B-8C3C-78053BC9F4C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{79D1462F-4D59-4F4B-8C3C-78053BC9F4C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

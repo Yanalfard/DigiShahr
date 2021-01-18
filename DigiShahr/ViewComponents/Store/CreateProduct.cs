@@ -17,7 +17,7 @@ namespace DigiShahr.ViewComponents.Store
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
             TblStore Store = _core.Store.GetById(id);
-            ViewBag.Category = _core.StoreCatagoryRel.Get().Where(scr => scr.StoreId == Store.Id);
+            ViewBag.Category = _core.Catagory.Get().Where(scr => scr.StoreId == Store.Id);
             return await Task.FromResult((IViewComponentResult)View("/Views/Store/Components/CreateProduct.cshtml"));
         }
     }

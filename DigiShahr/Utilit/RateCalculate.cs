@@ -8,9 +8,9 @@ namespace DigiShahr.Utilit
 {
     public class RateCalculate
     {
-        public async Task<double> RateConvert(int Rate, int RateCount)
-        {
-            return Rate;
-        }
+        //public async Task<double> RateConvert(int Rate, int RateCount)
+        //{
+        //    return Rate;
+        //}
     }
 }

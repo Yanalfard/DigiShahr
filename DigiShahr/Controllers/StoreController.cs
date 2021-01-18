@@ -10,6 +10,7 @@ using DataLayer.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using ZarinpalSandbox;
+using ReflectionIT.Mvc.Paging;
 
 namespace DigiShahr.Controllers
 {
@@ -45,7 +46,7 @@ namespace DigiShahr.Controllers
 
         }
 
-        public IActionResult Orders()
+        public IActionResult Orders(int page = 1)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -59,8 +60,8 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    TblStore store = _core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault();
-                    return View(store.TblOrders);
+                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders, 20, page);
+                    return View(Order);
                 }
             }
         }
@@ -467,7 +468,7 @@ namespace DigiShahr.Controllers
                 {
                     TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
 
-                    if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit < user.TblStores.First().TblStoreCatagoryRels.Count() || user.TblStores.First().IsValid == false)
+                    if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit < user.TblStores.First().TblCatagories.Count || user.TblStores.First().IsValid == false)
                     {
                         return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
                     }
@@ -662,7 +663,7 @@ namespace DigiShahr.Controllers
                     return Redirect("/Store/BuyPackage");
                 }
                 TblUser Seller = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-                if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblStoreCatagoryRels.Count() || Seller.TblStores.First().IsValid == false)
+                if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false)
                 {
                     return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
                 }
@@ -675,7 +676,7 @@ namespace DigiShahr.Controllers
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
 
-            if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit <= user.TblStores.First().TblStoreCatagoryRels.Count() || !user.TblStores.First().IsValid)
+            if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit <= user.TblStores.First().TblCatagories.Count() || !user.TblStores.First().IsValid)
             {
                 return await Task.FromResult("SubscribtionTillErorr");
             }
@@ -703,7 +704,7 @@ namespace DigiShahr.Controllers
                             TblStore Store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
                             TblCatagory Category = _core.Catagory.Get().Where(c => c.Name == Name).SingleOrDefault();
 
-                            if (_core.StoreCatagoryRel.Get().Where(scr => scr.StoreId == Store.Id).Count() >= Store.CatagoryLimit)
+                            if (_core.Catagory.Get().Where(scr => scr.StoreId == Store.Id).Count() >= Store.CatagoryLimit)
                             {
                                 return await Task.FromResult("تعداد ثبت دسته بندی شما به پایان رسیده است");
                             }
@@ -715,33 +716,12 @@ namespace DigiShahr.Controllers
                                     catagory.Name = Name;
                                     _core.Catagory.Add(catagory);
                                     _core.Catagory.Save();
-                                    TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
-                                    catagoryRel.CatagoryId = catagory.Id;
-                                    catagoryRel.Catagory = catagory;
-                                    catagoryRel.IsDeleted = false;
-                                    _core.StoreCatagoryRel.Add(catagoryRel);
-                                    _core.StoreCatagoryRel.Save();
                                     return await Task.FromResult("true");
 
                                 }
                                 else
                                 {
-                                    if (_core.StoreCatagoryRel.Get().Any(scr => scr.StoreId == Store.Id && scr.Catagory.Name == Name))
-                                    {
-                                        return await Task.FromResult("دسته بندی وارد شده تکراری میباشد");
-                                    }
-                                    else
-                                    {
-                                        TblStoreCatagoryRel catagoryRel = new TblStoreCatagoryRel();
-                                        catagoryRel.Catagory = Category;
-                                        catagoryRel.CatagoryId = Category.Id;
-                                        catagoryRel.Store = Store;
-                                        catagoryRel.StoreId = Store.Id;
-                                        catagoryRel.IsDeleted = false;
-                                        _core.StoreCatagoryRel.Add(catagoryRel);
-                                        _core.StoreCatagoryRel.Save();
-                                        return await Task.FromResult("true");
-                                    }
+                                    return await Task.FromResult("دسته بندی وارد شده تکراری میباشد");
                                 }
                             }
                         }
@@ -870,6 +850,66 @@ namespace DigiShahr.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<string> UploadBanner1()
+        {
+            var file = Request.Form.Files;
+            if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
+            {
+                return await Task.FromResult("لطفا تصویر با فرمت مناسب وارد کنید");
+            }
+            else
+            {
+                if (file[0].Length > 3000000)
+                {
+                    return await Task.FromResult("حجم فایل بیش از اندازه میباشد");
+                }
+                else
+                {
+                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblAbility ability = user.TblStores.FirstOrDefault().Ability;
+
+                    if (string.IsNullOrEmpty(ability.BannerImageUrl1))
+                    {
+                        ability.BannerImageUrl1 = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                        string savePath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner1", ability.BannerImageUrl1
+                        );
+
+                        using (var stream = new FileStream(savePath, FileMode.Create))
+                        {
+                            await file[0].CopyToAsync(stream);
+                        }
+                        _core.Ability.Update(ability);
+                        _core.Ability.Save();
+                        return await Task.FromResult("true");
+                    }
+                    else
+                    {
+                        var fullPath = "wwwroot/Upload/Banner1/" + ability.BannerImageUrl1;
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+
+                            ability.BannerImageUrl1 = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                            string savePath = Path.Combine(
+                                Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner1", ability.BannerImageUrl1
+                            );
+
+                            using (var stream = new FileStream(savePath, FileMode.Create))
+                            {
+                                await file[0].CopyToAsync(stream);
+                            }
+                            _core.Ability.Update(ability);
+                            _core.Ability.Save();
+                        }
+                    }
+
+                    return await Task.FromResult("true");
+                }
+            }
+        }
+
         public IActionResult AddProduct(int id)
         {
             return ViewComponent("CreateProduct", new { id = id });
@@ -968,6 +1008,38 @@ namespace DigiShahr.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<string> CreateDiscount(TblDiscount discount)
+        {
+            if (string.IsNullOrEmpty(discount.Code) || discount.Count == 0 || discount.Count > 100 || discount.Code.Length > 50 || discount.Code.IndexOf("'") > 0)
+            {
+                return await Task.FromResult("لطفا هر دو گزینه صحیح وارد کنید");
+            }
+            else
+            {
+                if (discount.Code.Length > 15 || discount.Count.ToString().Length > 3)
+                {
+                    return await Task.FromResult("لطفا موارد معتبر وارد کنید");
+                }
+                else
+                {
+                    TblDiscount Newdiscount = new TblDiscount();
+                    Newdiscount.StoreId = discount.StoreId;
+                    Newdiscount.Code = discount.Code;
+                    Newdiscount.Count = discount.Count;
+                    _core.Discount.Add(Newdiscount);
+                    _core.Discount.Save();
+                    return await Task.FromResult("true");
+                }
+            }
+        }
+
+        public async Task<string> RemoveDiscount(int Id)
+        {
+            _core.Discount.DeleteById(Id);
+            _core.Discount.Save();
+            return await Task.FromResult("true");
+        }
 
         protected override void Dispose(bool disposing)
         {
