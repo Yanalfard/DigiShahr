@@ -364,9 +364,10 @@ namespace DigiShahr.Controllers
                                     string savePath = Path.Combine(
                                         Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", NewStore.LogoUrl
                                     );
+
                                     using (var stream = new FileStream(savePath, FileMode.Create))
                                     {
-                                        _ = LogoUrl.CopyToAsync(stream);
+                                        await LogoUrl.CopyToAsync(stream);
                                     }
                                     NewStore.Rate = 0;
                                     NewStore.RateCount = 0;
@@ -663,6 +664,7 @@ namespace DigiShahr.Controllers
                     return Redirect("/Store/BuyPackage");
                 }
                 TblUser Seller = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+
                 if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false)
                 {
                     return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
@@ -672,6 +674,7 @@ namespace DigiShahr.Controllers
             }
         }
 
+        [HttpPost]
         public async Task<string> CreateCategory(string Name)
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
@@ -701,33 +704,50 @@ namespace DigiShahr.Controllers
                         }
                         else
                         {
-                            TblStore Store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-                            TblCatagory Category = _core.Catagory.Get().Where(c => c.Name == Name).SingleOrDefault();
-
-                            if (_core.Catagory.Get().Where(scr => scr.StoreId == Store.Id).Count() >= Store.CatagoryLimit)
+                            if (user.TblStores.FirstOrDefault().TblCatagories.Any(c => c.Name == Name))
                             {
-                                return await Task.FromResult("تعداد ثبت دسته بندی شما به پایان رسیده است");
+                                return await Task.FromResult("دسته بندی وارد شده ثبت شده است");
                             }
                             else
                             {
-                                if (Category == null)
-                                {
-                                    TblCatagory catagory = new TblCatagory();
-                                    catagory.Name = Name;
-                                    _core.Catagory.Add(catagory);
-                                    _core.Catagory.Save();
-                                    return await Task.FromResult("true");
-
-                                }
-                                else
-                                {
-                                    return await Task.FromResult("دسته بندی وارد شده تکراری میباشد");
-                                }
+                                TblCatagory Newcatagory = new TblCatagory();
+                                Newcatagory.Name = Name;
+                                Newcatagory.StoreId = user.TblStores.SingleOrDefault().Id;
+                                _core.Catagory.Add(Newcatagory);
+                                _core.Catagory.Save();
+                                return await Task.FromResult("true");
                             }
                         }
                     }
                 }
             }
+        }
+
+        [HttpPost]
+        public async Task<string> ChangeCategory(int Id, string Name)
+        {
+            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblStore store = user.TblStores.FirstOrDefault();
+            if (string.IsNullOrEmpty(Name))
+            {
+                return await Task.FromResult("لطفا نام دسته بندی را وارد کنید");
+            }
+            else
+            {
+                if (_core.Catagory.Get().Any(c => c.StoreId == store.Id && c.Name == Name && c.Id != Id))
+                {
+                    return await Task.FromResult("دسته بندی شما تکراری است");
+                }
+                else
+                {
+                    TblCatagory catagory = _core.Catagory.GetById(Id);
+                    catagory.Name = Name;
+                    _core.Catagory.Update(catagory);
+                    _core.Catagory.Save();
+                    return await Task.FromResult("true");
+                }
+            }
+
         }
 
         [HttpPost]
@@ -894,6 +914,65 @@ namespace DigiShahr.Controllers
                             ability.BannerImageUrl1 = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
                             string savePath = Path.Combine(
                                 Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner1", ability.BannerImageUrl1
+                            );
+
+                            using (var stream = new FileStream(savePath, FileMode.Create))
+                            {
+                                await file[0].CopyToAsync(stream);
+                            }
+                            _core.Ability.Update(ability);
+                            _core.Ability.Save();
+                        }
+                    }
+
+                    return await Task.FromResult("true");
+                }
+            }
+        }
+
+        public async Task<string> UploadBanner2()
+        {
+            var file = Request.Form.Files;
+            if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
+            {
+                return await Task.FromResult("لطفا تصویر با فرمت مناسب وارد کنید");
+            }
+            else
+            {
+                if (file[0].Length > 3000000)
+                {
+                    return await Task.FromResult("حجم فایل بیش از اندازه میباشد");
+                }
+                else
+                {
+                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblAbility ability = user.TblStores.FirstOrDefault().Ability;
+
+                    if (string.IsNullOrEmpty(ability.BannerImageUrl2))
+                    {
+                        ability.BannerImageUrl2 = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                        string savePath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner2", ability.BannerImageUrl2
+                        );
+
+                        using (var stream = new FileStream(savePath, FileMode.Create))
+                        {
+                            await file[0].CopyToAsync(stream);
+                        }
+                        _core.Ability.Update(ability);
+                        _core.Ability.Save();
+                        return await Task.FromResult("true");
+                    }
+                    else
+                    {
+                        var fullPath = "wwwroot/Upload/Banner2/" + ability.BannerImageUrl2;
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+
+                            ability.BannerImageUrl2 = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                            string savePath = Path.Combine(
+                                Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner2", ability.BannerImageUrl2
                             );
 
                             using (var stream = new FileStream(savePath, FileMode.Create))

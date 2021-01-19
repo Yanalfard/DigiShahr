@@ -9,7 +9,7 @@
 <div class="mat my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">تنظیمات فروشگاه</h3>
-        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+        <a href="/Store"><span class="icon-holder" uk-icon="backIcon"></span></a>
     </div>
     <form class="my-column createAccount uk-padding-small" action="StoreSetting" method="post" enctype="multipart/form-data" dir="rtl">
         @Html.AntiForgeryToken()
@@ -73,7 +73,7 @@
 
         <label for="Address">آدرس فروشگاه:</label>
         <input type="text" asp-for="Address">
-
+        <label for="address">موقعیت مکانی خود را کلیک کنید:</label>
         <div id="map" class="map"></div>
         <hr class="uk-divider-icon uk-margin-remove-bottom" />
         <input asp-for="Lat" type="hidden" />
@@ -179,7 +179,18 @@
         }).addTo(map);
 
         var theMarker = {};
+        var iconSetting = L.Icon.extend({
+            options: {
+                iconSize: [20, 29],
+                iconAnchor: [10, 29]
+            }
+        });
 
+        var customIcon = new iconSetting({ iconUrl: '/location.png' });
+        var Name = $("#Name").val();
+        var lat = $("#Lat").val();
+        var lon = $("#Lon").val();
+        L.marker([lat, lon], { icon: customIcon }).addTo(map);
         map.on('click', function (e) {
             lat = e.latlng.lat;
             lon = e.latlng.lng;
@@ -201,7 +212,7 @@
             //Add a marker to show where you clicked.
             $("#Lat").val(lat.toString());
             $("#Lon").val(lon.toString());
-            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت فروشگاه شما ثبت شد</h6>').openPopup();
+            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید فروشگاه شما ثبت شد</h6>').openPopup();
         });
 
     </script>

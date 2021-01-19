@@ -172,7 +172,7 @@
 
         @foreach (var item in Model.TblCatagories)
         {
-            <input class="category" value="@item.Name">
+            <input id="Category-@item.Id" class="category" value="@item.Name" onchange="ChangeCategory(@item.Id)">
 
         }
     </div>
@@ -207,8 +207,12 @@
 @if (Model.Ability.IsBanner2Enable)
 {
     <div class="BannerInStore matCart center my-clipped uk-margin-small-top">
+        @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
+        {
+            <img src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
+        }
         <div class="js-upload" uk-form-custom>
-            <input type="file">
+            <input type="file" id="Banner2File" accept="image/x-png,image/jpeg">
             <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
             <label> افزودن بنر دوم</label>
         </div>
@@ -241,6 +245,16 @@
                 }
             });
         });
+
+        function ChangeCategory(Id) {
+            $.post("/Store/ChangeCategory?Id=" + Id + "&Name=" + $("#Category-" + Id).val(), function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                } else {
+                    $("#CreateCategoryErorr").html(result);
+                }
+            });
+        }
 
         function RemoveDiscount(Id) {
             $.post("/Store/RemoveDiscount?Id=" + Id, function (result) {

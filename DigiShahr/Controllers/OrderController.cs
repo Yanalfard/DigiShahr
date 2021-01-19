@@ -171,5 +171,14 @@ namespace DigiShahr.Controllers
         {
             return await Task.FromResult(View());
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

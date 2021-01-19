@@ -77,7 +77,18 @@
         }).addTo(map);
 
         var theMarker = {};
+        var iconSetting = L.Icon.extend({
+            options: {
+                iconSize: [20, 29],
+                iconAnchor: [10, 29]
+            }
+        });
 
+        var customIcon = new iconSetting({ iconUrl: '/location.png' });
+        var Name = $("#Name").val();
+        var lat = $("#Lat").val();
+        var lon = $("#Lon").val();
+        L.marker([lat, lon], { icon: customIcon }).addTo(map);
         map.on('click', function (e) {
             lat = e.latlng.lat;
             lon = e.latlng.lng;
@@ -99,7 +110,7 @@
             //Add a marker to show where you clicked.
             $("#Lat").val(lat.toString());
             $("#Lon").val(lon.toString());
-            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت شما ثبت شد</h6>').openPopup();
+            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید شما ثبت شد</h6>').openPopup();
         });
 
     </script>

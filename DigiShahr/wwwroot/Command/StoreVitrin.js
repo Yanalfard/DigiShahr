@@ -93,3 +93,31 @@ $("#Banner1File").change(function () {
 
     });
 });
+
+$("#Banner2File").change(function () {
+    var fileUpload = $("#Banner2File").get(0);
+    var files = fileUpload.files;
+    var data = new FormData();
+    data.append("file", files[0]);
+
+    $.ajax({
+        type: "POST",
+        url: "/Store/UploadBanner2",
+        contentType: false,
+        processData: false,
+        data: data,
+        async: false,
+        beforeSend: function () {
+            $("#divloader").show()
+        },
+        success: function (message) {
+            if (message == "true") {
+                window.location.reload();
+            } else {
+                $("#LogoFileErorr").html(message);
+            }
+
+        },
+
+    });
+});

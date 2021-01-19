@@ -14,7 +14,9 @@
         @* free packages region:*@
 
         <img class="center" src="~/img/user/confirm.gif" width="220" height="220" />
-        <h3 class="uk-margin-remove">فروشگاه شما ثبت شد</h3>
+        <h3 class="uk-margin-remove">
+            فروشگاه با موفقیت ثبت شد. بعد از تایید کارشناسان فروشگاه برای شما قابل استفاده است
+        </h3>
         <a href="/account/signout" class="gradientButtonLink center uk-margin-top uk-margin-bottom">تایید</a>
 
         @* end region*@
@@ -23,14 +25,19 @@
 }
 else
 {
-    @*Non-free packages region:*@
+    @*<h1>Success</h1>*@
+    <div class="my-space"></div>
+    <div class="uk-position-center matCart my-clipped my-column center SuccessReport">
 
-    <img class="center" src="~/img/user/confirm.gif" width="220" height="220" />
-    <h3 class="uk-margin-remove">فروشگاه شما ثبت شد</h3>
-    <div class="my-row center uk-margin-top" dir="rtl">
-        <label class="uk-text-bold">کد سفارش :</label><span>&nbsp;@Model.Id</span>
+        @* free packages region:*@
+
+        <img class="center" src="~/img/user/confirm.gif" width="220" height="220" />
+        <h3 class="uk-margin-remove">فروشگاه با موفقیت ثبت شد. بعد از تایید کارشناسان فروشگاه برای شما قابل استفاده است
+        کد سفارش شما : @Model.Id</h3>
+        <a href="/account/signout" class="gradientButtonLink center uk-margin-top uk-margin-bottom">تایید</a>
+
+        @* end region*@
     </div>
-    <a href="/account/signout" class="gradientButtonLink center uk-margin-top uk-margin-bottom">تایید</a>
+    <div class="my-space"></div>
 
-    @* end region*@
 }
