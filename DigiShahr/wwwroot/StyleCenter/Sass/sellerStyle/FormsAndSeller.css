@@ -1,4 +1,5 @@
-﻿/*#region Global */
+﻿@charset "UTF-8";
+/*#region Global */
 /*#endregion */
 /*#region Card*/
 /*#endregion */
@@ -402,14 +403,17 @@ ul {
   color: #5F5F5F !important; }
 
 .BannerInStore {
-  width: 90vw;
+  max-width: 90vw;
   background: #F28F3B;
-  width: 90vw;
-  height: 184px; }
+  max-height: 800px; }
   .BannerInStore img {
-    width: 90vw;
-    height: 184px;
-    border-radius: 8px; }
+    width: 100%;
+    border-radius: 8px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+    background: #F4F4F4 !important; }
 
 .LogoPicture {
   max-width: 100px;
@@ -616,3 +620,152 @@ ul {
   list-style-type: disc !important; }
   .ErrorMessage ul li {
     margin: 10px 0; }
+
+.storeMainBanner {
+  width: 100%;
+  max-height: 250px;
+  /*box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
+  border-radius: 16px;
+  background: #F4F4F4; }
+
+.Piecebanner {
+  background: #F4F4F4 !important; }
+
+.storeHead .bookmarkIcone {
+  left: 10vw;
+  margin-top: 20px; }
+
+.storeHead .LogoPictureInStore {
+  max-width: 100px;
+  max-height: 100px; }
+
+.storeHead .storeLogo {
+  /* image 7 */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); }
+
+.storeHead .deliveryState {
+  color: white; }
+
+.storeProducts .CategoryListcontainer {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 30px;
+  background: white;
+  border-radius: 8px; }
+  .storeProducts .CategoryListcontainer .category {
+    cursor: pointer; }
+
+.storeProducts .OFFPercent {
+  background: #F28F3B;
+  margin-right: 8px;
+  color: white;
+  padding: 1px 7px;
+  border-radius: 7px;
+  max-height: 24px; }
+
+.storeProducts .gradientButton {
+  width: 45px;
+  height: 23px;
+  font-size: 12px; }
+
+.produceOfCategory {
+  overflow-y: scroll !important; }
+
+.produceOfCategory::-webkit-scrollbar {
+  width: 0 !important; }
+
+.StoreSlider img {
+  width: 60px;
+  height: 60px; }
+
+.StoreSlider .uk-s-slider-container {
+  color: #5F5F5F !important; }
+
+.Lottery .LotteryIcon {
+  color: #40916C !important;
+  text-align: right; }
+
+.Lottery img {
+  width: 110px !important;
+  max-width: 30vw;
+  max-height: 200px; }
+
+.Lottery .uk-input {
+  border: none !important; }
+
+:root {
+  --star-size: 24px;
+  --star-color: #b5b5b5;
+  --star-background: #fc0; }
+
+@font-face {
+  font-family: 'timesr';
+  src: url("../fonts/timesr.ttf") format("truetype");
+  font-display: swap; }
+
+.Stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: var(--star-size);
+  font-family: timesr;
+  line-height: 1;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  overflow: hidden; }
+  .Stars::before {
+    content: '★★★★★';
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none; }
+
+.star-container .star-cb-group {
+  /* remove inline-block whitespace */
+  font-size: 0;
+  /* flip the order so we can use the + and ~ combinators */
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  /* the hidden clearer */ }
+  .star-container .star-cb-group * {
+    font-size: 1rem;
+    font-family: 'timesr'; }
+  .star-container .star-cb-group > input {
+    display: none; }
+    .star-container .star-cb-group > input + label {
+      /* only enough room for the star */
+      display: inline-block;
+      overflow: hidden;
+      text-indent: 9999px;
+      width: 1em;
+      white-space: nowrap;
+      cursor: pointer;
+      font-size: 32px; }
+      .star-container .star-cb-group > input + label:before {
+        font-family: 'timesr';
+        display: inline-block;
+        text-indent: -9999px;
+        content: '★';
+        color: #b5b5b5; }
+    .star-container .star-cb-group > input:checked ~ label:before,
+    .star-container .star-cb-group > input + label:hover ~ label:before,
+    .star-container .star-cb-group > input + label:hover:before {
+      font-family: 'timesr';
+      content: '★';
+      color: #fc0;
+      text-shadow: 0 0 1px #333; }
+  .star-container .star-cb-group > .star-cb-clear + label {
+    text-indent: -9999px;
+    width: .5em;
+    margin-left: -.5em; }
+  .star-container .star-cb-group > .star-cb-clear + label:before {
+    width: .5em; }
+  .star-container .star-cb-group:hover > input + label:before {
+    content: '★';
+    color: #b5b5b5;
+    text-shadow: none; }
+  .star-container .star-cb-group:hover > input + label:hover ~ label:before,
+  .star-container .star-cb-group:hover > input + label:hover:before {
+    content: '★';
+    color: #fc0;
+    text-shadow: 0 0 1px #333; }
