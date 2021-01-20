@@ -53,7 +53,7 @@ namespace DigiShahr.Utilit
             var CodeCreator = Guid.NewGuid().ToString();
             string Code = CodeCreator.Substring(CodeCreator.Length - 5);
             NewUser.Auth = Code;
-
+            await SendSms.AuthAccount(NewUser.TellNo, NewUser.Auth);
             _core.User.Add(NewUser);
             _core.User.Save();
             return await Task.FromResult(true);

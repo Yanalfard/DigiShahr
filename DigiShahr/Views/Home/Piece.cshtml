@@ -4,16 +4,14 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-@*@Model.Name*@
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
 <div class=" my-column my-clipped storeHead">
-    
 
-        <div class="BannerInStore Piecebanner matCart center my-clipped">
-            <img class="storeMainBanner center" src="~/img/sample/bannerSample.png" />
-        </div>
+    <div class="BannerInStore Piecebanner matCart center my-clipped">
+        <img class="storeMainBanner center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+    </div>
     <!--<div uk-form-custom>
     <input type="file" name="banner">
     <a><span class="icon-holder uk-position-absolute uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>-->
@@ -22,208 +20,116 @@
     <div class="center my-column uk-position-absolute ">
 
         <div class="center storeStars uk-margin-top">
-            <div class="star-container" uk-tooltip="2.5">
-                <div class="Stars" style="--rating:  2.5"></div>
+            <div class="star-container" uk-tooltip="@Model.Rate">
+                <div class="Stars" style="--rating:@Model.Rate"></div>
             </div>
         </div>
         <div class="center LogoPictureInStore">
-            <img class="storeLogo" src="~/img/sample/logoSample.png" />
+            <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl" />
         </div>
-        <label class="deliveryState">
-            تحویل و تسویه درب منزل
-        </label>
-        <label class="deliveryState">
-            تحویل و تسویه در محل فروشگاه
-        </label>
+        @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
+        {
+            <label class="deliveryState">
+                تحویل و تسویه درب منزل
+            </label>
+        }
+        @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
+        {
+            <label class="deliveryState">
+                تحویل و تسویه درب فروشگاه
+            </label>
+        }
+
     </div>
 
 </div>
 <hr class="uk-divider-icon" />
-<div class="Lottery my-column matCart my-column my-clipped">
-    <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
-    <div class="LotteryIcon uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right my-column">
-        <label> 99/12/11<span class="icon-holder" uk-icon="calendar"> </span></label>
-        <label class="uk-margin-small-top uk-margin-small-bottom">کد تخفیف 10 درصدی<span class="icon-holder" uk-icon="gift"></span></label>
-</div>
-</div>
+@if (Model.Ability.IsLotteryEnable)
+{
+    if (Model.Ability.LotteryDisplayDate != null)
+    {
+        <div class="Lottery my-column matCart my-column my-clipped">
+            <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
+            <div class="LotteryIcon uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right my-column">
+                <label>@Model.Ability.LotteryDisplayDate<span class="icon-holder" uk-icon="calendar"></span></label>
+                <label class="uk-margin-small-top uk-margin-small-bottom">@Model.Ability.LotteryDisplayPrize<span class="icon-holder" uk-icon="gift"></span></label>
+            </div>
+        </div>
+    }
+}
 <div class="matCart StoreSlider my-column my-clipped uk-margin-small-top uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="autoplay: true ; autoplay-interval:3000 ">
     <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-5@m uk-grid  center overflow-visible uk-padding-small">
 
-        <li>
-            <a>
-                <img src="~/img/Store/product-sample.jpg" height="60" width="60" />
-            </a>
-        </li>
-        <li>
-            <a>
-                <img src="~/img/Store/product-sample.jpg" height="60" width="60" />
-            </a>
-        </li>
-        <li>
-            <a>
-                <img src="~/img/Store/product-sample.jpg" height="60" width="60" />
-            </a>
-        </li>
-        <li>
-            <a>
-                <img src="~/img/Store/product-sample.jpg" height="60" width="60" />
-            </a>
-        </li>
+        @foreach (var item in Model.TblProducts)
+        {
+            <li>
+                <a>
+                    <img src="/Upload/Product/@item.MainImageUrl" height="60" width="60" />
+                </a>
+            </li>
+        }
 
     </ul>
     <a class="uk-s-slider-container uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
     <a class="uk-s-slider-container uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
 </div>
-<div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top">
-    <img src="~/img/Store/banner-sample.jpg" />
-</div>
+@if (Model.Ability.IsBanner1Enable)
+{
+    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top">
+        <img src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
+    </div>
+}
 <div class="matCart storeProducts productSection my-column my-clipped uk-margin-small-top">
     <div class="CategoryListcontainer">
 
         <div class="uk-margin-large-top my-row CategoryList">
-            <div class="category">
-                لبنیات
-            </div>
-            <div class="category">
-                پروتئینی
-            </div>
-            <div class="category">
-                خشکبار
-            </div>
-            <div class="category">
-                نوشیدنی
-            </div>
-            <div class="category">
-                لبنیات
-            </div>
+
+            @foreach (var item in Model.TblCatagories)
+            {
+                <div class="category">
+                    @item.Name
+                </div>
+            }
 
         </div>
         <hr />
     </div>
 
     <div class="produceOfCategory">
-        <div class="my-row uk-padding-small " dir="rtl">
-            <div class="my-column uk-margin-small-right">
-                <label>نوشابه کوکاکولا ا لیتری</label>
-                <div class="my-row">
-                    <div class="my-column">
-                        <label class="uk-margin-top"><s>100000 <span>تومان</span></s></label>
-                        <label>80000 <span>تومان</span></label>
-                    </div>
+        @foreach (var item in Model.TblProducts)
+        {
+            <div class="my-row uk-padding-small " dir="rtl">
+                <div class="my-column uk-margin-small-right">
+                    <label>@item.Name</label>
+                    <div class="my-row">
+                        <div class="my-column">
+                            @if (item.Discount != 0)
+                            {
+                                <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
+                                <label>@(item.Price-item.Discount)<span>تومان</span></label>
+                            }
+                        </div>
 
-                    <label class="OFFPercent uk-margin-top">20%</label>
-                </div>
-            </div>
-            <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-                <div class="ProductPicture center">
-                    <img class="" src="~/img/sample/productSample.png" width="80" height="80" />
-                </div>
-                <button class="gradientButton center uk-margin-small-top">افزودن</button>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row uk-padding-small " dir="rtl">
-            <div class="my-column uk-margin-small-right">
-                <label>نوشابه کوکاکولا ا لیتری</label>
-                <div class="my-row">
-                    <div class="my-column">
-                        <label class="uk-margin-top"><s>100000 <span>تومان</span></s></label>
-                        <label>80000 <span>تومان</span></label>
-                    </div>
-
-                    <label class="OFFPercent uk-margin-top">20%</label>
-                </div>
-            </div>
-            <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-                <div class="ProductPicture center">
-                    <img class="" src="~/img/sample/productSample.png" width="80" height="80" />
-                </div>
-                <button class="gradientButton center uk-margin-small-top">افزودن</button>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row uk-padding-small " dir="rtl">
-            <div class="my-column uk-margin-small-right ">
-                <label>نوشابه کوکاکولا ا لیتری</label>
-                <div class="my-row">
-                    <div class="my-column">
-                        <label class="uk-margin-top"><s>100000 <span>تومان</span></s></label>
-                        <label>80000 <span>تومان</span></label>
-                    </div>
-
-                    <label class="OFFPercent uk-margin-top">20%</label>
-                </div>
-            </div>
-            <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-                <div class="ProductPicture center">
-                    <img class="" src="~/img/sample/productSample.png" width="80" height="80" />
-                </div>
-                <button class="gradientButton center uk-margin-small-top">افزودن</button>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row uk-padding-small " dir="rtl">
-            <div class="my-column uk-margin-small-right">
-                <label>نوشابه کوکاکولا ا لیتری</label>
-                <div class="my-row">
-                    <div class="my-column">
-                        <label class="uk-margin-top"><s>100000 <span>تومان</span></s></label>
-                        <label>80000 <span>تومان</span></label>
-                    </div>
-
-                    <label class="OFFPercent uk-margin-top">20%</label>
-                </div>
-            </div>
-            <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-                <div class="ProductPicture center">
-                    <img class="" src="~/img/sample/productSample.png" width="80" height="80" />
-                </div>
-                <button class="gradientButton center uk-margin-small-top">افزودن</button>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row uk-padding-small " dir="rtl">
-            <div class="my-column uk-margin-small-right">
-                <label>نوشابه کوکاکولا ا لیتری</label>
-                <div class="my-row">
-                    <div class="my-column">
-                        <label class="uk-margin-top"><s>100000 <span>تومان</span></s></label>
-                        <label>80000 <span>تومان</span></label>
-                    </div>
-
-                    <label class="OFFPercent uk-margin-top">20%</label>
-                </div>
-            </div>
-            <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-                <div class="ProductPicture center">
-                    <img class="" src="~/img/sample/productSample.png" width="80" height="80" />
-                </div>
-                <button class="gradientButton center uk-margin-small-top">افزودن</button>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row uk-padding-small " dir="rtl">
-            <div class="my-column uk-margin-small-right">
-                <label>نوشابه کوکاکولا ا لیتری</label>
-                <div class="my-row">
-                    <div class="my-column">
-                        <label class="uk-margin-top">100000 <span>تومان</span></label>
+                        <label class="OFFPercent uk-margin-top">@item.Discount%</label>
                     </div>
                 </div>
-            </div>
-            <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-                <div class="ProductPicture center">
-                    <img class="" src="~/img/sample/productSample.png" width="80" height="80" />
+                <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
+                    <div class="ProductPicture center">
+                        <img class="" src="/Upload/Product/@item.MainImageUrl" width="80" height="80" />
+                    </div>
+                    <button class="gradientButton center uk-margin-small-top">افزودن</button>
                 </div>
-                <button class="gradientButton center uk-margin-small-top">افزودن</button>
             </div>
-        </div>
-
+            <hr />
+        }
     </div>
 
 </div>
-<div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top">
-    <img src="~/img/Store/banner-sample.jpg" />
-</div>
+@if (Model.Ability.IsBanner2Enable)
+{
+    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top">
+        <img src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
+    </div>
+}
 <div class="my-space"></div>
 

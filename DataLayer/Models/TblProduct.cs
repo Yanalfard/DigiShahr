@@ -20,6 +20,7 @@ namespace DataLayer.Models
         [Column("id")]
         public int Id { get; set; }
         public int StoreCatagoryId { get; set; }
+        public int StoreId { get; set; }
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
@@ -29,6 +30,10 @@ namespace DataLayer.Models
         public short Discount { get; set; }
         public bool IsDeleted { get; set; }
         public int Count { get; set; }
+
+        [ForeignKey(nameof(StoreId))]
+        [InverseProperty(nameof(TblStore.TblProducts))]
+        public virtual TblStore Store { get; set; }
         [ForeignKey(nameof(StoreCatagoryId))]
         [InverseProperty(nameof(TblCatagory.TblProducts))]
         public virtual TblCatagory StoreCatagory { get; set; }

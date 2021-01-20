@@ -18,6 +18,7 @@ namespace DataLayer.Models
         }
 
         public virtual DbSet<TblAbility> TblAbilities { get; set; }
+        public virtual DbSet<TblBookMark> TblBookMarks { get; set; }
         public virtual DbSet<TblCatagory> TblCatagories { get; set; }
         public virtual DbSet<TblDeal> TblDeals { get; set; }
         public virtual DbSet<TblDealOrder> TblDealOrders { get; set; }
@@ -34,9 +35,13 @@ namespace DataLayer.Models
         public virtual DbSet<TblUser> TblUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder
-           .UseLazyLoadingProxies()
-           .UseSqlServer("Data Source=103.216.62.27;Initial Catalog=DigiShahr;User ID=Yanal;Password=1710ahmad.fard");
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=103.216.62.27;Initial Catalog=DigiShahr1;User ID=Yanal;Password=1710ahmad.fard");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,6 +75,21 @@ namespace DataLayer.Models
                     .WithMany(p => p.TblAbilities)
                     .HasForeignKey(d => d.MusicId)
                     .HasConstraintName("FK_TblAbility_TblMusics");
+            });
+
+            modelBuilder.Entity<TblBookMark>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.TblBookMarks)
+                    .HasForeignKey(d => d.StoreId)
+                    .HasConstraintName("FK_TblBookMark_TblStore");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.TblBookMarks)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_TblBookMark_TblUser");
             });
 
             modelBuilder.Entity<TblCatagory>(entity =>
@@ -166,6 +186,12 @@ namespace DataLayer.Models
                     .HasForeignKey(d => d.StoreCatagoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblProduct_TblCatagory");
+
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.TblProducts)
+                    .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblProduct_TblStore");
             });
 
             modelBuilder.Entity<TblRole>(entity =>

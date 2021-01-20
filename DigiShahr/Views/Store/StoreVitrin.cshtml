@@ -180,10 +180,8 @@
     <h3 class="center"><a href="#AddProduct" id="AddProductPapaer" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
     <br>
 
-    @foreach (var items in Model.TblCatagories)
-    {
 
-        foreach (var item in items.TblProducts)
+        @foreach (var item in Model.TblProducts)
         {
             <div class="my-row AddProductSection" dir="rtl">
                 <div class="my-column uk-margin-small-right uk-text-center">
@@ -202,7 +200,7 @@
             </div>
             <hr />
         }
-    }
+    
 </div>
 @if (Model.Ability.IsBanner2Enable)
 {

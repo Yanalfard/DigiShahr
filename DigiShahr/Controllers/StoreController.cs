@@ -404,6 +404,7 @@ namespace DigiShahr.Controllers
                                     NewDealOrder.StoreId = NewStore.Id;
                                     NewDealOrder.DateSubmited = DateTime.Now;
                                     NewDealOrder.IsPayed = true;
+                                    await SendSms.SuccessDealOrder(user.TellNo, NewDealOrder.Id.ToString());
                                     _core.DealOrder.Add(NewDealOrder);
                                     _core.DealOrder.Save();
 
@@ -998,7 +999,7 @@ namespace DigiShahr.Controllers
         public async Task<string> CreateProduct(TblProduct Product)
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-            int ProductCount = _core.Product.Get().Where(p => p.StoreCatagoryId == user.TblStores.First().Id).Count();
+            int ProductCount = _core.Product.Get().Count();
             if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().ProductLimit <= ProductCount)
             {
                 return await Task.FromResult("SubscribtionTillErorr");
@@ -1032,6 +1033,7 @@ namespace DigiShahr.Controllers
                             {
                                 TblProduct NewProduct = new TblProduct();
                                 NewProduct.StoreCatagoryId = Product.StoreCatagoryId;
+                                NewProduct.StoreId = user.TblStores.FirstOrDefault().Id;
                                 NewProduct.Name = Product.Name;
                                 NewProduct.Price = Product.Price;
                                 NewProduct.MainImageUrl = null;

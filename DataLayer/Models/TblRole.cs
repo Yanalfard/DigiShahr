@@ -19,11 +19,11 @@ namespace DataLayer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "نام سمت را وارد کنید")]
+        [StringLength(50, ErrorMessage = "نام سمت مناسب وارد کنید")]
         public string Title { get; set; }
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "نام دسترسی وارد کنید")]
+        [StringLength(50, ErrorMessage = "نام دسترسی مناسب وارد کنید")]
         public string Name { get; set; }
 
         [InverseProperty(nameof(TblUser.Role))]

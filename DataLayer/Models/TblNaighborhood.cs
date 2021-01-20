@@ -20,8 +20,8 @@ namespace DataLayer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage = "نام منطقه اجباری میباشد")]
+        [StringLength(100, ErrorMessage = "نام منطقه مناسب وارد کنید")]
         public string Name { get; set; }
 
         [InverseProperty(nameof(TblStoreNaighborhoodRel.Naighborhood))]
