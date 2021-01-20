@@ -33,9 +33,11 @@ namespace DataLayer.Models
         [Required(ErrorMessage = "لطفا نام خود را وارد کنید")]
         [StringLength(100, ErrorMessage = "لطفا نام مناسب وارد کنید")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "لطفا آدرس فروشگاه خود را وارد کنید")]
         [StringLength(500, ErrorMessage = "لطفا آدرس مناسب وارد کنید")]
         [MinLength(4, ErrorMessage = "لطفا کارکتر های بیشتری وارد کنید")]
         public string Address { get; set; }
+        [Required(ErrorMessage = "لطفا منطقه خود را وارد کنید")]
         public int? NaighborhoodId { get; set; }
         [StringLength(50, ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
         [Required(ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
