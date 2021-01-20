@@ -33,7 +33,7 @@ namespace DataLayer.Models
         [StringLength(15, ErrorMessage = "لطفا شماره تماس ثابت مناسب وارد کنید")]
         public string StaticTell { get; set; }
         public bool IsOpen { get; set; }
-        [Required(ErrorMessage = "لطفا تصویر فروشگاه را وارد کنید")]
+        //[Required(ErrorMessage = "لطفا تصویر فروشگاه را وارد کنید")]
         [StringLength(500)]
         public string MainBannerUrl { get; set; }
         [StringLength(500)]

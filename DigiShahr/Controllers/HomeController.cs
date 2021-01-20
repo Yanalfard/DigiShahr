@@ -21,6 +21,7 @@ namespace DigiShahr.Controllers
                 {
                     IndexViewModel indexViewModel = new IndexViewModel();
                     ViewBag.Search = Search;
+                    TblUser a = _core.User.GetById(2);
                     indexViewModel.AllStore = _core.Store.Get().Where(s => s.SubscribtionTill > DateTime.Now);
                     indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                     return View(indexViewModel);
