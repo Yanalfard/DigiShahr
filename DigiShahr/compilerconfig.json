@@ -30,5 +30,9 @@
   {
     "outputFile": "wwwroot/StyleCenter/Sass/test.css",
     "inputFile": "wwwroot/StyleCenter/Sass/test.scss"
+  },
+  {
+    "outputFile": "wwwroot/StyleCenter/Sass/Home/Bascket.css",
+    "inputFile": "wwwroot/StyleCenter/Sass/Home/Bascket.scss"
   }
 ]

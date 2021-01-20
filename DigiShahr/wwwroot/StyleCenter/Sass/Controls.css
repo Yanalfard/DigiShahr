@@ -403,6 +403,9 @@ body {
   max-height: 100px;
   max-width: 100px; }
 
+.horizontalCenter {
+  margin: 0 auto; }
+
 @media only screen and (min-width: 500px) and (max-width: 800px) {
   .my-clipped {
     width: 70vw !important; } }

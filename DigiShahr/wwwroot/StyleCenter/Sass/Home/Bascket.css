@@ -1,0 +1,128 @@
+﻿@charset "UTF-8";
+.formTitr h3 {
+  font-family: "Sahel" !important;
+  font-size: 16px !important;
+  overflow: hidden;
+  padding-right: 30px; }
+
+.formTitr a {
+  padding-left: 30px;
+  color: black;
+  font-weight: 400; }
+
+.uk-checkbox {
+  border-radius: 50px;
+  background-color: #f5e7a6 !important;
+  border-color: #f5e7a6 !important; }
+
+.delivery input:checked {
+  background-color: #40916C !important;
+  border-color: #40916C !important; }
+
+.cart-section {
+  margin-top: 25px;
+  font-size: 14px; }
+  .cart-section .ShoppingList label, .cart-section .ShoppingList .Count {
+    margin: 0 auto; }
+    .cart-section .ShoppingList label .icon-holder, .cart-section .ShoppingList .Count .icon-holder {
+      background-color: transparent;
+      border: 2px solid #FAE893;
+      border-radius: 50px;
+      padding: 2px;
+      color: #40916C;
+      cursor: pointer;
+      /*box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12);*/ }
+    .cart-section .ShoppingList label .icon-holder:hover, .cart-section .ShoppingList .Count .icon-holder:hover {
+      background-color: #FAE893; }
+  .cart-section .price {
+    margin: 0 auto; }
+  .cart-section .priceFinal {
+    width: 225px;
+    height: 20px;
+    padding: 12px; }
+  .cart-section .horizontalCenter {
+    margin: 0 auto; }
+
+.timer {
+  margin: 0 auto; }
+  .timer .base-timer {
+    position: relative;
+    width: 68px;
+    height: 68px; }
+  .timer .base-timer__svg {
+    transform: scaleX(-1); }
+  .timer .base-timer__circle {
+    fill: none;
+    stroke: none; }
+  .timer .base-timer__path-elapsed {
+    stroke-width: 7px;
+    stroke: grey; }
+  .timer .base-timer__path-remaining {
+    stroke-width: 7px;
+    stroke-linecap: round;
+    transform: rotate(90deg);
+    transform-origin: center;
+    transition: 1s linear all;
+    fill-rule: nonzero;
+    stroke: currentColor; }
+  .timer .base-timer__path-remaining.green {
+    color: #41b883; }
+  .timer .base-timer__path-remaining.orange {
+    color: orange; }
+  .timer .base-timer__path-remaining.red {
+    color: red; }
+  .timer .base-timer__label {
+    position: absolute;
+    width: 68px;
+    height: 68px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; }
+
+/*body {
+    overflow-y: hidden;
+}*/
+.successMessage {
+  width: 250px;
+  padding: 20px 10px;
+  background: #FFF8D2;
+  border: 2px solid #F9EFBE;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px; }
+
+.rateForStore {
+  /*    height:calc(100vh-116px)!important;
+    *{overflow-y:hidden;}*/ }
+  .rateForStore .matCart {
+    padding: 100px 0; }
+  .rateForStore .rate {
+    /*float: left;*/
+    height: 46px;
+    padding: 0 10px; }
+  .rateForStore .rate:not(:checked) > input {
+    position: absolute;
+    top: -9999px; }
+  .rateForStore .rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc; }
+  .rateForStore .rate:not(:checked) > label:before {
+    content: '★ '; }
+  .rateForStore .rate > input:checked ~ label {
+    color: #ffc700; }
+  .rateForStore .rate:not(:checked) > label:hover,
+  .rateForStore .rate:not(:checked) > label:hover ~ label {
+    color: #deb217; }
+  .rateForStore .rate > input:checked + label:hover,
+  .rateForStore .rate > input:checked + label:hover ~ label,
+  .rateForStore .rate > input:checked ~ label:hover,
+  .rateForStore .rate > input:checked ~ label:hover ~ label,
+  .rateForStore .rate > label:hover ~ input:checked ~ label {
+    color: #c59b08; }
