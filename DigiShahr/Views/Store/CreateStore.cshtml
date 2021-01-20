@@ -22,10 +22,11 @@
                     <button id="LogoUrlbtn" class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب لوگو</button>
                     <input type="file" asp-for="LogoUrl" id="LogoUrl" accept="image/jpeg,image/png">
                     <br />
-                    <span asp-validation-for="LogoUrl" class="uk-text-danger"></span>
+                    
                 </div>
             </div>
         </div>
+        <span asp-validation-for="LogoUrl" class="uk-text-danger center"></span>
         <hr class="uk-divider-icon uk-margin-remove-bottom" />
         <label for="name">نام فروشگاه:</label>
         <input type="text" asp-for="Name">
