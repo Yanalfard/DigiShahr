@@ -172,11 +172,11 @@ ul {
 .BannerPlace {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
-    height: 200px;
+    //height: 200px;
     background: #F28F3B;
 
     .absolute-right{
-        right:10vw;
+        right:17vw;
     }
     h3 {
         font-size: 12px;
@@ -199,9 +199,12 @@ ul {
             width: 30vw;
         }
     }
-
     .uk-input {
         border: none !important;
+    }
+    .gradientButton{
+        width:105px;
+        height:28px;
     }
 }
 .DiscountCode {
@@ -219,10 +222,10 @@ ul {
         width: 90px !important;
     }
 
-    .gradientButtonLink {
+    .gradientButton {
         width: 90px;
-        height: 22px !important;
-        padding: 4px 0!important;
+        height: 27px !important;
+
     }
 }
 .DiscountCodeResult {
@@ -243,8 +246,9 @@ ul {
     max-width: 90vw;
     background: #F28F3B;
     max-height: 800px;
+    min-height: 100px;
 
-    img {
+    .bannerImage {
         width: 100%;
         //max-height: 400px;
         border-radius: 8px;
@@ -254,11 +258,19 @@ ul {
         object-position: center;
         background: $bodybackground !important;
     }
+
+    .vitrinBanners {
+        position: absolute;
+        // top:0!important;
+        left: 0 !important;
+        right: 0 !important;
+    }
 }
 
 .LogoPicture {
     max-width: 100px;
     max-height: 100px;
+   // background:transparent!important;
 }
 .logoPlace {
     width: 170px;

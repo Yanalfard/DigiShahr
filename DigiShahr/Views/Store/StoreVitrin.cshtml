@@ -6,10 +6,56 @@
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
-<div class="BannerPlace my-column my-clipped"
-     @if (Model.MainBannerUrl != null) { @: style="background-image: url('/Upload/StoreMainBanner/@Model.MainBannerUrl');background-repeat:no-repeat;"
-     }>
+<div class="BannerPlace BannerInStore my-column my-clipped">
     <a href="/Store"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left" uk-icon="backIcon"></span></a>
+
+
+
+    <div class="uk-margin-auto-vertical center uk-position-absolute">
+        @if (!string.IsNullOrEmpty(Model.LogoUrl))
+        {<h3 class="center uk-margin-auto-vertical">
+
+                <img class="LogoPicture uk-margin-large-top" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
+
+            </h3>
+        }
+
+            <div class=" center uk-margin-small-top">
+                @if (string.IsNullOrEmpty(Model.LogoUrl))
+                {
+                    <div class="js-upload" uk-form-custom>
+                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                        <span class="uk-text-danger">
+                        </span>
+                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                        <span class="uk-text-danger" id="LogoFileErorr"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="js-upload" uk-form-custom>
+                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                        <span class="uk-text-danger">
+                        </span>
+                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                        <span class="uk-text-danger" id="LogoFileErorr"></span>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    @if (Model.MainBannerUrl != null)
+    {
+        <img class="bannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+    }
+
     <h3 class=" absolute absolute-right uk-margin-large-top uk-margin-small-left">
         @if (string.IsNullOrEmpty(Model.MainBannerUrl))
         {
@@ -39,65 +85,81 @@
             <span class="uk-text-danger"></span>
         </div>
     }
-    <div class="uk-margin-auto-vertical center">
-        <h3 class="center uk-margin-auto-vertical">
-            @if (!string.IsNullOrEmpty(Model.LogoUrl))
-            {
-                <img class="LogoPicture" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
-            }
-        </h3>
+    @*<div class="uk-margin-auto-vertical center">
+            <h3 class="center uk-margin-auto-vertical">
+                @if (!string.IsNullOrEmpty(Model.LogoUrl))
+                {
+                    <img class="LogoPicture " src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
+                }
+            </h3>
 
-        <div class=" center uk-margin-small-top">
-            @if (string.IsNullOrEmpty(Model.LogoUrl))
-            {
-                <div class="js-upload" uk-form-custom>
-                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
-                    <span class="uk-text-danger">
-                    </span>
-                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                    <span class="uk-text-danger" id="LogoFileErorr"></span>
-                </div>
-            }
-            else
-            {
-                <div class="js-upload" uk-form-custom>
-                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
-                    <span class="uk-text-danger">
-                    </span>
-                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                    <span class="uk-text-danger" id="LogoFileErorr"></span>
-                </div>
-            }
-        </div>
-    </div>
+            <div class=" center uk-margin-small-top">
+                @if (string.IsNullOrEmpty(Model.LogoUrl))
+                {
+                    <div class="js-upload" uk-form-custom>
+                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                        <span class="uk-text-danger">
+                        </span>
+                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                        <span class="uk-text-danger" id="LogoFileErorr"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="js-upload" uk-form-custom>
+                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                        <span class="uk-text-danger">
+                        </span>
+                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                        <span class="uk-text-danger" id="LogoFileErorr"></span>
+                    </div>
+                }
+            </div>
+        </div>*@
 
 </div>
 <hr class="uk-divider-icon" />
 @if (Model.Ability.IsLotteryEnable)
 {
-    <div class="Lottery my-row matCart my-column my-clipped">
-        <img src="~/img/Store/lottery.webp" />
 
-        <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
-            <div class="uk-inline">
-                <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
-                <input class="uk-input" type="text" placeholder="تاریخ قرعه کشی">
-            </div>
+<div class="Lottery my-column matCart my-column my-clipped">
+    <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
+    <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
+        <div class="uk-inline">
+            <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
+            <input class="uk-input" type="text" placeholder="تاریخ قرعه کشی">
+        </div>
+        <div class="uk-inline">
+            <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="gift"></span>
+            <input class="uk-input" type="text" placeholder="جایزه قرعه کشی">
         </div>
     </div>
+    <hr />
+    <div class="my-row uk-margin-bottom" dir="rtl">
+        <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+        <div class="my-column uk-margin-auto-right uk-margin-left">
+            <label class="uk-text-small"> <span class="icon-holder uk-text-small" uk-icon="person"> </span>نازیلا باقری</label>
+            <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small" uk-icon="call"></span>09360971680</label>
+        </div>
+    </div>
+</div>
 }
 <div class="matCart my-column my-clipped uk-margin-top " dir="rtl">
     <form id="CreateDiscount" class="DiscountCode my-column uk-padding">
+        <span id="CreateDiscountErorr" class="uk-text-danger"></span>
         <label>کد تخفیف:</label>
         <input type="hidden" value="@Model.Id" name="StoreId" />
         <input maxlength="50" name="Code" class="uk-input" type="text">
         <div class="my-row">
             <div class="my-column">
+
                 <label class="uk-margin-top">تعداد استفاده:</label>
                 <input class="uk-input Count" type="number" name="Count">
+
             </div>
-            <span id="CreateDiscountErorr" class="uk-text-danger"></span>
-            <button class="gradientButtonLink uk-text-center uk-margin-auto-top uk-margin-auto-right">افزودن</button>
+            <button class="gradientButton uk-text-center uk-margin-auto-top uk-margin-auto-right">افزودن</button>
+
+
         </div>
     </form>
     <hr class="uk-margin-remove" />
@@ -126,9 +188,9 @@
     <div class="BannerInStore matCart center my-clipped uk-margin-small-top">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
         {
-            <img src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
+            <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
         }
-        <div class="js-upload" uk-form-custom>
+        <div class="js-upload vitrinBanners" uk-form-custom>
             <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
             <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
             <label> افزودن بنر اول</label>
@@ -137,14 +199,15 @@
 }
 
 <div class="matCart productSection my-column my-clipped uk-margin-small-top">
-
+    <span class="uk-text-danger center uk-margin-small-top" id="CreateCategoryErorr"></span>
     <form id="CreateCategory">
+        
         <div class="my-row uk-margin-top">
-            <div class="uk-inline productCategory uk-margin-top" style="left:0;">
+            <div class="uk-inline productCategory uk-margin-small-top'" style="left:0;">
                 <a id="SubmitCatagory" class="uk-form-icon uk-margin-auto-vertical"><span class="icon-holder" uk-icon="add-outline"></span></a>
                 <input class="uk-input" id="CategoryName" type="text">
             </div>
-            <span class="uk-text-danger" id="CreateCategoryErorr"></span>
+            
             <h3 class="center">:افزودن دسته بندی</h3>
 
         </div>
@@ -207,9 +270,9 @@
     <div class="BannerInStore matCart center my-clipped uk-margin-small-top">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
         {
-            <img src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
+            <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
         }
-        <div class="js-upload" uk-form-custom>
+        <div class="js-upload vitrinBanners" uk-form-custom>
             <input type="file" id="Banner2File" accept="image/x-png,image/jpeg">
             <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
             <label> افزودن بنر دوم</label>

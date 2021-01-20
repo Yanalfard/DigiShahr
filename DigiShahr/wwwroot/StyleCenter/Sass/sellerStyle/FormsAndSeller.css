@@ -359,10 +359,9 @@ ul {
 .BannerPlace {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  height: 200px;
   background: #F28F3B; }
   .BannerPlace .absolute-right {
-    right: 10vw; }
+    right: 17vw; }
   .BannerPlace h3 {
     font-size: 12px;
     font-family: "Sahel"; }
@@ -378,6 +377,10 @@ ul {
 .Lottery .uk-input {
   border: none !important; }
 
+.Lottery .gradientButton {
+  width: 105px;
+  height: 28px; }
+
 .DiscountCode input {
   border-radius: 5px !important;
   border: none !important;
@@ -387,10 +390,9 @@ ul {
 .DiscountCode .Count {
   width: 90px !important; }
 
-.DiscountCode .gradientButtonLink {
+.DiscountCode .gradientButton {
   width: 90px;
-  height: 22px !important;
-  padding: 4px 0 !important; }
+  height: 27px !important; }
 
 .DiscountCodeResult {
   text-align: right !important; }
@@ -405,8 +407,9 @@ ul {
 .BannerInStore {
   max-width: 90vw;
   background: #F28F3B;
-  max-height: 800px; }
-  .BannerInStore img {
+  max-height: 800px;
+  min-height: 100px; }
+  .BannerInStore .bannerImage {
     width: 100%;
     border-radius: 8px;
     -o-object-fit: cover;
@@ -414,6 +417,10 @@ ul {
     -o-object-position: center;
     object-position: center;
     background: #F4F4F4 !important; }
+  .BannerInStore .vitrinBanners {
+    position: absolute;
+    left: 0 !important;
+    right: 0 !important; }
 
 .LogoPicture {
   max-width: 100px;

@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\StyleCenter\Sass\Home\Bascket.css" />
     <_ContentIncludedByDefault Remove="wwwroot\StyleCenter\Sass\LoginRegister\BodyStyle.css" />
     <_ContentIncludedByDefault Remove="wwwroot\StyleCenter\Sass\LoginRegister\loginRegister.css" />
   </ItemGroup>
