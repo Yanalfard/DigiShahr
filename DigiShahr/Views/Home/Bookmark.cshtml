@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DataLayer.Models.TblBookMark>
+@{
+    ViewData["Title"] = "Bookmark";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+@if (Model.Count() == 0)
+{
+    <b>لیست علاقمندی ها خالی میباشد</b>
+}
+
+@foreach (var item in Model)
+{
+    <b>@item.StoreId</b>
+    <b>@item.Store.Name</b>
+    <b>@item.Store.LogoUrl</b>
+    <b>@item.Store.Rate</b>
+    <b>@item.Store.Address</b>
+}
+

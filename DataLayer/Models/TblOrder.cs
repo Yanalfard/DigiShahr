@@ -30,7 +30,7 @@ namespace DataLayer.Models
         [StringLength(64)]
         public string LotteryCode { get; set; }
         public bool IsFinaly { get; set; }
-
+        public bool IsDelivered { get; set; }
         [ForeignKey(nameof(DiscountId))]
         [InverseProperty(nameof(TblDiscount.TblOrders))]
         public virtual TblDiscount Discount { get; set; }

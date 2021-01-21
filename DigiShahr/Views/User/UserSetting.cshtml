@@ -39,7 +39,15 @@
                     <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
                         @foreach (var item in ViewBag.Naighborhood)
                         {
-                            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top" type="radio" name="Neighbourhood" value="@item.Id">@item.Name</label>
+                            if (item.Id == Model.NaighborhoodId)
+                            {
+                                <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top Neighbourhood" checked type="radio" name="Neighbourhood" value="@item.Id">@item.Name</label>
+
+                            }
+                            else
+                            {
+                            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top Neighbourhood" type="radio" name="Neighbourhood" value="@item.Id">@item.Name</label>
+                            }
                         }
                     </div>
                 </div>
@@ -69,6 +77,10 @@
     <script src="~/leaflet/leaflet.js"></script>
 
     <script>
+
+        $("#btnubni").click(function () {
+            $("#NaighborhoodId").val($(".Neighbourhood:checked").val());
+        });
 
         var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 10);
 

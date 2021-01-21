@@ -20,9 +20,9 @@ namespace DigiShahr.Areas.Admin.Controllers
             return ViewComponent("UserInfo", new { id = id });
         }
 
-        public IActionResult List(Paging paging)
+        public IActionResult List(Paging paging,string PhoneNumber)
         {
-            return ViewComponent("UserList", new { Paging = paging });
+            return ViewComponent("UserList", new { Paging = paging,PhoneNumber=PhoneNumber });
         }
 
         protected override void Dispose(bool disposing)

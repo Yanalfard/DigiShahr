@@ -212,6 +212,10 @@ namespace DigiShahr.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (naighborhood.Count == 0)
+                {
+                    ViewBag.NaighborhoodErorr = "لطفا منطقه خورد را وارد کنید";
+                }
                 if (LogoUrl != null)
                 {
                     if (!createStoreViewModel.StaticTell.StartsWith("0"))
@@ -404,10 +408,9 @@ namespace DigiShahr.Controllers
                                     NewDealOrder.StoreId = NewStore.Id;
                                     NewDealOrder.DateSubmited = DateTime.Now;
                                     NewDealOrder.IsPayed = true;
-                                    await SendSms.SuccessDealOrder(user.TellNo, NewDealOrder.Id.ToString());
                                     _core.DealOrder.Add(NewDealOrder);
                                     _core.DealOrder.Save();
-
+                                    await SendSms.Send(user.TellNo, NewDealOrder.Id.ToString(), "DigiShahrSuccessDealOrder");
                                     return Redirect("/Store/Success?pay=" + NewDealOrder.Id.ToString());
                                 }
                             }

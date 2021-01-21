@@ -35,7 +35,7 @@ namespace DataLayer.ViewModel
         public bool TahvilVaTasvieDarForushgah { get; set; }
 
         [Required(ErrorMessage = "لطفا مدت زمان تایید سفارش را تعیین کنید")]
-        [MaxLength(1, ErrorMessage = "لطفا زمان کمتری وارد کنید")]
+        [MaxLength(4, ErrorMessage = "لطفا زمان کمتری وارد کنید")]
         [MinLength(1, ErrorMessage = "لطفا زمان بیشتری وارد کنید")]
         public string ValidationTimeSpan { get; set; }
 
