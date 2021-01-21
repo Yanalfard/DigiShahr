@@ -359,7 +359,7 @@ ul {
 .BannerPlace {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  background: #F28F3B; }
+  min-height: 170px !important; }
   .BannerPlace .absolute-right {
     right: 17vw; }
   .BannerPlace h3 {
@@ -367,6 +367,10 @@ ul {
     font-family: "Sahel"; }
   .BannerPlace a {
     color: #5F5F5F; }
+  .BannerPlace .LogoPicture {
+    max-height: 100px;
+    max-width: 100px;
+    border-radius: 50%; }
 
 .Lottery .LotteryIcon {
   color: #40916C !important;
@@ -406,9 +410,8 @@ ul {
 
 .BannerInStore {
   max-width: 90vw;
-  background: #F28F3B;
   max-height: 800px;
-  min-height: 100px; }
+  min-height: 90px; }
   .BannerInStore .bannerImage {
     width: 100%;
     border-radius: 8px;
@@ -417,6 +420,8 @@ ul {
     -o-object-position: center;
     object-position: center;
     background: #F4F4F4 !important; }
+  .BannerInStore .MainbannerImage {
+    min-height: 170px !important; }
   .BannerInStore .vitrinBanners {
     position: absolute;
     left: 0 !important;
@@ -632,14 +637,13 @@ ul {
   width: 100%;
   max-height: 250px;
   /*box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
-  border-radius: 16px;
-  background: #F4F4F4; }
+  border-radius: 8px; }
 
-.Piecebanner {
-  background: #F4F4F4 !important; }
+.bookmarkIconeInStore {
+  left: 17vw; }
 
 .storeHead .bookmarkIcone {
-  left: 10vw;
+  left: 17vw;
   margin-top: 20px; }
 
 .storeHead .LogoPictureInStore {
@@ -648,10 +652,13 @@ ul {
 
 .storeHead .storeLogo {
   /* image 7 */
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); }
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  max-height: 100px;
+  max-width: 100px;
+  border-radius: 50%; }
 
 .storeHead .deliveryState {
-  color: white; }
+  background: #fbf2ca; }
 
 .storeProducts .CategoryListcontainer {
   position: -webkit-sticky !important;

@@ -1,6 +1,6 @@
 ﻿@model DataLayer.Models.TblOrder
 @{
-    ViewData["Title"] = "سفارش تایید شد";
+    ViewData["Title"] = "سفارش برای فروشنده ارسال شد";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -8,11 +8,42 @@
 
 <div class="my-space"></div>
 <div class="matCart my-column my-clipped">
+
+    @*send to store and timer section*@
+
+    <!--<div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">ارسال به فروشنده</h3>
+        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+    </div>-->
+    @*<img class="center" src="~/img/user/confirm.gif" width="220" height="220" />*@
+    <!--<div class="center uk-margin-large-top uk-margin-bottom">
+        <div class="timer">
+            <div id="app"></div>
+        </div>
+    </div>
+
+    <h3 class="successText center">
+        لیست سفارشات شما با موفقیت برای فروشنده ارسال شد لطفا تا پایان <span> 120 ثانیه </span>منتظر تایید فروشنده بمانید
+    </h3>-->
+    @*end send to store and timer section**@
+    @*success report*@
     <div class="formTitr my-row uk-margin-top" dir="rtl">
-        <h3 class="center">سبد خرید</h3>
+       @* <h3 class="center">تایید سفارش</h3>*@
+        @*if order rejected*@
+        <h3 class="center">رد سفارش</h3>
         <a><span class="icon-holder" uk-icon="backIcon"></span></a>
     </div>
-    <div class="my-column cart-section uk-padding-small" dir="rtl">
+    <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+        <label class="horizontalCenter uk-margin-small-bottom">تایید فروشگاه <span class="icon-holder uk-text-success uk-margin-xlarge-right" uk-icon="checkmark"></span></label>
+        <label class="horizontalCenter uk-margin-small-bottom">رد توسط فروشگاه <span class="icon-holder uk-text-danger uk-margin-xlarge-right" uk-icon="close"></span></label>
+        <label class="horizontalCenter">تحویل و تسویه در محل فروشگاه</label>
+        <label class="horizontalCenter">تحویل و تسویه درب منزل </label>
+    </div>
+
+    @*end success report*@
+
+    <hr class="uk-divider-icon" />
+    <div class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
         <div class="my-row ShoppingList uk-text-bold " dir="rtl">
             <label>نام محصول</label>
             <label class="uk-text-danger">قیمت(تومان)</label>
@@ -25,9 +56,7 @@
             <label>نام محصول</label>
             <label class="uk-text-danger">452453</label>
             <div class="Count">
-               
                 <span>12</span>
-               
             </div>
         </div>
         <hr />
@@ -35,9 +64,7 @@
             <label>نام محصول</label>
             <label class="uk-text-danger">453453</label>
             <div class="Count">
-
                 <span>5</span>
-                
             </div>
         </div>
         <hr />
@@ -45,19 +72,128 @@
             <label>نام محصول</label>
             <label class="uk-text-danger">86785</label>
             <div class="Count">
-
                 <span>3</span>
-        
             </div>
         </div>
 
-        <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top">
-            <label>مبلغ قابل پرداخت:<span>8797<span>&nbsp;تومان</span></span></label>
-        </div>
-        <div class="mat my-column uk-margin-top center uk-margin-bottom successMessage">
-            <label class="horizontalCenter uk-margin-small-bottom">تایید فروشگاه <span class="icon-holder uk-text-success uk-margin-xlarge-right" uk-icon="checkmark"></span></label>
-            <label class="horizontalCenter">تحویل و تسویه در محل فروشگاه</label>
+        <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top uk-margin-bottom">
+            <label>جمع سفارش شما:<span>1000000<span>&nbsp;تومان</span></span></label>
         </div>
     </div>
 </div>
 <div class="my-space"></div>
+<script>
+    const FULL_DASH_ARRAY = 283;
+    const WARNING_THRESHOLD = 10;
+    const ALERT_THRESHOLD = 5;
+
+    const COLOR_CODES = {
+        info: {
+            color: "green"
+        },
+        warning: {
+            color: "orange",
+            threshold: WARNING_THRESHOLD
+        },
+        alert: {
+            color: "red",
+            threshold: ALERT_THRESHOLD
+        }
+    };
+
+    const TIME_LIMIT = 20;
+    let timePassed = 0;
+    let timeLeft = TIME_LIMIT;
+    let timerInterval = null;
+    let remainingPathColor = COLOR_CODES.info.color;
+
+    document.getElementById("app").innerHTML = `
+<div class="base-timer">
+  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g class="base-timer__circle">
+      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <path
+        id="base-timer-path-remaining"
+        stroke-dasharray="283"
+        class="base-timer__path-remaining ${remainingPathColor}"
+        d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+      ></path>
+    </g>
+  </svg>
+  <span id="base-timer-label" class="base-timer__label">${formatTime(
+        timeLeft
+    )}</span>
+</div>
+`;
+
+    startTimer();
+
+    function onTimesUp() {
+        clearInterval(timerInterval);
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timePassed = timePassed += 1;
+            timeLeft = TIME_LIMIT - timePassed;
+            document.getElementById("base-timer-label").innerHTML = formatTime(
+                timeLeft
+            );
+            setCircleDasharray();
+            setRemainingPathColor(timeLeft);
+
+            if (timeLeft === 0) {
+                onTimesUp();
+            }
+        }, 1000);
+    }
+
+    function formatTime(time) {
+        const minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+
+        if (seconds < 10) {
+            seconds = `0${seconds}`;
+        }
+
+        return `${minutes}:${seconds}`;
+    }
+
+    function setRemainingPathColor(timeLeft) {
+        const { alert, warning, info } = COLOR_CODES;
+        if (timeLeft <= alert.threshold) {
+            document
+                .getElementById("base-timer-path-remaining")
+                .classList.remove(warning.color);
+            document
+                .getElementById("base-timer-path-remaining")
+                .classList.add(alert.color);
+        } else if (timeLeft <= warning.threshold) {
+            document
+                .getElementById("base-timer-path-remaining")
+                .classList.remove(info.color);
+            document
+                .getElementById("base-timer-path-remaining")
+                .classList.add(warning.color);
+        }
+    }
+
+    function calculateTimeFraction() {
+        const rawTimeFraction = timeLeft / TIME_LIMIT;
+        return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+    }
+
+    function setCircleDasharray() {
+        const circleDasharray = `${(
+            calculateTimeFraction() * FULL_DASH_ARRAY
+        ).toFixed(0)} 283`;
+        document
+            .getElementById("base-timer-path-remaining")
+            .setAttribute("stroke-dasharray", circleDasharray);
+    }
+</script>

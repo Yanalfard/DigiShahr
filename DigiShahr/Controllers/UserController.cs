@@ -60,6 +60,11 @@ namespace DigiShahr.Controllers
             return await Task.FromResult(View(editUserViewModel));
         }
 
+        public async Task<IActionResult> UserOrder()
+        {
+            return await Task.FromResult(View());
+        }
+
         public async Task<string> ChangeUserPassword(ChangePasswordInSignIn changePasswordInSignIn)
         {
             if (string.IsNullOrEmpty(changePasswordInSignIn.Password) || string.IsNullOrEmpty(changePasswordInSignIn.NewPassword) || string.IsNullOrEmpty(changePasswordInSignIn.NewPasswrdConfirm))

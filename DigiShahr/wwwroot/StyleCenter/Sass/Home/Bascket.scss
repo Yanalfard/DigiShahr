@@ -1,5 +1,4 @@
-﻿
-.formTitr {
+﻿.formTitr {
     h3 {
         font-family: "Sahel" !important;
         font-size: 16px !important;
@@ -51,16 +50,25 @@
 
     .price {
         margin: 0 auto;
+        width: 130px !important;
+        min-width: 130px !important;
+        padding: 8px !important;
+        height: 65px !important;
     }
 
     .priceFinal {
-        width: 225px;
+        width: 200px !important;
+        min-width: 200px !important;
         height: 20px;
         padding: 12px;
     }
 
     .horizontalCenter {
         margin: 0 auto;
+    }
+
+    .gradientButton {
+        min-width: 221px;
     }
 }
 
@@ -124,7 +132,7 @@
     overflow-y: hidden;
 }*/
 .successMessage {
-    width: 250px;
+    width: 80vw;
     padding: 20px 10px;
     background: #FFF8D2;
     border: 2px solid #F9EFBE;
@@ -132,7 +140,25 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
 }
+.successText {
+    font-family: "Sahel" !important;
+    font-size: 16px !important;
+    overflow: hidden;
+    padding:0 30px;
+}
 .rateForStore {
+    min-height: calc(100vh - 128px);
+
+    .logoPlace {
+        max-height: 100px;
+        max-width: 100px;
+        border-radius: 50%;
+
+        img {
+            max-height: 100px;
+            max-width: 100px;
+        }
+    }
     /*    height:calc(100vh-116px)!important;
     *{overflow-y:hidden;}*/
     .matCart {

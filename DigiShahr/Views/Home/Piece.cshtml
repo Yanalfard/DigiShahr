@@ -3,20 +3,21 @@
     ViewData["Title"] = "Piece";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-
-
+<style>
+    .bannerBackground {
+        background: #F28F3B;
+    }
+</style>
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
 <div class=" my-column my-clipped storeHead">
 
-    <div class="BannerInStore Piecebanner matCart center my-clipped">
-        <img class="storeMainBanner center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+    <div class="BannerPlace BannerInStore Piecebanner matCart center my-clipped bannerBackground">
+        <a href="/Store"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left" uk-icon="backIcon"></span></a>
+        <img class="storeMainBanner MainbannerImage center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
     </div>
-    <!--<div uk-form-custom>
-    <input type="file" name="banner">
-    <a><span class="icon-holder uk-position-absolute uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>-->
-    @*<button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب لوگو</button>*@
-    <!--</div>--><a class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-muted" uk-icon="bookmark"></span></a>
+
+    @*<a class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-muted" uk-icon="bookmark"></span></a>*@
     <div class="center my-column uk-position-absolute ">
 
         <div class="center storeStars uk-margin-top">
@@ -27,19 +28,33 @@
         <div class="center LogoPictureInStore">
             <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl" />
         </div>
-        @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
-        {
-            <label class="deliveryState">
-                تحویل و تسویه درب منزل
-            </label>
-        }
-        @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
-        {
-            <label class="deliveryState">
-                تحویل و تسویه درب فروشگاه
-            </label>
-        }
+        @*@if (Model.Ability.TahvilVaTasvieDarMahal == 1)
+            {
+                <label class="deliveryState">
+                    تحویل و تسویه درب منزل
+                </label>
+            }
+            @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
+            {
+                <label class="deliveryState">
+                    تحویل و تسویه درب فروشگاه
+                </label>
+            }*@
 
+    </div>
+    <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top">
+        <div class="center uk-margin-auto-vertical uk-padding-small uk-text-right my-column">
+            <a class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">نام فروشگاه</label>
+            @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
+            {
+                <label class="uk-margin-small-top">تحویل و تسویه درب فروشگاه<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="storefront"></span></label>
+            }
+            @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
+            {
+                <label class="uk-margin-small-top uk-margin-small-bottom">تحویل و تسویه درب منزل<span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span></label>
+            }
+        </div>
     </div>
 
 </div>
@@ -57,26 +72,11 @@
         </div>
     }
 }
-<div class="matCart StoreSlider my-column my-clipped uk-margin-small-top uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="autoplay: true ; autoplay-interval:3000 ">
-    <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-5@m uk-grid  center overflow-visible uk-padding-small">
 
-        @foreach (var item in Model.TblProducts)
-        {
-            <li>
-                <a>
-                    <img src="/Upload/Product/@item.MainImageUrl" height="60" width="60" />
-                </a>
-            </li>
-        }
-
-    </ul>
-    <a class="uk-s-slider-container uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-    <a class="uk-s-slider-container uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-</div>
 @if (Model.Ability.IsBanner1Enable)
 {
-    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top">
-        <img src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
+    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground">
+        <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
     </div>
 }
 <div class="matCart storeProducts productSection my-column my-clipped uk-margin-small-top">
@@ -127,8 +127,8 @@
 </div>
 @if (Model.Ability.IsBanner2Enable)
 {
-    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top">
-        <img src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
+    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground">
+        <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
     </div>
 }
 <div class="my-space"></div>

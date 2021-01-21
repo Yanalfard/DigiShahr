@@ -382,9 +382,9 @@
   z-index: 100000; }
 
 .image-popup {
-  height: 80px;
-  width: 80px;
-  border-radius: 50%; }
+  max-height: 80px;
+  max-width: 80px;
+  border-radius: 50% !important; }
 
 .PopUpContent {
   z-index: 100000;
