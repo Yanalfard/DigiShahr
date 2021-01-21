@@ -4,18 +4,23 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
+<style>
+    .bannerBackground {
+        background: #F28F3B;
+    }
+</style>
+
+
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
-<div class="BannerPlace BannerInStore my-column my-clipped">
+<div class="BannerPlace BannerInStore my-column my-clipped bannerBackground">
     <a href="/Store"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left" uk-icon="backIcon"></span></a>
-
-
 
     <div class="uk-margin-auto-vertical center uk-position-absolute">
         @if (!string.IsNullOrEmpty(Model.LogoUrl))
         {<h3 class="center uk-margin-auto-vertical">
 
-                <img class="LogoPicture uk-margin-large-top" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
+                <img class="LogoPicture uk-margin-top" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
 
             </h3>
         }
@@ -44,16 +49,9 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
     @if (Model.MainBannerUrl != null)
     {
-        <img class="bannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+        <img class="bannerImage MainbannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
     }
 
     <h3 class=" absolute absolute-right uk-margin-large-top uk-margin-small-left">
@@ -85,37 +83,6 @@
             <span class="uk-text-danger"></span>
         </div>
     }
-    @*<div class="uk-margin-auto-vertical center">
-            <h3 class="center uk-margin-auto-vertical">
-                @if (!string.IsNullOrEmpty(Model.LogoUrl))
-                {
-                    <img class="LogoPicture " src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
-                }
-            </h3>
-
-            <div class=" center uk-margin-small-top">
-                @if (string.IsNullOrEmpty(Model.LogoUrl))
-                {
-                    <div class="js-upload" uk-form-custom>
-                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
-                        <span class="uk-text-danger">
-                        </span>
-                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                        <span class="uk-text-danger" id="LogoFileErorr"></span>
-                    </div>
-                }
-                else
-                {
-                    <div class="js-upload" uk-form-custom>
-                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
-                        <span class="uk-text-danger">
-                        </span>
-                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                        <span class="uk-text-danger" id="LogoFileErorr"></span>
-                    </div>
-                }
-            </div>
-        </div>*@
 
 </div>
 <hr class="uk-divider-icon" />
@@ -136,10 +103,14 @@
     </div>
     <hr />
     <div class="my-row uk-margin-bottom" dir="rtl">
-        <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+        <div class="my-column">
+            <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
+            <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+            @*<label class="center uk-margin-right uk-text-danger uk-text-center uk-margin-small-top uk-text-small">18 روز مانده</label>*@
+        </div>
         <div class="my-column uk-margin-auto-right uk-margin-left">
             <label class="uk-text-small"> <span class="icon-holder uk-text-small" uk-icon="person"> </span>نازیلا باقری</label>
-            <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small" uk-icon="call"></span>09360971680</label>
+            <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>09360971680</label>
         </div>
     </div>
 </div>
@@ -185,7 +156,7 @@
 
 @if (Model.Ability.IsBanner1Enable)
 {
-    <div class="BannerInStore matCart center my-clipped uk-margin-small-top">
+    <div class="BannerInStore matCart center my-clipped uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
         {
             <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
@@ -267,7 +238,7 @@
 </div>
 @if (Model.Ability.IsBanner2Enable)
 {
-    <div class="BannerInStore matCart center my-clipped uk-margin-small-top">
+    <div class="BannerInStore matCart center my-clipped uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
         {
             <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />

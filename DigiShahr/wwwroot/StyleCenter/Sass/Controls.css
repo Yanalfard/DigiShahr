@@ -406,10 +406,23 @@ body {
 .horizontalCenter {
   margin: 0 auto; }
 
-@media only screen and (min-width: 500px) and (max-width: 800px) {
-  .my-clipped {
-    width: 70vw !important; } }
+.gly-rotate-270 {
+  /*filter: progid : DXImageTransform.Microsoft.BasicImage(rotation=0.5);*/
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+  display: inline-block; }
 
-@media only screen and (min-device-width: 500px) and (max-device-width: 800px) {
-  .my-clipped {
-    width: 70vw !important; } }
+/*@media only screen and (min-width : 500px)and (max-width :800px) {
+    .my-clipped {
+        width: 70vw !important;
+    }
+}
+
+@media only screen and (min-device-width : 500px)and (max-device-width :800px) {
+    .my-clipped {
+        width: 70vw !important;
+    }
+}*/

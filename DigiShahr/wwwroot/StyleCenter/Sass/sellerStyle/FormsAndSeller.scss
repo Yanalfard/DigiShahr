@@ -172,12 +172,13 @@ ul {
 .BannerPlace {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
-    //height: 200px;
-    background: #F28F3B;
+    min-height: 170px !important;
+    //background: #F28F3B;
 
-    .absolute-right{
-        right:17vw;
+    .absolute-right {
+        right: 17vw;
     }
+
     h3 {
         font-size: 12px;
         font-family: "Sahel";
@@ -185,6 +186,12 @@ ul {
 
     a {
         color: #5F5F5F;
+    }
+
+    .LogoPicture{
+        max-height:100px;
+        max-width:100px;
+        border-radius:50%;
     }
 }
 
@@ -244,9 +251,9 @@ ul {
 }
 .BannerInStore {
     max-width: 90vw;
-    background: #F28F3B;
+    //background: #F28F3B;
     max-height: 800px;
-    min-height: 100px;
+    min-height: 90px;
 
     .bannerImage {
         width: 100%;
@@ -259,6 +266,9 @@ ul {
         background: $bodybackground !important;
     }
 
+    .MainbannerImage{
+        min-height:170px!important;
+    } 
     .vitrinBanners {
         position: absolute;
         // top:0!important;
@@ -552,16 +562,20 @@ ul {
     //height: 186px;
     max-height:250px;
     /*box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
-    border-radius: 16px;
-    background:$bodybackground;
+    border-radius: 8px;
+   // background:$bodybackground;
 }
 .Piecebanner {
-    background: $bodybackground !important;
+  //  background: $bodybackground !important;
+}
+.bookmarkIconeInStore {
+    left: 17vw;
+   //margin-top: 8px;
 }
 .storeHead {
 
     .bookmarkIcone {
-        left: 10vw;
+        left: 17vw;
         margin-top: 20px;
     }
 
@@ -573,10 +587,14 @@ ul {
     .storeLogo {
         /* image 7 */
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        max-height: 100px;
+        max-width: 100px;
+        border-radius: 50%;
     }
 
     .deliveryState {
-        color: white;
+        //color: white;
+        background: #fbf2ca;
     }
 }
 

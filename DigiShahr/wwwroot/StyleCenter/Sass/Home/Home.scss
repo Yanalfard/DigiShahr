@@ -171,9 +171,9 @@
     }
 
     .image-popup {
-        height: 80px;
-        width: 80px;
-        border-radius: 50%;
+        max-height: 80px;
+        max-width: 80px;
+        border-radius: 50%!important;
     }
 
     .PopUpContent {

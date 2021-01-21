@@ -172,6 +172,11 @@ namespace DigiShahr.Controllers
             return await Task.FromResult(View());
         }
 
+        public async Task<IActionResult> Deliver()
+        {
+            return await Task.FromResult(View());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
