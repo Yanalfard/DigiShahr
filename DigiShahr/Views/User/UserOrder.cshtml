@@ -4,5 +4,120 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-<h1>UserOrder</h1>
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="pageHeader">
+    <div class="my-spaceInMap"></div>
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">خریدهای من</h3>
+        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+    </div>
+</div>
+
+<content class="grid" dir="rtl">
+
+    <article class="firstPackage Purchases my-column matCart my-clipped">
+        <content class="uk-padding-small uk-text-center">
+            <a href="#" class="center uk-text-center StoreName">نام فروشگاه</a>
+            <a class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+            <ul class="uk-padding-remove-right uk-padding-remove-left">
+                <li>
+                    <span class="icon-holder uk-text-warning uk-margin-small-left" uk-icon="calendar-outline"> </span>سه شنبه 15 بهمن
+                </li>
+                <li>
+                    <span class="icon-holder clockIcon uk-margin-small-left uk-margin-small-top" uk-icon="time-outline"> </span>20:15
+                </li>
+                <li>
+                    <span class="icon-holder uk-text-danger uk-margin-small-left uk-margin-small-top" uk-icon="location"> </span>خیابان فلان کوچه فلان
+                </li>
+                <li>
+                    <span class="icon-holder starIcon uk-margin-small-left uk-margin-small-top" uk-icon="star"> </span>امتیاز شما به فروشگاه:<span>4</span>
+                </li>
+                <li class="Receipt" href="#OrderInfo" uk-toggle>
+                    <span class="icon-holder uk-text-primary uk-margin-small-left uk-margin-small-top" uk-icon="information-circle-outline"> </span>فاکتور سفارش شما
+                </li>
+            </ul>
+        </content>
+    </article>
+    <article class="Purchases my-column matCart my-clipped uk-margin-top">
+        <content class="uk-padding-small uk-text-center">
+            <a href="#" class="center uk-text-center StoreName">نام فروشگاه</a>
+            <a class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+            <ul class="uk-padding-remove-right uk-padding-remove-left">
+                <li>
+                    <span class="icon-holder uk-text-warning uk-margin-small-left" uk-icon="calendar-outline"> </span>سه شنبه 15 بهمن
+                </li>
+                <li>
+                    <span class="icon-holder clockIcon uk-margin-small-left uk-margin-small-top" uk-icon="time-outline"> </span>20:15
+                </li>
+                <li>
+                    <span class="icon-holder uk-text-danger uk-margin-small-left uk-margin-small-top" uk-icon="location"> </span>خیابان فلان کوچه فلان
+                </li>
+                <li>
+                    <span class="icon-holder starIcon uk-margin-small-left uk-margin-small-top" uk-icon="star"> </span>امتیاز شما به فروشگاه:<span>4</span>
+                </li>
+                <li class="Receipt" href="#OrderInfo" uk-toggle>
+                    <span class="icon-holder uk-text-primary uk-margin-small-left uk-margin-small-top" uk-icon="information-circle-outline"> </span>فاکتور سفارش شما
+                </li>
+            </ul>
+        </content>
+    </article>
+</content>
+<div id="OrderInfo" class="modal-sections" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="my-column uk-padding-small" dir="rtl">
+            <div class="uk-modal-header">
+                <h3 class="uk-modal-title uk-text-center">جزئیات سفارش</h3>
+            </div>
+            <div class="uk-modal-body OrderInfoModal my-column uk-padding-small">
+                <label> کد سفارش:<apan>4587456</apan></label>
+                <label> شماره تماس:<apan>041763783</apan></label>
+                <hr class="uk-divider-icon" />
+                <label> وضعیت سفارش:<span class="uk-text-success">تایید شده</span></label>
+                <label> تاریخ ثبت سفارش:<apan>تاریخ و زمان</apan></label>
+            </div>
+            <div class="ScrollabelTabel">
+                <table class="uk-table OrdersTable center" dir="rtl">
+                    <thead class="uk-text-center uk-text-bold tabelHearder">
+                        <tr>
+                            <th>نام محصول</th>
+                            <th>تعداد </th>
+                            <th>قیمت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> محصول اول </td>
+                            <td>2</td>
+                            <td>200000 تومان</td>
+                        </tr>
+                        <tr>
+                            <td> محصول دوم </td>
+                            <td>2</td>
+                            <td>200000 تومان</td>
+                        </tr>
+                        <tr>
+                            <td> محصول سوم </td>
+                            <td>2</td>
+                            <td>200000 تومان</td>
+                        </tr>
+                        <tr>
+                            <td> محصول چهارم </td>
+                            <td>2</td>
+                            <td>200000 تومان</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="uk-modal-footer uk-text-center uk-margin-top ">
+                <div class="center my-column gradientButtonLink">
+                    <label>مبلغ کل سفارش:</label>
+                    <label>160000 <span> تومان</span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="my-space"></div>
 

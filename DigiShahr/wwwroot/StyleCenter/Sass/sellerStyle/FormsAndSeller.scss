@@ -79,7 +79,7 @@ body {
 }
 /*//////buyPackage region*/
 .firstPackage {
-    margin-top: -40px;
+    margin-top: -70px;
 }
 
 ul {
@@ -770,3 +770,47 @@ $checked-color: #fc0;
     }
 }
 ///////////////////end star styles
+////my-Purchases style
+.Purchases {
+    .StoreName {
+        text-align: center !important;
+        color: #40916C !important;
+        margin: 10px auto;
+    }
+
+    ul {
+        text-align: right !important;
+        list-style-type: none !important;
+    }
+
+    .clockIcon {
+        color: #40916C;
+    }
+
+    .starIcon {
+        color: #fc0;
+    }
+
+    .Receipt {
+        cursor: pointer;
+        background:#f88f36;
+        border-radius:30px;
+        padding-bottom:7px;
+        color:white;
+        margin-top:15px;
+        padding-right:5px;
+    }
+
+    .bookmarkIcone {
+        left: 10vw;
+        margin-top: 50px;
+    }
+}
+////////end section////////
+///bookmarks///
+.Bookmarks {
+    .starIcon {
+        color: #fc0;
+    }
+}
+///end///

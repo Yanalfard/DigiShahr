@@ -1,6 +1,6 @@
 ﻿@model DataLayer.ViewModel.EditUserViewModel
 @{
-    ViewData["Title"] = "ویرایش حساب کاربری";
+    ViewData["Title"] = "تنظیمات حساب کاربری";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -8,10 +8,11 @@
 <div class="my-space"></div>
 <div class="matCart valid-feedback my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
-        <h3 class="center">ویرایش حساب کاربری</h3>
-        <span class="uk-text-success">@ViewBag.Success</span>
+        <h3 class="center">تنظیمات حساب کاربری</h3>
+
         <a href="/"><span class="icon-holder" uk-icon="backIcon"></span></a>
     </div>
+    <span class="uk-text-success center">@ViewBag.Success</span>
     <form action="UserSetting" class="my-column createAccount uk-padding-small" dir="rtl" method="post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
@@ -46,7 +47,7 @@
                             }
                             else
                             {
-                            <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top Neighbourhood" type="radio" name="Neighbourhood" value="@item.Id">@item.Name</label>
+                                <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top Neighbourhood" type="radio" name="Neighbourhood" value="@item.Id">@item.Name</label>
                             }
                         }
                     </div>

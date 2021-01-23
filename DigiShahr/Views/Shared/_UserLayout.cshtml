@@ -15,6 +15,7 @@
     <section class="layoutHeader">
         <div class="mat my-row uk-padding-small">
             <ul class="uk-iconnav">
+
                 @if (User.Identity.IsAuthenticated)
                 {
                     if (User.Claims.First().Value == "d7tpmTdwXL")
@@ -27,8 +28,9 @@
                 {
                     <li><a href="/Account/CreateAccount?RetunUrl=@Context.Request.Host@Context.Request.Path" class="icon-holder" uk-icon="person-add"></a></li>
                     <li><a class="icon-holder" href="/Store/CreateStore" uk-icon="addStore"></a></li>
-                    <li><a class="icon-holder" uk-icon="bookmark" href="/Bookmark"></a></li>
+                    <li><a class="icon-holder" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
                 }
+                <li><a class="icon-holder" uk-icon="notifications" href="/Home/NotificationNewOrder"></a></li>
             </ul>
             <span class="icon-holder uk-margin-auto-left" uk-icon="reorder-four" uk-toggle="target: #offcanvas-flip"></span>
         </div>

@@ -1002,7 +1002,7 @@ namespace DigiShahr.Controllers
         public async Task<string> CreateProduct(TblProduct Product)
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-            int ProductCount = _core.Product.Get().Count();
+            int ProductCount = _core.Product.Get(p=>p.StoreId==user.TblStores.First().Id).Count();
             if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().ProductLimit <= ProductCount)
             {
                 return await Task.FromResult("SubscribtionTillErorr");
