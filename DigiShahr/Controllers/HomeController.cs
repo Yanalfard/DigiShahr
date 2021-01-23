@@ -26,7 +26,7 @@ namespace DigiShahr.Controllers
                         IndexViewModel indexViewModel = new IndexViewModel();
                         ViewBag.Search = Search;
                         IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store);
-                        indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now);
+                        indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now).Take(50);
                         indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                         return View(indexViewModel);
                     }
@@ -35,7 +35,7 @@ namespace DigiShahr.Controllers
                         IndexViewModel indexViewModel = new IndexViewModel();
                         ViewBag.Search = Search;
                         IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store);
-                        indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.Name.Contains(Search) || s.Catagory.Name.Contains(Search));
+                        indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.Name.Contains(Search) || s.Catagory.Name.Contains(Search)).Take(50);
                         indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                         return View(indexViewModel);
                     }
@@ -45,7 +45,7 @@ namespace DigiShahr.Controllers
                     IndexViewModel indexViewModel = new IndexViewModel();
                     ViewBag.Search = Search;
                     IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store);
-                    indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.CatagoryId == Category);
+                    indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.CatagoryId == Category).Take(50);
                     indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                     return View(indexViewModel);
                 }
@@ -56,7 +56,7 @@ namespace DigiShahr.Controllers
                 {
                     IndexViewModel indexViewModel = new IndexViewModel();
                     ViewBag.Search = Search;
-                    indexViewModel.AllStore = _core.Store.Get(s => s.SubscribtionTill > DateTime.Now);
+                    indexViewModel.AllStore = _core.Store.Get(s => s.SubscribtionTill > DateTime.Now).Take(50);
                     indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                     return View(indexViewModel);
                 }
@@ -65,7 +65,7 @@ namespace DigiShahr.Controllers
                     IndexViewModel indexViewModel = new IndexViewModel();
                     IEnumerable<TblStore> AllStore = _core.Store.Get(s => s.Name.Contains(Search) || s.Catagory.Name.Contains(Search) && s.SubscribtionTill > DateTime.Now);
                     ViewBag.Search = Search;
-                    indexViewModel.AllStore = AllStore;
+                    indexViewModel.AllStore = AllStore.Take(50);
                     indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                     return View(indexViewModel);
                 }
@@ -74,14 +74,14 @@ namespace DigiShahr.Controllers
             {
                 IndexViewModel indexViewModel = new IndexViewModel();
                 ViewBag.Search = null;
-                indexViewModel.AllStore = _core.Store.Get(s => s.SubscribtionTill > DateTime.Now && s.Catagory.Id == Category);
+                indexViewModel.AllStore = _core.Store.Get(s => s.SubscribtionTill > DateTime.Now && s.Catagory.Id == Category).Take(50);
                 indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get(sc => sc.ParentId == null).OrderByDescending(o => o.Id);
                 return View(indexViewModel);
             }
 
         }
 
-        [Route("Piece/{Id}")]
+        
         public async Task<IActionResult> Piece(int Id)
         {
             return await Task.FromResult(View(_core.Store.GetById(Id)));

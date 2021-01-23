@@ -106,7 +106,7 @@ namespace DigiShahr.Controllers
         {
             int userId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
 
-            TblOrder order = _core.Order.Get().SingleOrDefault(o => o.UserId == userId && !o.IsFinaly);
+            TblOrder order = _core.Order.Get(o => o.UserId == userId && !o.IsFinaly).SingleOrDefault();
 
             return await Task.FromResult(View(order));
 

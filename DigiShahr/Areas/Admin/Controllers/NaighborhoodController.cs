@@ -35,6 +35,10 @@ namespace DigiShahr.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_core.Naighborhood.Get().Any(n => n.Name == tblNaighborhood.Name))
+                {
+                    return "این دسته بندی وجود دارد";
+                }
                 _core.Naighborhood.Add(tblNaighborhood);
                 _core.Naighborhood.Save();
                 return "true";
@@ -64,6 +68,10 @@ namespace DigiShahr.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (_core.Naighborhood.Get(n => n.Name == tblNaighborhood.Name && n.Id != tblNaighborhood.Id).Count() != 0)
+                    {
+                        return "این دسته بندی وجود دارد";
+                    }
                     _core.Naighborhood.GetById(tblNaighborhood.Id).Name = tblNaighborhood.Name;
                     _core.Naighborhood.Save();
                     return "true";
