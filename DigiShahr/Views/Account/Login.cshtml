@@ -15,13 +15,27 @@
     <link href="~/StyleCenter/Sass/LoginRegister/loginRegister.min.css" rel="stylesheet" />
 </head>
 <body>
+    @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+    <script src="https://www.google.com/recaptcha/api.js?render=@Configuration["googleReCaptcha:SiteKey"]"></script>
+    <script>
+    grecaptcha.ready(function () {
+        window.grecaptcha.execute('@Configuration["googleReCaptcha:SiteKey"]', { action: 'Login' }).then(function (token) {
+            document.getElementById("captchaInput").value = token;
+        });
+    });
+    </script>
+
     @if (!User.Identity.IsAuthenticated)
     {
+
         <div class="contentContainer">
+
+
             <div class="firstHead"></div>
             <div class="LoginContent">
                 <div class="center my-column">
                     <form class="my-column loginForm uk-padding-small" action="Login" method="post" dir="rtl">
+                        <partial name="_CaptchaInput"  />
                         @Html.AntiForgeryToken()
                         <label class="uk-text-right" for="">شماره تلفن:</label>
                         <input asp-for="TellNo">

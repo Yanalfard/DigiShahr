@@ -1,6 +1,7 @@
 ﻿using DataLayer.Models;
 using DataLayer.ViewModel;
 using DigiShahr.Utilit;
+using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,12 @@ namespace DigiShahr.Controllers
     public class AccountController : Controller
     {
         Core _core = new Core();
+        private readonly ICaptchaValidator _captchaValidator;
+
+        public AccountController(ICaptchaValidator captchaValidator)
+        {
+            _captchaValidator = captchaValidator;
+        }
 
         [HttpGet]
         public IActionResult Index()
@@ -43,19 +50,16 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAccountAsync(CreateAccountViewModel createAccountViewModel, string foo)
         {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
+            {
+                ModelState.AddModelError("TellNo", "ورود غیر مجاز");
+                return View(createAccountViewModel);
+            }
             if (ModelState.IsValid)
             {
 
                 if (createAccountViewModel.TellNo.StartsWith("0") == true)
                 {
-                    if (!GoogleReCaptcha.ReCaptchaPassed(Request.Form["foo"]))
-                    {
-                        ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                        ModelState.AddModelError("foo", "احراز هویت شما از طرف گوگل تایید نشد");
-                        return View(createAccountViewModel);
-                    }
-                    else
-                    {
                         if (createAccountViewModel.Password != createAccountViewModel.ConfirmPassword)
                         {
                             ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
@@ -89,7 +93,6 @@ namespace DigiShahr.Controllers
                                 }
 
                             }
-                        }
                     }
                 }
                 else
@@ -161,7 +164,11 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel, string RetunUrl)
         {
-
+            if (!await _captchaValidator.IsCaptchaPassedAsync(loginViewModel.Captcha))
+            {
+                ModelState.AddModelError("TellNo", "ورود غیر مجاز");
+                return View(loginViewModel);
+            }
             if (ModelState.IsValid)
             {
                 if (await UserCrew.UserIsExist(loginViewModel))

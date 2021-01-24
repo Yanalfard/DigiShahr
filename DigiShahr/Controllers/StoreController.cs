@@ -60,7 +60,7 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders, 20, page);
+                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o=>o.IsFinaly), 20, page);
                     return View(Order);
                 }
             }

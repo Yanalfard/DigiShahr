@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataLayer.ViewModel
 {
-    public class LoginViewModel
+    public class LoginViewModel: CaptchaViewModel
     {
         [MaxLength(11,ErrorMessage ="شماره تماس معتبر وارد کنید")]
         [MinLength(11,ErrorMessage ="شماره تماس معتبر وارد کنید")]

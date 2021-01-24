@@ -1,3 +1,5 @@
+using GoogleReCaptcha.V3;
+using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +25,7 @@ namespace DigiShahr
             services.AddControllersWithViews();
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-
+            services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
             //Pager
             services.AddPaging(options =>
             {

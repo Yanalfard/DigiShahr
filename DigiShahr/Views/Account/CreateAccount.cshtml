@@ -4,6 +4,16 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+<script src="https://www.google.com/recaptcha/api.js?render=@Configuration["googleReCaptcha:SiteKey"]"></script>
+<script>
+    grecaptcha.ready(function () {
+        window.grecaptcha.execute('@Configuration["googleReCaptcha:SiteKey"]', { action: 'CreateAccount' }).then(function (token) {
+            document.getElementById("captchaInput").value = token;
+        });
+    });
+</script>
+
 @if (!User.Identity.IsAuthenticated)
 {
     <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
@@ -16,6 +26,7 @@
             <a href="/"><span class="icon-holder" uk-icon="backIcon"></span></a>
         </div>
         <form class="my-column createAccount uk-padding-small" dir="rtl" action="CreateAccount" method="post">
+            <partial name="_CaptchaInput" />
             @Html.AntiForgeryToken()
             <label for="name">نام و نام خانوادگی:</label>
             <input asp-for="Name">
@@ -65,8 +76,6 @@
             <input class="center gradientButton uk-margin-large-top" type="submit" value="ایجاد حساب">
         </form>
     </div>
-    @*<div class="space-double"></div>
-        <div class="space-mobile"></div>*@
     <div class="my-space"></div>
 
 

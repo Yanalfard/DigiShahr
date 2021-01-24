@@ -42,15 +42,8 @@
         </div>
         <hr class="uk-divider-icon uk-margin-remove-bottom" />
         <div class="my-row">
-            <label for="" id="StoreStatus" onclick="ChangeStatus(@Model.Id)">
-                @if (Model.IsOpen)
-                {
-                    @:باز کردن فروشگاه
-                }
-                else
-                {
-                    @:بستن فروشگاه
-                }
+            <label for="" id="StoreStatus">
+                باز کردن / بستن فروشگاه
             </label>
             <div class="OpenCloseStore my-column center uk-margin-auto-right uk-margin-top uk-margin-left">
 
@@ -223,7 +216,6 @@
                 $.post("/Store/StatusChange?Id=" + Id, function (result) {
                     if (result == "true") {
                         document.getElementById("door").style.height = "8px";
-                        document.getElementById("StoreStatus").innerHTML = "بستن فروشگاه";
                         document.getElementById("statusResult").style.color = "#32d296";
                         document.getElementById("statusResult").innerHTML = "باز";
                         $("#IsOpen").prop("checked", false);
@@ -233,7 +225,6 @@
                 $.post("/Store/StatusChange?Id=" + Id, function (result) {
                     if (result == "true") {
                         document.getElementById("door").style.height = "23px";
-                        document.getElementById("StoreStatus").innerHTML = "بازکردن فروشگاه";
                         document.getElementById("statusResult").style.color = "red";
                         document.getElementById("statusResult").innerHTML = "بسته";
                         $("#IsOpen").prop("checked", true);

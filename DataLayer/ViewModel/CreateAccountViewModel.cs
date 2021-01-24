@@ -5,10 +5,12 @@ using System.Text;
 
 namespace DataLayer.ViewModel
 {
-    public class CreateAccountViewModel
+    public class CreateAccountViewModel : CaptchaViewModel
     {
         [Required(ErrorMessage = "لطفا نام خود را وارد کنید")]
         [StringLength(100, ErrorMessage = "لطفا نام مناسب وارد کنید")]
+        [MaxLength(100, ErrorMessage = "لطفا نام مناسب وارد کنید")]
+        [MinLength(5, ErrorMessage = "لطفا نام مناسب وارد کنید")]
         public string Name { get; set; }
         [Required(ErrorMessage = "لطفا شماره تماس خود را وارد کنید")]
         [StringLength(11, ErrorMessage = "لطفا شماره تماس مناسب وارد کنید")]
@@ -38,7 +40,7 @@ namespace DataLayer.ViewModel
         [StringLength(50, ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
         [Required(ErrorMessage = "لطفا موقعیت جغرافیایی خود را در نقشه تعیین کنید.")]
         public string Lon { get; set; }
-        [Required(ErrorMessage ="لطفا منطقه خود را انتخاب کنید")]
+        [Required(ErrorMessage = "لطفا منطقه خود را انتخاب کنید")]
         public int? NaighborhoodId { get; set; }
     }
 }

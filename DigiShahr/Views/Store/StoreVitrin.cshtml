@@ -6,9 +6,10 @@
 
 <style>
     .bannerBackground {
-        background: #F28F3B;
+        background: @Model.Catagory.Color;
     }
 </style>
+
 
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
@@ -25,29 +26,29 @@
             </h3>
         }
 
-            <div class=" center uk-margin-small-top">
-                @if (string.IsNullOrEmpty(Model.LogoUrl))
-                {
-                    <div class="js-upload" uk-form-custom>
-                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
-                        <span class="uk-text-danger">
-                        </span>
-                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                        <span class="uk-text-danger" id="LogoFileErorr"></span>
-                    </div>
-                }
-                else
-                {
-                    <div class="js-upload" uk-form-custom>
-                        <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
-                        <span class="uk-text-danger">
-                        </span>
-                        <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
-                        <span class="uk-text-danger" id="LogoFileErorr"></span>
-                    </div>
-                }
-            </div>
+        <div class=" center uk-margin-small-top">
+            @if (string.IsNullOrEmpty(Model.LogoUrl))
+            {
+                <div class="js-upload" uk-form-custom>
+                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                    <span class="uk-text-danger">
+                    </span>
+                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <span class="uk-text-danger" id="LogoFileErorr"></span>
+                </div>
+            }
+            else
+            {
+                <div class="js-upload" uk-form-custom>
+                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                    <span class="uk-text-danger">
+                    </span>
+                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <span class="uk-text-danger" id="LogoFileErorr"></span>
+                </div>
+            }
         </div>
+    </div>
 
     @if (Model.MainBannerUrl != null)
     {
@@ -89,31 +90,30 @@
 @if (Model.Ability.IsLotteryEnable)
 {
 
-<div class="Lottery my-column matCart my-column my-clipped">
-    <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
-    <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
-        <div class="uk-inline">
-            <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
-            <input class="uk-input" type="text" placeholder="تاریخ قرعه کشی">
+    <div class="Lottery my-column matCart my-column my-clipped">
+        <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
+        <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
+            <div class="uk-inline">
+                <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
+                <input class="uk-input" id="toDate" type="text" placeholder="تاریخ قرعه کشی">
+            </div>
+            <div class="uk-inline">
+                <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="gift"></span>
+                <input type="text" class="uk-input" placeholder="جایزه قرعه کشی" />
+            </div>
         </div>
-        <div class="uk-inline">
-            <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="gift"></span>
-            <input class="uk-input" type="text" placeholder="جایزه قرعه کشی">
+        <hr />
+        <div class="my-row uk-margin-bottom" dir="rtl">
+            <div class="my-column">
+                <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
+                <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+            </div>
+            <div class="my-column uk-margin-auto-right uk-margin-left">
+                <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نازیلا باقری</label>
+                <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>09360971680</label>
+            </div>
         </div>
     </div>
-    <hr />
-    <div class="my-row uk-margin-bottom" dir="rtl">
-        <div class="my-column">
-            <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
-            <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
-            @*<label class="center uk-margin-right uk-text-danger uk-text-center uk-margin-small-top uk-text-small">18 روز مانده</label>*@
-        </div>
-        <div class="my-column uk-margin-auto-right uk-margin-left">
-            <label class="uk-text-small"> <span class="icon-holder uk-text-small" uk-icon="person"> </span>نازیلا باقری</label>
-            <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>09360971680</label>
-        </div>
-    </div>
-</div>
 }
 <div class="matCart my-column my-clipped uk-margin-top " dir="rtl">
     <form id="CreateDiscount" class="DiscountCode my-column uk-padding">
@@ -164,7 +164,14 @@
         <div class="js-upload vitrinBanners" uk-form-custom>
             <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
             <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-            <label> افزودن بنر اول</label>
+            @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
+            {
+                <label> افزودن بنر اول</label>
+            }
+            else
+            {
+                <label> ویرایش بنر اول</label>
+            }
         </div>
     </div>
 }
@@ -172,13 +179,13 @@
 <div class="matCart productSection my-column my-clipped uk-margin-small-top">
     <span class="uk-text-danger center uk-margin-small-top" id="CreateCategoryErorr"></span>
     <form id="CreateCategory">
-        
+
         <div class="my-row uk-margin-top">
             <div class="uk-inline productCategory uk-margin-small-top'" style="left:0;">
                 <a id="SubmitCatagory" class="uk-form-icon uk-margin-auto-vertical"><span class="icon-holder" uk-icon="add-outline"></span></a>
                 <input class="uk-input" id="CategoryName" type="text">
             </div>
-            
+
             <h3 class="center">:افزودن دسته بندی</h3>
 
         </div>
@@ -215,26 +222,26 @@
     <br>
 
 
-        @foreach (var item in Model.TblProducts)
-        {
-            <div class="my-row AddProductSection" dir="rtl">
-                <div class="my-column uk-margin-small-right uk-text-center">
-                    <label class="ProductName">@item.Name</label>
-                    <div class="my-row">
-                        <label class="uk-margin-top price">@item.Price تومان</label>
-                        @if (item.Discount != 0)
-                        {
-                            <label class="OFFPercent uk-margin-top">@item.Discount%</label>
-                        }
-                    </div>
-                </div>
-                <div class="ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-                    <img class="" src="~/Upload/Product/@item.MainImageUrl" width="80" height="80" />
+    @foreach (var item in Model.TblProducts)
+    {
+        <div class="my-row AddProductSection" dir="rtl">
+            <div class="my-column uk-margin-small-right uk-text-center">
+                <label class="ProductName">@item.Name</label>
+                <div class="my-row">
+                    <label class="uk-margin-top price">@item.Price تومان</label>
+                    @if (item.Discount != 0)
+                    {
+                        <label class="OFFPercent uk-margin-top">@item.Discount%</label>
+                    }
                 </div>
             </div>
-            <hr />
-        }
-    
+            <div class="ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
+                <img class="" src="~/Upload/Product/@item.MainImageUrl" width="80" height="80" />
+            </div>
+        </div>
+        <hr />
+    }
+
 </div>
 @if (Model.Ability.IsBanner2Enable)
 {
@@ -246,7 +253,14 @@
         <div class="js-upload vitrinBanners" uk-form-custom>
             <input type="file" id="Banner2File" accept="image/x-png,image/jpeg">
             <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-            <label> افزودن بنر دوم</label>
+            @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
+            {
+                <label> افزودن بنر دوم</label>
+            }
+            else
+            {
+                <label> ویرایش بنر دوم</label>
+            }
         </div>
     </div>
 }
@@ -260,6 +274,14 @@
 @section Script{
     <script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
     <script>
+
+
+        $('#toDate').MdPersianDateTimePicker({
+            targetTextSelector: '#toDate',
+            targetDateSelector: '#toDate',
+        });
+
+
         $("#AddProductPapaer").click(function () {
             $.get("/Store/AddProduct/@Model.Id", function (result) {
                 $(".uk-modal-dialog").html(result);
@@ -298,4 +320,5 @@
 
     </script>
     <script src="~/Command/StoreVitrin.js"></script>
+    
 }
