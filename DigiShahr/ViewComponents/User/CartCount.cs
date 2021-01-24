@@ -15,7 +15,14 @@ namespace DigiShahr.ViewComponents.User
         {
             Core _core = new Core();
             TblOrder order = _core.Order.Get().SingleOrDefault(od => od.UserId == UserCrew.UserByTellNo(TellNo).Result.Id && !od.IsFinaly);
-            return await Task.FromResult((IViewComponentResult)View("/Views/User/Components/CartCount.cshtml", _core.OrderDetail.Get().Where(od => od.OrderId == order.Id).Count()));
+            if (order == null)
+            {
+                return await Task.FromResult((IViewComponentResult)View("/Views/User/Components/CartCount.cshtml",0));
+            }
+            else
+            {
+                return await Task.FromResult((IViewComponentResult)View("/Views/User/Components/CartCount.cshtml", _core.OrderDetail.Get().Where(od => od.OrderId == order.Id).Count()));
+            }
         }
     }
 }

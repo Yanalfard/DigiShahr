@@ -298,7 +298,7 @@ body {
 
 /*//////buyPackage region*/
 .firstPackage {
-  margin-top: -40px; }
+  margin-top: -70px; }
 
 ul {
   list-style-type: none !important; }
@@ -783,3 +783,34 @@ ul {
     content: '★';
     color: #fc0;
     text-shadow: 0 0 1px #333; }
+
+.Purchases .StoreName {
+  text-align: center !important;
+  color: #40916C !important;
+  margin: 10px auto; }
+
+.Purchases ul {
+  text-align: right !important;
+  list-style-type: none !important; }
+
+.Purchases .clockIcon {
+  color: #40916C; }
+
+.Purchases .starIcon {
+  color: #fc0; }
+
+.Purchases .Receipt {
+  cursor: pointer;
+  background: #f88f36;
+  border-radius: 30px;
+  padding-bottom: 7px;
+  color: white;
+  margin-top: 15px;
+  padding-right: 5px; }
+
+.Purchases .bookmarkIcone {
+  left: 10vw;
+  margin-top: 50px; }
+
+.Bookmarks .starIcon {
+  color: #fc0; }
