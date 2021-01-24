@@ -604,7 +604,7 @@ ul {
         position: sticky !important;
         top: 30px;
         background: white;
-        border-radius:8px;
+        border-radius: 8px;
 
         .category {
             cursor: pointer;
@@ -621,9 +621,13 @@ ul {
     }
 
     .gradientButton {
-        width: 45px;
+        width: 80px;
         height: 23px;
         font-size: 12px;
+    }
+
+    .gradientButtonDisabled {
+        background: #827e7e !important;
     }
 }
 
