@@ -131,16 +131,16 @@
                     {
                         @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Id)
                         {
-                            <button disabled class="gradientButton uk-button-secondary uk-text-white center uk-margin-small-top">افزودن</button>
+                <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
                         }
                         else
                         {
-                            <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن</button>
+                            <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
                         }
                     }
                     else
                     {
-                        <button onclick="window.location.href='/Account/Login'" class="gradientButton uk-button-secondary center uk-margin-small-top">افزودن</button>
+                <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
                     }
                 </div>
             </div>

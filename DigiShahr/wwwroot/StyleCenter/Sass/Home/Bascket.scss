@@ -1,4 +1,7 @@
-﻿.formTitr {
+﻿body {
+    min-height:calc(100vh - 108px);
+}
+.formTitr {
     h3 {
         font-family: "Sahel" !important;
         font-size: 16px !important;
@@ -218,4 +221,7 @@
         height: 20px;
         padding: 8px 0;
     }
+}
+.EmptyCart{
+    width:500px;
 }
