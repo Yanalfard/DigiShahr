@@ -3,6 +3,9 @@
     ViewData["Title"] = "Piece";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+
+
+
 <style>
     .bannerBackground {
         background: #F28F3B;
@@ -106,18 +109,39 @@
                             @if (item.Discount != 0)
                             {
                                 <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
-                                <label>@(item.Price-item.Discount)<span>تومان</span></label>
+                                
+                                <label>@(item.Price - item.Price * item.Discount / 100)<span>تومان</span></label>
+                            }
+                            else
+                            {
+                                <label class="uk-margin-top">@item.Price.ToString("#,0")<span>تومان</span></label>
                             }
                         </div>
-
-                        <label class="OFFPercent uk-margin-top">@item.Discount%</label>
+                        @if (item.Discount != 0)
+                        {
+                            <label class="OFFPercent uk-margin-top">@item.Discount%</label>
+                        }
                     </div>
                 </div>
                 <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
                     <div class="ProductPicture center">
-                        <img class="" src="/Upload/Product/@item.MainImageUrl" width="80" height="80" />
+                        <img src="/Upload/Product/@item.MainImageUrl" width="80" height="80" />
                     </div>
-                    <button class="gradientButton center uk-margin-small-top">افزودن</button>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Id)
+                        {
+                            <button disabled class="gradientButton uk-button-secondary uk-text-white center uk-margin-small-top">افزودن</button>
+                        }
+                        else
+                        {
+                            <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن</button>
+                        }
+                    }
+                    else
+                    {
+                        <button onclick="window.location.href='/Account/Login'" class="gradientButton uk-button-secondary center uk-margin-small-top">افزودن</button>
+                    }
                 </div>
             </div>
             <hr />
@@ -132,4 +156,16 @@
     </div>
 }
 <div class="my-space"></div>
+
+@section Script{
+    <script>
+        function AddToCart(Id) {
+            $.post("/Order/AddToCart?Id=" + Id, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+}
 

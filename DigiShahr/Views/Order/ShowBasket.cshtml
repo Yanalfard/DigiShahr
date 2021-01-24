@@ -19,9 +19,9 @@
                     <label>@item.Product.Name</label>
                     <label class="uk-text-danger">@((item.Product.Price*item.Product.Count).ToString("#,0 تومان"))</label>
                     <div class="Count">
-                        <a><span class="icon-holder uk-margin-small-left" uk-icon="add"></span></a>
+                        <a onclick="UpProduct(@item.Id)"><span class="icon-holder uk-margin-small-left" uk-icon="add"></span></a>
                         <span>@item.Count</span>
-                        <a><span class="icon-holder uk-margin-small-right" uk-icon="remove"></span></a>
+                        <a onclick="DownProduct(@item.Id)"><span class="icon-holder uk-margin-small-right" uk-icon="remove"></span></a>
                     </div>
                 </div>
                 <hr />
@@ -41,9 +41,18 @@
                 </div>
             </div>
             <hr class="uk-divider-icon uk-margin-remove-top" />
-            <input class="uk-input uk-border-rounded" type="text" placeholder="کد تخفیف (در صورت وجود)..">
+            <input id="Discount" class="uk-input uk-border-rounded" type="text" placeholder="کد تخفیف (در صورت وجود)..">
             <label class="uk-text-danger center uk-margin-top">قیمت مجموع سفارشات: <span>@Model.Price.ToString("#,0 ") هزار تومان</span></label>
-            <button class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل سفارش و ارسال برای فروشنده</button>
+            <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل سفارش و ارسال برای فروشنده</button>
+            <script>
+                function Final(Id) {
+                    $.post("/Order/Final?Id=" + Id, function (result) {
+                        if (result == "true") {
+                            window.location.href = "";
+                        }
+                    });
+                }
+            </script>
             @*<div class="my-row uk-margin-top">
                     <div class="timer">
                         <div id="app"></div>
@@ -99,6 +108,24 @@ else
     </div>
     <div class="my-space"></div>
 }
+
+<script id="Command">
+    function UpProduct(Id) {
+        $.post("/Order/Command?Id=" + Id + "&Command=up", function (result) {
+            if (result == "true") {
+                window.location.reload();
+            }
+        });
+    }
+    function DownProduct(Id) {
+        $.post("/Order/Command?Id=" + Id + "&Command=down", function (result) {
+            if (result == "true") {
+                window.location.reload();
+            }
+        });
+    }
+</script>
+
 @*<script>
         const FULL_DASH_ARRAY = 283;
         const WARNING_THRESHOLD = 10;

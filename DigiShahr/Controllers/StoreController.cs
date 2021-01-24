@@ -1041,6 +1041,7 @@ namespace DigiShahr.Controllers
                                 NewProduct.Price = Product.Price;
                                 NewProduct.MainImageUrl = null;
                                 NewProduct.IsDeleted = false;
+                                NewProduct.Count = Product.Count;
                                 NewProduct.Discount = Product.Discount;
                                 _core.Product.Add(NewProduct);
                                 _core.Product.Save();
