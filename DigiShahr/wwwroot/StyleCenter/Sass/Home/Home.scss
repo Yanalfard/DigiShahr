@@ -316,3 +316,24 @@
 .gradientButtonDisabled {
     background: #827e7e !important;
 }
+/////////////desktop/////////////////
+@media only screen and (min-device-width : 50px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+}
+@media only screen and (min-width : 50px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+   
+}
+/////////////end desktop/////////////////

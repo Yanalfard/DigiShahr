@@ -1,6 +1,6 @@
 ﻿@model DataLayer.Models.TblStore
 @{
-    ViewData["Title"] = "Piece";
+    ViewData["Title"] = "فروشگاه";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -15,8 +15,8 @@
 <div class="my-space"></div>
 <div class=" my-column my-clipped storeHead">
 
-    <div class="BannerPlace BannerInStore Piecebanner matCart center my-clipped bannerBackground">
-        <a href="/Store"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left" uk-icon="backIcon"></span></a>
+    <div class="BannerPlace BannerInStore Piecebanner matCart center my-clipped my-clipped-desktop bannerBackground">
+        <a href="/Store"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left backIconDesktop" uk-icon="backIcon"></span></a>
         <img class="storeMainBanner MainbannerImage center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
     </div>
 
@@ -45,7 +45,7 @@
             }*@
 
     </div>
-    <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top">
+    <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
         <div class="center uk-margin-auto-vertical uk-padding-small uk-text-right my-column">
             <a class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
             <label class="uk-text-center uk-text-bold uk-margin-small-bottom">نام فروشگاه</label>
@@ -66,7 +66,7 @@
 {
     if (Model.Ability.LotteryDisplayDate != null)
     {
-        <div class="Lottery my-column matCart my-column my-clipped">
+        <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
             <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
             <div class="LotteryIcon uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right my-column">
                 <label>@Model.Ability.LotteryDisplayDate<span class="icon-holder" uk-icon="calendar"></span></label>
@@ -78,11 +78,11 @@
 
 @if (Model.Ability.IsBanner1Enable)
 {
-    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground">
+    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground my-clipped-desktop">
         <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
     </div>
 }
-<div class="matCart storeProducts productSection my-column my-clipped uk-margin-small-top">
+<div class="matCart storeProducts productSection my-column my-clipped uk-margin-small-top my-clipped-desktop">
     <div class="CategoryListcontainer">
 
         <div class="uk-margin-large-top my-row CategoryList">
@@ -151,11 +151,12 @@
 </div>
 @if (Model.Ability.IsBanner2Enable)
 {
-    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground">
+    <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground my-clipped-desktop">
         <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
     </div>
 }
 <div class="my-space"></div>
+
 
 @section Script{
     <script>
@@ -163,6 +164,8 @@
             $.post("/Order/AddToCart?Id=" + Id, function (result) {
                 if (result == "true") {
                     window.location.reload();
+                } else if (result == "ExitStore") {
+                    UIkit.notification({ message: 'برای خرید از فروشگاه دیگر، ابتدا خرید از فروشگاه فعلی را تکمیل نمایید'});
                 }
             });
         }

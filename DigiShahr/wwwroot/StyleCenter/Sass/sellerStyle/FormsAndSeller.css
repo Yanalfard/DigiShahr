@@ -361,7 +361,7 @@ ul {
   border-radius: 8px;
   min-height: 170px !important; }
   .BannerPlace .absolute-right {
-    right: 17vw; }
+    right: 10vw; }
   .BannerPlace h3 {
     font-size: 12px;
     font-family: "Sahel"; }
@@ -817,3 +817,83 @@ ul {
 
 .Bookmarks .starIcon {
   color: #fc0; }
+
+@media only screen and (min-device-width: 1024px) {
+  body {
+    background-image: url(../../../img/Grey-Background.jpg) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important; }
+  .DashboardGrid {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 20px 2vw;
+    grid-template-columns: 1fr 1fr; }
+    .DashboardGrid .matCart {
+      width: 170px;
+      height: 140px;
+      padding: 35px 7px 7px 7px; }
+  .bookmarkIcone, .bookmarkIconeInStore {
+    left: 31vw !important; }
+  .LogoPictureVitrinDesktop {
+    margin-top: 50px !important; } }
+
+@media only screen and (min-width: 1024px) {
+  body {
+    background-image: url(../../../img/Grey-Background.jpg) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important; }
+  .DashboardGrid {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 20px 2vw;
+    grid-template-columns: 1fr 1fr; }
+    .DashboardGrid .matCart {
+      width: 170px;
+      height: 140px;
+      padding: 35px 7px 7px 7px; }
+  .bookmarkIcone, .bookmarkIconeInStore {
+    left: 31vw !important; }
+  .LogoPictureVitrinDesktop {
+    margin-top: 50px !important; } }
+
+@media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
+  body {
+    background-image: url(../../../img/Grey-Background.jpg) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important; }
+  .DashboardGrid {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 20px 2vw;
+    grid-template-columns: 1fr 1fr; }
+    .DashboardGrid .matCart {
+      width: 170px;
+      height: 140px;
+      padding: 35px 7px 7px 7px; }
+  .bookmarkIcone, .bookmarkIconeInStore {
+    left: 22vw !important; } }
+
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
+  body {
+    background-image: url(../../../img/Grey-Background.jpg) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important; }
+  .DashboardGrid {
+    display: grid;
+    grid-template-rows: auto;
+    grid-gap: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 20px 2vw;
+    grid-template-columns: 1fr 1fr; }
+    .DashboardGrid .matCart {
+      width: 170px;
+      height: 140px;
+      padding: 35px 7px 7px 7px; }
+  .bookmarkIcone, .bookmarkIconeInStore {
+    left: 22vw !important; } }
