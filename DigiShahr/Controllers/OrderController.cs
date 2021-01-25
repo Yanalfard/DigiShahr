@@ -12,6 +12,7 @@ namespace DigiShahr.Controllers
     public class OrderController : Controller
     {
         Core _core = new Core();
+
         [HttpPost]
         public async Task<string> AddToCart(int Id)
         {
@@ -45,40 +46,46 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                var Details = _core.OrderDetail.Get().SingleOrDefault(od => od.OrderId == order.Id && od.ProductId == Id);
+                if (order.TblOrderDetails.Count() != 0)
+                {
+                    if (order.TblOrderDetails.FirstOrDefault().Product.StoreId != product.StoreId)
+                    {
+                        return await Task.FromResult("ExitStore");
+                    }
+                    var Details = _core.OrderDetail.Get().SingleOrDefault(od => od.OrderId == order.Id && od.ProductId == Id);
 
-                if (Details == null)
-                {
-                    _core.OrderDetail.Add(new TblOrderDetail()
+                    if (Details == null)
                     {
-                        OrderId = order.Id,
-                        Count = 1,
-                        ProductId = product.Id,
-                    });
-                }
-                else
-                {
-                    if (product.Count >= Details.Count)
-                    {
-                        _core.OrderDetail.Update(Details);
+                        _core.OrderDetail.Add(new TblOrderDetail()
+                        {
+                            OrderId = order.Id,
+                            Count = 1,
+                            ProductId = product.Id,
+                        });
                     }
                     else
                     {
-                        Details.Count += 1;
-                        _core.OrderDetail.Update(Details);
+                        if (product.Count >= Details.Count)
+                        {
+                            _core.OrderDetail.Update(Details);
+                        }
+                        else
+                        {
+                            Details.Count += 1;
+                            _core.OrderDetail.Update(Details);
+                        }
                     }
+                    _core.OrderDetail.Save();
                 }
-                _core.OrderDetail.Save();
             }
             return await Task.FromResult("true");
         }
 
-        public async Task<IActionResult> ShowBasket()
+        public async Task<IActionResult> ShowBasket(string ReturnUrl)
         {
             int userId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
-
             TblOrder order = _core.Order.Get(o => o.UserId == userId && !o.IsFinaly).SingleOrDefault();
-
+            ViewBag.ReturnUrl = ReturnUrl;
             return await Task.FromResult(View(order));
 
         }
@@ -96,6 +103,7 @@ namespace DigiShahr.Controllers
         public async Task<string> Command(int Id, string Command)
         {
             var orderdetail = _core.OrderDetail.GetById(Id);
+            var order = _core.Order.GetById(orderdetail.OrderId);
 
             switch (Command)
             {
@@ -114,15 +122,31 @@ namespace DigiShahr.Controllers
                     }
                 case "down":
                     {
-                        orderdetail.Count -= 1;
-                        if (orderdetail.Count == 0)
+                        if (order.TblOrderDetails.Count() == 1)
                         {
-                            _core.OrderDetail.Delete(orderdetail);
-                            _core.Order.DeleteById(orderdetail.OrderId);
+                            orderdetail.Count -= 1;
+                            if (orderdetail.Count == 0)
+                            {
+                                _core.OrderDetail.Delete(orderdetail);
+                                _core.Order.Delete(order);
+                            }
+                            else
+                            {
+                                _core.OrderDetail.Update(orderdetail);
+                            }
+
                         }
                         else
                         {
-                            _core.OrderDetail.Update(orderdetail);
+                            orderdetail.Count -= 1;
+                            if (orderdetail.Count == 0)
+                            {
+                                _core.OrderDetail.Delete(orderdetail);
+                            }
+                            else
+                            {
+                                _core.OrderDetail.Update(orderdetail);
+                            }
                         }
                         break;
                     }
@@ -132,20 +156,23 @@ namespace DigiShahr.Controllers
             return await Task.FromResult("true");
         }
 
-        public async Task<IActionResult> Final(int Id)
+        public async Task<string> Final(int Id)
         {
             TblOrder order = _core.Order.GetById(Id);
             order.IsFinaly = true;
             _core.Order.Save();
-            return await Task.FromResult(Redirect("/Order/Success"));
+            return await Task.FromResult("true");
         }
 
-        public async Task<IActionResult> Success()
+        public async Task<IActionResult> Deliver(int Id)
         {
-            return await Task.FromResult(View());
+            TblOrder order = _core.Order.GetById(Id);
+            ViewBag.Id = Id;
+            ViewBag.StoreId = order.StoreId;
+            return await Task.FromResult(View(_core.User.GetById(order.UserId)));
         }
 
-        public async Task<IActionResult> Deliver()
+        public async Task<IActionResult> Success(int Id)
         {
             return await Task.FromResult(View());
         }

@@ -1,16 +1,23 @@
-﻿
+﻿@model DataLayer.Models.TblUser
+
+@ViewBag.Id
+@ViewBag.StoreId
+
 @{
     ViewData["Title"] = "تایید تحویل";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 <link href="~/StyleCenter/Sass/Home/Bascket.min.css" rel="stylesheet" />
+
+
+
 <div>
     <div class="my-space"></div>
     <div class="rateForStore">
-        <div class="matCart center my-column my-clipped uk-margin-auto-vertical"> 
+        <div class="matCart center my-column my-clipped uk-margin-auto-vertical">
             <div class="logoPlace center">
-                 <img src="~/img/Store/logo-defult.png" width="100"/>
+                <img src="~/img/Store/logo-defult.png" width="100" />
             </div>
             <div class="center">
                 <div class="rate uk-margin-top">

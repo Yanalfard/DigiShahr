@@ -10,14 +10,14 @@
     <div class="matCart my-column my-clipped">
         <div class="formTitr my-row uk-margin-top" dir="rtl">
             <h3 class="center">سبد خرید</h3>
-            <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+            <a href="@ViewBag.ReturnUrl"><span class="icon-holder" uk-icon="backIcon"></span></a>
         </div>
         <div class="my-column cart-section uk-padding-small" dir="rtl">
             @foreach (var item in Model.TblOrderDetails)
             {
                 <div class="my-row ShoppingList" dir="rtl">
                     <label>@item.Product.Name</label>
-                    <label class="uk-text-danger">@((item.Product.Price*item.Product.Count).ToString("#,0 تومان"))</label>
+                    <label class="uk-text-danger">@((item.Product.Price).ToString("#,0 تومان"))</label>
                     <div class="Count">
                         <a onclick="UpProduct(@item.Id)"><span class="icon-holder uk-margin-small-left" uk-icon="add"></span></a>
                         <span>@item.Count</span>
@@ -36,19 +36,23 @@
                     }
                     @if (Model.Store.Ability.TahvilVaTasvieDarForushgah == 1)
                     {
-                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery" checked> تحویل و تسویه در محل فروشگاه</label>
+                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery"> تحویل و تسویه در محل فروشگاه</label>
                     }
                 </div>
             </div>
             <hr class="uk-divider-icon uk-margin-remove-top" />
             <input id="Discount" class="uk-input uk-border-rounded" type="text" placeholder="کد تخفیف (در صورت وجود)..">
-            <label class="uk-text-danger center uk-margin-top">قیمت مجموع سفارشات: <span>@Model.Price.ToString("#,0 ") هزار تومان</span></label>
+            @{
+               int c = (int)(Model.TblOrderDetails.Sum(i => i.Product.Price)) * (int)(Model.TblOrderDetails.Sum(j => j.Count)); 
+
+            }
+            <label class="uk-text-danger center uk-margin-top">قیمت مجموع سفارشات: <span>@c.ToString("#,0") تومان</span></label>
             <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل سفارش و ارسال برای فروشنده</button>
             <script>
                 function Final(Id) {
                     $.post("/Order/Final?Id=" + Id, function (result) {
                         if (result == "true") {
-                            window.location.href = "";
+                            window.location.href = "/Order/Deliver/" + Id;
                         }
                     });
                 }
@@ -63,7 +67,7 @@ else
     <div class="matCart my-column my-clipped">
         <div class="formTitr my-row uk-margin-top" dir="rtl">
             <h3 class="center">سبد خرید</h3>
-            <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+            <a href="@ViewBag.ReturnUrl"><span class="icon-holder" uk-icon="backIcon"></span></a>
         </div>
         <div class="my-column cart-section uk-padding-small" dir="rtl">
 
