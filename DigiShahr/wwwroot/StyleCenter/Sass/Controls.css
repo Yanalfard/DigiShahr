@@ -415,14 +415,101 @@ body {
   transform: rotate(270deg);
   display: inline-block; }
 
-/*@media only screen and (min-width : 500px)and (max-width :800px) {
-    .my-clipped {
-        width: 70vw !important;
-    }
-}
+.uk-notification-message {
+  opacity: 1;
+  position: relative;
+  padding: 15px;
+  background: #e04f4f !important;
+  color: #fff !important;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  cursor: pointer;
+  border-radius: 8px !important;
+  margin-top: 65px !important;
+  font-family: 'Sahel';
+  overflow: hidden;
+  text-align: center; }
 
-@media only screen and (min-device-width : 500px)and (max-device-width :800px) {
-    .my-clipped {
-        width: 70vw !important;
-    }
-}*/
+@media only screen and (min-device-width: 1024px) {
+  .my-clipped-desktop {
+    width: 45vw !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+    .layoutHeader .mat .uk-iconnav .uk-icon {
+      padding-right: 20px !important; }
+  .backIconDesktop {
+    display: none !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 37vw !important; }
+  .BannerPlace .absolute-right {
+    right: 30vw !important; } }
+
+@media only screen and (min-width: 1024px) {
+  .my-clipped-desktop {
+    width: 45vw !important; }
+  .backIconDesktop {
+    display: none !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .layoutHeader .uk-iconnav .uk-icon {
+    padding-right: 20px !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 37vw !important; }
+  .BannerPlace .absolute-right {
+    right: 30vw !important; } }
+
+@media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
+  .my-clipped-desktop {
+    width: 65vw !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+    .layoutHeader .mat .uk-iconnav .uk-icon {
+      padding-right: 20px !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 50vw !important; }
+  .BannerPlace .absolute-right {
+    right: 22vw !important; } }
+
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
+  .my-clipped-desktop {
+    width: 65vw !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .layoutHeader .uk-iconnav .uk-icon {
+    padding-right: 20px !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 50vw !important; }
+  .BannerPlace .absolute-right {
+    right: 22vw !important; } }

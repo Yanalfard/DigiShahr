@@ -176,7 +176,7 @@ ul {
     //background: #F28F3B;
 
     .absolute-right {
-        right: 17vw;
+        right: 10vw;
     }
 
     h3 {
@@ -818,3 +818,117 @@ $checked-color: #fc0;
     }
 }
 ///end///
+/////////////desktop/////////////////
+@media only screen and (min-device-width : 1024px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+    .DashboardGrid {
+
+        @include grid-gap(200px,2em);
+        padding: 20px 2vw;
+        grid-template-columns: 1fr 1fr;
+
+        .matCart {
+            width: 170px;
+            height: 140px;
+            padding: 35px 7px 7px 7px;
+        }
+    }
+    .bookmarkIcone, .bookmarkIconeInStore {
+        left: 31vw!important;
+    }
+    .LogoPictureVitrinDesktop{
+        margin-top:50px!important;
+    }
+}
+
+@media only screen and (min-width : 1024px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+    .DashboardGrid {
+
+        @include grid-gap(200px,2em);
+        padding: 20px 2vw;
+        grid-template-columns: 1fr 1fr;
+
+        .matCart {
+            width: 170px;
+            height: 140px;
+            padding:35px 7px 7px 7px;
+        }
+    }
+    .bookmarkIcone, .bookmarkIconeInStore {
+        left: 31vw!important;
+    }
+    .LogoPictureVitrinDesktop {
+        margin-top: 50px!important;
+    }
+}
+
+/////////////end desktop/////////////////
+/////////////tablet/////////////////
+@media only screen and (min-device-width : 600px) and (max-device-width :1024px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+
+    .DashboardGrid {
+
+        @include grid-gap(200px,2em);
+        padding: 20px 2vw;
+        grid-template-columns: 1fr 1fr;
+
+        .matCart {
+            width: 170px;
+            height: 140px;
+            padding: 35px 7px 7px 7px;
+        }
+    }
+
+    .bookmarkIcone, .bookmarkIconeInStore {
+        left: 22vw !important;
+    }
+}
+
+@media only screen and (min-width : 600px) and (max-width :1024px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+
+    .DashboardGrid {
+
+        @include grid-gap(200px,2em);
+        padding: 20px 2vw;
+        grid-template-columns: 1fr 1fr;
+
+        .matCart {
+            width: 170px;
+            height: 140px;
+            padding: 35px 7px 7px 7px;
+        }
+    }
+
+    .bookmarkIcone, .bookmarkIconeInStore {
+        left: 22vw !important;
+    }
+}
+
+/////////////end tablet/////////////////
