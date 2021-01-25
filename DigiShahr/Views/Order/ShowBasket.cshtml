@@ -7,17 +7,17 @@
 @if (Model != null)
 {
     <div class="my-space"></div>
-    <div class="matCart my-column my-clipped">
+    <div class="matCart my-column my-clipped my-clipped-desktop">
         <div class="formTitr my-row uk-margin-top" dir="rtl">
             <h3 class="center">سبد خرید</h3>
-            <a href="@ViewBag.ReturnUrl"><span class="icon-holder" uk-icon="backIcon"></span></a>
+            <a href="@ViewBag.ReturnUrl"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
         </div>
         <div class="my-column cart-section uk-padding-small" dir="rtl">
             @foreach (var item in Model.TblOrderDetails)
             {
                 <div class="my-row ShoppingList" dir="rtl">
                     <label>@item.Product.Name</label>
-                    <label class="uk-text-danger">@((item.Product.Price).ToString("#,0 تومان"))</label>
+                    <label class="uk-text-success">@((item.Product.Price).ToString("#,0 تومان"))</label>
                     <div class="Count">
                         <a onclick="UpProduct(@item.Id)"><span class="icon-holder uk-margin-small-left" uk-icon="add"></span></a>
                         <span>@item.Count</span>
@@ -46,13 +46,13 @@
                int c = (int)(Model.TblOrderDetails.Sum(i => i.Product.Price)) * (int)(Model.TblOrderDetails.Sum(j => j.Count)); 
 
             }
-            <label class="uk-text-danger center uk-margin-top">قیمت مجموع سفارشات: <span>@c.ToString("#,0") تومان</span></label>
-            <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل سفارش و ارسال برای فروشنده</button>
+            <label class="uk-text-success center uk-margin-top">قیمت مجموع سفارشات: <span>@c.ToString("#,0") تومان</span></label>
+            <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل و ثبت سفارش </button>
             <script>
                 function Final(Id) {
                     $.post("/Order/Final?Id=" + Id, function (result) {
                         if (result == "true") {
-                            window.location.href = "/Order/Deliver/" + Id;
+                            window.location.href = "/Order/Success/" + Id;
                         }
                     });
                 }
@@ -64,10 +64,10 @@
 else
 {
     <div class="my-space"></div>
-    <div class="matCart my-column my-clipped">
+    <div class="matCart my-column my-clipped my-clipped-desktop">
         <div class="formTitr my-row uk-margin-top" dir="rtl">
             <h3 class="center">سبد خرید</h3>
-            <a href="@ViewBag.ReturnUrl"><span class="icon-holder" uk-icon="backIcon"></span></a>
+            <a href="@ViewBag.ReturnUrl"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
         </div>
         <div class="my-column cart-section uk-padding-small" dir="rtl">
 

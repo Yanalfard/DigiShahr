@@ -166,15 +166,15 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> Deliver(int Id)
         {
-            TblOrder order = _core.Order.GetById(Id);
-            ViewBag.Id = Id;
-            ViewBag.StoreId = order.StoreId;
-            return await Task.FromResult(View(_core.User.GetById(order.UserId)));
+            return await Task.FromResult(View());   
         }
 
         public async Task<IActionResult> Success(int Id)
         {
-            return await Task.FromResult(View());
+            TblOrder order = _core.Order.GetById(Id);
+            ViewBag.Id = Id;
+            ViewBag.StoreId = order.StoreId;
+            return await Task.FromResult(View(_core.User.GetById(order.UserId)));
         }
 
         protected override void Dispose(bool disposing)

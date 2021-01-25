@@ -1,22 +1,30 @@
-﻿@model DataLayer.Models.TblOrder
+﻿@model DataLayer.Models.TblUser
+
+@*@ViewBag.Id
+@ViewBag.StoreId*@
+
 @{
     ViewData["Title"] = "سفارش برای فروشنده ارسال شد";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 <link href="~/StyleCenter/Sass/Home/Bascket.min.css" rel="stylesheet" />
-
 <div class="my-space"></div>
-<div class="matCart my-column my-clipped">
+<div class="matCart my-column my-clipped my-clipped-desktop">
 
     @*send to store and timer section*@
 
-    <!--<div class="formTitr my-row uk-margin-top" dir="rtl">
-        <h3 class="center">ارسال به فروشنده</h3>
-        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
-    </div>-->
-    @*<img class="center" src="~/img/user/confirm.gif" width="220" height="220" />*@
-    <!--<div class="center uk-margin-large-top uk-margin-bottom">
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">تکمیل سفارش</h3>
+        <a><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+    </div>
+    <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+        <label class="horizontalCenter uk-margin-small-bottom"><span class="icon-holder uk-text-danger" uk-icon="location"></span>آدرس خود را تایید کنید:</label>
+        <label class="horizontalCenter uk-margin-small-bottom">خیابان فلان کوچه فلان پلاک 95</label>
+        <a class="center gradientButtonLink ">تایید و ارسال برای فروشنده</a>
+    </div>
+
+    <div class="center uk-margin-large-top uk-margin-bottom">
         <div class="timer">
             <div id="app"></div>
         </div>
@@ -24,15 +32,11 @@
 
     <h3 class="successText center">
         لیست سفارشات شما با موفقیت برای فروشنده ارسال شد لطفا تا پایان <span> 120 ثانیه </span>منتظر تایید فروشنده بمانید
-    </h3>-->
+    </h3>
     @*end send to store and timer section**@
     @*success report*@
-    <div class="formTitr my-row uk-margin-top" dir="rtl">
-       @* <h3 class="center">تایید سفارش</h3>*@
-        @*if order rejected*@
-        <h3 class="center">رد سفارش</h3>
-        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
-    </div>
+
+
     <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
         <label class="horizontalCenter uk-margin-small-bottom">تایید فروشگاه <span class="icon-holder uk-text-success uk-margin-xlarge-right" uk-icon="checkmark"></span></label>
         <label class="horizontalCenter uk-margin-small-bottom">رد توسط فروشگاه <span class="icon-holder uk-text-danger uk-margin-xlarge-right" uk-icon="close"></span></label>
@@ -46,7 +50,7 @@
     <div class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
         <div class="my-row ShoppingList uk-text-bold " dir="rtl">
             <label>نام محصول</label>
-            <label class="uk-text-danger">قیمت(تومان)</label>
+            <label class="uk-text-success">قیمت(تومان)</label>
             <div class="Count">
                 <span>تعداد</span>
             </div>
@@ -54,7 +58,7 @@
         <hr />
         <div class="my-row ShoppingList" dir="rtl">
             <label>نام محصول</label>
-            <label class="uk-text-danger">452453</label>
+            <label class="uk-text-success">452453</label>
             <div class="Count">
                 <span>12</span>
             </div>
@@ -62,7 +66,7 @@
         <hr />
         <div class="my-row ShoppingList" dir="rtl">
             <label>نام محصول</label>
-            <label class="uk-text-danger">453453</label>
+            <label class="uk-text-success">453453</label>
             <div class="Count">
                 <span>5</span>
             </div>
@@ -70,7 +74,7 @@
         <hr />
         <div class="my-row ShoppingList" dir="rtl">
             <label>نام محصول</label>
-            <label class="uk-text-danger">86785</label>
+            <label class="uk-text-success">86785</label>
             <div class="Count">
                 <span>3</span>
             </div>
