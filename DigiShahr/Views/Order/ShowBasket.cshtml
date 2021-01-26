@@ -13,6 +13,12 @@
             <a href="@ViewBag.ReturnUrl"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
         </div>
         <div class="my-column cart-section uk-padding-small" dir="rtl">
+            @*my-previous-orders*@
+            <div class="matCart my-row center successMessage" dir="rtl">
+                <img class="uk-margin-auto-left" src="~/img/user/List.svg" width="100" />
+                <a href="/User/UserOrder" class="previousOrders gradientButtonLink uk-margin-auto-right uk-margin-top">سفارشات قبلی</a>
+            </div>
+            <hr class="uk-divider-icon" />
             @foreach (var item in Model.TblOrderDetails)
             {
                 <div class="my-row ShoppingList" dir="rtl">
@@ -43,7 +49,7 @@
             <hr class="uk-divider-icon uk-margin-remove-top" />
             <input id="Discount" class="uk-input uk-border-rounded" type="text" placeholder="کد تخفیف (در صورت وجود)..">
             @{
-               int c = (int)(Model.TblOrderDetails.Sum(i => i.Product.Price)) * (int)(Model.TblOrderDetails.Sum(j => j.Count)); 
+                int c = (int)(Model.TblOrderDetails.Sum(i => i.Product.Price)) * (int)(Model.TblOrderDetails.Sum(j => j.Count));
 
             }
             <label class="uk-text-success center uk-margin-top">قیمت مجموع سفارشات: <span>@c.ToString("#,0") تومان</span></label>
@@ -70,7 +76,11 @@ else
             <a href="@ViewBag.ReturnUrl"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
         </div>
         <div class="my-column cart-section uk-padding-small" dir="rtl">
-
+            @*my-previous-orders*@
+            <div class="matCart my-row center uk-margin-bottom successMessage" dir="rtl">
+                <img class="uk-margin-auto-left" src="~/img/user/List.svg" width="100" />
+                <a href="/User/UserOrder" class="previousOrders gradientButtonLink uk-margin-auto-right uk-margin-top">سفارشات قبلی</a>
+            </div>
             <div class="my-row ShoppingList" dir="rtl">
                 <label></label>
                 <label class="uk-text-danger">سبد خرید شما خالی است</label>

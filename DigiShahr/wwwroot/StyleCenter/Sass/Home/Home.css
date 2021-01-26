@@ -499,3 +499,11 @@
     background-image: url(../../../img/Grey-Background.jpg) !important;
     background-size: cover !important;
     background-repeat: no-repeat !important; } }
+
+@media only screen and (min-device-width: 600px) {
+  .index {
+    height: 100vh; } }
+
+@media only screen and (min-width: 600px) {
+  .index {
+    height: 100vh; } }
