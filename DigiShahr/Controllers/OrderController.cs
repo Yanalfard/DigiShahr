@@ -111,7 +111,7 @@ namespace DigiShahr.Controllers
                     {
                         if (orderdetail.Count >= orderdetail.Product.Count)
                         {
-                            break;
+                            return "این کالا بیشتر از این تعداد موجود نمیباشد";
                         }
                         else
                         {
@@ -152,14 +152,6 @@ namespace DigiShahr.Controllers
                     }
             }
             _core.OrderDetail.Save();
-            _core.Order.Save();
-            return await Task.FromResult("true");
-        }
-
-        public async Task<string> Final(int Id)
-        {
-            TblOrder order = _core.Order.GetById(Id);
-            order.IsFinaly = true;
             _core.Order.Save();
             return await Task.FromResult("true");
         }

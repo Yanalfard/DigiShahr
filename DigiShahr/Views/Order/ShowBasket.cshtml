@@ -89,6 +89,8 @@ else
         $.post("/Order/Command?Id=" + Id + "&Command=up", function (result) {
             if (result == "true") {
                 window.location.reload();
+            } else {
+                UIkit.notification({ message: result });
             }
         });
     }
