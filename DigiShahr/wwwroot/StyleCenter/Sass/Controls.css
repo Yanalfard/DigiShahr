@@ -379,7 +379,7 @@ body {
 .CartNotif .badge {
   z-index: 100;
   position: absolute;
-  margin-left: 15px;
+  margin-left: 12px;
   padding: 7px 5px;
   /**/
   /*  width: 8px;

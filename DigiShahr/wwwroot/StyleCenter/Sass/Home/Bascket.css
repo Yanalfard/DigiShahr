@@ -105,6 +105,8 @@ body {
   .successMessage .gradientButtonLink {
     width: 197px;
     padding: 5px 0; }
+  .successMessage .previousOrders {
+    width: 100px !important; }
 
 .successText {
   font-family: "Sahel" !important;
