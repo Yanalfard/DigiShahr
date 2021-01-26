@@ -10,6 +10,7 @@
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/DataPicker/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
+    <link href="~/StyleCenter/Tools/Load.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -21,17 +22,17 @@
                 {
                     if (User.Claims.First().Value == "d7tpmTdwXL")
                     {
-                        <li><a class="icon-holder" uk-icon="addStore" href="/Store/CreateStore"></a></li>
+                        <li><a class="icon-holder i" uk-icon="addStore" href="/Store/CreateStore"></a></li>
                     }
-                    <li><a class="icon-holder" uk-icon="bookmark" href="/Bookmark"></a></li>
+                    <li><a class="icon-holder i" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
                 }
                 else
                 {
                     <li><a href="/Account/CreateAccount?RetunUrl=@Context.Request.Host@Context.Request.Path" class="icon-holder" uk-icon="person-add"></a></li>
-                    <li><a class="icon-holder" href="/Store/CreateStore" uk-icon="addStore"></a></li>
-                    <li><a class="icon-holder" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
+                    <li><a class="icon-holder i" href="/Store/CreateStore" uk-icon="addStore"></a></li>
+                    <li><a class="icon-holder i" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
                 }
-                <li><a class="icon-holder" uk-icon="notifications" href="/Home/NotificationNewOrder"></a></li>
+                <li><a class="icon-holder i" uk-icon="notifications" href="/Home/NotificationNewOrder"></a></li>
             </ul>
             <span class="icon-holder uk-margin-auto-left" uk-icon="reorder-four" uk-toggle="target: #offcanvas-flip"></span>
         </div>
@@ -56,39 +57,45 @@
             <ul class="uk-iconnav">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a href="/Order/ShowBasket?ReturnUrl=@Context.Request.Host@Context.Request.Path" class="icon-holder CartNotif" uk-icon="cart"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">@await Component.InvokeAsync("CartCount", User.Claims.Last().Value)</span></a></li>
+                    <li><a href="/Order/ShowBasket?ReturnUrl=@Context.Request.Host@Context.Request.Path" class="icon-holder CartNotif i" uk-icon="cart"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">@await Component.InvokeAsync("CartCount", User.Claims.Last().Value)</span></a></li>
                 }
                 else
                 {
-                    <li><a href="/Account/Login" class="icon-holder CartNotif" uk-icon="cart"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">0</span></a></li>
+                    <li><a href="/Account/Login" class="icon-holder CartNotif i" uk-icon="cart"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">0</span></a></li>
                 }
-                <li><a href="/" class="icon-holder" uk-icon="home"></a></li>
+                <li><a href="/" class="icon-holder i" uk-icon="home"></a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
                     @if (User.Claims.First().Value == "8f32nFmU6m")
                     {
-                        <li><a class="icon-holder" uk-icon="changeAccount" href="/Store"></a></li>
+                        <li><a class="icon-holder i" uk-icon="changeAccount" href="/Store"></a></li>
                     }
                     else if (User.Claims.First().Value == "d7tpmTdwXL")
                     {
-                        <li><a class="icon-holder" uk-icon="changeAccount" href="/Store/BuyPackage"></a></li>
+                        <li><a class="icon-holder i" uk-icon="changeAccount" href="/Store/BuyPackage"></a></li>
                     }
                 }
                 else
                 {
-                    <li><a class="icon-holder" uk-icon="changeAccount" href="/Store/BuyPackage"></a></li>
+                    <li><a class="icon-holder i" uk-icon="changeAccount" href="/Store/BuyPackage"></a></li>
                 }
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a class="icon-holder" uk-icon="person" href="/User/UserSetting"></a></li>
+                    <li><a class="icon-holder i" uk-icon="person" href="/User/UserSetting"></a></li>
                 }
                 else
                 {
-                    <li><a class="icon-holder" uk-icon="person" href="/Account/Login"></a></li>
+                    <li><a class="icon-holder i" uk-icon="person" href="/Account/Login"></a></li>
                 }
             </ul>
         </div>
     </section>
+    <!-- #Loading -->
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
 </body>
 </html>
 
@@ -104,6 +111,12 @@
 <script src="~/UIKit/js/uikit.min.js"></script>
 <script src="/icons/uikit-icons.js"></script>
 <script src="/ScriptCenter/DatePicker/jquery.md.bootstrap.datetimepicker.js"></script>
+
+<script>
+    $(".i").click(function () {
+        $("#overlay").fadeIn(300);
+    });
+</script>
 
 
 @RenderSection("Script", false)

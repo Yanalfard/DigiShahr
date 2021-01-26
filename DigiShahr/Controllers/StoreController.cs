@@ -60,15 +60,24 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o=>o.IsFinaly), 20, page);
+                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly), 20, page);
                     return View(Order);
                 }
             }
         }
 
-        public IActionResult OrderInfo(int Id)
+        public async Task<IActionResult> OrderInfo(int Id)
         {
-            return ViewComponent("OrderInfoInStore", new { Id = Id });
+            return await Task.FromResult(ViewComponent("OrderInfoInStore", new { Id = Id }));
+        }
+
+        public async Task<string> OrderDeliver(int Id)
+        {
+            TblOrder order = _core.Order.GetById(Id);
+            order.IsDelivered = true;
+            _core.Order.Update(order);
+            _core.Order.Save();
+            return await Task.FromResult("true");
         }
 
         public IActionResult BuyPackage()
@@ -1002,7 +1011,7 @@ namespace DigiShahr.Controllers
         public async Task<string> CreateProduct(TblProduct Product)
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-            int ProductCount = _core.Product.Get(p=>p.StoreId==user.TblStores.First().Id).Count();
+            int ProductCount = _core.Product.Get(p => p.StoreId == user.TblStores.First().Id).Count();
             if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().ProductLimit <= ProductCount)
             {
                 return await Task.FromResult("SubscribtionTillErorr");

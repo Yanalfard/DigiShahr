@@ -18,6 +18,7 @@
                     <th>نام مشتری</th>
                     <th>محله </th>
                     <th>جزییات</th>
+                    <th>تایید سفارش</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +33,11 @@
                     <tr>
                         <td>@item.User.Name</td>
                         <td>@item.User.Naighborhood.Name</td>
-                        <td><a onclick="OrderInfo(@item.Id)" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
+                        <td><a href="#orderInfo" onclick="OrderInfo(@item.Id)" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
+                        @if (!item.IsDelivered)
+                        {
+                            <td><a onclick="OrderSuccess(@item.Id)"><span class="icon-holder infoIcon" uk-icon="checkmark-outline"></span></a></td>
+                        }
                     </tr>
                 }
             </tbody>
@@ -43,17 +48,27 @@
     @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
 </nav>
 <div class="my-space"></div>
-<div id="OrderInfo" class="modal-sections" uk-modal>
+<div id="orderInfo" class="modal-sections" uk-modal>
 
 </div>
 
 @section Script{
+
     <script>
         function OrderInfo(Id) {
             $.get("/Store/OrderInfo?Id=" + Id, function (result) {
-                $("#OrderInfo").html(result);
+                $("#orderInfo").html(result);
             });
         }
+
+        function OrderSuccess(Id) {
+            $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+
     </script>
 }
 

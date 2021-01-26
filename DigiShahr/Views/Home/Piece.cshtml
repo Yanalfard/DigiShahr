@@ -31,24 +31,11 @@
         <div class="center LogoPictureInStore">
             <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl" />
         </div>
-        @*@if (Model.Ability.TahvilVaTasvieDarMahal == 1)
-            {
-                <label class="deliveryState">
-                    تحویل و تسویه درب منزل
-                </label>
-            }
-            @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
-            {
-                <label class="deliveryState">
-                    تحویل و تسویه درب فروشگاه
-                </label>
-            }*@
-
     </div>
     <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
         <div class="center uk-margin-auto-vertical uk-padding-small uk-text-right my-column">
             <a class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
-            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">نام فروشگاه</label>
+            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Name</label>
             @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
             {
                 <label class="uk-margin-small-top">تحویل و تسویه درب فروشگاه<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="storefront"></span></label>
@@ -109,7 +96,7 @@
                             @if (item.Discount != 0)
                             {
                                 <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
-                                
+
                                 <label>@(item.Price - item.Price * item.Discount / 100)<span>تومان</span></label>
                             }
                             else
@@ -131,7 +118,7 @@
                     {
                         @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Id)
                         {
-                <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
+                            <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
                         }
                         else
                         {
@@ -140,7 +127,7 @@
                     }
                     else
                     {
-                <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                        <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
                     }
                 </div>
             </div>
@@ -161,11 +148,12 @@
 @section Script{
     <script>
         function AddToCart(Id) {
+            $("#overlay").fadeIn(300);
             $.post("/Order/AddToCart?Id=" + Id, function (result) {
                 if (result == "true") {
                     window.location.reload();
                 } else if (result == "ExitStore") {
-                    UIkit.notification({ message: 'برای خرید از فروشگاه دیگر، ابتدا خرید از فروشگاه فعلی را تکمیل نمایید'});
+                    UIkit.notification({ message: 'برای خرید از فروشگاه دیگر، ابتدا خرید از فروشگاه فعلی را تکمیل نمایید' });
                 }
             });
         }

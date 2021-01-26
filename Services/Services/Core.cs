@@ -25,6 +25,7 @@ namespace Services.Services
         private MainRepo<TblStoreCatagory> _storeCatagory;
         private MainRepo<TblDealOrder> _dealOrder;
         private MainRepo<TblMusic> _music;
+        private MainRepo<TblBookMark> _bookmark;
 
         public MainRepo<TblDeal> Deal => _deal ??= new MainRepo<TblDeal>(_context);
         public MainRepo<TblAbility> Ability => _ability ??= new MainRepo<TblAbility>(_context);
@@ -41,6 +42,7 @@ namespace Services.Services
         public MainRepo<TblStoreCatagory> StoreCatagory => _storeCatagory ??= new MainRepo<TblStoreCatagory>(_context);
         public MainRepo<TblDealOrder> DealOrder => _dealOrder ??= new MainRepo<TblDealOrder>(_context);
         public MainRepo<TblMusic> Music => _music ??= new MainRepo<TblMusic>(_context);
+        public MainRepo<TblBookMark> Bookmark => _bookmark ??= new MainRepo<TblBookMark>(_context);
 
         public void Dispose()
         {

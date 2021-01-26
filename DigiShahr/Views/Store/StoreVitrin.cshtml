@@ -283,28 +283,34 @@
 
 
         $("#AddProductPapaer").click(function () {
+            $("#overlay").fadeIn(300);
             $.get("/Store/AddProduct/@Model.Id", function (result) {
+                $("#overlay").fadeOut(300);
                 $(".uk-modal-dialog").html(result);
             });
         });
 
         $("#CreateDiscount").submit(function (e) {
             e.preventDefault();
+            $("#overlay").fadeIn(300);
             var data = $(this).serializeArray();
             $.post("/Store/CreateDiscount", data, function (result) {
                 if (result == "true") {
                     window.location.reload();
                 } else {
+                    $("#overlay").fadeOut(300);
                     $("#CreateDiscountErorr").html(result);
                 }
             });
         });
 
         function ChangeCategory(Id) {
+            $("#overlay").fadeIn(300);
             $.post("/Store/ChangeCategory?Id=" + Id + "&Name=" + $("#Category-" + Id).val(), function (result) {
                 if (result == "true") {
                     window.location.reload();
                 } else {
+                    $("#overlay").fadeOut(300);
                     $("#CreateCategoryErorr").html(result);
                 }
             });

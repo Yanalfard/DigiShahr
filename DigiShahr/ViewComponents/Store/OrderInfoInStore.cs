@@ -13,7 +13,7 @@ namespace DigiShahr.ViewComponents.Store
 
         public async Task<IViewComponentResult> InvokeAsync(int Id)
         {
-            return await Task.FromResult((IViewComponentResult)View("/Views/Store/Components/OrderInfo",_core.Order.GetById(Id)));
+            return await Task.FromResult((IViewComponentResult)View("/Views/Store/Components/OrderInfo.cshtml",_core.Order.GetById(Id)));
         }
     }
 }

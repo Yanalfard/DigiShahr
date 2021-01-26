@@ -62,7 +62,32 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> UserOrder()
         {
-            return await Task.FromResult(View());
+            return await Task.FromResult(View(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id)));
+        }
+
+        public async Task<IActionResult> OrderInfo(int Id)
+        {
+            return await Task.FromResult(ViewComponent("UserOrderInfo", new { Id = Id }));
+        }
+
+        [HttpPost]
+        public async Task<string> ChangeBookMark(int StoreId, int UserId)
+        {
+            if (_core.Bookmark.Get().Any(b => b.StoreId == StoreId && b.UserId == UserId))
+            {
+                _core.Bookmark.DeleteById(_core.Bookmark.Get(b => b.StoreId == StoreId && b.UserId == UserId).Single().Id);
+                _core.Bookmark.Save();
+                return await Task.FromResult("true");
+            }
+            else
+            {
+                TblBookMark NewBookmark = new TblBookMark();
+                NewBookmark.StoreId = StoreId;
+                NewBookmark.UserId = UserId;
+                _core.Bookmark.Add(NewBookmark);
+                _core.Bookmark.Save();
+                return await Task.FromResult("true");
+            }
         }
 
         public async Task<string> ChangeUserPassword(ChangePasswordInSignIn changePasswordInSignIn)

@@ -86,6 +86,7 @@ else
 
 <script id="Command">
     function UpProduct(Id) {
+        $("#overlay").fadeIn(300);
         $.post("/Order/Command?Id=" + Id + "&Command=up", function (result) {
             if (result == "true") {
                 window.location.reload();
@@ -95,6 +96,7 @@ else
         });
     }
     function DownProduct(Id) {
+        $("#overlay").fadeIn(300);
         $.post("/Order/Command?Id=" + Id + "&Command=down", function (result) {
             if (result == "true") {
                 window.location.reload();
