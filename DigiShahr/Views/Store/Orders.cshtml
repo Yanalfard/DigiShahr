@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataLayer.ViewModel.CustomizeOrdersViewModel>
+﻿@model IEnumerable< DataLayer.Models.TblOrder>
 @{
     ViewData["Title"] = "Orders";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -31,12 +31,12 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.Order.User.Name</td>
-                        <td>@item.Order.User.Naighborhood.Name</td>
-                        <td><a href="#orderInfo" onclick="OrderInfo(@item.Order.Id)" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
-                        @if (!item.Order.IsDelivered)
+                        <td>@item.User.Name</td>
+                        <td>@item.User.Naighborhood.Name</td>
+                        <td><a href="#orderInfo" onclick="OrderInfo(@item.Id)" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
+                        @if (!item.IsDelivered)
                         {
-                            <td><a onclick="OrderSuccess(@item.Order.Id)"><span class="icon-holder infoIcon" uk-icon="checkmark-outline"></span></a></td>
+                            <td><a onclick="OrderSuccess(@item.Id)"><span class="icon-holder infoIcon" uk-icon="checkmark-outline"></span></a></td>
                         }
                     </tr>
                 }
