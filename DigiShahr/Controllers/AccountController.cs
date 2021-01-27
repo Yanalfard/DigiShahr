@@ -174,7 +174,7 @@ namespace DigiShahr.Controllers
                 if (await UserCrew.UserIsExist(loginViewModel))
                 {
                     await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
-                    return Redirect(RetunUrl);
+                    return Redirect("/");
                 }
                 else
                 {

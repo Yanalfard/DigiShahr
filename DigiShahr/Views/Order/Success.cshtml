@@ -1,7 +1,4 @@
-﻿@model DataLayer.Models.TblUser
-
-@*@ViewBag.Id
-@ViewBag.StoreId*@
+﻿@model DataLayer.Models.TblOrder
 
 @{
     ViewData["Title"] = "سفارش برای فروشنده ارسال شد";
@@ -12,29 +9,58 @@
 <div class="my-space"></div>
 <div class="matCart my-column my-clipped my-clipped-desktop">
 
-    @*send to store and timer section*@
+    @if (!Model.IsFinaly)
+    {
+        @*send to store and timer section*@
 
-    <div class="formTitr my-row uk-margin-top" dir="rtl">
-        <h3 class="center">تکمیل سفارش</h3>
-        <a><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
-    </div>
-    <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
-        <label class="horizontalCenter uk-margin-small-bottom"><span class="icon-holder uk-text-danger" uk-icon="location"></span>آدرس خود را تایید کنید:</label>
-        <label class="horizontalCenter uk-margin-small-bottom">خیابان فلان کوچه فلان پلاک 95</label>
-        <a class="center gradientButtonLink ">تایید و ارسال برای فروشنده</a>
-    </div>
-
-    <div class="center uk-margin-large-top uk-margin-bottom">
-        <div class="timer">
-            <div id="app"></div>
+        <div class="formTitr my-row uk-margin-top" dir="rtl">
+            <h3 class="center">تکمیل سفارش</h3>
+            <a href="/Order/ShowBasket"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
         </div>
-    </div>
+        <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+            <label class="horizontalCenter uk-margin-small-bottom"><span class="icon-holder uk-text-danger" uk-icon="location"></span>آدرس خود را تایید کنید:</label>
+            <label class="horizontalCenter uk-margin-small-bottom">@Model.User.Address</label>
+            <a class="center gradientButtonLink" onclick="FinalOrder(@Model.Id)">تایید و ارسال برای فروشنده</a>
+            <script>
+                function FinalOrder(Id) {
+                    $("#overlay").fadeIn(300);
+                    $.post("/Order/Final?Id=" + Id, function (result) {
+                        if (result == "true") {
+                            window.location.reload();
+                        }
+                    });
+                }
+            </script>
+        </div>
 
-    <h3 class="successText center">
-        لیست سفارشات شما با موفقیت برای فروشنده ارسال شد لطفا تا پایان <span> 120 ثانیه </span>منتظر تایید فروشنده بمانید
-    </h3>
-    @*end send to store and timer section**@
-    @*success report*@
+
+        @*end send to store and timer section**@
+        @*success report*@
+    }
+
+    @if (Model.IsFinaly && !Model.IsValid)
+    {
+        @if (Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds >= 0)
+        {
+            <div class="center uk-margin-large-top uk-margin-bottom">
+                <div class="timer">
+                    <div id="app"></div>
+                </div>
+            </div>
+            <script>
+                setInterval(function () {
+                    window.location.reload();
+                }, 5000)
+            </script>
+            <h3 class="successText center">
+                لیست سفارشات شما برای فروشنده ارسال شد لطفا تا پایان زمان بالا منتظر بمانید
+            </h3>
+        }
+        else
+        {
+            
+        }
+    }
 
 
     <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
@@ -86,7 +112,12 @@
     </div>
 </div>
 <div class="my-space"></div>
-<script>
+@{
+    var ValidationTimeSpan = Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds;
+}
+@if (Model.IsFinaly && !Model.IsValid)
+{
+    <script>
     const FULL_DASH_ARRAY = 283;
     const WARNING_THRESHOLD = 10;
     const ALERT_THRESHOLD = 5;
@@ -105,7 +136,7 @@
         }
     };
 
-    const TIME_LIMIT = 20;
+    const TIME_LIMIT = @ValidationTimeSpan;
     let timePassed = 0;
     let timeLeft = TIME_LIMIT;
     let timerInterval = null;
@@ -200,4 +231,5 @@
             .getElementById("base-timer-path-remaining")
             .setAttribute("stroke-dasharray", circleDasharray);
     }
-</script>
+    </script>
+}

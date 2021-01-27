@@ -10,7 +10,7 @@
     <div class="matCart my-column my-clipped my-clipped-desktop">
         <div class="formTitr my-row uk-margin-top" dir="rtl">
             <h3 class="center">سبد خرید</h3>
-            <a href="@ViewBag.ReturnUrl"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+            <a href="/Home/Piece/@Model.Store.Id"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
         </div>
         <div class="my-column cart-section uk-padding-small" dir="rtl">
             @*my-previous-orders*@
@@ -56,7 +56,8 @@
             <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل و ثبت سفارش </button>
             <script>
                 function Final(Id) {
-                    $.post("/Order/Final?Id=" + Id, function (result) {
+                    $("#overlay").fadeIn(300);
+                    $.post("/Order/Final/" + Id, function (result) {
                         if (result == "true") {
                             window.location.href = "/Order/Success/" + Id;
                         }
@@ -101,6 +102,7 @@ else
             if (result == "true") {
                 window.location.reload();
             } else {
+                $("#overlay").fadeOut(300);
                 UIkit.notification({ message: result });
             }
         });
