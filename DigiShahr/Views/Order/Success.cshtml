@@ -38,7 +38,7 @@
         @*success report*@
     }
 
-    @if (Model.IsFinaly && !Model.IsValid)
+    @if (Model.IsFinaly && !Model.IsValid&& !Model.IsDeleted)
     {
         @if (Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds >= 0)
         {
@@ -55,6 +55,13 @@
             <h3 class="successText center">
                 لیست سفارشات شما برای فروشنده ارسال شد لطفا تا پایان زمان بالا منتظر بمانید
             </h3>
+            <script>
+                $.post("/Order/Deleted/" +@Model.Id, function (result) {
+                    if (result == "true") {
+                        window.location.reload();
+                    }
+                });
+            </script>
         }
         else
         {

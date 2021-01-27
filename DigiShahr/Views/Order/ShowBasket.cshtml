@@ -21,9 +21,10 @@
             <hr class="uk-divider-icon" />
             @foreach (var item in Model.TblOrderDetails)
             {
+
                 <div class="my-row ShoppingList" dir="rtl">
                     <label>@item.Product.Name</label>
-                    <label class="uk-text-success">@((item.Product.Price).ToString("#,0 تومان"))</label>
+                    <label class="uk-text-success">@item.Product.Price.ToString("#,0 تومان")</label>
                     <div class="Count">
                         <a onclick="UpProduct(@item.Id)"><span class="icon-holder uk-margin-small-left" uk-icon="add"></span></a>
                         <span>@item.Count</span>
@@ -31,6 +32,7 @@
                     </div>
                 </div>
                 <hr />
+
             }
             <hr class="uk-divider-icon uk-margin-remove-bottom" />
             <div class="uk-margin-small-right" dir="rtl">
@@ -38,11 +40,11 @@
                 <div class="delivery uk-grid-small uk-child-width-auto uk-grid">
                     @if (Model.Store.Ability.TahvilVaTasvieDarMahal == 1)
                     {
-                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery"> تحویل و تسویه درب منزل</label>
+                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery" checked value="0"> تحویل و تسویه درب منزل</label>
                     }
                     @if (Model.Store.Ability.TahvilVaTasvieDarForushgah == 1)
                     {
-                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery"> تحویل و تسویه در محل فروشگاه</label>
+                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery" value="1"> تحویل و تسویه در محل فروشگاه</label>
                     }
                 </div>
             </div>
@@ -50,20 +52,10 @@
             <input id="Discount" class="uk-input uk-border-rounded" type="text" placeholder="کد تخفیف (در صورت وجود)..">
             @{
                 int c = (int)(Model.TblOrderDetails.Sum(i => i.Product.Price)) * (int)(Model.TblOrderDetails.Sum(j => j.Count));
-
             }
             <label class="uk-text-success center uk-margin-top">قیمت مجموع سفارشات: <span>@c.ToString("#,0") تومان</span></label>
             <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل و ثبت سفارش </button>
-            <script>
-                function Final(Id) {
-                    $("#overlay").fadeIn(300);
-                    $.post("/Order/Final/" + Id, function (result) {
-                        if (result == "true") {
-                            window.location.href = "/Order/Success/" + Id;
-                        }
-                    });
-                }
-            </script>
+
         </div>
     </div>
     <div class="my-space"></div>
@@ -95,25 +87,42 @@ else
     <div class="my-space"></div>
 }
 
-<script id="Command">
-    function UpProduct(Id) {
-        $("#overlay").fadeIn(300);
-        $.post("/Order/Command?Id=" + Id + "&Command=up", function (result) {
-            if (result == "true") {
-                window.location.reload();
-            } else {
-                $("#overlay").fadeOut(300);
-                UIkit.notification({ message: result });
-            }
-        });
-    }
-    function DownProduct(Id) {
-        $("#overlay").fadeIn(300);
-        $.post("/Order/Command?Id=" + Id + "&Command=down", function (result) {
-            if (result == "true") {
-                window.location.reload();
-            }
-        });
-    }
-</script>
+@section Script{
+    <script id="Command">
+        function UpProduct(Id) {
+            $("#overlay").fadeIn(300);
+            $.post("/Order/Command?Id=" + Id + "&Command=up", function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                } else {
+                    $("#overlay").fadeOut(300);
+                    UIkit.notification({ message: result });
+                }
+            });
+        }
+        function DownProduct(Id) {
+            $("#overlay").fadeIn(300);
+            $.post("/Order/Command?Id=" + Id + "&Command=down", function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+
+
+        function Final(Id) {
+            $("#overlay").fadeIn(300);
+            var Discount = $("#Discount").val();
+            var Delivery = $("input[name=delivery]:checked").val();
+            $.post("/Order/Final?Id=" + Id + "&Delivery=" + Delivery + "&Discount=" + Discount), function (result) {
+                if (result == "true") {
+                    window.location.href = "/Order/Success/" + Id;
+                } else {
+                    UIkit.notification({ message: result });
+                }
+            });
+        }
+
+    </script>
+}
 

@@ -156,6 +156,16 @@ namespace DigiShahr.Controllers
             return await Task.FromResult("true");
         }
 
+        public async Task<string> Deleted(int Id)
+        {
+            TblOrder order = _core.Order.GetById(Id);
+            order.IsDeleted = true;
+            _core.Order.Update(order);
+            _core.Order.Save();
+            return await Task.FromResult("true");
+
+        }
+
         public async Task<IActionResult> Deliver(int Id)
         {
             return await Task.FromResult(View());
@@ -167,14 +177,42 @@ namespace DigiShahr.Controllers
             return await Task.FromResult(View(order));
         }
 
-        public async Task<string> Final(int Id)
+        [HttpPost]
+        public async Task<string> Final(int Id, int Delivery, string Discount)
         {
-            TblOrder order = _core.Order.GetById(Id);
-            order.IsFinaly = true;
-            order.DateSubmited = DateTime.Now;
-            _core.Order.Update(order);
-            _core.Order.Save();
-            return await Task.FromResult("true");
+            if (!string.IsNullOrEmpty(Discount))
+            {
+                if (_core.Discount.Get().Any(d => d.Code == Discount))
+                {
+                    TblDiscount discount = _core.Discount.Get(d => d.Code == Discount).Single();
+
+                    TblOrder order = _core.Order.GetById(Id);
+                    order.IsFinaly = true;
+                    order.DateSubmited = DateTime.Now;
+                    order.Price = order.TblOrderDetails.Sum(o => o.Product.Price * o.Count) * discount.Persentage / 100;
+                    order.Status = Delivery;
+                    _core.Order.Update(order);
+                    _core.Order.Save();
+                    return await Task.FromResult("true");
+                }
+                else
+                {
+                    return await Task.FromResult("تخفیف مورد نظر یافت نشد");
+                }
+            }
+            else
+            {
+                TblDiscount discount = _core.Discount.Get(d => d.Code == Discount).Single();
+
+                TblOrder order = _core.Order.GetById(Id);
+                order.IsFinaly = true;
+                order.DateSubmited = DateTime.Now;
+                order.Price = order.TblOrderDetails.Sum(o => o.Product.Price * o.Count);
+                order.Status = Delivery;
+                _core.Order.Update(order);
+                _core.Order.Save();
+                return await Task.FromResult("true");
+            }
         }
 
         protected override void Dispose(bool disposing)

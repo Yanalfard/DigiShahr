@@ -103,7 +103,7 @@
                             {
                                 <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
 
-                                <label>@(item.Price - item.Price * item.Discount / 100)<span>تومان</span></label>
+                                <label>@(item.Price * item.Discount / 100)<span>تومان</span></label>
                             }
                             else
                             {
