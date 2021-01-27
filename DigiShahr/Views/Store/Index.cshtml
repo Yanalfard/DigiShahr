@@ -1,43 +1,74 @@
-﻿
+﻿@model IEnumerable<DataLayer.Models.TblOrder>
 @{
-    ViewData["Title"] = "داشبورد فروشگاه";
+    ViewData["Title"] = "سفارشات";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
-<div class="matCart my-column my-clipped my-clipped-desktop">
+<div class="matCart my-column my-clipped">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
-        <h3 class="center">داشبورد فروشگاه</h3>
-        <a href="/"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+        <h3 class="center">اطلاعات سفارشات فروشگاه</h3>
+        <a href="/Store/Dashboard"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
     </div>
-    <div class="DashboardGrid grid uk-padding-small center uk-child-width-1-2 uk-margin-top" dir="rtl">
-        <div class="matCart my-column AcceptedOrders center" href="">
-            <span class="icon-holder CheckmarkIcon" uk-icon="checkmark-circle-outline"></span>
-            <label class="">سفارشات تائید شده</label>
-            <span>@ViewData["SuccessOrders"]</span>
-        </div>
-        <div class="matCart my-column RejectedOrders center" href="">
-            <span class="icon-holder CloseIcon" uk-icon="close-circle-outline"></span>
-            <label class="">سفارشات تائید نشده</label>
-            <span>@ViewData["NotSuccessOrders"]</span>
-        </div>
-        <div class="matCart my-column PackageTime center" href="">
-            <span class="icon-holder calndarIcon" uk-icon="calendar"></span>
-            <label class="">زمان باقیمانده استفاده</label>
-            <span>@ViewData["SubscribtionTill"]</span>
-        </div>
-        <div class="matCart my-column CustomersNumber center" href="">
-            <span class="icon-holder PeopleIcon" uk-icon="people"></span>
-            <label class="">تعداد کل مشتریان</label>
-            <span>@ViewData["Customers"]</span>
-        </div>
-    </div>
-    <div class="my-column my-clipped my-clipped-desktop DashboardLinks uk-margin-large-bottom" dir="rtl">
-        <a class="uk-margin-top LinkBox uk-margin-auto" href="/Store/Orders"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="receipt"></span>لیست سفارشات مشتریان</a>
-        <a class="uk-margin-top LinkBox uk-margin-auto" href="/Store/storeVitrin"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="storefront"></span>ویترین فروشگاه من</a>
-        <a class="uk-margin-top LinkBox uk-margin-auto" href="/store/storesetting"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="settings"></span>تنظیمات فروشگاه من</a>
+    <div class="uk-padding-small ScrollabelTabel" dir="rtl">
+        <table class="uk-table OrdersTable center" dir="rtl">
+            <thead class="uk-text-center uk-text-bold tabelHearder">
+                <tr>
+                    <th>نام مشتری</th>
+                    <th>محله </th>
+                    <th>جزییات</th>
+                    <th>تایید سفارش</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="5">سفارشی وجود ندارد</td>
+                    </tr>
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.User.Name</td>
+                        <td>@item.User.Naighborhood.Name</td>
+                        <td><a href="#OrderInfo" onclick="OrderInfo(@item.Id)" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
+                        @if (!item.IsDelivered)
+                        {
+                            <td><a onclick="OrderSuccess(@item.Id)"><span class="icon-holder infoIcon" uk-icon="checkmark-outline"></span></a></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-
+<nav class="pagenav matCart my-clipped ">
+    @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
+</nav>
 <div class="my-space"></div>
+<div id="OrderInfo" class="modal-sections" uk-modal>
+
+</div>
+
+@section Script{
+
+    <script>
+        function OrderInfo(Id) {
+            $.get("/Store/OrderInfo?Id=" + Id, function (result) {
+                $("#OrderInfo").html(result);
+            });
+        }
+
+        function OrderSuccess(Id) {
+            $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+
+    </script>
+}
+

@@ -1,5 +1,5 @@
 ﻿@model ReflectionIT.Mvc.Paging.IPagingList
-@* Fake Boostrap 5 based pager *@
+
 
 @{
     var start = this.Model.StartPageIndex;
@@ -7,19 +7,22 @@
 }
 
 <style>
-    .pagination > li > a, .pagination > li > span {
+   /*  ol, ul {
+        margin: 10px auto!important;
+    }*/
+    /*    .pagination > li > a, .pagination > li > span {
         margin-left: 5px !important;
         border-radius: 8px;
     }
 
     .pagination > li:first-child > a, .pagination-sm > li:last-child > a {
         border-radius: 8px;
-    }
+    }*/
 </style>
 
 @if (this.Model.PageCount > 1)
 {
-    <ul class="pagination pagination-sm justify-content-end" id="pagerUl">
+    <ul class="uk-pagination uk-flex-center" id="pagerUl">
 
         @if (start > 1)
         {
@@ -34,7 +37,8 @@
         {
             <li class="page-item">
                 <a href="@Url.Action(Model.Action, Model.GetRouteValueForPage(this.Model.PageIndex - 1))" aria-label="Previous" class="page-link">
-                    <span aria-hidden="true">></span>
+                    <span aria-hidden="true"><span class="icon-holder" uk-icon="caret-back-outline"></span></span>
+                    @*<span aria-hidden="true">></span>*@
                     @* &laquo; *@
                 </a>
             </li>
@@ -59,7 +63,7 @@
         {
             <li class="page-item">
                 <a href="@Url.Action(Model.Action, Model.GetRouteValueForPage(this.Model.PageIndex + 1))" aria-label="Next" class="page-link">
-                    <span aria-hidden="true"><span class="icon-holder" uk-icon="backIcon"></span></span>
+                    <span aria-hidden="true"><span class="icon-holder" uk-icon="caret-forward-outline"></span></span>
                     @* &raquo; *@
                 </a>
             </li>
