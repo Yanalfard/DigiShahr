@@ -23,7 +23,7 @@
                 <a href="#" class="center uk-text-center StoreName">@Model.First().Store.Name</a>
                 @if (Model.First().User.TblBookMarks.Any(b => b.StoreId == Model.First().StoreId))
                 {
-                    <a onclick="ChangeBookMark(@Model.First().StoreId,@Model.First().UserId)" class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-muted" uk-icon="bookmark"></span></a>
+                    <a onclick="ChangeBookMark(@Model.First().StoreId,@Model.First().UserId)" class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-danger" uk-icon="bookmark"></span></a>
                 }
                 else
                 {
@@ -52,7 +52,7 @@
                     <a href="#" class="center uk-text-center StoreName">@item.Store.Name</a>
                     @if (item.User.TblBookMarks.Any(b => b.StoreId == item.StoreId))
                     {
-                        <a onclick="ChangeBookMark(@item.StoreId,@item.UserId)" class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-muted" uk-icon="bookmark"></span></a>
+                        <a onclick="ChangeBookMark(@item.StoreId,@item.UserId)" class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-danger" uk-icon="bookmark"></span></a>
                     }
                     else
                     {
