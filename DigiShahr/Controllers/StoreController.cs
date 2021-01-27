@@ -18,8 +18,8 @@ namespace DigiShahr.Controllers
     public class StoreController : Controller
     {
         Core _core = new Core();
-
-        public IActionResult Index()
+        
+        public async Task<IActionResult> Index(int page = 1)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -30,6 +30,26 @@ namespace DigiShahr.Controllers
                 if (User.Claims.First().Value == "d7tpmTdwXL")
                 {
                     return Redirect("/Store/BuyPackage");
+                }
+                else
+                {
+                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly), 5, page);
+                    return await Task.FromResult(View(Order));
+                }
+            }
+        }
+
+        public async Task<IActionResult> Dashboard()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return await Task.FromResult(Redirect("/Account/Login"));
+            }
+            else
+            {
+                if (User.Claims.First().Value == "d7tpmTdwXL")
+                {
+                    return await Task.FromResult(Redirect("/Store/BuyPackage"));
                 }
                 else
                 {
@@ -39,32 +59,13 @@ namespace DigiShahr.Controllers
                     ViewData["NotSuccessOrders"] = store.TblOrders.Where(o => o.IsValid == false).Count();
                     ViewData["SubscribtionTill"] = store.SubscribtionTill.Subtract(DateTime.Now).Days.ToString() + "روز" + store.SubscribtionTill.Subtract(DateTime.Now).Hours.ToString() + "ساعت";
                     ViewData["Customers"] = store.TblOrders.GroupBy(o => o.UserId).Count();
-                    return View();
+                    return await Task.FromResult(View());
                 }
             }
 
 
         }
 
-        public IActionResult Orders(int page = 1)
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Redirect("/Account/Login");
-            }
-            else
-            {
-                if (User.Claims.First().Value == "d7tpmTdwXL")
-                {
-                    return Redirect("/Store/BuyPackage");
-                }
-                else
-                {
-                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly), 20, page);
-                    return View(Order);
-                }
-            }
-        }
 
         public async Task<IActionResult> OrderInfo(int Id)
         {

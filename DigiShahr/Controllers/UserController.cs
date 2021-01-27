@@ -13,9 +13,9 @@ namespace DigiShahr.Controllers
     public class UserController : Controller
     {
         Core _core = new Core();
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            return await Task.FromResult(View(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id)));
         }
         public async Task<IActionResult> UserSetting()
         {
@@ -58,11 +58,6 @@ namespace DigiShahr.Controllers
             ViewBag.Success = null;
             ViewBag.Naighborhood = _core.Naighborhood.Get();
             return await Task.FromResult(View(editUserViewModel));
-        }
-
-        public async Task<IActionResult> UserOrder()
-        {
-            return await Task.FromResult(View(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id)));
         }
 
         public async Task<IActionResult> OrderInfo(int Id)
