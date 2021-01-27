@@ -20,7 +20,6 @@
         <img class="storeMainBanner MainbannerImage center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
     </div>
 
-    @*<a class="uk-position-absolute bookmarkIcone"><span class="icon-holder uk-text-muted" uk-icon="bookmark"></span></a>*@
     <div class="center my-column uk-position-absolute ">
 
         <div class="center storeStars uk-margin-top">
@@ -34,7 +33,14 @@
     </div>
     <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
         <div class="center uk-margin-auto-vertical uk-padding-small uk-text-right my-column">
-            <a class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+            @if (ViewBag.Bookmark == true)
+            {
+                <a  onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted uk-text-danger" uk-icon="bookmark"></span></a>
+            }
+            else
+            {
+                <a  onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+            }
             <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Name</label>
             @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
             {
@@ -157,6 +163,16 @@
                 }
             });
         }
+
+        function ChangeBookMark(StoreId, UserId) {
+            $("#overlay").fadeIn(300);
+            $.post("/User/ChangeBookMark?StoreId=" + StoreId + "&UserId=" + UserId, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+
     </script>
 }
 

@@ -23,16 +23,22 @@
                     if (User.Claims.First().Value == "d7tpmTdwXL")
                     {
                         <li><a class="icon-holder i" uk-icon="addStore" href="/Store/CreateStore"></a></li>
+
+                    }
+                    else if (User.Claims.First().Value == "8f32nFmU6m")
+                    {
+                        <li><a class="icon-holder CartNotif" uk-icon="notifications" href="/Home/NotificationNewOrder"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">@await Component.InvokeAsync("OrdersCounter", User.Claims.Last().Value)</span></a></li>
+
                     }
                     <li><a class="icon-holder i" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
                 }
                 else
                 {
-                    <li><a href="/Account/CreateAccount?RetunUrl=@Context.Request.Host@Context.Request.Path" class="icon-holder" uk-icon="person-add"></a></li>
+                    <li><a href="/Account/CreateAccount" class="icon-holder" uk-icon="person-add"></a></li>
                     <li><a class="icon-holder i" href="/Store/CreateStore" uk-icon="addStore"></a></li>
-                    <li><a class="icon-holder i" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
+                    <li><a class="icon-holder i" uk-icon="bookmark" href="/Account/Login"></a></li>
                 }
-                <li><a class="icon-holder CartNotif" uk-icon="notifications" href="/Home/NotificationNewOrder"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">0</span></a></li>
+
             </ul>
             <span class="icon-holder uk-margin-auto-left" uk-icon="reorder-four" uk-toggle="target: #offcanvas-flip"></span>
         </div>

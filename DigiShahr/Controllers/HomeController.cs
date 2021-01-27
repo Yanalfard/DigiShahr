@@ -88,6 +88,16 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> Piece(int Id)
         {
+            if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
+            {
+                ViewBag.Bookmark = true;
+                ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+            }
+            else
+            {
+                ViewBag.Bookmark = false;
+                ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+            }
             return await Task.FromResult(View(_core.Store.GetById(Id)));
         }
 

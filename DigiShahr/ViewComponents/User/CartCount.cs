@@ -14,14 +14,14 @@ namespace DigiShahr.ViewComponents.User
         public async Task<IViewComponentResult> InvokeAsync(string TellNo)
         {
             Core _core = new Core();
-            TblOrder order = _core.Order.Get().SingleOrDefault(od => od.UserId == UserCrew.UserByTellNo(TellNo).Result.Id && !od.IsFinaly);
-            if (order == null)
+            int orderCount = _core.Order.Get(od => od.UserId == UserCrew.UserByTellNo(TellNo).Result.Id && !od.IsFinaly).Count();
+            if (orderCount == 0)
             {
                 return await Task.FromResult((IViewComponentResult)View("/Views/User/Components/CartCount.cshtml",0));
             }
             else
             {
-                return await Task.FromResult((IViewComponentResult)View("/Views/User/Components/CartCount.cshtml", _core.OrderDetail.Get().Where(od => od.OrderId == order.Id).Count()));
+                return await Task.FromResult((IViewComponentResult)View("/Views/User/Components/CartCount.cshtml",orderCount));
             }
         }
     }

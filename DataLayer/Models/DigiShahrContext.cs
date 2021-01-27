@@ -75,8 +75,6 @@ namespace DataLayer.Models
 
             modelBuilder.Entity<TblBookMark>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.TblBookMarks)
                     .HasForeignKey(d => d.StoreId)
