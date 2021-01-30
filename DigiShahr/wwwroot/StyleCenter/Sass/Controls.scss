@@ -234,12 +234,48 @@ body {
     text-align:center;
 }
 
+.notificationList {
+    .uk-modal-body {
+        padding: 20px 4px!important;
+        overflow-x:hidden;
+    }
 
+    h3 {
+        font-family: "Sahel";
+        font-size: 16px;
+        text-align: center;
+        color: #555;
+        overflow: hidden;
+    }
+
+    .notificationListBox {
+        width: 75vw;
+        padding: 20px 10px;
+        background: #FFF8D2;
+        border: 2px solid #F9EFBE;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+
+        .gradientButtonLink {
+            width: 90px;
+            padding: 5px 0;
+        }
+    }
+}
+.modal-sections {
+    .uk-modal-dialog {
+        border-radius: 7px;
+    }
+
+    z-index: 10000000;
+}
 /////////////desktop/////////////////
 @media only screen and (min-device-width : 1024px) {
     .my-clipped-desktop {
         width: 45vw !important;
     }
+
     .layoutHeader {
         .mat {
             border-radius: 0 0 144px 144px;
@@ -254,8 +290,9 @@ body {
             }
         }
     }
-    .backIconDesktop{
-        display:none!important;
+
+    .backIconDesktop {
+        display: none !important;
     }
 
     .layoutFooter {
@@ -270,8 +307,14 @@ body {
     .LinkBox {
         width: 37vw !important;
     }
+
     .BannerPlace .absolute-right {
-        right: 30vw!important;
+        right: 30vw !important;
+    }
+    .notificationList {
+        .notificationListBox {
+            width: 33vw;
+        }
     }
 }
 
@@ -311,6 +354,11 @@ body {
     }
     .BannerPlace .absolute-right {
         right: 30vw!important;
+    }
+    .notificationList {
+        .notificationListBox {
+            width: 33vw;
+        }
     }
 }
 
@@ -352,6 +400,11 @@ body {
     .BannerPlace .absolute-right {
         right: 22vw !important;
     }
+    .notificationList {
+        .notificationListBox {
+            width: 53vw;
+        }
+    }
 }
 
 @media only screen and (min-width : 600px) and (max-width :1024px) {
@@ -388,6 +441,11 @@ body {
 
     .BannerPlace .absolute-right {
         right: 22vw !important;
+    }
+    .notificationList {
+        .notificationListBox {
+            width: 53vw;
+        }
     }
 }
 

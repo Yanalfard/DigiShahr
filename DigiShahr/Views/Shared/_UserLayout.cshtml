@@ -27,7 +27,7 @@
                     }
                     else if (User.Claims.First().Value == "8f32nFmU6m")
                     {
-                        <li><a class="icon-holder CartNotif" uk-icon="notifications" href="/Home/NotificationNewOrder"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">@await Component.InvokeAsync("OrdersCounter", User.Claims.Last().Value)</span></a></li>
+                        <li><a class="icon-holder CartNotif" uk-icon="notifications" href="#notificationList" uk-toggle><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">@await Component.InvokeAsync("OrdersCounter", User.Claims.Last().Value)</span></a></li>
 
                     }
                     <li><a class="icon-holder i" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
@@ -102,6 +102,32 @@
             <span class="spinner"></span>
         </div>
     </div>
+
+    @*notification-madal*@
+    <div id="notificationList" class="modal-sections notificationList" uk-modal>
+        <div class="uk-modal-dialog uk-margin-auto-vertical my-clipped my-clipped-desktop" uk-overflow-auto dir="rtl">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="my-column uk-padding-small" dir="rtl">
+                <div class="uk-modal-header">
+                    <h3 class="uk-modal-title uk-text-center">سفارشات در انتظار</h3>
+                </div>
+                <div class="uk-modal-body my-column center">
+                    <div class="matCart center uk-margin-top uk-text-right my-column notificationListBox" dir="rtl">
+                        <label class="uk-margin-auto-left"><span class="icon-holder uk-text-warning" uk-icon="cart"></span>کد سفارش: <span>845</span></label>
+                        <a href="/Home/NotificationNewOrder" class="uk-text-center gradientButtonLink uk-margin-auto-right uk-margin-top center">مشاهده</a>
+                    </div>
+                    <div class="matCart center uk-margin-top uk-text-right my-column notificationListBox" dir="rtl">
+                        <label class="uk-margin-auto-left"><span class="icon-holder uk-text-warning" uk-icon="cart"></span>کد سفارش: <span>445</span></label>
+                        <a href="/Home/NotificationNewOrder" class="uk-text-center gradientButtonLink uk-margin-auto-right uk-margin-top center">مشاهده</a>
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-text-center uk-margin-top">
+                </div>
+            </div>
+        </div>
+    </div>
+    @*end notification-madal*@
+
 </body>
 </html>
 

@@ -92,7 +92,7 @@
 
     <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
         <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
-        <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
+        <div class="my-column uk-margin-small-right" dir="rtl">
             <div class="uk-inline">
                 <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
                 <input class="uk-input" id="toDate" type="text" placeholder="تاریخ قرعه کشی">
@@ -117,7 +117,7 @@
 }
 <div class="matCart my-column my-clipped uk-margin-top my-clipped-desktop" dir="rtl">
     <form id="CreateDiscount" class="DiscountCode my-column uk-padding">
-        <span id="CreateDiscountErorr" class="uk-text-danger"></span>
+        <span id="CreateDiscountErorr" class="uk-text-danger center"></span>
         <label>کد تخفیف:</label>
         <input type="hidden" value="@Model.Id" name="StoreId" />
         <input maxlength="50" name="Code" class="uk-input" type="text">
