@@ -334,6 +334,9 @@ ul {
             font-size: 14px;
             font-weight: 600;
             text-align: center;
+            a{
+                color:#666!important;
+            }
         }
     }
 
@@ -815,6 +818,10 @@ $checked-color: #fc0;
 .Bookmarks {
     .starIcon {
         color: #fc0;
+    }
+
+    .storeDetail{
+        cursor:pointer;
     }
 }
 ///end///

@@ -3,6 +3,7 @@
     ViewData["Title"] = "ویترین فروشگاه";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+@using DigiShahr.Classes
 
 <style>
     .bannerBackground {
@@ -91,10 +92,10 @@
 {
 
 <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
-    <img id="LotteryLoad" class="center uk-margin-small-top hidden" src="~/img/Store/lottery.webp" />
+    <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
     @if (Model.Ability.LotteryDisplayDate == null)
     {
-        <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
+        <div class="my-column uk-margin-small-right" dir="rtl">
             <div class="uk-inline">
                 <input type="hidden" id="StoreId" value="@Model.Id" />
                 <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
@@ -125,7 +126,12 @@
             }
             else
             {
-                @if (Model.Ability.LotteryDisplayDate.Value.Date == DateTime.Now.Date)
+                if(Model.Ability.LotteryDisplayDate.Value.Date > DateTime.Now.Date)
+                {
+             <label class="uk-text-danger uk-padding-small uk-padding-remove-top">قرعه کشی برای تاریخ <span>@Model.Ability.LotteryDisplayDate.Value.DateToShamsi() </span> ثبت شده است.</label>
+                }
+
+                else if (Model.Ability.LotteryDisplayDate.Value.Date == DateTime.Now.Date)
                 {
                     <script src="~/Jquery/jquery-3.4.1.min.js"></script>
                     <button id="LotteryWinnerSubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
