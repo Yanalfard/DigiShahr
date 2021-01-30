@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 using DataLayer.ViewModel;
 using DataLayer.Models;
 using DigiShahr.Utilit;
+using ReflectionIT.Mvc.Paging;
 
 namespace DigiShahr.Controllers
 {
     public class UserController : Controller
     {
         Core _core = new Core();
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync(int page = 1)
         {
-            return await Task.FromResult(View(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id)));
+            IEnumerable<TblOrder> Order = PagingList.Create(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id && !o.IsDeleted), 2, page);
+            return await Task.FromResult(View(Order));
         }
         public async Task<IActionResult> UserSetting()
         {

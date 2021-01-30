@@ -33,7 +33,7 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly), 5, page);
+                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly), 20, page);
                     return await Task.FromResult(View(Order));
                 }
             }

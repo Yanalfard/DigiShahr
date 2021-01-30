@@ -80,6 +80,9 @@
 <div id="OrderInfo" class="modal-sections" uk-modal>
 
 </div>
+<nav class="pagenav matCart my-clipped my-clipped-desktop">
+    @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
+</nav>
 <div class="my-space"></div>
 
 @section Script{

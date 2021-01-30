@@ -1,4 +1,8 @@
-﻿body {
+﻿@import '../_colors.scss';
+@import '../_global.scss';
+@import '../_layout.scss';
+
+body {
     min-height:calc(100vh - 108px);
 }
 .formTitr {
@@ -253,6 +257,7 @@
         background-repeat: no-repeat !important;
         //   background-image: url('~/img/background.jpg') !important;
     }
+   
 }
 /////////////end desktop/////////////////
 /////////////desktop/////////////////
