@@ -86,19 +86,60 @@ namespace DigiShahr.Controllers
             return await Task.FromResult(View());
         }
 
-        public async Task<IActionResult> Piece(int Id)
+        public async Task<IActionResult> Piece(int Id, int? Category)
         {
-            if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
+            if (!User.Identity.IsAuthenticated)
             {
-                ViewBag.Bookmark = true;
-                ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                if (Category == 0 || Category == null)
+                {
+                    ViewBag.Bookmark = false;
+
+                    return await Task.FromResult(View(_core.Store.GetById(Id)));
+                }
+                else
+                {
+                    ViewBag.Bookmark = false;
+                    TblStore store = _core.Store.GetById(Id);
+                    store.TblProducts = (ICollection<TblProduct>)_core.Product.Get(p => p.StoreCatagory.Id == Category);
+
+
+                    return await Task.FromResult(View(store));
+                }
             }
             else
             {
-                ViewBag.Bookmark = false;
-                ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                if (Category == 0 || Category == null)
+                {
+                    if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
+                    {
+                        ViewBag.Bookmark = true;
+                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                    }
+                    else
+                    {
+                        ViewBag.Bookmark = false;
+                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                    }
+
+                    return await Task.FromResult(View(_core.Store.GetById(Id)));
+                }
+                else
+                {
+                    if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
+                    {
+                        ViewBag.Bookmark = true;
+                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                    }
+                    else
+                    {
+                        ViewBag.Bookmark = false;
+                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                    }
+
+                    return await Task.FromResult(View(_core.Store.GetById(Id).TblProducts.Where(p => p.StoreCatagory.Id == Category)));
+                }
             }
-            return await Task.FromResult(View(_core.Store.GetById(Id)));
+
         }
 
         public IActionResult ChildCategory(int Id)

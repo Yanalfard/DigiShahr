@@ -1,7 +1,7 @@
 ﻿@model DataLayer.Models.TblOrder
 
 @{
-    ViewData["Title"] = "سفارش برای فروشنده ارسال شد";
+    ViewData["Title"] = "سفارش خود را نهایی کنید";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -24,7 +24,7 @@
             <script>
                 function FinalOrder(Id) {
                     $("#overlay").fadeIn(300);
-                    $.post("/Order/Final?Id=" + Id, function (result) {
+                    $.post("/Order/Completion?Id=" + Id, function (result) {
                         if (result == "true") {
                             window.location.reload();
                         }
@@ -34,11 +34,13 @@
         </div>
 
 
+
+
         @*end send to store and timer section**@
         @*success report*@
     }
 
-    @if (Model.IsFinaly && !Model.IsValid&& !Model.IsDeleted)
+    @if (Model.IsFinaly && !Model.IsValid && !Model.IsDeleted)
     {
         @if (Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds >= 0)
         {
@@ -50,73 +52,105 @@
             <script>
                 setInterval(function () {
                     window.location.reload();
-                }, 5000)
+                }, 3000)
             </script>
             <h3 class="successText center">
                 لیست سفارشات شما برای فروشنده ارسال شد لطفا تا پایان زمان بالا منتظر بمانید
             </h3>
-            <script>
-                $.post("/Order/Deleted/" +@Model.Id, function (result) {
-                    if (result == "true") {
-                        window.location.reload();
-                    }
-                });
-            </script>
+            <hr class="uk-divider-icon" />
+            <div class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
+                @foreach (var item in Model.TblOrderDetails)
+                {
+                    <div class="my-row ShoppingList uk-text-bold " dir="rtl">
+                        <label>@item.Product.Name</label>
+                        <label class="uk-text-success">@((item.Product.Price*item.Count).ToString("#,0 تومان"))</label>
+                        <div class="Count">
+                            <span>@item.Count عدد</span>
+                        </div>
+                    </div>
+                    <hr />
+                }
+                <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top uk-margin-bottom">
+                    <label>جمع سفارش شما:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
+                </div>
+            </div>
         }
         else
         {
-            
+            <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+            <script>
+        $(document).ready(function () {
+            $.post("/Order/Deleted?Id=" + @Model.Id, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        });
+            </script>
         }
     }
 
 
-    <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
-        <label class="horizontalCenter uk-margin-small-bottom">تایید فروشگاه <span class="icon-holder uk-text-success uk-margin-xlarge-right" uk-icon="checkmark"></span></label>
-        <label class="horizontalCenter uk-margin-small-bottom">رد توسط فروشگاه <span class="icon-holder uk-text-danger uk-margin-xlarge-right" uk-icon="close"></span></label>
-        <label class="horizontalCenter">تحویل و تسویه در محل فروشگاه</label>
-        <label class="horizontalCenter">تحویل و تسویه درب منزل </label>
-    </div>
-
-    @*end success report*@
-
-    <hr class="uk-divider-icon" />
-    <div class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
-        <div class="my-row ShoppingList uk-text-bold " dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-success">قیمت(تومان)</label>
-            <div class="Count">
-                <span>تعداد</span>
-            </div>
+    @if (Model.IsDeleted)
+    {
+        <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+            <label class="horizontalCenter uk-margin-small-bottom">رد توسط فروشگاه <span class="icon-holder uk-text-danger uk-margin-xlarge-right" uk-icon="close"></span></label>
         </div>
-        <hr />
-        <div class="my-row ShoppingList" dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-success">452453</label>
-            <div class="Count">
-                <span>12</span>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row ShoppingList" dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-success">453453</label>
-            <div class="Count">
-                <span>5</span>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row ShoppingList" dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-success">86785</label>
-            <div class="Count">
-                <span>3</span>
+        <hr class="uk-divider-icon" />
+        <div class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
+            @foreach (var item in Model.TblOrderDetails)
+            {
+                <div class="my-row ShoppingList uk-text-bold " dir="rtl">
+                    <label>@item.Product.Name</label>
+                    <label class="uk-text-success">@((item.Product.Price*item.Count).ToString("#,0 تومان"))</label>
+                    <div class="Count">
+                        <span>@item.Count عدد</span>
+                    </div>
+                </div>
+                <hr />
+            }
+            <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top uk-margin-bottom">
+                <label>جمع سفارش شما:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
             </div>
         </div>
 
-        <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top uk-margin-bottom">
-            <label>جمع سفارش شما:<span>1000000<span>&nbsp;تومان</span></span></label>
+    }
+
+    @if (Model.IsValid)
+    {
+        @*end success report*@
+        <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+            <label class="horizontalCenter uk-margin-small-bottom">تایید فروشگاه <span class="icon-holder uk-text-success uk-margin-xlarge-right" uk-icon="checkmark"></span></label>
+            @if (Model.Status == 0)
+            {
+                <label class="horizontalCenter">تحویل و تسویه درب منزل </label>
+            }
+            else
+            {
+                <label class="horizontalCenter">تحویل و تسویه در محل فروشگاه</label>
+            }
+
         </div>
-    </div>
+        <hr class="uk-divider-icon" />
+        <div class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
+            @foreach (var item in Model.TblOrderDetails)
+            {
+                <div class="my-row ShoppingList uk-text-bold " dir="rtl">
+                    <label>@item.Product.Name</label>
+                    <label class="uk-text-success">@((item.Product.Price*item.Count).ToString("#,0 تومان"))</label>
+                    <div class="Count">
+                        <span>@item.Count عدد</span>
+                    </div>
+                </div>
+                <hr />
+            }
+            <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top uk-margin-bottom">
+                <label>جمع سفارش شما:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
+            </div>
+        </div>
+    }
+
+
 </div>
 <div class="my-space"></div>
 @{

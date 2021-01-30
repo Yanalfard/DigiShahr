@@ -114,7 +114,7 @@ else
             $("#overlay").fadeIn(300);
             var Discount = $("#Discount").val();
             var Delivery = $("input[name=delivery]:checked").val();
-            $.post("/Order/Final?Id=" + Id + "&Delivery=" + Delivery + "&Discount=" + Discount), function (result) {
+            $.post("/Order/Final?Id=" + Id + "&Delivery=" + Delivery + "&Discount=" + Discount, function (result) {
                 if (result == "true") {
                     window.location.href = "/Order/Success/" + Id;
                 } else {

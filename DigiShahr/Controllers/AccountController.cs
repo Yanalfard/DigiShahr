@@ -60,39 +60,39 @@ namespace DigiShahr.Controllers
 
                 if (createAccountViewModel.TellNo.StartsWith("0") == true)
                 {
-                        if (createAccountViewModel.Password != createAccountViewModel.ConfirmPassword)
+                    if (createAccountViewModel.Password != createAccountViewModel.ConfirmPassword)
+                    {
+                        ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                        ModelState.AddModelError("Password", "لطفا تایید رمز عبور را بدرستی وارد کنید");
+                    }
+                    else
+                    {
+                        if (await UserCrew.UserDuplication(createAccountViewModel.TellNo))
                         {
                             ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                            ModelState.AddModelError("Password", "لطفا تایید رمز عبور را بدرستی وارد کنید");
+                            ModelState.AddModelError("TellNo", "شماره تماس وارد شده قبلا ثبت شده است");
+                            return View(createAccountViewModel);
                         }
                         else
                         {
-                            if (await UserCrew.UserDuplication(createAccountViewModel.TellNo))
+                            if (createAccountViewModel.NaighborhoodId == 0)
                             {
                                 ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                                ModelState.AddModelError("TellNo", "شماره تماس وارد شده قبلا ثبت شده است");
+                                ModelState.AddModelError("NaighborhoodId", "لطفا محله خود را انتخاب کنید");
                                 return View(createAccountViewModel);
                             }
                             else
                             {
-                                if (createAccountViewModel.NaighborhoodId == 0)
-                                {
-                                    ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                                    ModelState.AddModelError("NaighborhoodId", "لطفا محله خود را انتخاب کنید");
-                                    return View(createAccountViewModel);
-                                }
+                                createAccountViewModel.TellNo = createAccountViewModel.TellNo.Trim();
+                                bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
+                                if (CreateSuccess)
+                                    return Redirect("/Account/ConfirmPhoneNumber?TellNo=" + createAccountViewModel.TellNo.Trim());
                                 else
-                                {
-                                    createAccountViewModel.TellNo = createAccountViewModel.TellNo.Trim();
-                                    bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
-                                    if (CreateSuccess)
-                                        return Redirect("/Account/ConfirmPhoneNumber?TellNo=" + createAccountViewModel.TellNo.Trim());
-                                    else
-                                        ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                                    return View(createAccountViewModel);
-                                }
-
+                                    ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                                return View(createAccountViewModel);
                             }
+
+                        }
                     }
                 }
                 else
@@ -202,28 +202,41 @@ namespace DigiShahr.Controllers
                 {
                     ViewBag.Erorr = "شماره تماس وجود ندارد";
                 }
+                else if (Erorr == "2")
+                {
+                    ViewBag.Erorr = "شماره تماس وجود ندارد";
+                }
                 return await Task.FromResult(View());
             }
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(string TellNo)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(SendChangePassword sendChange)
         {
-            ChangePasswordInNotSignInViewModel changePassword = new ChangePasswordInNotSignInViewModel();
-            TblUser user = await UserCrew.UserByTellNo(TellNo);
-            if (user != null)
+            if (!await _captchaValidator.IsCaptchaPassedAsync(sendChange.Captcha))
             {
-                var CodeCreator = Guid.NewGuid().ToString();
-                string Code = CodeCreator.Substring(CodeCreator.Length - 5);
-                user.Auth = Code;
-                _core.User.Save();
-                changePassword.TellNo = user.TellNo;
-                return await Task.FromResult(View());
+
+                return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
             }
             else
             {
-                return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
+                ChangePasswordInNotSignInViewModel changePassword = new ChangePasswordInNotSignInViewModel();
+                TblUser user = await UserCrew.UserByTellNo(sendChange.TellNo);
+                if (user != null)
+                {
+                    var CodeCreator = Guid.NewGuid().ToString();
+                    string Code = CodeCreator.Substring(CodeCreator.Length - 5);
+                    user.Auth = Code;
+                    _core.User.Save();
+                    changePassword.TellNo = user.TellNo;
+                    return await Task.FromResult(View());
+                }
+                else
+                {
+                    return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=2"));
+                }
             }
 
         }

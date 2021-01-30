@@ -18,7 +18,7 @@ namespace DigiShahr.Controllers
     public class StoreController : Controller
     {
         Core _core = new Core();
-        
+
         public async Task<IActionResult> Index(int page = 1)
         {
             if (!User.Identity.IsAuthenticated)
@@ -684,8 +684,65 @@ namespace DigiShahr.Controllers
                     return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
                 }
                 TblStore Store = _core.Store.Get().Where(s => s.UserId == Seller.Id).SingleOrDefault();
+                if (Store.Ability.LotteryWinner != null)
+                {
+                    TblUser user = _core.User.GetById(Store.Ability.LotteryWinner);
+                    ViewBag.WinnerName = user.Name;
+                    ViewBag.WinnerTellNo = user.TellNo;
+                }
                 return View(Store);
             }
+        }
+
+        public async Task<string> BtnLotterySubmit(int StoreId, DateTime toDate, string LotteryWinnerPrize)
+        {
+            if (toDate == null)
+            {
+                return await Task.FromResult("false");
+            }
+            else
+            {
+                if (LotteryWinnerPrize == null)
+                {
+                    return await Task.FromResult("false");
+                }
+                else
+                {
+                    TblStore store = _core.Store.GetById(StoreId);
+                    store.Ability.LotteryDisplayDate = toDate;
+                    store.Ability.LotteryDisplayPrize = LotteryWinnerPrize;
+                    _core.Store.Save();
+                    _core.Ability.Save();
+                    return await Task.FromResult("true");
+                }
+            }
+        }
+
+        public async Task<string> LotteryWinnerSubmit(int Id)
+        {
+            TblStore store = _core.Store.GetById(Id);
+            List<TblOrder> orders = _core.Order.Get(u => u.StoreId == store.Id).ToList();
+            Random random = new Random();
+            int c = random.Next(0, orders.Count());
+            store.Ability.LotteryWinner = orders[c].UserId;
+            _core.Store.Save();
+            _core.Ability.Save();
+            return await Task.FromResult("true");
+        }
+
+        [HttpPost]
+        public async Task<string> LotteryDelete(int Id)
+        {
+            TblStore store = _core.Store.GetById(Id);
+
+            store.Ability.LotteryDisplayDate = null;
+            store.Ability.LotteryDisplayPrize = null;
+            store.Ability.LotteryWinner = null;
+
+            _core.Store.Save();
+            _core.Ability.Save();
+
+            return await Task.FromResult("true");
         }
 
         [HttpPost]

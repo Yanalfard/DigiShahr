@@ -187,7 +187,7 @@ namespace DigiShahr.Controllers
                     TblDiscount discount = _core.Discount.Get(d => d.Code == Discount).Single();
 
                     TblOrder order = _core.Order.GetById(Id);
-                    order.IsFinaly = true;
+                    order.IsFinaly = false;
                     order.DateSubmited = DateTime.Now;
                     order.Price = order.TblOrderDetails.Sum(o => o.Product.Price * o.Count) * discount.Persentage / 100;
                     order.Status = Delivery;
@@ -202,10 +202,8 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                TblDiscount discount = _core.Discount.Get(d => d.Code == Discount).Single();
-
                 TblOrder order = _core.Order.GetById(Id);
-                order.IsFinaly = true;
+                order.IsFinaly = false;
                 order.DateSubmited = DateTime.Now;
                 order.Price = order.TblOrderDetails.Sum(o => o.Product.Price * o.Count);
                 order.Status = Delivery;
@@ -213,6 +211,15 @@ namespace DigiShahr.Controllers
                 _core.Order.Save();
                 return await Task.FromResult("true");
             }
+        }
+
+        [HttpPost]
+        public async Task<string> Completion(int Id)
+        {
+            TblOrder order = _core.Order.GetById(Id);
+            order.IsFinaly = true;
+            _core.Order.Save();
+            return await Task.FromResult("true");
         }
 
         protected override void Dispose(bool disposing)

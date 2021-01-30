@@ -90,30 +90,81 @@
 @if (Model.Ability.IsLotteryEnable)
 {
 
-    <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
-        <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
+<div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
+    <img id="LotteryLoad" class="center uk-margin-small-top hidden" src="~/img/Store/lottery.webp" />
+    @if (Model.Ability.LotteryDisplayDate == null)
+    {
         <div class="uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right" dir="rtl">
             <div class="uk-inline">
+                <input type="hidden" id="StoreId" value="@Model.Id" />
                 <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
                 <input class="uk-input" id="toDate" type="text" placeholder="تاریخ قرعه کشی">
             </div>
             <div class="uk-inline">
                 <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="gift"></span>
-                <input type="text" class="uk-input" placeholder="جایزه قرعه کشی" />
+                <input type="text" id="LotteryWinnerPrize" class="uk-input" placeholder="جایزه قرعه کشی" />
             </div>
         </div>
-        <hr />
-        <div class="my-row uk-margin-bottom" dir="rtl">
-            <div class="my-column">
-                <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
-                <button class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
-            </div>
+    }
+    <hr />
+    <div class="my-row uk-margin-bottom" dir="rtl">
+        <div class="my-column">
+            @if (Model.Ability.LotteryDisplayDate == null)
+            {
+                <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+                <button id="BtnLotterySubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
+                <script>
+                    $("#BtnLotterySubmit").click(function () {
+                        $.post("/Store/BtnLotterySubmit?StoreId=" + $("#StoreId").val() + "&toDate=" + $("#toDate").val() + "&LotteryWinnerPrize=" + $("#LotteryWinnerPrize").val(), function (result) {
+                            if (result == "true") {
+                                window.location.reload();
+                            }
+                        });
+                    });
+                </script>
+            }
+            else
+            {
+                @if (Model.Ability.LotteryDisplayDate.Value.Date == DateTime.Now.Date)
+                {
+                    <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+                    <button id="LotteryWinnerSubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+                    <script>
+                        $("#LotteryWinnerSubmit").click(
+                            function () {
+                                $("#LotteryLoad").removeClass('LotteryLoad');
+                                $.post("/Store/LotteryWinnerSubmit?Id=" +@Model.Id, function (result) {
+                                    if (result == "true") {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        );
+                    </script>
+
+                }else if(Model.Ability.LotteryDisplayDate.Value.Date < DateTime.Now.Date)
+                {
+                    <script>
+                        $(function () {
+                            $.post("/Store/LotteryDelete?Id=" +@Model.Id, function (result) {
+                                if (result == "true") {
+                                    window.location.reload();
+                                }
+                            });
+                        });
+                    </script>
+                }
+            }
+        </div>
+        @if (Model.Ability.LotteryWinner != null)
+        {
             <div class="my-column uk-margin-auto-right uk-margin-left">
-                <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نازیلا باقری</label>
-                <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>09360971680</label>
+                <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نام برنده : @ViewBag.WinnerName</label>
+                <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>شماره تلفن : @ViewBag.WinnerTellNo</label>
             </div>
-        </div>
+        }
     </div>
+</div>
 }
 <div class="matCart my-column my-clipped uk-margin-top my-clipped-desktop" dir="rtl">
     <form id="CreateDiscount" class="DiscountCode my-column uk-padding">

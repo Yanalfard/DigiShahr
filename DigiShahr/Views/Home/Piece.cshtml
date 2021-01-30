@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-
+@using DigiShahr.Classes
 
 <style>
     .bannerBackground {
@@ -33,22 +33,28 @@
     </div>
     <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
         <div class="center uk-margin-auto-vertical uk-padding-small uk-text-right my-column">
-            @if (ViewBag.Bookmark == true)
+            @if (User.Identity.IsAuthenticated)
             {
-                <a  onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted uk-text-danger" uk-icon="bookmark"></span></a>
+                @if (ViewBag.Bookmark == true)
+                {
+                    <a onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted uk-text-danger" uk-icon="bookmark"></span></a>
+                }
+                else
+                {
+                    <a onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+                }
             }
             else
             {
-                <a  onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
-            }
-            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Name</label>
-            @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
-            {
-                <label class="uk-margin-small-top">تحویل و تسویه درب فروشگاه<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="storefront"></span></label>
-            }
-            @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
-            {
-                <label class="uk-margin-small-top uk-margin-small-bottom">تحویل و تسویه درب منزل<span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span></label>
+                <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Name</label>
+                @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
+                {
+                    <label class="uk-margin-small-top">تحویل و تسویه درب فروشگاه<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="storefront"></span></label>
+                }
+                @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
+                {
+                    <label class="uk-margin-small-top uk-margin-small-bottom">تحویل و تسویه درب منزل<span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span></label>
+                }
             }
         </div>
     </div>
@@ -59,13 +65,16 @@
 {
     if (Model.Ability.LotteryDisplayDate != null)
     {
-        <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
-            <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
-            <div class="LotteryIcon uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right my-column">
-                <label>@Model.Ability.LotteryDisplayDate<span class="icon-holder" uk-icon="calendar"></span></label>
-                <label class="uk-margin-small-top uk-margin-small-bottom">@Model.Ability.LotteryDisplayPrize<span class="icon-holder" uk-icon="gift"></span></label>
+        @if (DateTime.Now.Date < Model.Ability.LotteryDisplayDate.Value.Date)
+        {
+            <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
+                <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
+                <div class="LotteryIcon uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right my-column">
+                    <label>@Model.Ability.LotteryDisplayDate.Value.AllToShamsi()<span class="icon-holder" uk-icon="calendar"></span></label>
+                    <label class="uk-margin-small-top uk-margin-small-bottom">@Model.Ability.LotteryDisplayPrize<span class="icon-holder" uk-icon="gift"></span></label>
+                </div>
             </div>
-        </div>
+        }
     }
 }
 
@@ -83,7 +92,7 @@
             @foreach (var item in Model.TblCatagories)
             {
                 <div class="category">
-                    @item.Name
+                    <a href="/Home/Piece?Id=@Model.Id&Category=@item.Id">@item.Name</a>
                 </div>
             }
 
