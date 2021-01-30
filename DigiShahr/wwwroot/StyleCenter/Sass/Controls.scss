@@ -204,6 +204,9 @@ body {
 .LogoPictureContainer {
     max-height: 100px;
     max-width: 100px;
+    img{
+        border-radius:50%;
+    }
 }
 .horizontalCenter {
     margin: 0 auto;

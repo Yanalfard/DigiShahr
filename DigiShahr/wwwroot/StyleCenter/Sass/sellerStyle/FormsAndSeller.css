@@ -474,6 +474,8 @@ ul {
     font-size: 14px;
     font-weight: 600;
     text-align: center; }
+    .productSection .CategoryList .category a {
+      color: #666 !important; }
 
 .productSection .CategoryList::-webkit-scrollbar {
   width: 0 !important; }
@@ -817,6 +819,9 @@ ul {
 
 .Bookmarks .starIcon {
   color: #fc0; }
+
+.Bookmarks .storeDetail {
+  cursor: pointer; }
 
 @media only screen and (min-device-width: 1024px) {
   body {
