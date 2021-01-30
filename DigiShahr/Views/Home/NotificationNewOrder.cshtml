@@ -1,4 +1,5 @@
-﻿
+﻿@model DataLayer.Models.TblOrder
+
 @{
     ViewData["Title"] = "NotificationNewOrder";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -20,38 +21,32 @@
             </div>
         </div>
         <hr />
-        <div class="my-row ShoppingList" dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-danger">452453</label>
-            <div class="Count">
-                <span>12</span>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row ShoppingList" dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-danger">453453</label>
-            <div class="Count">
-                <span>5</span>
-            </div>
-        </div>
-        <hr />
-        <div class="my-row ShoppingList" dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-danger">86785</label>
-            <div class="Count">
-                <span>3</span>
-            </div>
-        </div>
-            <div class="matCart successMessage center uk-margin-top uk-text-right" dir="rtl">
-                <div class="my-column uk-margin-auto-left" dir="rtl">
-                    <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="logo-usd"></span>مبلغ قابل پرداخت:<span>8797<span>&nbsp;تومان</span></span></label>
-                    <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="storefront"></span>تحویل درب فروشگاه</label>
-                    <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span>تحویل درب منزل</label>
-                    <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-danger" uk-icon="location"></span>خیابان فلان کوچه فلان پلاک فلان طبقه فلان</label>
+        @foreach (var item in Model.TblOrderDetails)
+        {
+            <div class="my-row ShoppingList" dir="rtl">
+                <label>@item.Product.Name</label>
+                <label class="uk-text-danger">@((item.Product.Price*item.Count).ToString("#,0 تومان"))</label>
+                <div class="Count">
+                    <span>@item.Count</span>
                 </div>
             </div>
-        
+            <hr />
+        }
+        <div class="matCart successMessage center uk-margin-top uk-text-right" dir="rtl">
+            <div class="my-column uk-margin-auto-left" dir="rtl">
+                <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="logo-usd"></span>مبلغ قابل پرداخت:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
+                @if (Model.Status == 0)
+                {
+                    <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span>تحویل درب منزل</label>
+                }
+                @if (Model.Status == 1)
+                {
+                    <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="storefront"></span>تحویل درب فروشگاه</label>
+                }
+                <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-danger" uk-icon="location"></span>@Model.User.Address</label>
+            </div>
+        </div>
+
         <div class="my-column uk-margin-top center cartInSller">
             <div class="timer">
                 <div id="app"></div>
@@ -64,6 +59,9 @@
     </div>
 </div>
 <div class="my-space"></div>
+@{
+    var ValidationTimeSpan = Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds;
+}
 <script>
     const FULL_DASH_ARRAY = 283;
     const WARNING_THRESHOLD = 10;
@@ -83,7 +81,7 @@
         }
     };
 
-    const TIME_LIMIT = 20;
+    const TIME_LIMIT = @ValidationTimeSpan;
     let timePassed = 0;
     let timeLeft = TIME_LIMIT;
     let timerInterval = null;

@@ -81,9 +81,14 @@ namespace DigiShahr.Controllers
 
         }
 
-        public async Task<IActionResult> NotificationNewOrder()
+        public async Task<IActionResult> NotificationNewOrder(int Id)
         {
-            return await Task.FromResult(View());
+            return await Task.FromResult(View(_core.Order.GetById(Id)));
+        }
+
+        public IActionResult NewNotificationOrder(int Id)
+        {
+            return ViewComponent("NewOrdernotifications", new { Id = Id });
         }
 
         public async Task<IActionResult> Piece(int Id, int? Category)

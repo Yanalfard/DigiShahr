@@ -168,7 +168,7 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> Deliver(int Id)
         {
-            return await Task.FromResult(View());
+            return await Task.FromResult(View(_core.Store.GetById(Id)));
         }
 
         public async Task<IActionResult> Success(int Id)
@@ -218,7 +218,13 @@ namespace DigiShahr.Controllers
         {
             TblOrder order = _core.Order.GetById(Id);
             order.IsFinaly = true;
+            foreach (var item in order.TblOrderDetails)
+            {
+               item.Product.Count =- item.Count;
+            }
+            _core.Product.Save();
             _core.Order.Save();
+            await SendSms.Send(order.User.TellNo, order.Id.ToString(), "DigiShahrConfirmOrder");
             return await Task.FromResult("true");
         }
 

@@ -231,7 +231,8 @@ namespace DigiShahr.Controllers
                     user.Auth = Code;
                     _core.User.Save();
                     changePassword.TellNo = user.TellNo;
-                    return await Task.FromResult(View());
+                    await SendSms.Send(user.TellNo, user.Auth, "DigiShahrConfirmPassword");
+                    return await Task.FromResult(View(changePassword));
                 }
                 else
                 {

@@ -14,7 +14,7 @@ namespace DigiShahr.ViewComponents.Home
         public async Task<IViewComponentResult> InvokeAsync(string TellNo)
         {
             Core _core = new Core();
-            int OrdersCounter = _core.Order.Get(o => o.IsFinaly && !o.IsDelivered && o.StoreId == UserCrew.UserByTellNo(TellNo).Result.TblStores.Single().Id).Count();
+            int OrdersCounter = _core.Order.Get(o => o.IsFinaly && !o.IsDeleted && !o.IsDelivered && o.StoreId == UserCrew.UserByTellNo(TellNo).Result.TblStores.Single().Id).Count();
             if (OrdersCounter == 0)
             {
                 return await Task.FromResult((IViewComponentResult)View("/Views/User/Components/CartCount.cshtml", 0));

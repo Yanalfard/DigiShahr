@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DataLayer.Models.TblOrder>
+
+    <div class="uk-modal-dialog uk-margin-auto-vertical my-clipped my-clipped-desktop" uk-overflow-auto dir="rtl">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="my-column uk-padding-small" dir="rtl">
+            <div class="uk-modal-header">
+                <h3 class="uk-modal-title uk-text-center">سفارشات در انتظار</h3>
+            </div>
+            <div class="uk-modal-body my-column center">
+                @foreach (var item in Model)
+                {
+                    <div class="matCart center uk-margin-top uk-text-right my-column notificationListBox" dir="rtl">
+                        <label class="uk-margin-auto-left"><span class="icon-holder uk-text-warning" uk-icon="cart"></span>کد سفارش: <span>@item.Id</span></label>
+                        <a href="/Home/NotificationNewOrder/@item.Id" class="uk-text-center gradientButtonLink uk-margin-auto-right uk-margin-top center">مشاهده</a>
+                    </div>
+                }
+            </div>
+            <div class="uk-modal-footer uk-text-center uk-margin-top">
+            </div>
+        </div>
+    </div>
