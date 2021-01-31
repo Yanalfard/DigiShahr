@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "OrderInMap";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+<div id="map" class="map"></div>
+
+
+<script>
+    var map = L.map('map').setView([@ViewBag.lat,@ViewBag.lon], 13);
+
+    L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'echoville'
+    }).addTo(map);
+    var iconSetting = L.Icon.extend({
+        options: {
+            iconSize: [20, 29],
+            iconAnchor: [10, 29]
+        }
+    });
+    var customIcon = new iconSetting({ iconUrl: '/location.png' });
+    theMarker = L.marker([@ViewBag.lat,@ViewBag.lon],
+        { icon: customIcon }).addTo(map);
+
+</script>

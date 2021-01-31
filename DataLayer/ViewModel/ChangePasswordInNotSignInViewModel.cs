@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer.ViewModel
 {
-    public class ChangePasswordInNotSignInViewModel
+    public class ChangePasswordInNotSignInViewModel:CaptchaViewModel
     {
         [Required]
         public string TellNo { get; set; }

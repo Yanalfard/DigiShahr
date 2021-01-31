@@ -109,7 +109,7 @@ namespace DigiShahr.Controllers
             {
                 case "up":
                     {
-                        if (orderdetail.Count >= orderdetail.Product.Count)
+                        if (orderdetail.Count >= orderdetail.Product.Count || orderdetail.Product.Count==0)
                         {
                             return "این کالا بیشتر از این تعداد موجود نمیباشد";
                         }
@@ -159,9 +159,12 @@ namespace DigiShahr.Controllers
         public async Task<string> Deleted(int Id)
         {
             TblOrder order = _core.Order.GetById(Id);
-            order.IsDeleted = true;
-            _core.Order.Update(order);
-            _core.Order.Save();
+            if (!order.IsDelivered)
+            {
+                order.IsDeleted = true;
+                _core.Order.Update(order);
+                _core.Order.Save();
+            }
             return await Task.FromResult("true");
 
         }
@@ -220,11 +223,10 @@ namespace DigiShahr.Controllers
             order.IsFinaly = true;
             foreach (var item in order.TblOrderDetails)
             {
-               item.Product.Count =- item.Count;
+                item.Product.Count = -item.Count;
             }
             _core.Product.Save();
             _core.Order.Save();
-            await SendSms.Send(order.User.TellNo, order.Id.ToString(), "DigiShahrConfirmOrder");
             return await Task.FromResult("true");
         }
 

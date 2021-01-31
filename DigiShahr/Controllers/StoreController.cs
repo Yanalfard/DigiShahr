@@ -76,9 +76,24 @@ namespace DigiShahr.Controllers
         {
             TblOrder order = _core.Order.GetById(Id);
             order.IsDelivered = true;
+            order.IsValid = true;
             _core.Order.Update(order);
             _core.Order.Save();
+            await SendSms.Send(order.User.TellNo, order.Id.ToString(), "DigiShahrConfirmOrder");
             return await Task.FromResult("true");
+        }
+
+        public IActionResult EditProduct(int Id)
+        {
+            return ViewComponent("EditProduct", new { Id = Id });
+        }
+
+        public async Task<IActionResult> OrderInMap(int Id)
+        {
+            TblOrder order = _core.Order.GetById(Id);
+            ViewBag.lat = order.User.Lat;
+            ViewBag.lon = order.User.Lon;
+            return await Task.FromResult(View());
         }
 
         public IActionResult BuyPackage()

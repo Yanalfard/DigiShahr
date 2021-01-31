@@ -44,16 +44,16 @@
                     <a onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
                 }
             }
-                <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Name</label>
-                @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
-                {
-                    <label class="uk-margin-small-top">تحویل و تسویه درب فروشگاه<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="storefront"></span></label>
-                }
-                @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
-                {
-                    <label class="uk-margin-small-top uk-margin-small-bottom">تحویل و تسویه درب منزل<span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span></label>
-                }
-            
+            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Name</label>
+            @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
+            {
+                <label class="uk-margin-small-top">تحویل و تسویه درب فروشگاه<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="storefront"></span></label>
+            }
+            @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
+            {
+                <label class="uk-margin-small-top uk-margin-small-bottom">تحویل و تسویه درب منزل<span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span></label>
+            }
+
         </div>
     </div>
 
@@ -102,6 +102,61 @@
     <div class="produceOfCategory">
         @foreach (var item in Model.TblProducts)
         {
+            if (item.Count == 0)
+            {
+                <div class="my-row uk-padding-small " dir="rtl">
+                    <div class="my-column uk-margin-small-right">
+                        <label>@item.Name</label>
+                        <div class="my-row">
+                            <div class="my-column">
+                                @if (item.Discount != 0)
+                                {
+                                    <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
+
+                                    <label>@(item.Price * item.Discount / 100)<span>تومان</span></label>
+                                }
+                                else
+                                {
+                                    <label class="uk-margin-top">@item.Price.ToString("#,0")<span>تومان</span></label>
+                                }
+                            </div>
+                            @if (item.Discount != 0)
+                            {
+                                <label class="OFFPercent uk-margin-top">@item.Discount%</label>
+                            }
+                        </div>
+                    </div>
+                    <div class="my-column ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
+                        <div class="ProductPicture center">
+                            <img src="/Upload/Product/@item.MainImageUrl" width="80" height="80" />
+                        </div>
+                        @if (item.Count == 0)
+                        {
+                            <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">ناموجود</button>
+                        }
+                        else
+                        {
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Id)
+                                {
+                                    <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
+                                }
+                                else
+                                {
+                                    <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                                }
+                            }
+                            else
+                            {
+                                <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
             <div class="my-row uk-padding-small " dir="rtl">
                 <div class="my-column uk-margin-small-right">
                     <label>@item.Name</label>
@@ -146,6 +201,7 @@
                 </div>
             </div>
             <hr />
+            }
         }
     </div>
 

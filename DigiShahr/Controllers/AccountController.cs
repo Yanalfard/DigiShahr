@@ -211,62 +211,73 @@ namespace DigiShahr.Controllers
 
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword()
-        {/*SendChangePassword sendChange*/
-            return await Task.FromResult(View());
-          //if (!await _captchaValidator.IsCaptchaPassedAsync(sendChange.Captcha))
-            //{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GoChangePassword(SendChangePassword sendChange)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(sendChange.Captcha))
+            {
 
-            //    return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
-            //}
-            //else
-            //{
-            //    ChangePasswordInNotSignInViewModel changePassword = new ChangePasswordInNotSignInViewModel();
-            //    TblUser user = await UserCrew.UserByTellNo(sendChange.TellNo);
-            //    if (user != null)
-            //    {
-            //        var CodeCreator = Guid.NewGuid().ToString();
-            //        string Code = CodeCreator.Substring(CodeCreator.Length - 5);
-            //        user.Auth = Code;
-            //        _core.User.Save();
-            //        changePassword.TellNo = user.TellNo;
-            //        await SendSms.Send(user.TellNo, user.Auth, "DigiShahrConfirmPassword");
-            //        return await Task.FromResult(View(changePassword));
-            //    }
-            //    else
-            //    {
-            //        return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=2"));
-            //    }
-            //}
+                return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
+            }
+            else
+            {
+                ChangePasswordInNotSignInViewModel changePassword = new ChangePasswordInNotSignInViewModel();
+                TblUser user = await UserCrew.UserByTellNo(sendChange.TellNo);
+                if (user != null)
+                {
+                    var CodeCreator = Guid.NewGuid().ToString();
+                    string Code = CodeCreator.Substring(CodeCreator.Length - 5);
+                    user.Auth = Code;
+                    _core.User.Update(user);
+                    _core.User.Save();
+                    changePassword.TellNo = user.TellNo;
+                    await SendSms.Send(user.TellNo, user.Auth, "DigiShahrConfirmPassword");
+                    ChangePasswordInNotSignInViewModel vs = new ChangePasswordInNotSignInViewModel();
+                    vs.TellNo = changePassword.TellNo;
+                    return await Task.FromResult(RedirectToAction("ChangePassword",vs));
+                }
+                else
+                {
+                    return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=2"));
+                }
+            }
 
         }
 
-        //public async Task<IActionResult> ChangePasswordAsync(ChangePasswordInNotSignInViewModel changePassword)
-        //{
-        //    if (changePassword.NewPassword != changePassword.NewPasswrdConfirm)
-        //    {
-        //        ModelState.AddModelError("NewPasswrdConfirm", "لطفا تایید رمز عبور را صحیح وارد کنید");
-        //        return await Task.FromResult(View(changePassword));
-        //    }
-        //    else
-        //    {
-        //        if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Auth != changePassword.Auth)
-        //        {
-        //            ModelState.AddModelError("Auth", "کد معتبر نیست");
-        //            return await Task.FromResult(View(changePassword));
-        //        }
-        //        else
-        //        {
-        //            TblUser user = UserCrew.UserByTellNo(User.Claims.Last().Value).Result;
-        //            user.Password = Cryptography.SHA256(changePassword.NewPassword);
-        //            user.Auth = changePassword.Auth;
-        //            _core.User.Save();
-        //            return await Task.FromResult(Redirect("/Account/Login"));
-        //        }
-        //    }
-        //}
+        public async Task<IActionResult> ChangePassword(ChangePasswordInNotSignInViewModel changePassword)
+        {
+            return await Task.FromResult(View(changePassword));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordInNotSignInViewModel changePassword)
+        {
+            if (changePassword.NewPassword != changePassword.NewPasswrdConfirm)
+            {
+                ModelState.AddModelError("NewPasswrdConfirm", "لطفا تایید رمز عبور را صحیح وارد کنید");
+                return await Task.FromResult(View(changePassword));
+            }
+            else
+            {
+                TblUser user = UserCrew.UserByTellNo(changePassword.TellNo).Result;
+                if (user.Auth != changePassword.Auth)
+                {
+                    ModelState.AddModelError("Auth", "کد معتبر نیست");
+                    return await Task.FromResult(View(changePassword));
+                }
+                else
+                {
+                    
+                    user.Password = Cryptography.SHA256(changePassword.NewPassword);
+                    user.Auth = changePassword.Auth;
+                    _core.User.Update(user);
+                    _core.User.Save();
+                    return await Task.FromResult(Redirect("/Account/Login"));
+                }
+            }
+        }
 
         private async Task SignInAsync(TblUser tblUser)
         {
