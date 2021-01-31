@@ -488,6 +488,7 @@ ul {
   margin: 4px 20px !important; }
 
 .AddProductSection {
+  cursor: pointer;
   padding: 10px 2px; }
   .AddProductSection .ProductName {
     text-align: right !important; }

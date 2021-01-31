@@ -69,15 +69,13 @@
 .Forget input {
   width: 230px; }
 
-@media only screen and (min-device-width: 760px) and (max-device-width: 1125px) {
+@media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
     .RegisterContainer .LoginContent {
-      margin-top: -170px !important;
-      height: 500px; }
-    .RegisterContainer .mat {
-      width: 700px; }
+      margin-top: -200px !important;
+      height: 400px; }
   .loginForm label {
     margin-right: 200px !important; }
   .loginForm input {
@@ -86,15 +84,13 @@
     margin: 0 200px;
     background-color: #F4F4F4 !important; } }
 
-@media only screen and (min-width: 760px) and (max-width: 1125px) {
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
     .RegisterContainer .LoginContent {
       margin-top: -200px !important;
-      height: 500px; }
-    .RegisterContainer .mat {
-      width: 700px; }
+      height: 400px; }
   .loginForm label {
     margin-right: 200px !important; }
   .loginForm input {
@@ -103,15 +99,13 @@
     margin: 0 200px;
     background-color: #F4F4F4 !important; } }
 
-@media only screen and (min-device-width: 1125px) {
+@media only screen and (min-device-width: 1024px) {
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
     .RegisterContainer .LoginContent {
       margin-top: -200px !important;
-      height: 450px; }
-    .RegisterContainer .mat {
-      width: 700px; }
+      height: 400px; }
   .loginForm label {
     margin-right: 400px !important; }
   .loginForm input {
@@ -120,15 +114,13 @@
     margin: 0 400px;
     background-color: #F4F4F4 !important; } }
 
-@media only screen and (min-width: 1125px) {
+@media only screen and (min-width: 1024px) {
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
     .RegisterContainer .LoginContent {
       margin-top: -200px !important;
-      height: 450px; }
-    .RegisterContainer .mat {
-      width: 700px; }
+      height: 400px; }
   .loginForm label {
     margin-right: 400px !important; }
   .loginForm input {

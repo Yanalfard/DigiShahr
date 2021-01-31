@@ -12,12 +12,13 @@
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/LoginRegister/loginRegister.min.css" rel="stylesheet" />
-    <link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />
+   @* <link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />*@
 </head>
 <body>
     <div class="RegisterContainer">
         <div class="firstHead"></div>
-        <div class="LoginContent my-clipped mat ">
+        
+        <div class="LoginContent my-clipped mat my-clipped-desktop">
             <div class="center my-column uk-margin-large-top Forget">
                 <form id="ConfirmUser" class="my-column uk-padding-small" dir="rtl">
                     @Html.AntiForgeryToken()
@@ -29,7 +30,6 @@
                     <button class="gradientButton center uk-text-center uk-margin-large-top" href="#success" uk-toggle>
                         ارسال
                     </button>
-                    <div class="space-double"></div>
                 </form>
             </div>
         </div>

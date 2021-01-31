@@ -75,7 +75,7 @@
 
     .LoginContent {
         border-radius: 8px;
-        margin-top: -60px !important;
+       margin-top: -60px !important;
 
         h3 {
             font-family: "Sahel";
@@ -95,18 +95,16 @@
         width:230px;
     }
 }
-@media only screen and (min-device-width : 760px) and (max-device-width :1125px) {
+
+///////////////////////////////////////////////////////////////////////////////////
+@media only screen and (min-device-width : 600px) and (max-device-width :1024px) {
     .RegisterContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
 
         .LoginContent {
-            margin-top: -170px !important;
-            height: 500px;
-        }
-
-        .mat {
-            width: 700px
+            margin-top: -200px !important;
+            height: 400px;
         }
     }
 
@@ -123,19 +121,16 @@
         }
     }
 }
-@media only screen and (min-width : 760px)and (max-width :1125px) {
+@media only screen and (min-width : 600px)and (max-width :1024px) {
     .RegisterContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
 
         .LoginContent {
             margin-top: -200px !important;
-            height: 500px;
+            height: 400px;
         }
 
-        .mat {
-            width: 700px
-        }
     }
 
     .loginForm {
@@ -151,18 +146,14 @@
         }
     }
 }
-@media only screen and (min-device-width : 1125px){
+@media only screen and (min-device-width : 1024px){
     .RegisterContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
 
         .LoginContent {
             margin-top: -200px !important;
-            height: 450px;
-        }
-
-        .mat {
-            width: 700px
+            height: 400px;
         }
     }
     .loginForm {
@@ -178,19 +169,16 @@
         }
     }
 }
-@media only screen and (min-width : 1125px) {
+@media only screen and (min-width : 1024px) {
     .RegisterContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
 
         .LoginContent {
             margin-top: -200px !important;
-            height: 450px;
+            height: 400px;
         }
 
-        .mat {
-            width: 700px
-        }
     }
     .loginForm {
         label {

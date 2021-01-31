@@ -91,51 +91,51 @@
 @if (Model.Ability.IsLotteryEnable)
 {
 
-<div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
-    <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
-    @if (Model.Ability.LotteryDisplayDate == null)
-    {
-        <div class="my-column uk-margin-small-right" dir="rtl">
-            <div class="uk-inline">
-                <input type="hidden" id="StoreId" value="@Model.Id" />
-                <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
-                <input class="uk-input" id="toDate" type="text" placeholder="تاریخ قرعه کشی">
+    <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
+        <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
+        @if (Model.Ability.LotteryDisplayDate == null)
+        {
+            <div class="my-column uk-margin-small-right" dir="rtl">
+                <div class="uk-inline">
+                    <input type="hidden" id="StoreId" value="@Model.Id" />
+                    <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
+                    <input class="uk-input" id="toDate" type="text" placeholder="تاریخ قرعه کشی">
+                </div>
+                <div class="uk-inline">
+                    <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="gift"></span>
+                    <input type="text" id="LotteryWinnerPrize" class="uk-input" placeholder="جایزه قرعه کشی" />
+                </div>
             </div>
-            <div class="uk-inline">
-                <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="gift"></span>
-                <input type="text" id="LotteryWinnerPrize" class="uk-input" placeholder="جایزه قرعه کشی" />
-            </div>
-        </div>
-    }
-    <hr />
-    <div class="my-row uk-margin-bottom" dir="rtl">
-        <div class="my-column">
-            @if (Model.Ability.LotteryDisplayDate == null)
-            {
-                <script src="~/Jquery/jquery-3.4.1.min.js"></script>
-                <button id="BtnLotterySubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
-                <script>
-                    $("#BtnLotterySubmit").click(function () {
-                        $.post("/Store/BtnLotterySubmit?StoreId=" + $("#StoreId").val() + "&toDate=" + $("#toDate").val() + "&LotteryWinnerPrize=" + $("#LotteryWinnerPrize").val(), function (result) {
-                            if (result == "true") {
-                                window.location.reload();
-                            }
-                        });
-                    });
-                </script>
-            }
-            else
-            {
-                if(Model.Ability.LotteryDisplayDate.Value.Date > DateTime.Now.Date)
-                {
-             <label class="uk-text-danger uk-padding-small uk-padding-remove-top">قرعه کشی برای تاریخ <span>@Model.Ability.LotteryDisplayDate.Value.DateToShamsi() </span> ثبت شده است.</label>
-                }
-
-                else if (Model.Ability.LotteryDisplayDate.Value.Date == DateTime.Now.Date)
+        }
+        <hr />
+        <div class="my-row uk-margin-bottom" dir="rtl">
+            <div class="my-column">
+                @if (Model.Ability.LotteryDisplayDate == null)
                 {
                     <script src="~/Jquery/jquery-3.4.1.min.js"></script>
-                    <button id="LotteryWinnerSubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+                    <button id="BtnLotterySubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
                     <script>
+                        $("#BtnLotterySubmit").click(function () {
+                            $.post("/Store/BtnLotterySubmit?StoreId=" + $("#StoreId").val() + "&toDate=" + $("#toDate").val() + "&LotteryWinnerPrize=" + $("#LotteryWinnerPrize").val(), function (result) {
+                                if (result == "true") {
+                                    window.location.reload();
+                                }
+                            });
+                        });
+                    </script>
+                }
+                else
+                {
+                    if (Model.Ability.LotteryDisplayDate.Value.Date > DateTime.Now.Date)
+                    {
+                        <label class="uk-text-danger uk-padding-small uk-padding-remove-top">قرعه کشی برای تاریخ <span>@Model.Ability.LotteryDisplayDate.Value.DateToShamsi() </span> ثبت شده است.</label>
+                    }
+
+                    else if (Model.Ability.LotteryDisplayDate.Value.Date == DateTime.Now.Date)
+                    {
+                        <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+                        <button id="LotteryWinnerSubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+                        <script>
                         $("#LotteryWinnerSubmit").click(
                             function () {
                                 $("#LotteryLoad").removeClass('LotteryLoad');
@@ -146,11 +146,12 @@
                                 });
                             }
                         );
-                    </script>
+                        </script>
 
-                }else if(Model.Ability.LotteryDisplayDate.Value.Date < DateTime.Now.Date)
-                {
-                    <script>
+                    }
+                    else if (Model.Ability.LotteryDisplayDate.Value.Date < DateTime.Now.Date)
+                    {
+                        <script>
                         $(function () {
                             $.post("/Store/LotteryDelete?Id=" +@Model.Id, function (result) {
                                 if (result == "true") {
@@ -158,19 +159,19 @@
                                 }
                             });
                         });
-                    </script>
+                        </script>
+                    }
                 }
+            </div>
+            @if (Model.Ability.LotteryWinner != null)
+            {
+                <div class="my-column uk-margin-auto-right uk-margin-left">
+                    <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نام برنده : @ViewBag.WinnerName</label>
+                    <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>شماره تلفن : @ViewBag.WinnerTellNo</label>
+                </div>
             }
         </div>
-        @if (Model.Ability.LotteryWinner != null)
-        {
-            <div class="my-column uk-margin-auto-right uk-margin-left">
-                <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نام برنده : @ViewBag.WinnerName</label>
-                <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>شماره تلفن : @ViewBag.WinnerTellNo</label>
-            </div>
-        }
     </div>
-</div>
 }
 <div class="matCart my-column my-clipped uk-margin-top my-clipped-desktop" dir="rtl">
     <form id="CreateDiscount" class="DiscountCode my-column uk-padding">
@@ -238,7 +239,7 @@
     <form id="CreateCategory">
 
         <div class="my-row uk-margin-top">
-            <div class="uk-inline productCategory uk-margin-small-top'" style="left:0;">
+            <div class="uk-inline productCategory uk-margin-small-top">
                 <a id="SubmitCatagory" class="uk-form-icon uk-margin-auto-vertical"><span class="icon-holder" uk-icon="add-outline"></span></a>
                 <input class="uk-input" id="CategoryName" type="text">
             </div>
@@ -281,7 +282,7 @@
 
     @foreach (var item in Model.TblProducts)
     {
-        <div class="my-row AddProductSection" dir="rtl">
+        <div onclick="EditProduct(@item.Id)" class="my-row AddProductSection" dir="rtl" href="#AddProduct" uk-toggle>
             <div class="my-column uk-margin-small-right uk-text-center">
                 <label class="ProductName">@item.Name</label>
                 <div class="my-row">
@@ -361,6 +362,12 @@
             });
         });
 
+        function EditProduct(Id) {
+            $.get("/Store/EditProduct/" + Id, function (result) {
+                $(".uk-modal-dialog").html(result);
+            });
+        }
+
         function ChangeCategory(Id) {
             $("#overlay").fadeIn(300);
             $.post("/Store/ChangeCategory?Id=" + Id + "&Name=" + $("#Category-" + Id).val(), function (result) {
@@ -383,5 +390,5 @@
 
     </script>
     <script src="~/Command/StoreVitrin.js"></script>
-    
+
 }
