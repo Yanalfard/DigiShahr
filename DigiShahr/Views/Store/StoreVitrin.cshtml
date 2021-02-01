@@ -126,7 +126,7 @@
                 }
                 else
                 {
-                    if (Model.Ability.LotteryDisplayDate.Value.Date > DateTime.Now.Date)
+                    if (Model.Ability.LotteryDisplayDate > DateTime.Now)
                     {
                         <label class="uk-text-danger uk-padding-small uk-padding-remove-top">قرعه کشی برای تاریخ <span>@Model.Ability.LotteryDisplayDate.Value.DateToShamsi() </span> ثبت شده است.</label>
                     }
@@ -149,10 +149,11 @@
                         </script>
 
                     }
-                    else if (Model.Ability.LotteryDisplayDate.Value.Date < DateTime.Now.Date)
+                    else if (Model.Ability.LotteryDisplayDate < DateTime.Now)
                     {
+                        <script src="~/Jquery/jquery-3.4.1.min.js"></script>
                         <script>
-                        $(function () {
+                            $(function () {
                             $.post("/Store/LotteryDelete?Id=" +@Model.Id, function (result) {
                                 if (result == "true") {
                                     window.location.reload();
@@ -161,15 +162,16 @@
                         });
                         </script>
                     }
+                    @if (Model.Ability.LotteryWinner != null)
+                    {
+                        <div class="my-column uk-margin-auto-right uk-margin-left">
+                            <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نام برنده : @ViewBag.WinnerName</label>
+                            <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>شماره تلفن : @ViewBag.WinnerTellNo</label>
+                        </div>
+                    }
                 }
             </div>
-            @if (Model.Ability.LotteryWinner != null)
-            {
-                <div class="my-column uk-margin-auto-right uk-margin-left">
-                    <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نام برنده : @ViewBag.WinnerName</label>
-                    <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>شماره تلفن : @ViewBag.WinnerTellNo</label>
-                </div>
-            }
+            
         </div>
     </div>
 }

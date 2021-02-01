@@ -88,6 +88,42 @@ namespace DigiShahr.Controllers
             return ViewComponent("EditProduct", new { Id = Id });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> EditProduct(TblProduct product)
+        {
+            if (string.IsNullOrEmpty(product.Name))
+            {
+                return await Task.FromResult("لطفا نام را وارد کنید");
+            }
+            else
+            {
+                if (product.StoreCatagoryId == 0)
+                {
+                    return await Task.FromResult("لطفا دسته بندی را وارد کنید");
+                }
+                else
+                {
+                    if (product.Price == 0)
+                    {
+                        return await Task.FromResult("لطفا قیمت مناسب وارد کنید");
+                    }
+                    else
+                    {
+                        TblProduct EditProduct = _core.Product.GetById(product.Id);
+                        EditProduct.StoreCatagoryId = product.StoreCatagoryId;
+                        EditProduct.Name = product.Name;
+                        EditProduct.Count = product.Count;
+                        EditProduct.Price = product.Price;
+                        EditProduct.Discount = product.Discount;
+                        EditProduct.MainImageUrl = product.MainImageUrl;
+                        _core.Product.Save();
+                        return await Task.FromResult(product.Id.ToString());
+                    }
+                }
+            }
+        }
+
         public async Task<IActionResult> OrderInMap(int Id)
         {
             TblOrder order = _core.Order.GetById(Id);
@@ -1169,6 +1205,46 @@ namespace DigiShahr.Controllers
             }
         }
 
+        public async Task<string> EditProductImage(int ProductId)
+        {
+            var file = Request.Form.Files;
+            TblProduct product = _core.Product.GetById(ProductId);
+            if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
+            {
+                return await Task.FromResult("لطفا تصویر با فرمت مناسب وارد کنید");
+            }
+            else
+            {
+                if (file[0].Length > 3000000)
+                {
+                    return await Task.FromResult("حجم فایل بیش از اندازه میباشد");
+                }
+                else
+                {
+                    if (_core.Product.GetById(ProductId).MainImageUrl == null || _core.Product.GetById(ProductId).MainImageUrl == "")
+                    {
+                        var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Upload/Product", _core.Product.GetById(ProductId).MainImageUrl);
+
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                    }
+                    product.MainImageUrl = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
+                    string savePath = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot/Upload/Product", product.MainImageUrl
+                    );
+
+                    using (var stream = new FileStream(savePath, FileMode.Create))
+                    {
+                        await file[0].CopyToAsync(stream);
+                    }
+                    _core.Product.Update(product);
+                    _core.Product.Save();
+                    return await Task.FromResult("true");
+                }
+            }
+        }
 
         public IActionResult SubscribtionTillErorr()
         {
