@@ -461,7 +461,10 @@ ul {
 
 .productSection .CategoryList {
   overflow-x: scroll !important;
-  margin: 20px 15px 5px 15px; }
+  margin: 20px 15px 5px 15px;
+  margin-bottom: -25px !important;
+  overflow-y: hidden !important;
+  padding-bottom: 25px !important; }
   .productSection .CategoryList .category {
     border-radius: 5px !important;
     border: none !important;
@@ -668,7 +671,8 @@ ul {
   position: sticky !important;
   top: 30px;
   background: white;
-  border-radius: 8px; }
+  border-radius: 8px;
+  overflow: hidden; }
   .storeProducts .CategoryListcontainer .category {
     cursor: pointer; }
 
@@ -689,7 +693,8 @@ ul {
   background: #827e7e !important; }
 
 .produceOfCategory {
-  overflow-y: scroll !important; }
+  overflow-y: scroll !important;
+  overflow-x: hidden; }
 
 .produceOfCategory::-webkit-scrollbar {
   width: 0 !important; }

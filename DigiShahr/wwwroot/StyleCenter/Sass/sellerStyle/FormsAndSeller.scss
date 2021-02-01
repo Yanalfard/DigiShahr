@@ -305,6 +305,7 @@ ul {
         font-family: "Sahel";
         margin-top: 18px !important;
     }
+
     .productCategory {
         margin: 0 auto;
 
@@ -317,10 +318,13 @@ ul {
             background: #FAE893 !important;
         }
     }
+
     .CategoryList {
         overflow-x: scroll !important;
-        margin:20px 15px 5px 15px;
-
+        margin: 20px 15px 5px 15px;
+        margin-bottom: -25px !important;
+        overflow-y: hidden !important;
+        padding-bottom: 25px !important;
 
         .category {
             border-radius: 5px !important;
@@ -334,8 +338,9 @@ ul {
             font-size: 14px;
             font-weight: 600;
             text-align: center;
-            a{
-                color:#666!important;
+
+            a {
+                color: #666 !important;
             }
         }
     }
@@ -609,6 +614,7 @@ ul {
         top: 30px;
         background: white;
         border-radius: 8px;
+        overflow:hidden;
 
         .category {
             cursor: pointer;
@@ -637,6 +643,7 @@ ul {
 
 .produceOfCategory {
     overflow-y: scroll !important;
+    overflow-x: hidden;
 }
 
 .produceOfCategory::-webkit-scrollbar {
