@@ -29,7 +29,7 @@ namespace DataLayer.ViewModel
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "لطفا آدرس فروشگاه خود را وارد کنید")]
+        [Required(ErrorMessage = "لطفا آدرس خود را وارد کنید")]
         [StringLength(500, ErrorMessage = "لطفا آدرس مناسب وارد کنید")]
         [MinLength(4, ErrorMessage = "لطفا کارکتر های بیشتری وارد کنید")]
         public string Address { get; set; }
