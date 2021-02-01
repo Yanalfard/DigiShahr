@@ -54,7 +54,7 @@
                 <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
                     <button class="uk-modal-close-default" type="button" uk-close></button>
                     <div class="uk-modal-header">
-                        <h3 class="uk-modal-title uk-text-center">لطفا محله خود را انتخاب کنبد</h3>
+                        <h3 class="uk-modal-title uk-text-center">لطفا محله خود را انتخاب کنید</h3>
                     </div>
                     <div class="uk-modal-body uk-padding-small">
                         <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
@@ -71,7 +71,7 @@
                 </div>
             </div>
             <input type="hidden" asp-for="NaighborhoodId" />
-            <span asp-validation-for="NaighborhoodId" class="uk-text-danger"></span>
+           @* <span asp-validation-for="NaighborhoodId" class="uk-text-danger"></span>*@
             <input type="hidden" id="foo" name="foo" />
             <input class="center gradientButton uk-margin-large-top" type="submit" value="ایجاد حساب">
         </form>
