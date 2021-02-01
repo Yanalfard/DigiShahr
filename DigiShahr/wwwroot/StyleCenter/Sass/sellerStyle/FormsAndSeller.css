@@ -490,6 +490,9 @@ ul {
 .productSection hr {
   margin: 4px 20px !important; }
 
+.backIconPiece {
+  left: 8vw; }
+
 .AddProductSection {
   cursor: pointer;
   padding: 10px 2px; }
@@ -888,7 +891,9 @@ ul {
       height: 140px;
       padding: 35px 7px 7px 7px; }
   .bookmarkIcone, .bookmarkIconeInStore {
-    left: 22vw !important; } }
+    left: 22vw !important; }
+  .backIconPiece {
+    left: 18vw !important; } }
 
 @media only screen and (min-width: 600px) and (max-width: 1024px) {
   body {
@@ -907,4 +912,6 @@ ul {
       height: 140px;
       padding: 35px 7px 7px 7px; }
   .bookmarkIcone, .bookmarkIconeInStore {
-    left: 22vw !important; } }
+    left: 22vw !important; }
+  .backIconPiece {
+    left: 18vw !important; } }

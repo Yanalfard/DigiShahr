@@ -75,12 +75,13 @@
     height:0!important;
 }
 .grid {
-    @include grid-gap(85px,1em);
+    @include grid-gap(90px,1em);
     padding: 20px 2vw;
     grid-template-columns: 1fr 1fr 1fr;
 
     .mat {
-        width: 85px;
+        width: 90px;
+        max-width:90px;
         border-radius: 22px;
         background: #FAE893;
         border: 1px solid #FAE893;
@@ -93,7 +94,7 @@
 
 @media only screen and (max-device-width : 300px) {
     .grid {
-        @include grid-gap(85px,1em);
+        @include grid-gap(90px,1em);
         padding: 20px 2vw;
         grid-template-columns: 1fr 1fr;
     }
@@ -101,7 +102,7 @@
 }
 @media only screen and (max-width : 300px) {
     .grid {
-        @include grid-gap(85px,1em);
+        @include grid-gap(90px,1em);
         padding: 20px 2vw;
         grid-template-columns: 1fr 1fr;
     }
