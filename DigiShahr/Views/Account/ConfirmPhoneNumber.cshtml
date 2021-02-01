@@ -17,9 +17,9 @@
 <body>
     <div class="RegisterContainer">
         <div class="firstHead"></div>
-        
-        <div class="LoginContent my-clipped mat my-clipped-desktop">
-            <div class="center my-column uk-margin-large-top Forget">
+
+        <div class="LoginContent my-clipped mat my-clipped-desktop ">
+            <div class="center my-column Forget absolute">
                 <form id="ConfirmUser" class="my-column uk-padding-small" dir="rtl">
                     @Html.AntiForgeryToken()
                     <h3>کد فعالسازی را وارد کنید</h3>
@@ -34,6 +34,7 @@
             </div>
         </div>
     </div>
+    <div class="my-spaceInTablet"></div>
     <div id="success" uk-modal>
     </div>
 </body>

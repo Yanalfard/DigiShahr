@@ -50,13 +50,13 @@
 .RegisterContainer {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  height: 100vh; }
+  grid-template-rows: 1fr 1fr; }
   .RegisterContainer .firstHead {
     background: #40916C; }
   .RegisterContainer .LoginContent {
     border-radius: 8px;
-    margin-top: -60px !important; }
+    margin-top: -140px !important;
+    min-height: 400px; }
     .RegisterContainer .LoginContent h3 {
       font-family: "Sahel";
       font-size: 17px; }
@@ -66,46 +66,44 @@
     height: 40px;
     font-size: 16px; }
 
-.Forget input {
-  width: 230px; }
+.Forget {
+  left: 0;
+  right: 0; }
+  .Forget input {
+    width: 230px; }
 
 @media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
-    .RegisterContainer .LoginContent {
-      margin-top: -200px !important;
-      height: 400px; }
   .loginForm label {
     margin-right: 200px !important; }
   .loginForm input {
     border: 0;
     border-bottom: 1px solid #aeabab;
     margin: 0 200px;
-    background-color: #F4F4F4 !important; } }
+    background-color: #F4F4F4 !important; }
+  .my-spaceInTablet {
+    height: 50px; } }
 
 @media only screen and (min-width: 600px) and (max-width: 1024px) {
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
-    .RegisterContainer .LoginContent {
-      margin-top: -200px !important;
-      height: 400px; }
   .loginForm label {
     margin-right: 200px !important; }
   .loginForm input {
     border: 0;
     border-bottom: 1px solid #aeabab;
     margin: 0 200px;
-    background-color: #F4F4F4 !important; } }
+    background-color: #F4F4F4 !important; }
+  .my-spaceInTablet {
+    height: 50px; } }
 
 @media only screen and (min-device-width: 1024px) {
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
-    .RegisterContainer .LoginContent {
-      margin-top: -200px !important;
-      height: 400px; }
   .loginForm label {
     margin-right: 400px !important; }
   .loginForm input {
@@ -118,9 +116,6 @@
   .RegisterContainer {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr; }
-    .RegisterContainer .LoginContent {
-      margin-top: -200px !important;
-      height: 400px; }
   .loginForm label {
     margin-right: 400px !important; }
   .loginForm input {
