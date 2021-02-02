@@ -1,4 +1,4 @@
-﻿@model DataLayer.Models.TblStore
+﻿@model DataLayer.ViewModel.PieceViewModol
 @{
     ViewData["Title"] = "فروشگاه";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -8,7 +8,7 @@
 
 <style>
     .bannerBackground {
-        background: @Model.Catagory.Color;
+        background: @Model.Store.Catagory.Color;
     }
 </style>
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
@@ -17,18 +17,18 @@
 
     <div class="BannerPlace BannerInStore Piecebanner matCart center my-clipped my-clipped-desktop bannerBackground">
         <a href="/"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left backIconDesktop backIconPiece" uk-icon="backIcon"></span></a>
-        <img class="storeMainBanner MainbannerImage center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+        <img class="storeMainBanner MainbannerImage center" src="~/Upload/StoreMainBanner/@Model.Store.MainBannerUrl" />
     </div>
 
     <div class="center my-column uk-position-absolute ">
 
         <div class="center storeStars uk-margin-top">
-            <div class="star-container" uk-tooltip="@Model.Rate">
-                <div class="Stars" style="--rating:@Model.Rate"></div>
+            <div class="star-container" uk-tooltip="@Model.Store.Rate">
+                <div class="Stars" style="--rating:@Model.Store.Rate"></div>
             </div>
         </div>
         <div class="center LogoPictureInStore">
-            <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl" />
+            <img class="storeLogo" src="/Upload/StoreLogo/@Model.Store.LogoUrl" />
         </div>
     </div>
     <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
@@ -37,19 +37,19 @@
             {
                 @if (ViewBag.Bookmark == true)
                 {
-                    <a onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted uk-text-danger" uk-icon="bookmark"></span></a>
+                    <a onclick="ChangeBookMark(@Model.Store.Id,@ViewBag.UserId)" class="i uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted uk-text-danger" uk-icon="bookmark"></span></a>
                 }
                 else
                 {
-                    <a onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+                    <a onclick="ChangeBookMark(@Model.Store.Id,@ViewBag.UserId)" class="i uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
                 }
             }
-            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Name</label>
-            @if (Model.Ability.TahvilVaTasvieDarForushgah == 1)
+            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Store.Name</label>
+            @if (Model.Store.Ability.TahvilVaTasvieDarForushgah == 1)
             {
                 <label class="uk-margin-small-top">تحویل و تسویه درب فروشگاه<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="storefront"></span></label>
             }
-            @if (Model.Ability.TahvilVaTasvieDarMahal == 1)
+            @if (Model.Store.Ability.TahvilVaTasvieDarMahal == 1)
             {
                 <label class="uk-margin-small-top uk-margin-small-bottom">تحویل و تسویه درب منزل<span class="icon-holder uk-margin-small-left uk-text-warning" uk-icon="home"></span></label>
             }
@@ -59,39 +59,41 @@
 
 </div>
 <hr class="uk-divider-icon" />
-@if (Model.Ability.IsLotteryEnable)
+@if (Model.Store.Ability.IsLotteryEnable)
 {
-    if (Model.Ability.LotteryDisplayDate != null)
+    if (Model.Store.Ability.LotteryDisplayDate != null)
     {
-        @if (DateTime.Now.Date < Model.Ability.LotteryDisplayDate.Value.Date)
+        @if (DateTime.Now.Date < Model.Store.Ability.LotteryDisplayDate.Value.Date)
         {
             <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
                 <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
                 <hr class="uk-divider-icon" />
                 <div class="LotteryIcon uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right my-column">
-                    <label>@Model.Ability.LotteryDisplayDate.Value.AllToShamsi()<span class="icon-holder" uk-icon="calendar"></span></label>
-                    <label class="uk-margin-small-top uk-margin-bottom">@Model.Ability.LotteryDisplayPrize<span class="icon-holder" uk-icon="gift"></span></label>
+                    <label>@Model.Store.Ability.LotteryDisplayDate.Value.AllToShamsi()<span class="icon-holder" uk-icon="calendar"></span></label>
+                    <label class="uk-margin-small-top uk-margin-bottom">@Model.Store.Ability.LotteryDisplayPrize<span class="icon-holder" uk-icon="gift"></span></label>
                 </div>
             </div>
         }
     }
 }
 
-@if (Model.Ability.IsBanner1Enable)
+@if (Model.Store.Ability.IsBanner1Enable)
 {
     <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground my-clipped-desktop">
-        <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
+        <img class="bannerImage" src="/Upload/Banner1/@Model.Store.Ability.BannerImageUrl1" />
     </div>
 }
 <div class="matCart storeProducts productSection my-column my-clipped uk-margin-small-top my-clipped-desktop">
     <div class="CategoryListcontainer">
 
         <div class="uk-margin-large-top my-row CategoryList">
-
-            @foreach (var item in Model.TblCatagories)
+            <div class="category">
+                <a class="i" href="/Home/Piece?Id=@Model.Store.Id">همه</a>
+            </div>
+            @foreach (var item in Model.Store.TblCatagories)
             {
                 <div class="category">
-                    <a href="/Home/Piece?Id=@Model.Id&Category=@item.Id">@item.Name</a>
+                    <a class="i" href="/Home/Piece?Id=@Model.Store.Id&Category=@item.Id">@item.Name</a>
                 </div>
             }
 
@@ -100,7 +102,7 @@
     </div>
 
     <div class="produceOfCategory" >
-        @foreach (var item in Model.TblProducts)
+        @foreach (var item in Model.Products)
         {
             if (item.Count == 0)
             {
@@ -138,18 +140,18 @@
                         {
                             @if (User.Identity.IsAuthenticated)
                             {
-                                @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Id)
+                                @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
                                 {
                                     <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
                                 }
                                 else
                                 {
-                                    <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                                    <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن به سبد</button>
                                 }
                             }
                             else
                             {
-                                <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                                <button onclick="window.location.href='/Account/Login'" class="i gradientButton center uk-margin-small-top">افزودن به سبد</button>
                             }
                         }
                     </div>
@@ -185,7 +187,7 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Id)
+                        @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
                         {
                             <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
                         }
@@ -206,10 +208,10 @@
     </div>
 
 </div>
-@if (Model.Ability.IsBanner2Enable)
+@if (Model.Store.Ability.IsBanner2Enable)
 {
     <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground my-clipped-desktop">
-        <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
+        <img class="bannerImage" src="/Upload/Banner2/@Model.Store.Ability.BannerImageUrl2" />
     </div>
 }
 <div class="my-space"></div>
@@ -217,6 +219,11 @@
 
 @section Script{
     <script>
+
+        $(".i").click(function () {
+            $("#overlay").fadeIn(300);
+        });
+
         function AddToCart(Id) {
             $("#overlay").fadeIn(300);
             $.post("/Order/AddToCart?Id=" + Id, function (result) {

@@ -68,15 +68,16 @@
                 window.location.reload();
             }
 
-            if (result == "ParentIdtrue") {
+            else if (result == "ParentIdtrue") {
                 $(".loadingicon").addClass("d-none");
+                alert("2");
                 $("#Erorr").html("ثبت شد");
                 $.get("/Admin/StoreCategory/pChild?id=" + $("#ParentId").val(), function (result) {
                     $(".modal-content").html(result);
                 });
             }
 
-            else {
+            else if (result != "true" || result != "ParentIdtrue") {
                 $(".loadingicon").addClass("d-none");
                 $("#Erorr").html(result);
             }

@@ -9,6 +9,7 @@ namespace DataLayer.ViewModel
     {
         public int DealId { get; set; }
 
+        [Required(ErrorMessage ="لطفا تصویر را وارد کنید")]
         public string LogoUrl { get; set; }
 
         [Required(ErrorMessage = "لطفا نام فروشگاه را وارد کنید")]
@@ -20,7 +21,7 @@ namespace DataLayer.ViewModel
         [MinLength(10, ErrorMessage = "لطفا شماره تماس ثابت معتبر وارد کنید")]
         public string StaticTell { get; set; }
 
-        [Required(ErrorMessage = "لطفا آدرس خود را وارد کنید")]
+        [Required(ErrorMessage = "لطفا آدرس فروشگاه را وارد کنید")]
         [StringLength(500, ErrorMessage = "لطفا کارکتر های کمتری وارد کنید")]
         [MinLength(10, ErrorMessage = "لطفا کارکتر های کمتری وارد کنید")]
         public string Address { get; set; }

@@ -66,7 +66,6 @@ namespace DigiShahr.Controllers
 
         }
 
-
         public async Task<IActionResult> OrderInfo(int Id)
         {
             return await Task.FromResult(ViewComponent("OrderInfoInStore", new { Id = Id }));

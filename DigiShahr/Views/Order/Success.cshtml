@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "سفارش خود را نهایی کنید";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
-}
 
+}
 <link href="~/StyleCenter/Sass/Home/Bascket.min.css" rel="stylesheet" />
 <div class="my-space"></div>
 <div class="matCart my-column my-clipped my-clipped-desktop">
@@ -32,6 +32,22 @@
                 }
             </script>
         </div>
+        <div class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
+            @foreach (var item in Model.TblOrderDetails)
+            {
+                <div class="my-row ShoppingList uk-text-bold " dir="rtl">
+                    <label>@item.Product.Name</label>
+                    <label class="uk-text-success">@((item.Product.Price*item.Count).ToString("#,0 تومان"))</label>
+                    <div class="Count">
+                        <span>@item.Count عدد</span>
+                    </div>
+                </div>
+                <hr />
+            }
+            <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top uk-margin-bottom">
+                <label>جمع سفارش شما:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
+            </div>
+        </div>
 
 
 
@@ -42,17 +58,18 @@
 
     @if (Model.IsFinaly && !Model.IsValid && !Model.IsDeleted)
     {
-        @if (Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds >= 0)
+        @if ((int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds)  > 0)
         {
             <div class="center uk-margin-large-top uk-margin-bottom">
                 <div class="timer">
                     <div id="app"></div>
                 </div>
             </div>
+            
             <script>
                 setInterval(function () {
                     window.location.reload();
-                }, 3000)
+                }, @ViewBag.ValidationTime)
             </script>
             <h3 class="successText center">
                 لیست سفارشات شما برای فروشنده ارسال شد لطفا تا پایان زمان بالا منتظر بمانید
@@ -81,11 +98,11 @@
             <script>
         $(document).ready(function () {
             $.post("/Order/Deleted?Id=" + @Model.Id, function (result) {
-                if (result == "true") {
-                    window.location.reload();
-                }
+                    if (result == "true") {
+                        window.location.reload();
+                    }
+                });
             });
-        });
             </script>
         }
     }
@@ -153,11 +170,11 @@
 
 </div>
 <div class="my-space"></div>
-@{
-    var ValidationTimeSpan = Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds;
-}
+
 @if (Model.IsFinaly && !Model.IsValid)
 {
+    int ValidationTimeSpan = (int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds);
+
     <script>
     const FULL_DASH_ARRAY = 283;
     const WARNING_THRESHOLD = 10;

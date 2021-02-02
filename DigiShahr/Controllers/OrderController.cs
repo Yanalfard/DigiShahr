@@ -20,62 +20,70 @@ namespace DigiShahr.Controllers
 
             TblOrder order = _core.Order.Get().SingleOrDefault(o => o.UserId == userId && !o.IsFinaly);
             TblProduct product = _core.Product.GetById(Id);
-            if (order == null)
+            if (product.Count > 0)
             {
-                order = new TblOrder()
+                if (order == null)
                 {
-                    UserId = userId,
-                    DateSubmited = DateTime.Now,
-                    IsFinaly = false,
-                    IsPayed = false,
-                    IsValid = false,
-                    Price = 0,
-                    DiscountId = null,
-                    StoreId = _core.Product.GetById(Id).StoreCatagory.StoreId
-
-                };
-                _core.Order.Add(order);
-                _core.Order.Save();
-                _core.OrderDetail.Add(new TblOrderDetail()
-                {
-                    OrderId = order.Id,
-                    Count = 1,
-                    ProductId = product.Id
-                });
-                _core.OrderDetail.Save();
-            }
-            else
-            {
-                if (order.TblOrderDetails.Count() != 0)
-                {
-                    if (order.TblOrderDetails.FirstOrDefault().Product.StoreId != product.StoreId)
+                    order = new TblOrder()
                     {
-                        return await Task.FromResult("ExitStore");
-                    }
-                    var Details = _core.OrderDetail.Get().SingleOrDefault(od => od.OrderId == order.Id && od.ProductId == Id);
+                        UserId = userId,
+                        DateSubmited = DateTime.Now,
+                        IsFinaly = false,
+                        IsPayed = false,
+                        IsValid = false,
+                        Price = 0,
+                        DiscountId = null,
+                        StoreId = _core.Product.GetById(Id).StoreCatagory.StoreId
 
-                    if (Details == null)
+                    };
+                    _core.Order.Add(order);
+                    _core.Order.Save();
+                    if (product.Count > 0)
                     {
                         _core.OrderDetail.Add(new TblOrderDetail()
                         {
                             OrderId = order.Id,
                             Count = 1,
-                            ProductId = product.Id,
+                            ProductId = product.Id
                         });
+                        _core.OrderDetail.Save();
                     }
-                    else
+
+                }
+                else
+                {
+                    if (order.TblOrderDetails.Count() != 0)
                     {
-                        if (product.Count >= Details.Count)
+                        if (order.TblOrderDetails.FirstOrDefault().Product.StoreId != product.StoreId)
                         {
-                            _core.OrderDetail.Update(Details);
+                            return await Task.FromResult("ExitStore");
+                        }
+                        var Details = _core.OrderDetail.Get().SingleOrDefault(od => od.OrderId == order.Id && od.ProductId == Id);
+
+                        if (Details == null)
+                        {
+                            if (product.Count > 0)
+                            {
+                                _core.OrderDetail.Add(new TblOrderDetail()
+                                {
+                                    OrderId = order.Id,
+                                    Count = 1,
+                                    ProductId = product.Id,
+                                });
+                                _core.Product.Save();
+                            }
                         }
                         else
                         {
-                            Details.Count += 1;
-                            _core.OrderDetail.Update(Details);
+                            if (product.Count > Details.Count)
+                            {
+                                Details.Count += 1;
+                                _core.OrderDetail.Update(Details);
+                            }
+
                         }
+                        _core.OrderDetail.Save();
                     }
-                    _core.OrderDetail.Save();
                 }
             }
             return await Task.FromResult("true");
@@ -109,7 +117,7 @@ namespace DigiShahr.Controllers
             {
                 case "up":
                     {
-                        if (orderdetail.Count >= orderdetail.Product.Count || orderdetail.Product.Count==0)
+                        if (orderdetail.Product.Count <= orderdetail.Count)
                         {
                             return "این کالا بیشتر از این تعداد موجود نمیباشد";
                         }
@@ -177,6 +185,7 @@ namespace DigiShahr.Controllers
         public async Task<IActionResult> Success(int Id)
         {
             TblOrder order = _core.Order.GetById(Id);
+            ViewBag.ValidationTime = (string)Math.Floor(order.DateSubmited.AddSeconds(order.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds).ToString() + "000";
             return await Task.FromResult(View(order));
         }
 
@@ -221,12 +230,13 @@ namespace DigiShahr.Controllers
         {
             TblOrder order = _core.Order.GetById(Id);
             order.IsFinaly = true;
+            order.DateSubmited = DateTime.Now;
             foreach (var item in order.TblOrderDetails)
             {
-                item.Product.Count = -item.Count;
+                item.Product.Count = item.Product.Count - item.Count;
             }
             _core.Product.Save();
-            _core.Order.Save();
+            _core.Order.Update(order);
             return await Task.FromResult("true");
         }
 

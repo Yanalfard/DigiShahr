@@ -98,21 +98,25 @@ namespace DigiShahr.Controllers
                 if (Category == 0 || Category == null)
                 {
                     ViewBag.Bookmark = false;
-
-                    return await Task.FromResult(View(_core.Store.GetById(Id)));
+                    TblStore store = _core.Store.GetById(Id);
+                    PieceViewModol piece = new PieceViewModol();
+                    piece.Store = store;
+                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id);
+                    return await Task.FromResult(View(piece));
                 }
                 else
                 {
                     ViewBag.Bookmark = false;
                     TblStore store = _core.Store.GetById(Id);
-                    store.TblProducts = (ICollection<TblProduct>)_core.Product.Get(p => p.StoreCatagory.Id == Category);
-
-
-                    return await Task.FromResult(View(store));
+                    PieceViewModol piece = new PieceViewModol();
+                    piece.Store = store;
+                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id && p.StoreCatagoryId == Category);
+                    return await Task.FromResult(View(piece));
                 }
             }
             else
             {
+                TblStore store = _core.Store.GetById(Id);
                 if (Category == 0 || Category == null)
                 {
                     if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
@@ -125,8 +129,10 @@ namespace DigiShahr.Controllers
                         ViewBag.Bookmark = false;
                         ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
                     }
-
-                    return await Task.FromResult(View(_core.Store.GetById(Id)));
+                    PieceViewModol piece = new PieceViewModol();
+                    piece.Store = store;
+                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id);
+                    return await Task.FromResult(View(piece));
                 }
                 else
                 {
@@ -140,8 +146,10 @@ namespace DigiShahr.Controllers
                         ViewBag.Bookmark = false;
                         ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
                     }
-
-                    return await Task.FromResult(View(_core.Store.GetById(Id).TblProducts.Where(p => p.StoreCatagory.Id == Category)));
+                    PieceViewModol piece = new PieceViewModol();
+                    piece.Store = store;
+                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id && p.StoreCatagoryId == Category);
+                    return await Task.FromResult(View(piece));
                 }
             }
 

@@ -13,14 +13,6 @@
         <a><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
     </div>
     <div class="my-column cart-section uk-padding-small" dir="rtl">
-        <div class="my-row ShoppingList uk-text-bold " dir="rtl">
-            <label>نام محصول</label>
-            <label class="uk-text-danger">قیمت(تومان)</label>
-            <div class="Count">
-                <span>تعداد</span>
-            </div>
-        </div>
-        <hr />
         @foreach (var item in Model.TblOrderDetails)
         {
             <div class="my-row ShoppingList" dir="rtl">
@@ -46,23 +38,59 @@
                 <label class="uk-margin-small-bottom"><span class="icon-holder uk-margin-small-left uk-text-danger" uk-icon="location"></span>@Model.User.Address</label>
             </div>
         </div>
+        @if ((int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds) > 0)
+        {
+            <div class="my-column uk-margin-top center cartInSller">
+                <div class="timer">
+                    <div id="app"></div>
+                </div>
+                <div class="my-column">
+                    <a onclick="OrderSuccess(@Model.Id)" class="gradientButtonLink uk-margin-top">قبول سفارش</a>
+                    <a onclick="DeleteOrder(@Model.Id)" class="gradientButtonLink uk-margin-top">رد سفارش</a>
+                </div>
+                <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+                <script>
 
-        <div class="my-column uk-margin-top center cartInSller">
-            <div class="timer">
-                <div id="app"></div>
+                    function OrderSuccess(Id) {
+                        $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
+                            if (result == "true") {
+                                window.location.reload();
+                            }
+                        });
+                    }
+
+                    function DeleteOrder(Id) {
+                        $.post("/Order/Deleted?Id=" + Id, function (result) {
+                            if (result == "true") {
+                                window.location.href = "/Store";
+                            }
+                        });
+                    }
+
+                </script>
             </div>
-            <div class="my-column">
-                <a class="gradientButtonLink uk-margin-top">قبول سفارش</a>
-                <a class="gradientButtonLink uk-margin-top">رد سفارش</a>
-            </div>
-        </div>
+        }
+        else if((int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds) < 0)
+        {
+            <script>
+                $(function () {
+                    $.post("/Order/Deleted?Id=" +@Model.Id, function (result) {
+                        if (result == "true") {
+                            window.location.reload();
+                        }
+                    });
+                });
+            </script>
+        }
     </div>
 </div>
 <div class="my-space"></div>
 @{
-    var ValidationTimeSpan = Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).Seconds;
+    var ValidationTimeSpan = (int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds);
 }
-<script>
+@if ((int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds) > 0)
+{
+    <script>
     const FULL_DASH_ARRAY = 283;
     const WARNING_THRESHOLD = 10;
     const ALERT_THRESHOLD = 5;
@@ -176,6 +204,7 @@
             .getElementById("base-timer-path-remaining")
             .setAttribute("stroke-dasharray", circleDasharray);
     }
-</script>
+    </script>
+}
 
 
