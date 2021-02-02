@@ -73,7 +73,7 @@ body {
     .map {
         width: 100%;
         margin: auto !important;
-        height: 160px;
+        height: 200px;
         overflow: hidden;
     }
 }
@@ -360,6 +360,12 @@ ul {
 }
 .backIconPiece {
     left: 8vw;
+}
+.MusicInPiece {
+    background: #fff;
+    opacity: 0.7;
+    border-radius: 8px;
+    padding: 2px;
 }
 .AddProductSection {
     cursor: pointer;
@@ -923,6 +929,7 @@ $checked-color: #fc0;
     .backIconPiece {
         left: 18vw !important;
     }
+
 }
 
 @media only screen and (min-width : 600px) and (max-width :1024px) {
