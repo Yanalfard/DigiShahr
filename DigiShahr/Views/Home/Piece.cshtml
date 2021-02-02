@@ -142,16 +142,16 @@
                             {
                                 @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
                                 {
-                                    <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
+                                    <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
                                 }
                                 else
                                 {
-                                    <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                                    <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن</button>
                                 }
                             }
                             else
                             {
-                                <button onclick="window.location.href='/Account/Login'" class="i gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                                <button onclick="window.location.href='/Account/Login'" class="i gradientButton center uk-margin-small-top">افزودن</button>
                             }
                         }
                     </div>
@@ -189,16 +189,16 @@
                     {
                         @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
                         {
-                            <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن به سبد</button>
+                            <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
                         }
                         else
                         {
-                            <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                            <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن</button>
                         }
                     }
                     else
                     {
-                        <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-small-top">افزودن به سبد</button>
+                        <button onclick="window.location.href='/Account/Login'" class="gradientButton center uk-margin-small-top">افزودن</button>
                     }
                 </div>
             </div>

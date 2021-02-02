@@ -105,7 +105,7 @@
                             @foreach (var item in ViewBag.Music)
                             {
                                 <label class="uk-margin-top">
-                                    <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" value="@item.Id">نام موزیک اول
+                                    <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" value="@item.Id">
                                     <audio controls="controls">
                                         <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
                                     </audio>

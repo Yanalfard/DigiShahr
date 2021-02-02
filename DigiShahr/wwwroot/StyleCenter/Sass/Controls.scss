@@ -273,6 +273,12 @@ body {
 
     z-index: 10000000;
 }
+.MenuCategory {
+    background: $gradientButton;
+    border-radius:45px;
+    color: white !important;
+    padding: 10px 20px;
+}
 /////////////desktop/////////////////
 @media only screen and (min-device-width : 1024px) {
     .my-clipped-desktop {
@@ -314,6 +320,7 @@ body {
     .BannerPlace .absolute-right {
         right: 30vw !important;
     }
+
     .notificationList {
         .notificationListBox {
             width: 33vw;

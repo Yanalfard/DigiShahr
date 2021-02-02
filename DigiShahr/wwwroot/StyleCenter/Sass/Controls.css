@@ -460,6 +460,12 @@ body {
   .modal-sections .uk-modal-dialog {
     border-radius: 7px; }
 
+.MenuCategory {
+  background: linear-gradient(92.26deg, #84A98C 0.29%, #40916C 100.32%);
+  border-radius: 45px;
+  color: white !important;
+  padding: 10px 20px; }
+
 @media only screen and (min-device-width: 1024px) {
   .my-clipped-desktop {
     width: 45vw !important; }

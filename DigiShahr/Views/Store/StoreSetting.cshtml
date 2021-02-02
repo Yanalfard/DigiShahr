@@ -120,12 +120,24 @@
                             }
                             @foreach (var item in musics)
                             {
+                                if (item.Id == Model.MusicId)
+                                {
+                                    <label class="uk-margin-top">
+                                        <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" checked  value="@item.Id">
+                                        <audio controls="controls">
+                                            <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
+                                        </audio>
+                                    </label>
+                                }
+                                else
+                                {
                                 <label class="uk-margin-top">
-                                    <input class="uk-checkbox uk-margin-remove-top m" type="radio" value="@item.Id">نام موزیک اول
+                                    <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" value="@item.Id">
                                     <audio controls="controls">
                                         <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
                                     </audio>
                                 </label>
+                                }
                             }
                         </div>
                     </div>
