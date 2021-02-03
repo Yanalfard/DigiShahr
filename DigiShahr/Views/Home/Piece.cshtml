@@ -13,10 +13,13 @@
 </style>
 
 @section MusicInStore{
-    <li><a id="play"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
-    <li><a id="Pause"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
-    <audio id="music" hidden src="~/Upload/Music/@Model.Store.Ability.Music.MusicUrl" preload="auto"></audio>
-<script src="~/Jquery/jquery-3.4.1.js"></script>
+
+    @if (Model.Store.Ability.IsMusicEnable.Value)
+    {
+        <li><a id="play"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
+        <li><a id="Pause"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
+        <audio id="music" hidden src="~/Upload/Music/@Model.Store.Ability.Music.MusicUrl" preload="auto"></audio>
+        <script src="~/Jquery/jquery-3.4.1.js"></script>
         <script>
 
             if (document.getElementById("music").paused) {
@@ -29,7 +32,7 @@
 
             $("#play").click(function () {
                 var music = document.getElementById("music");
-                music.play(); 
+                music.play();
                 $("#Pause").show();
                 $("#play").hide();
             });
@@ -41,6 +44,7 @@
                 $("#play").show();
             });
         </script>
+    }
 }
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
@@ -194,6 +198,7 @@
                         }
                     </div>
                 </div>
+                <hr />
             }
             else
             {
