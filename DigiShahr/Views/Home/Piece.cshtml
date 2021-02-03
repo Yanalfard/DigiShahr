@@ -156,6 +156,7 @@
                         }
                     </div>
                 </div>
+                <hr />
             }
             else
             {
@@ -167,8 +168,10 @@
                             @if (item.Discount != 0)
                             {
                                 <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
-
-                                <label>@(item.Price * item.Discount / 100)<span>تومان</span></label>
+                                
+                                    int priceOff = (int)Math.Floor((double)(item.Price - (item.Price * item.Discount / 100)));
+                                
+                                <label>@priceOff<span>تومان</span></label>
                             }
                             else
                             {

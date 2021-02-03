@@ -511,8 +511,14 @@
 
 @media only screen and (min-device-width: 600px) {
   .index {
-    height: 100vh; } }
+    min-height: 100vh; }
+    .index .MenuGrid {
+      margin-top: 10px;
+      margin-bottom: 64px; } }
 
 @media only screen and (min-width: 600px) {
   .index {
-    height: 100vh; } }
+    min-height: 100vh; }
+    .index .MenuGrid {
+      margin-top: 10px;
+      margin-bottom: 64px; } }
