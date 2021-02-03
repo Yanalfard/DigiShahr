@@ -61,9 +61,12 @@ body {
         /* * {
             overflow: hidden;
         }*/
-        /*.chevron-back {
-            margin-right: 90px !important;
-        }*/
+        .chevron-back {
+            float:left!important;
+            text-align:left!important;
+            margin-right:auto!important;
+
+        }
 
         h3 {
             font-family: "Sahel";

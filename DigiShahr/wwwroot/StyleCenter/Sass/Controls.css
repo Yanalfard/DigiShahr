@@ -290,13 +290,14 @@ body {
     /* * {
             overflow: hidden;
         }*/
-    /*.chevron-back {
-            margin-right: 90px !important;
-        }*/
     width: 318px;
     background: #fff;
     opacity: 1;
     color: #555; }
+    .layoutHeader .uk-offcanvas-bar .chevron-back {
+      float: left !important;
+      text-align: left !important;
+      margin-right: auto !important; }
     .layoutHeader .uk-offcanvas-bar h3 {
       font-family: "Sahel";
       font-size: 20px;
