@@ -185,7 +185,7 @@ namespace DigiShahr.Controllers
         public async Task<IActionResult> CreateRate(int rate, int Id)
         {
             TblStore store = _core.Store.GetById(Id);
-            store.RateCount = + 1;
+            store.RateCount = store.RateCount + 1;
             store.Rate = (float)((store.Rate * store.RateCount) + rate) / (store.RateCount + 1);
             _core.Store.Update(store);
             _core.Store.Save();
@@ -211,7 +211,12 @@ namespace DigiShahr.Controllers
                     TblOrder order = _core.Order.GetById(Id);
                     order.IsFinaly = false;
                     order.DateSubmited = DateTime.Now;
-                    order.Price = order.TblOrderDetails.Sum(o => o.Product.Price * o.Count) * discount.Persentage / 100;
+                    int mainSum = 0;
+                    foreach (var i in order.TblOrderDetails)
+                    {
+                        mainSum += i.Count * i.Product.Price;
+                    }
+                    order.Price = (int)Math.Floor((double)(mainSum * discount.Persentage / 100));
                     order.Status = Delivery;
                     _core.Order.Update(order);
                     _core.Order.Save();
@@ -227,7 +232,12 @@ namespace DigiShahr.Controllers
                 TblOrder order = _core.Order.GetById(Id);
                 order.IsFinaly = false;
                 order.DateSubmited = DateTime.Now;
-                order.Price = order.TblOrderDetails.Sum(o => o.Product.Price * o.Count);
+                int mainSum = 0;
+                foreach (var i in order.TblOrderDetails)
+                {
+                    mainSum += i.Count * i.Product.Price;
+                }
+                order.Price = mainSum;
                 order.Status = Delivery;
                 _core.Order.Update(order);
                 _core.Order.Save();

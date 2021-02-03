@@ -55,7 +55,7 @@
                         $("#overlay").fadeIn(300);
                         $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
                             if (result == "true") {
-                                window.location.reload();
+                                window.location.href = "/Store/Dasboard";
                             }
                         });
                     }
@@ -64,7 +64,7 @@
                         $("#overlay").fadeIn(300);
                         $.post("/Order/Deleted?Id=" + Id, function (result) {
                             if (result == "true") {
-                                window.location.href = "/Store";
+                                window.location.href = "/Store/Dasboard";
                             }
                         });
                     }

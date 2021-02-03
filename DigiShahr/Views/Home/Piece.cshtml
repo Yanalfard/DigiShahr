@@ -16,11 +16,19 @@
 
     @if (Model.Store.Ability.IsMusicEnable.Value)
     {
-        <li><a id="play"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
-        <li><a id="Pause"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
+        <li><a id="play"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
+        <li><a id="Pause"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
         <audio id="music" hidden src="~/Upload/Music/@Model.Store.Ability.Music.MusicUrl" preload="auto"></audio>
         <script src="~/Jquery/jquery-3.4.1.js"></script>
         <script>
+
+            $(function () {
+                var music = document.getElementById("music");
+                music.play();
+                $("#Pause").show();
+                $("#play").hide();
+            });
+
 
             if (document.getElementById("music").paused) {
                 $("#Pause").hide();
@@ -105,7 +113,7 @@
                 <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
                 <hr class="uk-divider-icon" />
                 <div class="LotteryIcon uk-margin-auto-left uk-margin-auto-vertical uk-margin-small-right my-column">
-                    <label>@Model.Store.Ability.LotteryDisplayDate.Value.AllToShamsi()<span class="icon-holder" uk-icon="calendar"></span></label>
+                    <label>@Model.Store.Ability.LotteryDisplayDate.Value.DateToShamsi()<span class="icon-holder" uk-icon="calendar"></span></label>
                     <label class="uk-margin-small-top uk-margin-bottom">@Model.Store.Ability.LotteryDisplayPrize<span class="icon-holder" uk-icon="gift"></span></label>
                 </div>
             </div>
@@ -157,7 +165,7 @@
                                 {
                                     <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
 
-                                    <label>@(item.Price * item.Discount / 100)<span>تومان</span></label>
+                                    <label>@((item.Price * item.Discount) / 100)<span>تومان</span></label>
                                 }
                                 else
                                 {
@@ -211,7 +219,7 @@
                                 {
                                     <label class="uk-margin-top"><s>@item.Price.ToString("#,0")<span>تومان</span></s></label>
 
-                                    <label>@(item.Price * item.Discount / 100)<span>تومان</span></label>
+                                    <label>@(item.Price - item.Price * item.Discount / 100)<span>تومان</span></label>
                                 }
                                 else
                                 {

@@ -58,14 +58,14 @@
 
     @if (Model.IsFinaly && !Model.IsValid && !Model.IsDeleted)
     {
-        @if ((int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds)  > 0)
+        @if ((int)Math.Floor(Model.DateSubmited.AddSeconds(Model.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds) > 0)
         {
             <div class="center uk-margin-large-top uk-margin-bottom">
                 <div class="timer">
                     <div id="app"></div>
                 </div>
             </div>
-            
+
             <script>
                 setInterval(function () {
                     window.location.reload();
@@ -165,10 +165,11 @@
                 <label>جمع سفارش شما:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
             </div>
         </div>
+        <script src="~/Jquery/jquery-3.4.1.min.js"></script>
         <script>
-            setInterval(1000, function () {
-                window.location.href = "/Order/Deliver/" + @Model.StoreId;
-            });
+            setInterval(function () {
+                    window.location.href = "/Order/Deliver/" + @Model.StoreId;
+                }, 1000)
         </script>
     }
 

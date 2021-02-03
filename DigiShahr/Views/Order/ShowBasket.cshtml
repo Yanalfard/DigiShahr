@@ -51,9 +51,13 @@
             <hr class="uk-divider-icon uk-margin-remove-top" />
             <input id="Discount" class="uk-input uk-border-rounded" type="text" placeholder="کد تخفیف (در صورت وجود)..">
             @{
-                int c = (int)(Model.TblOrderDetails.Sum(i => i.Product.Price)) * (int)(Model.TblOrderDetails.Sum(j => j.Count));
+                int mainSum = 0;
+                foreach (var i in Model.TblOrderDetails)
+                {
+                    mainSum += i.Count * i.Product.Price;
+                }
             }
-            <label class="uk-text-success center uk-margin-top">قیمت مجموع سفارشات: <span>@c.ToString("#,0") تومان</span></label>
+            <label class="uk-text-success center uk-margin-top">قیمت مجموع سفارشات: <span>@mainSum.ToString("#,0") تومان</span></label>
             <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل و ثبت سفارش </button>
 
         </div>
