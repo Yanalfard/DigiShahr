@@ -170,14 +170,15 @@
         z-index: 100000;
     }
 
-    .leaflet-popup-content {
-        text-align: right !important;
-        // margin: 12px 3px !important;
-        //padding:7px;
-        width: 220px;
-        height: 230px;
-        z-index: 100000;
-    }
+.leaflet-popup-content {
+    text-align: right !important;
+    // margin: 12px 3px !important;
+    //padding:7px;
+    width: 220px;
+    height: 230px;
+    z-index: 100000;
+ 
+}
 
     .image-popup {
         max-height: 80px;
@@ -185,38 +186,47 @@
         border-radius: 50%!important;
     }
 
-    .PopUpContent {
-        z-index: 100000;
-        height: 180px;
-        width: 180px;
-        // background: #FFF8D2;
-        border-radius: 8px;
+.PopUpContent {
+    z-index: 100000;
+    height: 180px;
+    width: 225px !important;
+    font-size: 14px!important;
+    // background: #FFF8D2;
+    border-radius: 8px;
 
-        .gradientButtonLink {
-            width: 103px !important;
-            padding: 6px 0 !important;
-            height: 15px;
+    .popUpHead {
+        // width:150px;
+    }
+
+    .gradientButtonLink {
+        width: 108px !important;
+        padding: 7px 0 !important;
+        height: 18px;
 
 
-            a {
-                color: white !important;
-            }
-        }
-
-        .gly-rotate-45 {
-            /*filter: progid : DXImageTransform.Microsoft.BasicImage(rotation=0.5);*/
-            -webkit-transform: rotate(270deg);
-            -moz-transform: rotate(270deg);
-            -ms-transform: rotate(270deg);
-            -o-transform: rotate(270deg);
-            transform: rotate(270deg);
-            display: inline-block;
-        }
-
-        .stars {
-            color: #ffd300 !important;
+        a {
+            color: white !important;
         }
     }
+
+    .gly-rotate-45 {
+        /*filter: progid : DXImageTransform.Microsoft.BasicImage(rotation=0.5);*/
+        -webkit-transform: rotate(270deg);
+        -moz-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+        -o-transform: rotate(270deg);
+        transform: rotate(270deg);
+        display: inline-block;
+    }
+
+    .stars {
+        color: #ffd300 !important;
+    }
+
+    .PopupIcon {
+        margin-left: 5px !important;
+    }
+}
     ////////////starStyle
     $unchecked-color: #b5b5b5;
     $checked-color: #fc0;
