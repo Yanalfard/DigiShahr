@@ -517,11 +517,18 @@
     min-height: 100vh; }
     .index .MenuGrid {
       margin-top: 10px;
-      margin-bottom: 64px; } }
+      margin-bottom: 64px; }
+    .index .Search {
+      margin-top: -95px !important; } }
 
 @media only screen and (min-width: 600px) {
   .index {
     min-height: 100vh; }
     .index .MenuGrid {
       margin-top: 10px;
-      margin-bottom: 64px; } }
+      margin-bottom: 64px; }
+    .index .Search {
+      margin-top: -105px !important; } }
+
+.leaflet-pane {
+  margin-top: 30px; }
