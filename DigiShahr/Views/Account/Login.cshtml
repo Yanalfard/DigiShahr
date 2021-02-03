@@ -24,6 +24,11 @@
         });
     });
     </script>
+    <style>
+        .grecaptcha-badge {
+            opacity: 0;
+        }
+    </style>
 
     @if (!User.Identity.IsAuthenticated)
     {
@@ -35,7 +40,7 @@
             <div class="LoginContent">
                 <div class="center my-column">
                     <form class="my-column loginForm uk-padding-small" action="Login" method="post" dir="rtl">
-                        <partial name="_CaptchaInput"  />
+                        <partial name="_CaptchaInput" />
                         @Html.AntiForgeryToken()
                         <label class="uk-text-right" for="">شماره تلفن:</label>
                         <input asp-for="TellNo">
