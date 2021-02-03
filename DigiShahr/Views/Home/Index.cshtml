@@ -20,7 +20,7 @@
                     <button uk-search-icon></button>
                     <input class="center uk-search-input" name="Search" value="@ViewBag.Search" type="search" placeholder="جستجو">
                 </form>
-                <a id="Location"><img class="uk-margin-left" src="~/img/my-location.png" width="36" /></a>
+                <a id="MyLocation"><img class="uk-margin-left" src="~/img/my-location.png" width="36" /></a>
             </div>
 
         </div>
@@ -105,63 +105,57 @@
     }
 
 
-        <script>
+    <script>
 
-            var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 12);
+        var map = L.map('map').setView([38.07674409597339, 46.29700302496196], 12);
 
-            L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'echoville'
-            }).addTo(map);
+        L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'echoville'
+        }).addTo(map);
 
 
-            var iconSetting = L.Icon.extend({
-                options: {
-                    iconSize: [20, 29],
-                    iconAnchor: [10, 29]
-                }
-            });
-            var customIcon = new iconSetting({ iconUrl: '/location.png' });
-            var customeCloseIcon = new iconSetting({ iconUrl: '/close-location.png' });
-            var customIconsale = new iconSetting({ iconUrl: '/location-on-sale.png' });
+        var iconSetting = L.Icon.extend({
+            options: {
+                iconSize: [20, 29],
+                iconAnchor: [10, 29]
+            }
+        });
+        var customIcon = new iconSetting({ iconUrl: '/location.png' });
+        var customeCloseIcon = new iconSetting({ iconUrl: '/close-location.png' });
+        var customIconsale = new iconSetting({ iconUrl: '/location-on-sale.png' });
 
-            var theMarker = {};
+        var theMarker = {};
 
-            for (var i = 0; i < $(".storeinmap").length; i++) {
-                if ($(".storeinmap Isopen")[i].innerHTML == "Open") {
-                    if ($(".storeinmap Dis")[i].innerHTML == "true") {
-                        theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
-                            { icon: customIcon }).addTo(map).bindPopup(
-                                `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
+        for (var i = 0; i < $(".storeinmap").length; i++) {
+            if ($(".storeinmap Isopen")[i].innerHTML == "Open") {
+                if ($(".storeinmap Dis")[i].innerHTML == "true") {
+                    theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
+                        { icon: customIcon }).addTo(map).bindPopup(
+                            `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
 
-                            );
-                    } else {
-                        theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
-                            { icon: customIconsale }).addTo(map).bindPopup(
-                                `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
-
-                            );
-                    }
+                        );
                 } else {
                     theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
-                        { icon: customeCloseIcon }).addTo(map).bindPopup(
-                            `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink gradientButtonDisabled uk-margin-small-top'><a href='/' class='center '>فروشگاه بسته است</a> </div></div>`
+                        { icon: customIconsale }).addTo(map).bindPopup(
+                            `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
+
                         );
                 }
+            } else {
+                theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
+                    { icon: customeCloseIcon }).addTo(map).bindPopup(
+                        `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink gradientButtonDisabled uk-margin-small-top'><a href='/' class='center '>فروشگاه بسته است</a> </div></div>`
+                    );
             }
+        }
 
-            function Response() {
-                document.getElementById("MenuGrid").style.display = "none";
-                document.getElementById("index").style.gridTemplateRows = "1fr";
-                const mediaQuery = window.matchMedia('(min-width: 600px)');
-                if (mediaQuery.matches) {
-                    document.getElementById("index").style.height = "calc(100vh - 54px)";
-                }
-                else {
-                    document.getElementById("index").style.height = "calc(100vh - 110px)";
-                }
-            }
+        $("#MyLocation").click(function () {
+            map.locate({ setView: true, maxZoom: 20 });
 
-        </script>
+        });
+               
+    </script>
 
 
-    }
+
+}
