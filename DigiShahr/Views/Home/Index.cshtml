@@ -9,6 +9,51 @@
 <link href="~/StyleCenter/Sass/Home/Home.min.css" rel="stylesheet" />
 @*<link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />*@
 
+
+@if (Context.Request.Query["Category"].Count > 0)
+{
+
+    <div class="index" id="index">
+        <div class="IndexContainer">
+            <div id="map" class="map"></div>
+            <div id="search" class="Search center">
+
+                <div class="center">
+                    <form method="post" class="uk-search uk-search-default uk-margin-left">
+                        <button uk-search-icon></button>
+                        <input class="center uk-search-input" name="Search" value="@ViewBag.Search" type="search" placeholder="جستجو">
+                    </form>
+                    <a id="Location"><span class="icon-holder uk-margin-left" uk-icon="locate"></span></a>
+                </div>
+
+            </div>
+        </div>
+        <div class="MenuGrid grid uk-padding-small center uk-child-width-1-3" uk-grid dir="rtl" id="MenuGrid">
+
+            @foreach (var item in Model.AllTopStoreCategory)
+            {
+                <a onclick="ChildCategory(@item.Id)" class="mat category" href="#modal" uk-toggle>@item.Name</a>
+            }
+
+
+        </div>
+        <script>
+            function ChildCategory(Id) {
+                $.get("/Home/ChildCategory?Id=" + Id, function (result) {
+                    $("#modal").html(result);
+                });
+            }
+        </script>
+
+
+
+
+    </div>
+}
+
+
+
+
 <div class="index" id="index">
     <div class="IndexContainer">
         <div id="map" class="map"></div>
@@ -74,7 +119,7 @@
             <n>@item.Name</n>
             <tell>@item.StaticTell</tell>
             <category>@item.Catagory.Name</category>
-            <rate>@item.Rate</rate>
+            <rate>@Math.Round(item.Rate, 4)</rate>
             <lat>@item.Lat</lat>
             <lon>@item.Lon</lon>
         </span>
@@ -87,63 +132,81 @@
     <script src="~/leaflet/leaflet.js"></script>
     <script src="~/UIKit/js/uikit.min.js"></script>
 
-    <script>
+    @if (Context.Request.Query["Category"].Count > 0)
+    {
+        <script>
+            $(document).ready(function () {
+                document.getElementById("MenuGrid").style.display = "none";
+                document.getElementById("index").style.gridTemplateRows = "1fr";
+                const mediaQuery = window.matchMedia('(min-width: 600px)');
+                if (mediaQuery.matches) {
+                    document.getElementById("index").style.height = "calc(100vh - 54px)";
+                }
+                else {
+                    document.getElementById("index").style.height = "calc(100vh - 110px)";
+                }
+            });
+        </script>
+    }
 
-        var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 12);
 
-        L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'echoville'
-        }).addTo(map);
+        <script>
+
+            var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 12);
+
+            L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'echoville'
+            }).addTo(map);
 
 
-        var iconSetting = L.Icon.extend({
-            options: {
-                iconSize: [20, 29],
-                iconAnchor: [10, 29]
-            }
-        });
-        var customIcon = new iconSetting({ iconUrl: '/location.png' });
-        var customeCloseIcon = new iconSetting({ iconUrl: '/close-location.png' });
-        var customIconsale = new iconSetting({ iconUrl: '/location-on-sale.png' });
+            var iconSetting = L.Icon.extend({
+                options: {
+                    iconSize: [20, 29],
+                    iconAnchor: [10, 29]
+                }
+            });
+            var customIcon = new iconSetting({ iconUrl: '/location.png' });
+            var customeCloseIcon = new iconSetting({ iconUrl: '/close-location.png' });
+            var customIconsale = new iconSetting({ iconUrl: '/location-on-sale.png' });
 
-        var theMarker = {};
+            var theMarker = {};
 
-        for (var i = 0; i < $(".storeinmap").length; i++) {
-            if ($(".storeinmap Isopen")[i].innerHTML == "Open") {
-                if ($(".storeinmap Dis")[i].innerHTML == "true") {
-                    theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
-                        { icon: customIcon }).addTo(map).bindPopup(
-                            `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
+            for (var i = 0; i < $(".storeinmap").length; i++) {
+                if ($(".storeinmap Isopen")[i].innerHTML == "Open") {
+                    if ($(".storeinmap Dis")[i].innerHTML == "true") {
+                        theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
+                            { icon: customIcon }).addTo(map).bindPopup(
+                                `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
 
-                        );
+                            );
+                    } else {
+                        theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
+                            { icon: customIconsale }).addTo(map).bindPopup(
+                                `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
+
+                            );
+                    }
                 } else {
                     theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
-                        { icon: customIconsale }).addTo(map).bindPopup(
-                            `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink uk-margin-small-top'><a href='Home/Piece/${$(".storeinmap i")[i].innerHTML}' class='center'>ورود به فروشگاه</a> </div></div>`
-
+                        { icon: customeCloseIcon }).addTo(map).bindPopup(
+                            `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink gradientButtonDisabled uk-margin-small-top'><a href='/' class='center '>فروشگاه بسته است</a> </div></div>`
                         );
                 }
-            } else {
-                theMarker = L.marker([$(".storeinmap lat")[i].innerHTML, $(".storeinmap lon")[i].innerHTML],
-                    { icon: customeCloseIcon }).addTo(map).bindPopup(
-                        `<div class='my-clipped PopUpContent' dir='rtl'><div class='my-row'><img class="image-popup" src='/Upload/StoreLogo/${$(".storeinmap logo")[i].innerHTML}' width='80' height='80'/><div class= 'my-column center' ><label class='uk-text-bold uk-text-warning'>${$(".storeinmap n")[i].innerHTML}</label><div class='star-container' uk-tooltip='${$(".storeinmap rate")[i].innerHTML}'><div class='Stars' style='--rating:${$(".storeinmap rate")[i].innerHTML}'></div></div></div ></div ><hr /> <div class='my-column' dir='rtl'> <label dir='rtl'><span class='icon-holder PopupIcon' uk-icon='file-tray-stacked-outline'></span>${$(".storeinmap category")[i].innerHTML}</label><label><span class='icon-holder uk-margin-small-top PopupIcon gly-rotate-45' uk-icon='call-outline'></span>${$(".storeinmap tell")[i].innerHTML}</label></div><div class='center gradientButtonLink gradientButtonDisabled uk-margin-small-top'><a href='/' class='center '>فروشگاه بسته است</a> </div></div>`
-                    );
             }
-        }
 
-        function Response() {
-            document.getElementById("MenuGrid").style.display = "none";
-            document.getElementById("index").style.gridTemplateRows = "1fr";
-            const mediaQuery = window.matchMedia('(min-width: 600px)');
-            if (mediaQuery.matches) {
-                document.getElementById("index").style.height = "calc(100vh - 54px)";
+            function Response() {
+                document.getElementById("MenuGrid").style.display = "none";
+                document.getElementById("index").style.gridTemplateRows = "1fr";
+                const mediaQuery = window.matchMedia('(min-width: 600px)');
+                if (mediaQuery.matches) {
+                    document.getElementById("index").style.height = "calc(100vh - 54px)";
+                }
+                else {
+                    document.getElementById("index").style.height = "calc(100vh - 110px)";
+                }
             }
-            else {
-                document.getElementById("index").style.height = "calc(100vh - 110px)";
-            }
-        }
 
-    </script>
+        </script>
 
 
-}
+    }
