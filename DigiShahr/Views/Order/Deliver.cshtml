@@ -1,4 +1,5 @@
 ﻿@model DataLayer.Models.TblStore
+
 @{
     ViewData["Title"] = "تایید تحویل";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -11,9 +12,9 @@
 <div>
     <div class="my-space"></div>
     <div class="rateForStore">
-        <div class="matCart center my-column my-clipped uk-margin-auto-vertical my-clipped-desktop">
+        <form asp-action="CreateRate" asp-controller="Order" class="matCart center my-column my-clipped uk-margin-auto-vertical my-clipped-desktop">
             <div class="logoPlace center">
-                <img src="~/img/Store/logo-defult.png" width="100" />
+                <img src="~/Upload/StoreLogo/@Model.LogoUrl" width="100" />
             </div>
             <div class="center">
                 <div class="rate uk-margin-top">
@@ -29,10 +30,16 @@
                     <label for="star1" title="text">1 star</label>
                 </div>
             </div>
-            <button class="gradientButton center uk-margin-top">تایید تحویل و ثبت امتیاز</button>
-        </div>
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="gradientButton center uk-margin-top">تایید تحویل و ثبت امتیاز</button>
+        </form>
     </div>
     <div class="my-space"></div>
 </div>
+<script>
+    //function RateSubmit(StoreId) {
+
+    //}
+</script>
 
 

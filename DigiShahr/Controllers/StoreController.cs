@@ -567,7 +567,7 @@ namespace DigiShahr.Controllers
                         {
                             editStore.TahvilVaTasvieDarMahal = true;
                         }
-                        editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
+                        editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan;
                         editStore.LogoUrl = store.LogoUrl;
                         editStore.Address = store.Address;
                         return View(editStore);
@@ -580,6 +580,7 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> StoreSetting(EditStoreViewModel EditStore, List<int> Naighborhood)
         {
+            
             if (ModelState.IsValid)
             {
                 if (!User.Identity.IsAuthenticated)
@@ -642,7 +643,7 @@ namespace DigiShahr.Controllers
                         _core.Store.Save();
                         _core.Ability.Save();
 
-                        return Redirect("/Store");
+                        return Redirect("/Store/Dashboard");
 
                     }
                 }
@@ -689,7 +690,7 @@ namespace DigiShahr.Controllers
                     {
                         editStore.TahvilVaTasvieDarMahal = true;
                     }
-                    editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
+                    editStore.ValidationTimeSpan = editStore.ValidationTimeSpan;
                     editStore.LogoUrl = store.LogoUrl;
                     editStore.Address = store.Address;
                     return View(editStore);

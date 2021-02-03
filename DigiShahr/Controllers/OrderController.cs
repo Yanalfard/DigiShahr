@@ -182,6 +182,16 @@ namespace DigiShahr.Controllers
             return await Task.FromResult(View(_core.Store.GetById(Id)));
         }
 
+        public async Task<IActionResult> CreateRate(int rate, int Id)
+        {
+            TblStore store = _core.Store.GetById(Id);
+            store.RateCount = + 1;
+            store.Rate = (float)((store.Rate * store.RateCount) + rate) / (store.RateCount + 1);
+            _core.Store.Update(store);
+            _core.Store.Save();
+            return await Task.FromResult(Redirect("/"));
+        }
+
         public async Task<IActionResult> Success(int Id)
         {
             TblOrder order = _core.Order.GetById(Id);

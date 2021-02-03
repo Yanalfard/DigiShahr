@@ -23,7 +23,6 @@
                     if (User.Claims.First().Value == "d7tpmTdwXL")
                     {
                         <li><a class="icon-holder i" uk-icon="addStore" href="/Store/CreateStore"></a></li>
-
                     }
                     else if (User.Claims.First().Value == "8f32nFmU6m")
                     {
@@ -38,8 +37,7 @@
                     <li><a class="icon-holder i" href="/Store/CreateStore" uk-icon="addStore"></a></li>
                     <li><a class="icon-holder i" uk-icon="bookmark" href="/Account/Login"></a></li>
                 }
-                <li><a href=""><span class="icon-holder" uk-icon="volume-high"></span></a></li>
-                <li><a href=""><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
+                @RenderSection("MusicInStore", false)
             </ul>
             <span class="icon-holder uk-margin-auto-left" uk-icon="reorder-four" uk-toggle="target: #offcanvas-flip"></span>
         </div>
