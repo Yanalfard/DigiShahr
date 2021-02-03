@@ -52,6 +52,7 @@
                 <script>
 
                     function OrderSuccess(Id) {
+                        $("#overlay").fadeIn(300);
                         $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
                             if (result == "true") {
                                 window.location.reload();
@@ -60,6 +61,7 @@
                     }
 
                     function DeleteOrder(Id) {
+                        $("#overlay").fadeIn(300);
                         $.post("/Order/Deleted?Id=" + Id, function (result) {
                             if (result == "true") {
                                 window.location.href = "/Store";
