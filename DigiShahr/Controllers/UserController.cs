@@ -16,7 +16,7 @@ namespace DigiShahr.Controllers
         Core _core = new Core();
         public async Task<IActionResult> IndexAsync(int page = 1)
         {
-            IEnumerable<TblOrder> Order = PagingList.Create(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id && !o.IsDeleted), 2, page);
+            IEnumerable<TblOrder> Order = PagingList.Create(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id && o.IsDeleted), 20, page);
             return await Task.FromResult(View(Order));
         }
         public async Task<IActionResult> UserSetting()
