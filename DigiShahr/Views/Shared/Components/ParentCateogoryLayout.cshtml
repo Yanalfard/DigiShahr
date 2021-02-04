@@ -1,0 +1,13 @@
+﻿@model IEnumerable<DataLayer.Models.TblStoreCatagory>
+
+@foreach (var item in Model)
+{
+    <li>
+        <a class="uk-accordion-title main-title"><span class="icon-holder uk-margin-small-left" uk-icon="storefront"></span>@item.Name<span class="icon-holder chevron-back uk-margin-auto-right" uk-icon="chevron-back"></span></a>
+        <div class="uk-accordion-content uk-margin-small-right">
+            <ul class="uk-margin-right" uk-accordion>
+                @await Component.InvokeAsync("ChildCategoryLayout",new {Id=item.Id })
+            </ul>
+        </div>
+    </li>
+}

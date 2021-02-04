@@ -15,15 +15,33 @@
     <link href="~/StyleCenter/Sass/LoginRegister/loginRegister.min.css" rel="stylesheet" />
 </head>
 <body>
+    @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+    <script src="https://www.google.com/recaptcha/api.js?render=@Configuration["googleReCaptcha:SiteKey"]"></script>
+    <script>
+    grecaptcha.ready(function () {
+        window.grecaptcha.execute('@Configuration["googleReCaptcha:SiteKey"]', { action: 'Login' }).then(function (token) {
+            document.getElementById("captchaInput").value = token;
+        });
+    });
+    </script>
+    <style>
+        .grecaptcha-badge {
+            opacity: 0;
+        }
+    </style>
+
     @if (!User.Identity.IsAuthenticated)
     {
+
         <div class="contentContainer">
+
+
             <div class="firstHead"></div>
-            <div class="LoginContent ">
-                <div class="center my-column uk-margin-large-top">
+            <div class="LoginContent">
+                <div class="center my-column">
                     <form class="my-column loginForm uk-padding-small" action="Login" method="post" dir="rtl">
+                        <partial name="_CaptchaInput" />
                         @Html.AntiForgeryToken()
-                        <h3>خوش آمدید</h3>
                         <label class="uk-text-right" for="">شماره تلفن:</label>
                         <input asp-for="TellNo">
                         <span asp-validation-for="TellNo" class="uk-text-danger"></span>
@@ -31,9 +49,16 @@
                         <input asp-for="Password">
                         <span asp-validation-for="Password" class="uk-text-danger"></span>
                         <input type="hidden" id="foo" name="foo" />
-                        <button type="submit" class="gradientButton center uk-margin-large-top">
-                            ورود
-                        </button>
+                        <input value="@ViewBag.ReturnUrl" type="hidden" name="RetunUrl" />
+                        <div class="my-row uk-margin-top center">
+                            <button type="submit" class="gradientButton center">
+                                ورود
+                            </button>
+                            <a class="gradientButtonLink center" href="CreateAccount">
+                                ایجاد حساب
+                            </a>
+                        </div>
+                        <a href="/Account/ResetPassword" class="uk-text-warning center uk-margin-small-top">فراموشی رمز عبور</a>
                     </form>
                 </div>
             </div>

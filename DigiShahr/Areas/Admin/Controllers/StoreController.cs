@@ -32,14 +32,6 @@ namespace DigiShahr.Areas.Admin.Controllers
             return "true";
         }
 
-        [HttpPost]
-        public string Reject(int Id, Paging paging, string storeName, string phoneNumber)
-        {
-            _core.Store.GetById(Id);
-            _core.Store.Save();
-            return "true";
-        }
-
         //StoreCategory
         [HttpGet]
         public IActionResult Category(Paging paging)
@@ -128,14 +120,14 @@ namespace DigiShahr.Areas.Admin.Controllers
         }
 
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        _core.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _core.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }
 }

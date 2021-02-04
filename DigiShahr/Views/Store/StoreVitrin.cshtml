@@ -1,131 +1,396 @@
-﻿
+﻿@model DataLayer.Models.TblStore
 @{
-    ViewData["Title"] = "StoreVitrin";
+    ViewData["Title"] = "ویترین فروشگاه";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+@using DigiShahr.Classes
 
-@*<h1>StoreVitrin</h1>*@
+<style>
+    .bannerBackground {
+        background: @Model.Catagory.Color;
+    }
+</style>
+
+
+
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
-<div class="space-double"></div>
-<div class="space-mobile"></div>
-<form>
-    <div class="mat BannerPlace my-column my-clipped">
-        <h3 class="center absolute uk-margin-top">
-            افزودن یا ویرایش بنر
-        </h3>
-        <div class="js-upload uk-position-absolute" uk-form-custom>
-            <input type="file" multiple>
-            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-        </div>
-        <div class="js-upload uk-position-absolute" uk-form-custom>
-            <input type="file" multiple>
-            <a><span class="icon-holder uk-margin-left uk-margin-large-top" uk-icon="create-outline" tabindex="-1"></span></a>
-        </div>
-        <!--<div uk-form-custom>
-        <input type="file" name="banner">
-        <a><span class="icon-holder uk-position-absolute uk-margin-left uk-margin-small-top" uk-icon="add-circle-outline" tabindex="-1"></span></a>-->
-        @*<button class="uk-button uk-button-default uk-button-small uk-border-rounded" type="button" tabindex="-1">انتخاب لوگو</button>*@
-        <!--</div>-->
-        <div class="uk-margin-auto-vertical logoPlace mat center">
-            <h3 class="center uk-margin-auto-vertical">
-                افزودن یا ویرایش لوگو
+<div class="my-space"></div>
+<div class="BannerPlace BannerInStore my-column my-clipped my-clipped-desktop bannerBackground">
+    <a href="/Store/Dashboard"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left backIconDesktop" uk-icon="backIcon"></span></a>
+
+    <div class="uk-margin-auto-vertical center uk-position-absolute">
+        @if (!string.IsNullOrEmpty(Model.LogoUrl))
+        {<h3 class="center uk-margin-auto-vertical">
+
+                <img class="LogoPicture uk-margin-top LogoPictureVitrinDesktop" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
+
             </h3>
+        }
 
-            <div class=" center uk-margin-small-top">
-
+        <div class=" center uk-margin-small-top">
+            @if (string.IsNullOrEmpty(Model.LogoUrl))
+            {
                 <div class="js-upload" uk-form-custom>
-                    <input type="file" multiple>
-                    <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-                </div>
-                <div class="js-upload" uk-form-custom>
-                    <input type="file" multiple>
+                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                    <span class="uk-text-danger">
+                    </span>
                     <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <span class="uk-text-danger" id="LogoFileErorr"></span>
+                </div>
+            }
+            else
+            {
+                <div class="js-upload" uk-form-custom>
+                    <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
+                    <span class="uk-text-danger">
+                    </span>
+                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <span class="uk-text-danger" id="LogoFileErorr"></span>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (Model.MainBannerUrl != null)
+    {
+        <img class="bannerImage MainbannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+    }
+
+    <h3 class=" absolute absolute-right uk-margin-large-top uk-margin-small-left">
+        @if (string.IsNullOrEmpty(Model.MainBannerUrl))
+        {
+            @:افزودن بنر
+        }
+        else
+        {
+            @:ویرایش بنر
+        }
+    </h3>
+    @if (string.IsNullOrEmpty(Model.MainBannerUrl))
+    {
+        <div class="js-upload uk-position-absolute absolute-right" uk-form-custom>
+            <input type="file" id="MainBannerFile" accept="image/x-png,image/jpeg">
+            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="create-outline" tabindex="-1"></span></a>
+            <span class="uk-text-danger" id="MainBannerFileErorr"></span>
+        </div>
+
+    }
+    else
+    {
+        <div class="js-upload uk-position-absolute absolute-right" uk-form-custom>
+
+            <input type="file" id="MainBannerFile" accept="image/x-png,image/jpeg">
+            <span class="uk-text-danger" id="MainBannerFileErorr"></span>
+            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="create-outline" tabindex="-1"></span></a>
+            <span class="uk-text-danger"></span>
+        </div>
+    }
+
+</div>
+<hr class="uk-divider-icon" />
+@if (Model.Ability.IsLotteryEnable)
+{
+
+    <div class="Lottery my-column matCart my-column my-clipped my-clipped-desktop">
+        <img class="center uk-margin-small-top" src="~/img/Store/lottery.webp" />
+        @if (Model.Ability.LotteryDisplayDate == null)
+        {
+            <div class="my-column uk-margin-small-right" dir="rtl">
+                <div class="uk-inline">
+                    <input type="hidden" id="StoreId" value="@Model.Id" />
+                    <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="calendar"></span>
+                    <input class="uk-input" id="toDate" type="text" placeholder="تاریخ قرعه کشی">
+                </div>
+                <div class="uk-inline">
+                    <span class="icon-holder uk-form-icon LotteryIcon uk-form-icon-flip" uk-icon="gift"></span>
+                    <input type="text" id="LotteryWinnerPrize" class="uk-input" placeholder="جایزه قرعه کشی" />
                 </div>
             </div>
-        </div>
+        }
+        <hr />
+        <div class="my-row uk-margin-bottom" dir="rtl">
+            <div class="my-column">
+                @if (Model.Ability.LotteryDisplayDate == null)
+                {
+                    <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+                    <button id="BtnLotterySubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right">ثبت</button>
+                    <script>
+                        $("#BtnLotterySubmit").click(function () {
+                            $.post("/Store/BtnLotterySubmit?StoreId=" + $("#StoreId").val() + "&toDate=" + $("#toDate").val() + "&LotteryWinnerPrize=" + $("#LotteryWinnerPrize").val(), function (result) {
+                                if (result == "true") {
+                                    window.location.reload();
+                                }
+                            });
+                        });
+                    </script>
+                }
+                else
+                {
+                    if (Model.Ability.LotteryDisplayDate > DateTime.Now)
+                    {
+                        <label class="uk-text-danger uk-padding-small uk-padding-remove-top">قرعه کشی برای تاریخ <span>@Model.Ability.LotteryDisplayDate.Value.DateToShamsi() </span> ثبت شده است.</label>
+                    }
 
-    </div>
-</form>
-<div class="mat productSection my-column my-clipped uk-margin-small-top">
-    <a><span class="icon-holder uk-position-absolute uk-margin-small-top uk-margin-left" uk-icon="backIcon"></span></a>
-    <div class="my-row uk-margin-top">
-        <div class="uk-inline productCategory uk-margin-top" style="left:0;">
-            <a class="uk-form-icon uk-margin-auto-vertical" href="#"><span class="icon-holder" uk-icon="add-outline"></span></a>
-            <input class="uk-input" type="text">
-        </div>
-        <h3 class="center">:افزودن دسته بندی</h3>
-    </div>
+                    else if (Model.Ability.LotteryDisplayDate.Value.Date == DateTime.Now.Date)
+                    {
+                        <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+                        <button id="LotteryWinnerSubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
+                        <script>
+                        $("#LotteryWinnerSubmit").click(
+                            function () {
+                                $("#LotteryLoad").removeClass('LotteryLoad');
+                                $.post("/Store/LotteryWinnerSubmit?Id=" +@Model.Id, function (result) {
+                                    if (result == "true") {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        );
+                        </script>
 
+                    }
+                    else if (Model.Ability.LotteryDisplayDate < DateTime.Now)
+                    {
+                        <script src="~/Jquery/jquery-3.4.1.min.js"></script>
+                        <script>
+                            $(function () {
+                            $.post("/Store/LotteryDelete?Id=" +@Model.Id, function (result) {
+                                if (result == "true") {
+                                    window.location.reload();
+                                }
+                            });
+                        });
+                        </script>
+                    }
+                    @if (Model.Ability.LotteryWinner != null)
+                    {
+                        <div class="my-column uk-margin-auto-right uk-margin-left">
+                            <label class="uk-text-small"><span class="icon-holder uk-text-small" uk-icon="person"> </span>نام برنده : @ViewBag.WinnerName</label>
+                            <label class="uk-text-small uk-margin-small-top"><span class="icon-holder uk-text-small gly-rotate-270" uk-icon="call"></span>شماره تلفن : @ViewBag.WinnerTellNo</label>
+                        </div>
+                    }
+                }
+            </div>
+            
+        </div>
+    </div>
+}
+<div class="matCart my-column my-clipped uk-margin-top my-clipped-desktop" dir="rtl">
+    <form id="CreateDiscount" class="DiscountCode my-column uk-padding">
+        <span id="CreateDiscountErorr" class="uk-text-danger center"></span>
+        <label>کد تخفیف:</label>
+        <input type="hidden" value="@Model.Id" name="StoreId" />
+        <input maxlength="50" name="Code" class="uk-input" type="text">
+        <div class="my-row">
+            <div class="my-column">
+
+                <label class="uk-margin-top">تعداد استفاده:</label>
+                <input class="uk-input Count" type="number" name="Count">
+
+            </div>
+            <button class="gradientButton uk-text-center uk-margin-auto-top uk-margin-auto-right">افزودن</button>
+
+
+        </div>
+    </form>
+    <hr class="uk-margin-remove" />
+    <div class="my-column uk-padding">
+        @if (Model.TblDiscounts.Count() == 0)
+        {
+            <div class="my-row DiscountCodeResult uk-margin-bottom">
+                <label>کد تخفیف وجود ندارد</label>
+                <label class="uk-margin-auto-left uk-margin-auto-right"></label>
+            </div>
+        }
+        @foreach (var item in Model.TblDiscounts)
+        {
+            <div class="my-row DiscountCodeResult uk-margin-bottom">
+                <label>@item.Code</label>
+                <label class="uk-margin-auto-left uk-margin-auto-right">@item.Count عدد</label>
+                <a onclick="RemoveDiscount(@item.Id)"><span class="icon-holder uk-text-danger" uk-icon="trash"></span></a>
+            </div>
+        }
+    </div>
+</div>
+
+
+@if (Model.Ability.IsBanner1Enable)
+{
+    <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
+        @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
+        {
+            <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
+        }
+        <div class="js-upload vitrinBanners" uk-form-custom>
+            <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
+            <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
+            {
+                <label> افزودن بنر اول</label>
+            }
+            else
+            {
+                <label> ویرایش بنر اول</label>
+            }
+        </div>
+    </div>
+}
+
+<div class="matCart productSection my-column my-clipped my-clipped-desktop uk-margin-small-top">
+    <span class="uk-text-danger center uk-margin-small-top" id="CreateCategoryErorr"></span>
+    <form id="CreateCategory">
+
+        <div class="my-row uk-margin-top">
+            <div class="uk-inline productCategory uk-margin-small-top">
+                <a id="SubmitCatagory" class="uk-form-icon uk-margin-auto-vertical"><span class="icon-holder" uk-icon="add-outline"></span></a>
+                <input class="uk-input" id="CategoryName" type="text">
+            </div>
+
+            <h3 class="center">:افزودن دسته بندی</h3>
+
+        </div>
+    </form>
     <div class="my-row CategoryList">
-        <div class="category">
-            لبنیات
-        </div>
-        <div class="category">
-            پروتئینی
-        </div>
-        <div class="category">
-            خشکبار
-        </div>
-        <div class="category">
-            نوشیدنی
-        </div>
-        <div class="category">
-            لبنیات
-        </div>
 
+        @if (Model.TblCatagories.Count() == 0)
+        {
+            <div class="category">
+                دسته بندی 1
+            </div>
+            <div class="category">
+                دسته بندی 2
+            </div>
+            <div class="category">
+                دسته بندی 3
+            </div>
+            <div class="category">
+                دسته بندی 4
+            </div>
+            <div class="category">
+                دسته بندی 5
+            </div>
+        }
+
+        @foreach (var item in Model.TblCatagories)
+        {
+            <input id="Category-@item.Id" class="category" value="@item.Name" onchange="ChangeCategory(@item.Id)">
+
+        }
     </div>
     <hr />
-    <h3 class="center"><a href="#AddProduct" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
-    <div class="my-row uk-padding-small AddProductSection" dir="rtl">
-        <div class="my-column uk-margin-small-right uk-text-center">
-            <label>نام محصول</label>
-            <div class="my-row">
-                <label class="uk-margin-top">قیمت</label>
-                <label class="OFFPercent uk-margin-top">%</label>
+    <h3 class="center"><a href="#AddProduct" id="AddProductPapaer" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
+    <br>
+
+
+    @foreach (var item in Model.TblProducts)
+    {
+        <div onclick="EditProduct(@item.Id)" class="my-row AddProductSection" dir="rtl" href="#AddProduct" uk-toggle>
+            <div class="my-column uk-margin-small-right uk-text-center">
+                <label class="ProductName">@item.Name</label>
+                <div class="my-row">
+                    <label class="uk-margin-top price">@item.Price تومان</label>
+                    @if (item.Discount != 0)
+                    {
+                        <label class="OFFPercent uk-margin-top">@item.Discount%</label>
+                    }
+                </div>
+            </div>
+            <div class="ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
+                <img class="" src="~/Upload/Product/@item.MainImageUrl" width="80" height="80" />
             </div>
         </div>
-        <div class="ProductPicture center uk-text-center uk-margin-auto-right uk-margin-small-left">
-            تصویر
+        <hr />
+    }
+
+</div>
+@if (Model.Ability.IsBanner2Enable)
+{
+    <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
+        @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
+        {
+            <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
+        }
+        <div class="js-upload vitrinBanners" uk-form-custom>
+            <input type="file" id="Banner2File" accept="image/x-png,image/jpeg">
+            <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
+            {
+                <label> افزودن بنر دوم</label>
+            }
+            else
+            {
+                <label> ویرایش بنر دوم</label>
+            }
         </div>
     </div>
-    <hr />
-    
-</div>
-<div class="space-double"></div>
-<div class="space-mobile"></div>
+}
+<div class="my-space"></div>
 <div id="AddProduct" uk-modal>
     <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <form class="my-column createAccount uk-padding-small" action="" dir="rtl">
-            <div class="uk-modal-header uk-margin-bottom">
-                <h3 class="uk-modal-title uk-text-center">افزودن محصول</h3>
-            </div>
-            <div class="uk-modal-body my-column uk-padding-small">
-                <div class="uk-margin">
-                    <select class="uk-select">
-                        <option>انتخاب دسته بندی</option>
-                        <option>خشکبار</option>
-                        <option>لبنیات</option>
-                    </select>
-                </div>
-                <label for="name">نام محصول:</label>
-                <input type="text" name="Name">
-                <label for="price">قیمت(تومان):</label>
-                <input type="text" name="Name">
-                <label for="off">درصد تخفیف:</label>
-                <input type="text" name="off">
-                <div class="uk-margin ">
-                    <div class="my-row" uk-form-custom>
-                        @*<label>انتخاب تصویر برای محصول</label>*@
-                        <input type="file">
-                        @*< class="uk-button uk-button-default" type="button" tabindex="-1"><span class="icon-holder" uk-icon="attach"></span>انتخاب تصویر محصول</button>*@
-                        <button class="uk-margin-top serviceArea ">انتخاب تصویر برای محصول<span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="attach"></span></button>
-                    </div>
-                </div>
-            </div>
-            <div class="uk-modal-footer uk-text-center uk-margin-top">
-                <input class="center gradientButton" type="submit" value="افزودن">
-            </div>
-        </form>
+
     </div>
 </div>
+
+@section Script{
+    <script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
+    <script>
+
+
+        $('#toDate').MdPersianDateTimePicker({
+            targetTextSelector: '#toDate',
+            targetDateSelector: '#toDate',
+        });
+
+
+        $("#AddProductPapaer").click(function () {
+            $("#overlay").fadeIn(300);
+            $.get("/Store/AddProduct/@Model.Id", function (result) {
+                $("#overlay").fadeOut(300);
+                $(".uk-modal-dialog").html(result);
+            });
+        });
+
+        $("#CreateDiscount").submit(function (e) {
+            e.preventDefault();
+            $("#overlay").fadeIn(300);
+            var data = $(this).serializeArray();
+            $.post("/Store/CreateDiscount", data, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                } else {
+                    $("#overlay").fadeOut(300);
+                    $("#CreateDiscountErorr").html(result);
+                }
+            });
+        });
+
+        function EditProduct(Id) {
+            $.get("/Store/EditProduct/" + Id, function (result) {
+                $(".uk-modal-dialog").html(result);
+            });
+        }
+
+        function ChangeCategory(Id) {
+            $("#overlay").fadeIn(300);
+            $.post("/Store/ChangeCategory?Id=" + Id + "&Name=" + $("#Category-" + Id).val(), function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                } else {
+                    $("#overlay").fadeOut(300);
+                    $("#CreateCategoryErorr").html(result);
+                }
+            });
+        }
+
+        function RemoveDiscount(Id) {
+            $.post("/Store/RemoveDiscount?Id=" + Id, function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+
+    </script>
+    <script src="~/Command/StoreVitrin.js"></script>
+
+}

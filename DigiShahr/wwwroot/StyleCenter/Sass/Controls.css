@@ -250,56 +250,84 @@
   font-weight: normal;
   font-style: normal; }
 
+.my-space {
+  height: 65px; }
+
+.my-spaceInMap {
+  height: 51px; }
+
 * {
   outline: none;
   font-family: Sahel; }
 
+a:hover {
+  text-decoration: none !important; }
+
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
-  min-height: 100vh !important;
+  overflow-x: hidden !important;
+  /*min-height: calc(100vh - 108px) !important;*/
+  /*    min-height: 100%!important;*/
+  /*max-height: 100vh !important;*/
+  /*box-sizing: border-box;*/
   background: #F4F4F4 !important; }
 
 .layoutHeader {
+  position: fixed;
+  right: 0;
   left: 0;
   top: 0;
   width: 100%;
   z-index: 10000 !important; }
   .layoutHeader .mat {
     border-radius: 0 0 8px 8px; }
+  .layoutHeader #offcanvas-flip {
+    z-index: 10000 !important; }
+  .layoutHeader .uk-offcanvas-close {
+    color: black !important; }
   .layoutHeader .uk-offcanvas-bar {
+    /* * {
+            overflow: hidden;
+        }*/
     width: 318px;
-    background: #fff;
+    background: #fefbf0;
     opacity: 1;
-    color: #555;
-    z-index: 10000;
-    /*.backIcon {
-            color: #555;
-            left:0!important;
-            float:left!important;
-            text-align:left!important;
-            margin-right:50px;
-            margin-top:10px;
-        }*/ }
-    .layoutHeader .uk-offcanvas-bar .uk-table th {
-      color: #2b2b2b !important;
-      font-size: 16px;
+    color: #555; }
+    .layoutHeader .uk-offcanvas-bar .chevron-back {
+      float: left !important;
+      text-align: left !important;
+      margin-right: auto !important; }
+    .layoutHeader .uk-offcanvas-bar h3 {
+      font-family: "Sahel";
+      font-size: 20px;
+      font-weight: 600;
       text-align: right;
-      border-bottom: 1px solid #D7D7D7; }
-    .layoutHeader .uk-offcanvas-bar .uk-table td {
-      text-align: right;
-      border-bottom: 1px solid #D7D7D7;
-      color: #2b2b2b !important; }
-    .layoutHeader .uk-offcanvas-bar .uk-table a {
-      color: #2b2b2b !important;
-      font-weight: 400; }
-    .layoutHeader .uk-offcanvas-bar .uk-table a:hover {
-      text-decoration: none !important; }
+      color: #555;
+      margin-top: 50px;
+      overflow: hidden; }
+    .layoutHeader .uk-offcanvas-bar .uk-menu-accordion {
+      margin-top: 40px; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion ul, .layoutHeader .uk-offcanvas-bar .uk-menu-accordion li, .layoutHeader .uk-offcanvas-bar .uk-menu-accordion a {
+        color: #2b2b2b !important;
+        font-family: "Sahel";
+        font-size: 16px; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion .main-title {
+        color: #2b2b2b !important;
+        font-size: 18px;
+        font-weight: 400;
+        font-family: "Sahel";
+        text-align: right;
+        overflow: hidden; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion .uk-accordion-title::before {
+        display: none !important; }
+      .layoutHeader .uk-offcanvas-bar .uk-menu-accordion .uk-accordion-title::after {
+        display: none !important; }
 
 .layoutFooter {
   position: fixed;
   left: 0;
+  right: 0;
   bottom: 0 !important;
   width: 100%;
   text-align: center;
@@ -319,9 +347,215 @@ body {
   border: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12); }
 
+.gradientButtonLink {
+  color: white !important;
+  border-radius: 5px;
+  width: 150px;
+  height: 25px;
+  padding: 8px 0;
+  background: linear-gradient(92.26deg, #84A98C 0.29%, #40916C 100.32%);
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer; }
+
+.gradientButton:hover, .gradientButtonLink:hover {
+  opacity: 0.9;
+  color: white !important; }
+
+.gradientButton:focus, .gradientButtonLink:focus {
+  border: none !important; }
+
 .pageHeader {
   background: #40916C;
   width: 100%;
   height: 200px; }
   .pageHeader .formTitr h3, .pageHeader .formTitr a {
     color: #FFFFFF !important; }
+
+.matCart {
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12); }
+
+.CartNotif .badge {
+  z-index: 100;
+  position: absolute;
+  margin-left: 12px;
+  padding: 7px 5px;
+  /**/
+  /*  width: 8px;
+      height: 8px;*/
+  font-size: 9px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  text-align: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); }
+
+.LinkBox {
+  border-radius: 7px;
+  border: 1px solid #F28F3B;
+  color: #666 !important;
+  padding: 7px 0;
+  width: 100%;
+  font-size: smaller; }
+
+.LogoPictureContainer {
+  max-height: 100px;
+  max-width: 100px; }
+  .LogoPictureContainer img {
+    border-radius: 50%; }
+
+.horizontalCenter {
+  margin: 0 auto; }
+
+.gly-rotate-270 {
+  /*filter: progid : DXImageTransform.Microsoft.BasicImage(rotation=0.5);*/
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+  display: inline-block; }
+
+.uk-notification-message {
+  opacity: 1;
+  position: relative;
+  padding: 15px;
+  background: #e04f4f !important;
+  color: #fff !important;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  cursor: pointer;
+  border-radius: 8px !important;
+  margin-top: 65px !important;
+  font-family: 'Sahel';
+  overflow: hidden;
+  text-align: center; }
+
+.notificationList .uk-modal-body {
+  padding: 20px 4px !important;
+  overflow-x: hidden; }
+
+.notificationList h3 {
+  font-family: "Sahel";
+  font-size: 16px;
+  text-align: center;
+  color: #555;
+  overflow: hidden; }
+
+.notificationList .notificationListBox {
+  width: 75vw;
+  padding: 20px 10px;
+  background: #FFF8D2;
+  border: 2px solid #F9EFBE;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px; }
+  .notificationList .notificationListBox .gradientButtonLink {
+    width: 90px;
+    padding: 5px 0; }
+
+.modal-sections {
+  z-index: 10000000; }
+  .modal-sections .uk-modal-dialog {
+    border-radius: 7px; }
+
+.MenuCategory {
+  background: linear-gradient(92.26deg, #84A98C 0.29%, #40916C 100.32%);
+  border-radius: 45px;
+  color: white !important;
+  padding: 10px 20px; }
+
+@media only screen and (min-device-width: 1024px) {
+  .my-clipped-desktop {
+    width: 45vw !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+    .layoutHeader .mat .uk-iconnav .uk-icon {
+      padding-right: 20px !important; }
+  .backIconDesktop {
+    display: none !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 37vw !important; }
+  .BannerPlace .absolute-right {
+    right: 30vw !important; }
+  .notificationList .notificationListBox {
+    width: 33vw; } }
+
+@media only screen and (min-width: 1024px) {
+  .my-clipped-desktop {
+    width: 45vw !important; }
+  .backIconDesktop {
+    display: none !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .layoutHeader .uk-iconnav .uk-icon {
+    padding-right: 20px !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 37vw !important; }
+  .BannerPlace .absolute-right {
+    right: 30vw !important; }
+  .notificationList .notificationListBox {
+    width: 33vw; } }
+
+@media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
+  .my-clipped-desktop {
+    width: 65vw !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+    .layoutHeader .mat .uk-iconnav .uk-icon {
+      padding-right: 20px !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 50vw !important; }
+  .BannerPlace .absolute-right {
+    right: 22vw !important; }
+  .notificationList .notificationListBox {
+    width: 53vw; } }
+
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
+  .my-clipped-desktop {
+    width: 65vw !important; }
+  .layoutHeader .mat {
+    border-radius: 0 0 144px 144px;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .layoutHeader .uk-iconnav .uk-icon {
+    padding-right: 20px !important; }
+  .layoutFooter .mat {
+    border-radius: 144px 144px 0 0;
+    opacity: 0.7;
+    padding-left: 100px;
+    padding-right: 50px; }
+  .LinkBox {
+    width: 50vw !important; }
+  .BannerPlace .absolute-right {
+    right: 22vw !important; }
+  .notificationList .notificationListBox {
+    width: 53vw; } }

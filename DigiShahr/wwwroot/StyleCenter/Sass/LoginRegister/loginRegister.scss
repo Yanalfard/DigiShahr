@@ -1,38 +1,52 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    overflow-x:hidden;
+    overflow-x: hidden;
+    min-height:100vh;
 }
 .contentContainer {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-    height:100vh;
-.firstHead {
-    background: #40916C;
-   // height: 50vw;
-   // padding-top: 200px !important;
-}
-.LoginContent {
-    background: #F4F4F4;
-    border-radius: 22px 22px 0 0;
-    margin-top: -18px !important;
-    h3{
-font-family:"Sahel"
+    /*height: 100vh;*/
+
+    .firstHead {
+        background: #40916C;
+        // height: 50vw;
+        // padding-top: 200px !important;
     }
-}
-.gradientButton {
-    width: 230px;
-    margin: 10px auto;
-    height: 44px;
-    font-size:16px;
-}
+
+    .LoginContent {
+        overflow-y:hidden!important;
+        background: #F4F4F4;
+        border-radius: 22px 22px 0 0;
+        margin-top: -18px !important;
+
+        h3 {
+            font-family: "Sahel"
+        }
+    }
+
+    .gradientButton {
+        width: 110px;
+        margin: 10px auto;
+        height: 42px;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .gradientButtonLink {
+        width: 110px;
+        margin: 10px auto;
+        font-size: 16px;
+        margin-right: 10px;
+    }
 }
 .loginForm {
     label {
         margin-right: 60px !important;
         margin-top: 8px;
-        margin-bottom:0!important;
+        margin-bottom: 0 !important;
         font-size: 17px
     }
 
@@ -41,23 +55,27 @@ font-family:"Sahel"
         border-bottom: 1px solid #aeabab;
         font-size: 14px;
         padding: 10px 0;
-        margin:0 60px;
-        background-color: #F4F4F4!important;
+        margin: 0 60px;
+        background-color: #F4F4F4 !important;
+    }
+
+    input:focus {
+        border-bottom: 2px solid #F28F3B;
     }
 }
 .RegisterContainer {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    height: 100vh;
-
+    grid-template-rows: 1fr 1fr;
+    // height: 100vh;
     .firstHead {
         background: #40916C;
     }
 
     .LoginContent {
         border-radius: 8px;
-        margin-top: -60px !important;
+        margin-top: -140px !important;
+        min-height: 400px;
 
         h3 {
             font-family: "Sahel";
@@ -72,19 +90,52 @@ font-family:"Sahel"
         font-size: 16px;
     }
 }
+.Forget {
+    input {
+        width: 230px;
+    }
+    left: 0;
+    right: 0
+}
 
-@media only screen and (min-device-width : 760px) and (max-device-width :1125px) {
+///////////////////////////////////////////////////////////////////////////////////
+@media only screen and (min-device-width : 600px) and (max-device-width :1024px) {
     .RegisterContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
 
         .LoginContent {
-            margin-top: -170px !important;
-            height: 500px;
+            // margin-top: -200px !important;
+          //  min-height: 90vh;
         }
 
-        .mat {
-            width: 700px
+        
+    }
+
+    .loginForm {
+        label {
+            margin-right: 200px !important;
+        }
+
+        input {
+            border: 0;
+            border-bottom: 1px solid #aeabab;
+            margin: 0 200px;
+            background-color: #F4F4F4 !important;
+        }
+    }
+    .my-spaceInTablet{
+        height:50px;
+    }
+}
+@media only screen and (min-width : 600px)and (max-width :1024px) {
+    .RegisterContainer {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+
+        .LoginContent {
+           // margin-top: -200px !important;
+        //    min-height: 90vh;
         }
     }
 
@@ -100,47 +151,18 @@ font-family:"Sahel"
             background-color: #F4F4F4 !important;
         }
     }
+    .my-spaceInTablet {
+        height: 50px;
+    }
 }
-@media only screen and (min-width : 760px)and (max-width :1125px) {
+@media only screen and (min-device-width : 1024px){
     .RegisterContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
 
         .LoginContent {
-            margin-top: -200px !important;
-            height: 500px;
-        }
-
-        .mat {
-            width: 700px
-        }
-    }
-
-    .loginForm {
-        label {
-            margin-right: 200px !important;
-        }
-
-        input {
-            border: 0;
-            border-bottom: 1px solid #aeabab;
-            margin: 0 200px;
-            background-color: #F4F4F4 !important;
-        }
-    }
-}
-@media only screen and (min-device-width : 1125px){
-    .RegisterContainer {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
-
-        .LoginContent {
-            margin-top: -200px !important;
-            height: 450px;
-        }
-
-        .mat {
-            width: 700px
+          //  margin-top: -200px !important;
+       //     min-height: 400px;
         }
     }
     .loginForm {
@@ -156,19 +178,16 @@ font-family:"Sahel"
         }
     }
 }
-@media only screen and (min-width : 1125px) {
+@media only screen and (min-width : 1024px) {
     .RegisterContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
 
         .LoginContent {
-            margin-top: -200px !important;
-            height: 450px;
+          //  margin-top: -200px !important;
+           // min-height: 400px;
         }
 
-        .mat {
-            width: 700px
-        }
     }
     .loginForm {
         label {

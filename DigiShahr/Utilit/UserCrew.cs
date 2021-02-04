@@ -13,7 +13,7 @@ namespace DigiShahr.Utilit
         public static async Task<TblUser> UserByTellNo(string TellNo)
         {
             Core _core = new Core();
-            return await Task.FromResult(_core.User.Get().Where(u => u.TellNo == TellNo).SingleOrDefault());
+            return await Task.FromResult(_core.User.Get(u => u.TellNo == TellNo).SingleOrDefault());
         }
 
         public static async Task<bool> UserIsExist(LoginViewModel loginViewModel)
@@ -53,7 +53,7 @@ namespace DigiShahr.Utilit
             var CodeCreator = Guid.NewGuid().ToString();
             string Code = CodeCreator.Substring(CodeCreator.Length - 5);
             NewUser.Auth = Code;
-
+            await SendSms.Send(NewUser.TellNo, NewUser.Auth, "DigiShahrAuthAccount");
             _core.User.Add(NewUser);
             _core.User.Save();
             return await Task.FromResult(true);

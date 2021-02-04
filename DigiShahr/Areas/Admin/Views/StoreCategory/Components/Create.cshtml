@@ -35,7 +35,7 @@
     <div class="modal-body">
         <div class="form-row">
             <div class="form-group col-md-4">
-                <input type="text" class="form-control form-control-sm" name="Name" placeholder="نام">
+                <input type="text" class="form-control form-control-sm" asp-for="Name" placeholder="نام">
                 <br />
                 <input type="checkbox" asp-for="IsRecent"> قابل انتخاب در ثبت فروشگاه باشد
             </div>
@@ -68,15 +68,16 @@
                 window.location.reload();
             }
 
-            if (result == "ParentIdtrue") {
+            else if (result == "ParentIdtrue") {
                 $(".loadingicon").addClass("d-none");
+                alert("2");
                 $("#Erorr").html("ثبت شد");
                 $.get("/Admin/StoreCategory/pChild?id=" + $("#ParentId").val(), function (result) {
                     $(".modal-content").html(result);
                 });
             }
 
-            else {
+            else if (result != "true" || result != "ParentIdtrue") {
                 $(".loadingicon").addClass("d-none");
                 $("#Erorr").html(result);
             }

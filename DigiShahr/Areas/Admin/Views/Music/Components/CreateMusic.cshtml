@@ -1,0 +1,28 @@
+﻿@model DataLayer.Models.TblMusic
+
+<div class="modal-header">
+    <h6 class="modal-title" id="modalCenterTitle">
+        افزودن موسیقی
+    </h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="Create" asp-controller="Music" id="CreateMusic" method="post" enctype="multipart/form-data">
+    <div class="modal-body">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <input type="file" class="form-control form-control-sm" name="file" id="file" as accept="audio/mpeg" placeholder="موزیک" required>
+                <span class="text-danger" id="danger">فرمت فایل : mp3</span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-end">
+        <img src='/img/adminStatic/load2.gif' class='justify-content-center d-none loadingicon' width='60' height='60' />
+        <span id="Erorr" class="text-danger"></span>
+        <button type="submit" id="Submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>افزودن</button>
+    </div>
+</form>
+
+<script src="~/Command/AdminMusic.js"></script>

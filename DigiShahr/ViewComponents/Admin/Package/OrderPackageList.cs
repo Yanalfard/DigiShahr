@@ -20,7 +20,7 @@ namespace DigiShahr.ViewComponents.Admin.Package
                 if (paging.InPageCount == 0)
                 {
                     int skip = (paging.PageId - 1) * 10;
-                    int Count = _core.Deal.Get().Count();
+                    int Count = _core.DealOrder.Get().Count();
 
                     ViewBag.PageId = paging.PageId;
                     ViewBag.PageCount = Count / 10;
@@ -32,14 +32,13 @@ namespace DigiShahr.ViewComponents.Admin.Package
                 else
                 {
                     int skip = (paging.PageId - 1) * paging.InPageCount;
-                    int Count = _core.Deal.Get().Count();
+                    int Count = _core.DealOrder.Get().Count();
 
                     ViewBag.PageId = paging.PageId;
                     ViewBag.PageCount = Count / paging.InPageCount;
                     ViewBag.InPageCount = paging.InPageCount;
                     ViewBag.Id = null;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/OrderPackageList.cshtml", _core.DealOrder.Get().Where(deo => deo.Id == Id).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
+                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/OrderPackageList.cshtml", _core.DealOrder.Get().OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
                 }
             }
             else
@@ -47,7 +46,7 @@ namespace DigiShahr.ViewComponents.Admin.Package
                 if (paging.InPageCount == 0)
                 {
                     int skip = (paging.PageId - 1) * 10;
-                    int Count = _core.Deal.Get().Count();
+                    int Count = _core.DealOrder.Get(o => o.Id == Id).Count();
 
                     ViewBag.PageId = paging.PageId;
                     ViewBag.PageCount = Count / 10;
@@ -55,19 +54,19 @@ namespace DigiShahr.ViewComponents.Admin.Package
                     ViewBag.Id = Id;
 
 
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/OrderPackageList.cshtml", _core.DealOrder.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10)));
+                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/OrderPackageList.cshtml", _core.DealOrder.Get(o => o.Id == Id).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
                 }
                 else
                 {
                     int skip = (paging.PageId - 1) * paging.InPageCount;
-                    int Count = _core.Deal.Get().Count();
+                    int Count = _core.DealOrder.Get().Count(o => o.Id == Id);
 
                     ViewBag.PageId = paging.PageId;
                     ViewBag.PageCount = Count / paging.InPageCount;
                     ViewBag.InPageCount = paging.InPageCount;
                     ViewBag.Id = Id;
 
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/OrderPackageList.cshtml", _core.DealOrder.Get().OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
+                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Package/Components/OrderPackageList.cshtml", _core.DealOrder.Get(o => o.Id == Id).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
                 }
             }
         }

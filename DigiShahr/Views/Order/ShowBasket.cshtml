@@ -1,0 +1,132 @@
+﻿@model DataLayer.Models.TblOrder
+@{
+    ViewData["Title"] = "سبد خرید";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<link href="~/StyleCenter/Sass/Home/Bascket.min.css" rel="stylesheet" />
+@if (Model != null)
+{
+    <div class="my-space"></div>
+    <div class="matCart my-column my-clipped my-clipped-desktop">
+        <div class="formTitr my-row uk-margin-top" dir="rtl">
+            <h3 class="center">سبد خرید</h3>
+            <a href="/Home/Piece/@Model.Store.Id"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+        </div>
+        <div class="my-column cart-section uk-padding-small" dir="rtl">
+            @*my-previous-orders*@
+            <div class="matCart my-row center successMessage" dir="rtl">
+                <img class="uk-margin-auto-left" src="~/img/user/List.svg" width="100" />
+                <a href="/User" class="previousOrders gradientButtonLink uk-margin-auto-right uk-margin-top">سفارشات قبلی</a>
+            </div>
+            <hr class="uk-divider-icon" />
+            @foreach (var item in Model.TblOrderDetails)
+            {
+
+                <div class="my-row ShoppingList" dir="rtl">
+                    <label>@item.Product.Name</label>
+                    <label class="uk-text-success">@item.Product.Price.ToString("#,0 تومان")</label>
+                    <div class="Count">
+                        <a onclick="UpProduct(@item.Id)"><span class="icon-holder uk-margin-small-left" uk-icon="add"></span></a>
+                        <span>@item.Count</span>
+                        <a onclick="DownProduct(@item.Id)"><span class="icon-holder uk-margin-small-right" uk-icon="remove"></span></a>
+                    </div>
+                </div>
+                <hr />
+
+            }
+            <hr class="uk-divider-icon uk-margin-remove-bottom" />
+            <div class="uk-margin-small-right" dir="rtl">
+                <label class="uk-margin-small-bottom" for="delivery">انتخاب نحوه تحویل و تسویه:</label>
+                <div class="delivery uk-grid-small uk-child-width-auto uk-grid">
+                    @if (Model.Store.Ability.TahvilVaTasvieDarMahal == 1)
+                    {
+                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery" checked value="0"> تحویل و تسویه درب منزل</label>
+                    }
+                    @if (Model.Store.Ability.TahvilVaTasvieDarForushgah == 1)
+                    {
+                        <label><input class="uk-checkbox uk-margin-remove-top" type="radio" name="delivery" value="1"> تحویل و تسویه در محل فروشگاه</label>
+                    }
+                </div>
+            </div>
+            <hr class="uk-divider-icon uk-margin-remove-top" />
+            <input id="Discount" class="uk-input uk-border-rounded" type="text" placeholder="کد تخفیف (در صورت وجود)..">
+            @{
+                int mainSum = 0;
+                foreach (var i in Model.TblOrderDetails)
+                {
+                    mainSum += i.Count * i.Product.Price;
+                }
+            }
+            <label class="uk-text-success center uk-margin-top">قیمت مجموع سفارشات: <span>@mainSum.ToString("#,0") تومان</span></label>
+            <button onclick="Final(@Model.Id)" class="gradientButton center uk-margin-top uk-margin-bottom">تکمیل و ثبت سفارش </button>
+
+        </div>
+    </div>
+    <div class="my-space"></div>
+}
+else
+{
+    <div class="my-space"></div>
+    <div class="matCart my-column my-clipped my-clipped-desktop">
+        <div class="formTitr my-row uk-margin-top" dir="rtl">
+            <h3 class="center">سبد خرید</h3>
+            <a href="@ViewBag.ReturnUrl"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+        </div>
+        <div class="my-column cart-section uk-padding-small" dir="rtl">
+            @*my-previous-orders*@
+            <div class="matCart my-row center uk-margin-bottom successMessage" dir="rtl">
+                <img class="uk-margin-auto-left" src="~/img/user/List.svg" width="100" />
+                <a href="/User" class="previousOrders gradientButtonLink uk-margin-auto-right uk-margin-top">سفارشات قبلی</a>
+            </div>
+            <div class="my-row ShoppingList" dir="rtl">
+                <label></label>
+                <label class="uk-text-danger">سبد خرید شما خالی است</label>
+                <div class="Count">
+
+                </div>
+            </div>
+            <img class="EmptyCart uk-margin-top uk-margin-bottom center" src="~/img/user/empty_cart.svg" width="500" />
+        </div>
+    </div>
+    <div class="my-space"></div>
+}
+
+@section Script{
+    <script id="Command">
+        function UpProduct(Id) {
+            $("#overlay").fadeIn(300);
+            $.post("/Order/Command?Id=" + Id + "&Command=up", function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                } else {
+                    $("#overlay").fadeOut(300);
+                    UIkit.notification({ message: result });
+                }
+            });
+        }
+        function DownProduct(Id) {
+            $("#overlay").fadeIn(300);
+            $.post("/Order/Command?Id=" + Id + "&Command=down", function (result) {
+                if (result == "true") {
+                    window.location.reload();
+                }
+            });
+        }
+
+
+        function Final(Id) {
+            $("#overlay").fadeIn(300);
+            var Discount = $("#Discount").val();
+            var Delivery = $("input[name=delivery]:checked").val();
+            $.post("/Order/Final?Id=" + Id + "&Delivery=" + Delivery + "&Discount=" + Discount, function (result) {
+                if (result == "true") {
+                    window.location.href = "/Order/Success/" + Id;
+                } else {
+                    UIkit.notification({ message: result });
+                }
+            });
+        }
+
+    </script>
+}
+

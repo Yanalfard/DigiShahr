@@ -33,12 +33,11 @@ function Info(id) {
 }
 
 function Accept(Id) {
+    var PageId = $("#pageNumber option:selected").val();
+    var InPageCount = $("#InPageCount option:selected").val();
     $.post("/Admin/Store/Accept?Id=" + Id, function (result) {
-
         if (result == "true") {
-            $.get("/Admin/Store/pStoreList?PageId=" + PageId + "&InPageCount=" + InPageCount + "&storeName=" + $("#storeName").val() + "&phoneNumber=" + $("#phoneNumber").val(), function (result) {
-                $("#Content").html(result);
-            });
+            window.location.reload();
         }
 
     });

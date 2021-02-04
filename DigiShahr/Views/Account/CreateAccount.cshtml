@@ -3,101 +3,148 @@
     ViewData["Title"] = "ایجاد حساب کاربری";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
-<div class="space-double"></div>
-<div class="space-mobile"></div>
-<div class="mat my-column my-clipped">
-    <div class="formTitr my-row uk-margin-top" dir="rtl">
-        <h3 class="center">ایجاد حساب</h3>
-        <a><span class="icon-holder" uk-icon="backIcon"></span></a>
+
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+<script src="https://www.google.com/recaptcha/api.js?render=@Configuration["googleReCaptcha:SiteKey"]"></script>
+<script>
+    grecaptcha.ready(function () {
+        window.grecaptcha.execute('@Configuration["googleReCaptcha:SiteKey"]', { action: 'CreateAccount' }).then(function (token) {
+            document.getElementById("captchaInput").value = token;
+        });
+    });
+</script>
+<style>
+    .grecaptcha-badge {
+        opacity: 0;
+    }
+</style>
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+    <div class="my-space"></div>
+    @*<div class="space-double"></div>
+        <div class="space-mobile"></div>*@
+    <div class="matCart my-column my-clipped my-clipped-desktop">
+        <div class="formTitr my-row uk-margin-top" dir="rtl">
+            <h3 class="center">ایجاد حساب</h3>
+            <a href="/"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+        </div>
+        <form class="my-column createAccount uk-padding-small" dir="rtl" action="CreateAccount" method="post">
+            <partial name="_CaptchaInput" />
+            @Html.AntiForgeryToken()
+            <label for="name">نام و نام خانوادگی:</label>
+            <input asp-for="Name">
+            <span asp-validation-for="Name" class="uk-text-danger"></span>
+            <label for="cellPhone">شماره موبایل:</label>
+            <input asp-for="TellNo">
+            <span asp-validation-for="TellNo" class="uk-text-danger"></span>
+            <label for="password">رمز عبور:</label>
+            <input asp-for="Password">
+            <span asp-validation-for="Password" class="uk-text-danger"></span>
+            <label for="confirmPassword">تکرار رمز عبور:</label>
+            <input asp-for="ConfirmPassword">
+            <label for="address">آدرس:</label>
+            <input type="text" asp-for="Address">
+            <span asp-validation-for="Address" class="uk-text-danger"></span>
+            <label for="address">موقعیت مکانی خود را کلیک کنید:</label>
+            <div id="map" class="map"></div>
+            <input asp-for="Lat" id="Lat" type="hidden" />
+            <input asp-for="Lon" id="Lon" type="hidden" />
+            <span asp-validation-for="Lat" class="uk-text-danger"></span>
+            @*  <label for="addres">انتخاب محله:</label>*@
+            <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>انتخاب محله</a>
+            <span class="uk-text-danger" asp-validation-for="NaighborhoodId"></span>
+            <div id="modal-sections" class="modal-sections" uk-modal>
+                <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
+                    <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <div class="uk-modal-header">
+                        <h3 class="uk-modal-title uk-text-center">لطفا محله خود را انتخاب کنید</h3>
+                    </div>
+                    <div class="uk-modal-body uk-padding-small">
+                        <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
+                            @foreach (var item in ViewBag.Naighborhood)
+                            {
+                                <label class="uk-margin-remove-top"><input class="uk-checkbox uk-margin-remove-top Neighbourhood" type="radio" name="Neighbourhood" value="@item.Id">@item.Name</label>
+                            }
+                        </div>
+
+                    </div>
+                    <div class="uk-modal-footer uk-text-center">
+                        <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" asp-for="NaighborhoodId" />
+           @* <span asp-validation-for="NaighborhoodId" class="uk-text-danger"></span>*@
+            <input type="hidden" id="foo" name="foo" />
+            <input class="center gradientButton uk-margin-large-top" type="submit" value="ایجاد حساب">
+        </form>
     </div>
-    <form class="my-column createAccount uk-padding-small" dir="rtl" action="CreateAccount" method="post">
-        @Html.AntiForgeryToken()
-        <label for="name">نام و نام خانوادگی:</label>
-        <input asp-for="Name">
-        <span asp-validation-for="Name" class="uk-text-danger"></span>
-        <label for="cellPhone">شماره موبایل:</label>
-        <input asp-for="TellNo">
-        <span asp-validation-for="TellNo" class="uk-text-danger"></span>
-        <label for="password">رمز عبور:</label>
-        <input asp-for="Password">
-        <span asp-validation-for="Password" class="uk-text-danger"></span>
-        <label for="confirmPassword">تکرار رمز عبور:</label>
-        <input asp-for="ConfirmPassword">
-        <label for="address">آدرس:</label>
-        <input type="text" asp-for="Address">
-        <span asp-validation-for="Address" class="uk-text-danger"></span>
-        <label for="address">موقعیت مکانی خود را کلیک کنید:</label>
-        <div id="map" class="map"></div>
-        <input asp-for="Lat" id="Lat" type="hidden" />
-        <input asp-for="Lon" id="Lon" type="hidden" />
-        <span asp-validation-for="Lat" class="uk-text-danger"></span>
-        <label for="addres">انتخاب محله:</label>
-        <select asp-for="NaighborhoodId" class="uk-select uk-margin-xlarge-bottom">
-            <option selected value="0">انتخاب کنید</option>
-            @foreach (var item in ViewBag.Naighborhood)
-            {
-                <option value="@item.Id">@item.Name</option>
-            }
-        </select>
-        <span asp-validation-for="NaighborhoodId" class="uk-text-danger"></span>
-        <input type="hidden" id="foo" name="foo" />
-        <input class="center gradientButton" type="submit" value="ایجاد حساب">
-    </form>
-</div>
-<div class="space-double"></div>
-<div class="space-mobile"></div>
+    <div class="my-space"></div>
 
 
 
-@section Script{
+    @section Script{
 
-    <link href="~/leaflet/leaflet.css" rel="stylesheet" />
-    <script src="~/leaflet/leaflet.js"></script>
+        <link href="~/leaflet/leaflet.css" rel="stylesheet" />
+        <script src="~/leaflet/leaflet.js"></script>
 
-    <script>
+        <script>
 
-        var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 10);
+           
 
-        L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'echoville'
-        }).addTo(map);
-
-        var theMarker = {};
-
-        map.on('click', function (e) {
-            lat = e.latlng.lat;
-            lon = e.latlng.lng;
-
-            //Clear existing marker,
-
-            if (theMarker != undefined) {
-                map.removeLayer(theMarker);
-            };
-
-            var iconSetting = L.Icon.extend({
-                options: {
-                    iconSize: [20, 29],
-                    iconAnchor: [10, 29]
-                }
+            $("#btnubni").click(function () {
+                $("#NaighborhoodId").val($(".Neighbourhood:checked").val());
             });
 
-            var customIcon = new iconSetting({ iconUrl: '/location.png' });
-            //Add a marker to show where you clicked.
-            $("#Lat").val(lat.toString());
-            $("#Lon").val(lon.toString());
-            theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت شما ثبت شد</h6>').openPopup();
-        });
 
-    </script>
+            var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 10);
 
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj"></script>
-    <script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj', { action: 'Create' }).then(function (token) {
-                document.getElementById("foo").value = token;
+            L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'echoville'
+            }).addTo(map);
+
+            var theMarker = {};
+
+            map.on('click', function (e) {
+                lat = e.latlng.lat;
+                lon = e.latlng.lng;
+
+                //Clear existing marker,
+
+                if (theMarker != undefined) {
+                    map.removeLayer(theMarker);
+                };
+
+                var iconSetting = L.Icon.extend({
+                    options: {
+                        iconSize: [20, 29],
+                        iconAnchor: [10, 29]
+                    }
+                });
+
+                var customIcon = new iconSetting({ iconUrl: '/location.png' });
+                //Add a marker to show where you clicked.
+                $("#Lat").val(lat.toString());
+                $("#Lon").val(lon.toString());
+                theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت شما ثبت شد</h6>').openPopup();
             });
-        });
-    </script>
 
+        </script>
+
+        <script src="https://www.google.com/recaptcha/api.js?render=6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj"></script>
+        <script>
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj', { action: 'Create' }).then(function (token) {
+                    document.getElementById("foo").value = token;
+                });
+            });
+        </script>
+
+    }
+}
+else
+{
+    <h1>شما وارد شده اید</h1>
 }

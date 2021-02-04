@@ -1,0 +1,91 @@
+﻿@model DataLayer.Models.TblProduct
+<button class="uk-modal-close-default" type="button" uk-close></button>
+<form id="CreateProduct" class="my-column createAccount uk-padding-small" method="post" dir="rtl">
+    <div class="uk-modal-header uk-margin-bottom">
+        <h3 class="uk-modal-title uk-text-center">افزودن محصول</h3>
+    </div>
+    <div class="uk-modal-body my-column uk-padding-small">
+        <div class="uk-margin">
+            <select class="uk-select" asp-for="StoreCatagoryId">
+                <option>انتخاب دسته بندی</option>
+                @foreach (var item in ViewBag.Category)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+        <label for="Name">نام محصول:</label>
+        <input asp-for="Name">
+        <label for="Count">موجودی نزد شما:</label>
+        <input asp-for="Count" />
+        <label for="price">قیمت(تومان):</label>
+        <input type="text" asp-for="Price">
+        <label for="off">درصد تخفیف:</label>
+        <input asp-for="Discount">
+        <div class="uk-margin">
+            <div class="my-row" uk-form-custom>
+                <input type="file" id="ProductImage">
+                <button class="uk-margin-top serviceArea">انتخاب تصویر برای محصول<span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="attach"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="uk-modal-footer uk-text-center uk-margin-top">
+        <span id="ProductSubmitErorr" class="uk-text-danger"></span>
+        <input class="center gradientButton" type="submit" value="افزودن">
+    </div>
+</form>
+
+<script src="~/Jquery/jquery-3.4.1.js"></script>
+<script src="~/ScriptCenter/Tools/Auto_Formatting_Currency.js"></script>
+
+<script>
+    $("#CreateProduct").submit(function (e) {
+        e.preventDefault();
+        if ($("#ProductImage").val() == "" || $("#ProductImage").val() == null) {
+            $("#ProductSubmitErorr").html("لطفا تصویر محصول را وارد کنید");
+        } else {
+            $("#ProductSubmitErorr").html("");
+            var Price = $("#Price").val().replace(",", "");
+            var data = $(this).serializeArray();
+            
+            $.post("/Store/CreateProduct", data, function (result) {
+                if (result == "SubscribtionTillErorr") {
+                    window.location.href = "/Store/SubscribtionTillErorr";
+                } else {
+                    if ($.isNumeric(result)) {
+                        var fileUpload = $("#ProductImage").get(0);
+                        var files = fileUpload.files;
+                        var data = new FormData();
+                        data.append("file", files[0]);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Store/UploadProductImage?ProductId=" + result,
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            async: false,
+                            beforeSend: function () {
+                            },
+                            success: function (message) {
+                                if (message == "true") {
+                                    window.location.reload();
+                                } else {
+                                    $("#ProductSubmitErorr").html(message);
+                                }
+                            },
+
+                        });
+
+
+                    } else {
+                        $("#ProductSubmitErorr").html(result);
+                    }
+                }
+                
+            });
+        }
+    });
+
+</script>
+

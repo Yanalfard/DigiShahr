@@ -8,28 +8,55 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>ConfirmPhoneNumber</title>
+    <title>تایید شماره تلفن</title>
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/LoginRegister/loginRegister.min.css" rel="stylesheet" />
+   @* <link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />*@
 </head>
 <body>
     <div class="RegisterContainer">
         <div class="firstHead"></div>
-        <div class="LoginContent my-clipped mat ">
-            <div class="center my-column uk-margin-large-top">
-                <form class="my-column uk-padding-small" action="" dir="rtl">
+
+        <div class="LoginContent my-clipped mat my-clipped-desktop ">
+            <div class="center my-column Forget absolute">
+                <form id="ConfirmUser" class="my-column uk-padding-small" dir="rtl">
+                    @Html.AntiForgeryToken()
                     <h3>کد فعالسازی را وارد کنید</h3>
                     <div class="uk-margin">
-                            <input class="uk-input" type="text" style="width:230px">
+                        <input type="hidden" name="TellNo" value="@ViewBag.TellNo" />
+                        <input name="ActiveCode" class="uk-input" type="text" style="width:230px">
                     </div>
-                    <button class="gradientButton center uk-margin-large-top">
+                    <button class="gradientButton center uk-text-center uk-margin-large-top" href="#success" uk-toggle>
                         ارسال
                     </button>
-                    <div class="space-double"></div>
                 </form>
             </div>
         </div>
     </div>
+    <div class="my-spaceInTablet"></div>
+    <div id="success" uk-modal>
+    </div>
 </body>
 </html>
+<script src="~/UIKit/js/uikit.min.js"></script>
+<script src="~/Jquery/jquery-3.4.1.js"></script>
+<script>
+
+    $("#ConfirmUser").submit(function (e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        $.post("/Account/ConfirmPhoneNumber", data, function (result) {
+            if (result == "true") {
+                $.get("/Account/Success?Status=true", function (result) {
+                    $("#success").html(result);
+                });
+            } else {
+                $.get("/Account/Success?Status=false", function (result) {
+                    $("#success").html(result);
+                });
+            }
+        });
+    });
+
+</script>

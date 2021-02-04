@@ -9,76 +9,119 @@
     font-weight: normal;
     font-style: normal;
 }
+.my-space {
+    height: 65px;
+}
+
+.my-spaceInMap {
+    height: 51px;
+}
 * {
     outline: none;
     font-family: Sahel;
 }
+a:hover{
+    text-decoration:none!important;
+}
 body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-    min-height: 100vh!important;
+    overflow-x: hidden !important;
+    //height: calc(100vh - 108px) !important;
+    //max-height: 100vh!important;
+    /*min-height: calc(100vh - 108px) !important;*/
+    //max-height: 100% !important;
+    /*    min-height: 100%!important;*/
+    //min-height: calc(100vh - 108px) !important;
+    /*max-height: 100vh !important;*/
+    /*box-sizing: border-box;*/
     background: $bodybackground !important;
 }
 
 .layoutHeader {
-   // position: fixed;
+    position: fixed;
+    right:0;
     left: 0;
     top: 0;
     width: 100%;
-    z-index: 10000!important;
+    z-index: 10000 !important;
+
     .mat {
         border-radius: 0 0 8px 8px;
     }
 
+    #offcanvas-flip {
+        z-index: 10000 !important;
+    }
+
+    .uk-offcanvas-close{
+        color:black!important;
+    }
     .uk-offcanvas-bar {
-        width: 318px;
-        background: #fff;
-        opacity: 1;
-        color: #555;
-        z-index: 10000;
-
-        .uk-table {
-            th {
-                color: #2b2b2b !important;
-                font-size: 16px;
-                text-align: right;
-                border-bottom: 1px solid #D7D7D7;
-            }
-
-            td {
-                text-align: right;
-                border-bottom: 1px solid #D7D7D7;
-                color: #2b2b2b !important;
-            }
-
-            a {
-                color: #2b2b2b !important;
-                font-weight: 400;
-            }
-
-            a:hover {
-                text-decoration: none !important;
-            }
-        }
-        /*.backIcon {
-            color: #555;
-            left:0!important;
+        /* * {
+            overflow: hidden;
+        }*/
+        .chevron-back {
             float:left!important;
             text-align:left!important;
-            margin-right:50px;
-            margin-top:10px;
-        }*/
+            margin-right:auto!important;
+
+        }
+
+        h3 {
+            font-family: "Sahel";
+            font-size: 20px;
+            font-weight: 600;
+            text-align: right;
+            color: #555;
+            margin-top: 50px;
+            overflow: hidden;
+        }
+
+        width: 318px;
+        background: #fefbf0;
+        opacity: 1;
+        color: #555;
+        //   z-index: 10000000;
+        .uk-menu-accordion {
+            margin-top: 40px;
+
+            ul, li, a {
+                color: #2b2b2b !important;
+                font-family: "Sahel";
+                font-size: 16px;
+            }
+
+            .main-title {
+                color: #2b2b2b !important;
+                font-size: 18px;
+                font-weight: 400;
+                font-family: "Sahel";
+                text-align: right;
+                overflow: hidden;
+                //  border-bottom: 1px solid #D7D7D7;
+            }
+
+            .uk-accordion-title::before {
+                display: none !important;
+            }
+
+            .uk-accordion-title::after {
+                display: none !important;
+            }
+        }
     }
 }
 
 .layoutFooter {
-   position: fixed;
+    position: fixed;
     left: 0;
-    bottom: 0!important;
+    right:0;
+    bottom: 0 !important;
     width: 100%;
     text-align: center;
     z-index: 9000 !important;
+
     .mat {
         border-radius: 8px 8px 0 0;
 
@@ -99,6 +142,26 @@ body {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
    // box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
 }
+.gradientButtonLink {
+    color: white!important;
+    border-radius: 5px;
+    width: 150px;
+    height: 25px;
+    padding:8px 0;
+    background: $gradientButton;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.12);
+    cursor:pointer;
+    // box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+}
+.gradientButton:hover, .gradientButtonLink:hover {
+    opacity: 0.9;
+    color: white !important;
+}
+.gradientButton:focus, .gradientButtonLink:focus {
+    border: none !important;
+  //  border-bottom: none !important;
+}
 .pageHeader {
     background: $pageHeader;
     width: 100%;
@@ -110,3 +173,293 @@ body {
         }
     }
 }
+.matCart {
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12);
+}
+.CartNotif {
+    .badge {
+        z-index: 100;
+        position: absolute;
+        margin-left: 12px;
+        padding: 7px 5px;
+        /**/ /*  width: 8px;
+      height: 8px;*/
+        font-size: 9px;
+        border-radius: 50%;
+        background-color: red;
+        color: white;
+        text-align: center;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+    }
+}
+
+.LinkBox {
+    border-radius: 7px;
+    border: 1px solid #F28F3B;
+    color: #666 !important;
+    padding: 7px 0;
+    width: 100%;
+    font-size: smaller;
+}
+.LogoPictureContainer {
+    max-height: 100px;
+    max-width: 100px;
+    img{
+        border-radius:50%;
+    }
+}
+.horizontalCenter {
+    margin: 0 auto;
+}
+.gly-rotate-270 {
+    /*filter: progid : DXImageTransform.Microsoft.BasicImage(rotation=0.5);*/
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+    display: inline-block;
+}
+
+.uk-notification-message {
+    opacity:1;
+    position: relative;
+    padding: 15px;
+    background: #e04f4f !important;
+    color: #fff !important;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    cursor: pointer;
+    border-radius: 8px !important;
+    margin-top: 65px !important;
+    font-family: 'Sahel';
+    overflow:hidden;
+    text-align:center;
+}
+
+.notificationList {
+    .uk-modal-body {
+        padding: 20px 4px!important;
+        overflow-x:hidden;
+    }
+
+    h3 {
+        font-family: "Sahel";
+        font-size: 16px;
+        text-align: center;
+        color: #555;
+        overflow: hidden;
+    }
+
+    .notificationListBox {
+        width: 75vw;
+        padding: 20px 10px;
+        background: #FFF8D2;
+        border: 2px solid #F9EFBE;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+
+        .gradientButtonLink {
+            width: 90px;
+            padding: 5px 0;
+        }
+    }
+}
+.modal-sections {
+    .uk-modal-dialog {
+        border-radius: 7px;
+    }
+
+    z-index: 10000000;
+}
+.MenuCategory {
+    background: $gradientButton;
+    border-radius:45px;
+    color: white !important;
+    padding: 10px 20px;
+}
+/////////////desktop/////////////////
+@media only screen and (min-device-width : 1024px) {
+    .my-clipped-desktop {
+        width: 45vw !important;
+    }
+
+    .layoutHeader {
+        .mat {
+            border-radius: 0 0 144px 144px;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+
+            .uk-iconnav {
+                .uk-icon {
+                    padding-right: 20px !important;
+                }
+            }
+        }
+    }
+
+    .backIconDesktop {
+        display: none !important;
+    }
+
+    .layoutFooter {
+        .mat {
+            border-radius: 144px 144px 0 0;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+        }
+    }
+
+    .LinkBox {
+        width: 37vw !important;
+    }
+
+    .BannerPlace .absolute-right {
+        right: 30vw !important;
+    }
+
+    .notificationList {
+        .notificationListBox {
+            width: 33vw;
+        }
+    }
+}
+
+@media only screen and (min-width : 1024px) {
+    .my-clipped-desktop {
+        width: 45vw !important;
+    }
+    .backIconDesktop {
+        display: none !important;
+    }
+    .layoutHeader {
+        .mat {
+            border-radius: 0 0 144px 144px;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+        }
+
+        .uk-iconnav {
+            .uk-icon {
+                padding-right: 20px !important;
+            }
+        }
+    }
+
+    .layoutFooter {
+        .mat {
+            border-radius: 144px 144px 0 0;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+        }
+    }
+
+    .LinkBox {
+        width: 37vw !important;
+    }
+    .BannerPlace .absolute-right {
+        right: 30vw!important;
+    }
+    .notificationList {
+        .notificationListBox {
+            width: 33vw;
+        }
+    }
+}
+
+/////////////end desktop/////////////////
+/////////////tablet/////////////////
+@media only screen and (min-device-width : 600px) and (max-device-width :1024px) {
+    .my-clipped-desktop {
+        width: 65vw !important;
+    }
+
+    .layoutHeader {
+        .mat {
+            border-radius: 0 0 144px 144px;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+
+            .uk-iconnav {
+                .uk-icon {
+                    padding-right: 20px !important;
+                }
+            }
+        }
+    }
+
+    .layoutFooter {
+        .mat {
+            border-radius: 144px 144px 0 0;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+        }
+    }
+
+    .LinkBox {
+        width: 50vw !important;
+    }
+
+    .BannerPlace .absolute-right {
+        right: 22vw !important;
+    }
+    .notificationList {
+        .notificationListBox {
+            width: 53vw;
+        }
+    }
+}
+
+@media only screen and (min-width : 600px) and (max-width :1024px) {
+    .my-clipped-desktop {
+        width: 65vw !important;
+    }
+    .layoutHeader {
+        .mat {
+            border-radius: 0 0 144px 144px;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+        }
+
+        .uk-iconnav {
+            .uk-icon {
+                padding-right: 20px !important;
+            }
+        }
+    }
+
+    .layoutFooter {
+        .mat {
+            border-radius: 144px 144px 0 0;
+            opacity: 0.7;
+            padding-left: 100px;
+            padding-right: 50px;
+        }
+    }
+
+    .LinkBox {
+        width: 50vw !important;
+    }
+
+    .BannerPlace .absolute-right {
+        right: 22vw !important;
+    }
+    .notificationList {
+        .notificationListBox {
+            width: 53vw;
+        }
+    }
+}
+
+/////////////end tablet/////////////////

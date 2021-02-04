@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DataLayer.Models.TblBookMark>
+@{
+    ViewData["Title"] = "Bookmark";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="pageHeader">
+    <div class="my-spaceInMap"></div>
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">نشان شده ها</h3>
+        <a><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+    </div>
+</div>
+<content class="grid" dir="rtl">
+
+    @if (Model.Count() == 0)
+    {
+        <b>لیست علاقه مندی ها خالی میباشد</b>
+    }
+    else
+    {
+        <article class="firstPackage Bookmarks matCart my-clipped my-clipped-desktop">
+                <div class="my-row storeDetail" onclick="window.location.href='/Home/Piece/@Model.First().StoreId'">
+                    <div class="LogoPictureContainer uk-margin-top">
+                        <a><img class="uk-margin-right" src="/Upload/StoreLogo/@Model.First().Store.LogoUrl" width="80" /></a>
+                    </div>
+                    <div class="my-column uk-margin-right uk-margin-top">
+                        <label class="uk-margin-remove-bottom">@Model.First().Store.Name</label>
+                        <label class="uk-margin-remove-top"><span class="icon-holder starIcon uk-margin-small-left" uk-icon="star"> </span>@Model.First().Store.Rate/5</label>
+                    </div>
+                </div>
+            <hr class="uk-divider-icon uk-margin-remove-bottom" />
+            <span class="icon-holder uk-text-danger uk-margin-right uk-margin-small-top uk-margin-bottom" uk-icon="location"></span>@Model.First().Store.Address
+        </article>
+
+        @if (Model.Count() > 1)
+        {
+            foreach (var item in Model.Skip(1))
+            {
+                <article class="Bookmarks matCart my-clipped uk-margin-top my-clipped-desktop">
+                    <div class="my-row storeDetail" onclick="window.location.href = '/Home/Piece/@item.StoreId'">
+                        <div class="LogoPictureContainer uk-margin-top">
+                            <a><img class="uk-margin-right" src="/Upload/StoreLogo/@item.Store.LogoUrl" width="80" /></a>
+                        </div>
+                        <div class="my-column uk-margin-right uk-margin-top">
+                            <label class="uk-margin-remove-bottom">@item.Store.Name</label>
+                            <label class="uk-margin-remove-top"><span class="icon-holder starIcon uk-margin-small-left" uk-icon="star"> </span>@item.Store.Rate/5</label>
+                        </div>
+                    </div>
+                    <hr class="uk-divider-icon uk-margin-remove-bottom" />
+                    <span class="icon-holder uk-text-danger uk-margin-right uk-margin-small-top uk-margin-bottom" uk-icon="location"></span>@item.Store.Address
+                </article>
+            }
+        }
+    }
+
+</content>
+
+<div class="my-space"></div>

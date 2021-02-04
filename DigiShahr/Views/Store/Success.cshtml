@@ -1,0 +1,43 @@
+﻿@model DataLayer.Models.TblDealOrder
+@{
+    ViewData["Title"] = "Success";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />
+@if (Model == null)
+{
+    @*<h1>Success</h1>*@
+    <div class="my-space"></div>
+    <div class="uk-position-center matCart my-clipped my-clipped-desktop my-column center SuccessReport">
+
+        @* free packages region:*@
+
+        <img class="center" src="~/img/user/confirm.gif" width="220" height="220" />
+        <h3 class="uk-margin-remove">
+            فروشگاه با موفقیت ثبت شد. بعد از تایید کارشناسان فروشگاه برای شما قابل استفاده است
+        </h3>
+        <a href="/account/signout" class="gradientButtonLink center uk-margin-top uk-margin-bottom">تایید</a>
+
+        @* end region*@
+    </div>
+    <div class="my-space"></div>
+}
+else
+{
+    @*<h1>Success</h1>*@
+    <div class="my-space"></div>
+    <div class="uk-position-center matCart my-clipped my-clipped-desktop my-column center SuccessReport">
+
+        @* free packages region:*@
+
+        <img class="center" src="~/img/user/confirm.gif" width="220" height="220" />
+        <h3 class="uk-margin-remove">فروشگاه با موفقیت ثبت شد. بعد از تایید کارشناسان فروشگاه برای شما قابل استفاده است
+        کد سفارش شما : @Model.Id</h3>
+        <a href="/account/signout" class="gradientButtonLink center uk-margin-top uk-margin-bottom">تایید</a>
+
+        @* end region*@
+    </div>
+    <div class="my-space"></div>
+
+}

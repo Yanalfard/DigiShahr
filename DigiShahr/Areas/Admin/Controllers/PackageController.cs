@@ -106,6 +106,7 @@ namespace DigiShahr.Areas.Admin.Controllers
                     tblDealEdit.Banner1 = tblDeal.Banner1;
                     tblDealEdit.Banner2 = tblDeal.Banner2;
                     tblDealEdit.Lottery = tblDeal.Lottery;
+                    tblDealEdit.Music = tblDeal.Music;
                     _core.Deal.Save();
                     return "true";
                 }
@@ -137,23 +138,6 @@ namespace DigiShahr.Areas.Admin.Controllers
         public IActionResult pOrderInfo(int id)
         {
             return ViewComponent("PackageOrderInfo", new { id = id });
-        }
-
-        [HttpGet]
-        public IActionResult pOrderCancel(int Id, int PageId, int InPageCount)
-        {
-            Paging paging = new Paging();
-            paging.PageId = PageId;
-            paging.InPageCount = InPageCount;
-            return ViewComponent("OrderPackageCancel", new { Id = Id, Paging = paging });
-        }
-
-        public IActionResult OrderCancel(int id, Paging paging, int? SearchId)
-        {
-            _core.DealOrder.GetById(id).IsPayed = false;
-            _core.DealOrder.Save();
-            return OrderList(paging, SearchId);
-
         }
 
         protected override void Dispose(bool disposing)

@@ -21,5 +21,12 @@ namespace DigiShahr.Classes
 
             return " " + Pc.GetYear(value) + "/" + Pc.GetMonth(value).ToString("00") + "/" + Pc.GetDayOfMonth(value).ToString("00");
         }
+
+        public static string DateClock(this DateTime value)
+        {
+            PersianCalendar Pc = new PersianCalendar();
+
+            return Pc.GetHour(value).ToString("00") + ":" + Pc.GetMinute(value).ToString("00");
+        }
     }
 }

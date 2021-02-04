@@ -1,0 +1,22 @@
+﻿@model DataLayer.Models.TblMusic
+
+<div class="modal-header">
+    <h6 class="modal-title" id="modalCenterTitle">حذف از لیست</h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="space"></div>
+<h6 class="center">آیا میخواهید پروژه @Model.Id حذف شود؟</h6>
+<audio controls>
+    <source src="/Upload/Music/@Model.MusicUrl" type="audio/mpeg">
+</audio>
+<div class="space"></div>
+<div class="modal-footer justify-content-end">
+    <img src="~/img/gif/load.gif" class="loding justify-content-center d-none" />
+    <button onclick="BtnRemoveMusic(@Model.Id)" type="button" class="btn btn-sm btn-success">
+        بله
+    </button>
+    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">خیر</button>
+</div>
+<script src="~/Command/AdminMusic.js"></script>

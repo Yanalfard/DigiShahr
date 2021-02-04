@@ -41,7 +41,7 @@ namespace DigiShahr.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult pChild(int id)
         {
-            return ViewComponent("ChildStoreCategory", new { id = id });
+            return ViewComponent("ChildStoreCategoryAdmin", new { id = id });
         }
 
         [HttpGet]

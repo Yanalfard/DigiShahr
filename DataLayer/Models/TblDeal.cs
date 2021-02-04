@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace DataLayer.Models
 {
+    [Table("TblDeal")]
     public partial class TblDeal
     {
         public TblDeal()
@@ -12,7 +16,11 @@ namespace DataLayer.Models
             TblDealOrders = new HashSet<TblDealOrder>();
         }
 
+        [Key]
+        [Column("id")]
         public int Id { get; set; }
+        [Required(ErrorMessage = "نام را وارد کنید")]
+        [StringLength(100, ErrorMessage = "نام مناسب وارد کنید")]
         public string Name { get; set; }
         public int Price { get; set; }
         public short? MonthCount { get; set; }
@@ -26,6 +34,7 @@ namespace DataLayer.Models
         public bool Music { get; set; }
         public bool IsDeleted { get; set; }
 
+        [InverseProperty(nameof(TblDealOrder.Deal))]
         public virtual ICollection<TblDealOrder> TblDealOrders { get; set; }
     }
 }

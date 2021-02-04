@@ -3,17 +3,15 @@
 @using DigiShahr.Classes
 
 <div class="card-header bg-white">
-    <form action="" method="post">
-        <div class="card-form row pr-3 pb-0">
-            <div class="form-group mx-sm-2">
-                <input name="storeName" type="text" class="form-control form-control-sm" placeholder="نام فروشگاه">
-            </div>
-            <div class="form-toolbar pr-2 ">
-                <button type="submit" class="btn btn-primary btn-sm">جستجو</button>
-                <img id="SearchLoad" src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
-            </div>
+    <div class="card-form row pr-3 pb-0">
+        <div class="form-group mx-sm-2">
+            <input id="PhoneNumberInput" type="text" class="form-control form-control-sm" placeholder="شماره تماس" value="@ViewBag.PhoneNumber">
         </div>
-    </form>
+        <div class="form-toolbar pr-2 ">
+            <button id="Search" class="btn btn-primary btn-sm">جستجو</button>
+            <img id="SearchLoad" src="~/img/adminStatic/load2.gif" class="justify-content-center d-none" width="60" height="60" />
+        </div>
+    </div>
 </div>
 
 <div id="card-table" class="card-body flex-div">
@@ -24,7 +22,7 @@
                     <th>کد کاربر</th>
                     <th>نام کاربر</th>
                     <th>شماره تماس</th>
-                    <th>جزئیات</th>
+                    <th>تاریخ ثبتنام</th>
                     <th>جزئیات</th>
                 </tr>
             </thead>
@@ -101,11 +99,15 @@
         </ul>
     </nav>
 </div>
-
+<script src="/Command/AdminUser.js"></script>
 <script>
     function UserInfo(id) {
         $.get("/Admin/User/p_Info?id=" + id, function (result) {
             $(".modal-content").html(result);
         });
     }
+
+    $("#SearchLoad").click(function () {
+        $("#PhoneNumberInput").val();
+    });
 </script>
