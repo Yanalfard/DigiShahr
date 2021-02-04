@@ -8,7 +8,7 @@ namespace Services.Services
 {
     public class Core : IDisposable
     {
-        public DigiShahrContext _context = new DigiShahrContext();
+        private DigiShahrContext _context = new DigiShahrContext();
 
         private MainRepo<TblDeal> _deal;
         private MainRepo<TblAbility> _ability;
