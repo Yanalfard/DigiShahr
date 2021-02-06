@@ -120,9 +120,17 @@
                 iconAnchor: [10, 29]
             }
         });
+
+        var iconSettingOnSale = L.Icon.extend({
+            options: {
+                iconSize: [30, 39],
+                iconAnchor: [20, 39]
+            }
+        });
+
         var customIcon = new iconSetting({ iconUrl: '/location.png' });
         var customeCloseIcon = new iconSetting({ iconUrl: '/close-location.png' });
-        var customIconsale = new iconSetting({ iconUrl: '/location-on-sale.png' });
+        var customIconsale = new iconSettingOnSale({ iconUrl: '/location-on-sale.png' });
 
         var theMarker = {};
 
@@ -151,7 +159,6 @@
 
         $("#MyLocation").click(function () {
             map.locate({ setView: true, maxZoom: 20 });
-
         });
                
     </script>

@@ -152,6 +152,10 @@
     </div>
 
     <div class="produceOfCategory">
+        @if (Model.Products.Count() == 0)
+        {
+            <span class="uk-text-center center">محصولی وجود ندارد</span>
+        }
         @foreach (var item in Model.Products)
         {
             if (item.Count == 0)
@@ -190,13 +194,21 @@
                         {
                             @if (User.Identity.IsAuthenticated)
                             {
-                                @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
+                                if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.Count() == 0)
                                 {
-                                    <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
+                                    <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن</button>
                                 }
                                 else
                                 {
-                                    <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن</button>
+
+                                    if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
+                                    {
+                                        <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
+                                    }
+                                    else
+                                    {
+                                        <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن</button>
+                                    }
                                 }
                             }
                             else
@@ -238,13 +250,22 @@
                         </div>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
+
+                            if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.Count() == 0)
                             {
-                                <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
+                                <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن</button>
                             }
                             else
                             {
+
+                                if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
+                                {
+                                <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
+                                }
+                                else
+                                {
                                 <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن</button>
+                                }
                             }
                         }
                         else

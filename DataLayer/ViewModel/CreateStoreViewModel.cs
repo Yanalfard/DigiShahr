@@ -9,7 +9,7 @@ namespace DataLayer.ViewModel
     {
         public int DealId { get; set; }
 
-        [Required(ErrorMessage ="لطفا تصویر را وارد کنید")]
+        
         public string LogoUrl { get; set; }
 
         [Required(ErrorMessage = "لطفا نام فروشگاه را وارد کنید")]
