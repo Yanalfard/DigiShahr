@@ -171,7 +171,7 @@
                     }
                 }
             </div>
-            
+
         </div>
     </div>
 }
@@ -216,6 +216,7 @@
 
 @if (Model.Ability.IsBanner1Enable)
 {
+    <input type="text" id="Banner1Link" placeholder="لینک مورد نظر را وارد کنید" />
     <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
         {
@@ -305,6 +306,7 @@
 </div>
 @if (Model.Ability.IsBanner2Enable)
 {
+    <input type="text" id="Banner2Link" placeholder="لینک مورد نظر را وارد کنید"  />
     <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
         {
@@ -322,6 +324,7 @@
                 <label> ویرایش بنر دوم</label>
             }
         </div>
+
     </div>
 }
 <div class="my-space"></div>

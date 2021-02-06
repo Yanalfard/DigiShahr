@@ -71,10 +71,11 @@ $("#Banner1File").change(function () {
     var files = fileUpload.files;
     var data = new FormData();
     data.append("file", files[0]);
-
+    var Banner1Link = $("#Banner1Link").val();
+    console.log(Banner1Link);
     $.ajax({
         type: "POST",
-        url: "/Store/UploadBanner1",
+        url: "/Store/UploadBanner1?Link=" + Banner1Link,
         contentType: false,
         processData: false,
         data: data,
@@ -99,10 +100,11 @@ $("#Banner2File").change(function () {
     var files = fileUpload.files;
     var data = new FormData();
     data.append("file", files[0]);
-
+    var Banner2Link = $("#Banner2Link").val();
+    console.log(Banner2Link);
     $.ajax({
         type: "POST",
-        url: "/Store/UploadBanner2",
+        url: "/Store/UploadBanner2?Link="+Banner2Link,
         contentType: false,
         processData: false,
         data: data,

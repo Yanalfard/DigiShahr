@@ -16,42 +16,45 @@
 
     @if (Model.Store.Ability.IsMusicEnable.Value)
     {
-        <li><a id="play"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
-        <li><a id="Pause"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
-        <audio id="music" hidden src="~/Upload/Music/@Model.Store.Ability.Music.MusicUrl" preload="auto"></audio>
-        <script src="~/Jquery/jquery-3.4.1.js"></script>
-        <script>
+        if (Model.Store.Ability.MusicId != null || Model.Store.Ability.MusicId != 0)
+        {
+            <li><a id="play"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
+            <li><a id="Pause"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
+            <audio id="music" hidden src="~/Upload/Music/@Model.Store.Ability.Music.MusicUrl" preload="auto"></audio>
+            <script src="~/Jquery/jquery-3.4.1.js"></script>
+            <script>
 
-            $(function () {
-                var music = document.getElementById("music");
-                music.play();
-                $("#Pause").show();
-                $("#play").hide();
-            });
+                $(function () {
+                    var music = document.getElementById("music");
+                    music.play();
+                    $("#Pause").show();
+                    $("#play").hide();
+                });
 
 
-            if (document.getElementById("music").paused) {
-                $("#Pause").hide();
-                $("#play").show();
-            } else {
-                $("#Pause").show();
-                $("#play").hide();
-            }
+                if (document.getElementById("music").paused) {
+                    $("#Pause").hide();
+                    $("#play").show();
+                } else {
+                    $("#Pause").show();
+                    $("#play").hide();
+                }
 
-            $("#play").click(function () {
-                var music = document.getElementById("music");
-                music.play();
-                $("#Pause").show();
-                $("#play").hide();
-            });
+                $("#play").click(function () {
+                    var music = document.getElementById("music");
+                    music.play();
+                    $("#Pause").show();
+                    $("#play").hide();
+                });
 
-            $("#Pause").click(function () {
-                var music = document.getElementById("music");
-                music.pause();
-                $("#Pause").hide();
-                $("#play").show();
-            });
-        </script>
+                $("#Pause").click(function () {
+                    var music = document.getElementById("music");
+                    music.pause();
+                    $("#Pause").hide();
+                    $("#play").show();
+                });
+            </script>
+        }
     }
 }
 
@@ -128,7 +131,9 @@
         @if (!string.IsNullOrEmpty(Model.Store.Ability.BannerImageUrl1))
         {
 
-            <img class="bannerImage" src="/Upload/Banner1/@Model.Store.Ability.BannerImageUrl1" />
+            <a href="@Model.Store.Ability.BannerLink1">
+                <img class="bannerImage" src="/Upload/Banner1/@Model.Store.Ability.BannerImageUrl1" />
+            </a>
 
         }
     </div>
@@ -260,11 +265,11 @@
 
                                 if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == Model.Store.Id)
                                 {
-                                <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
+                                    <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
                                 }
                                 else
                                 {
-                                <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن</button>
+                                    <button onclick="AddToCart(@item.Id)" class="gradientButton center uk-margin-small-top">افزودن</button>
                                 }
                             }
                         }
@@ -285,7 +290,9 @@
     <div class="BannerInStore Piecebanner matCart center my-clipped uk-margin-small-top bannerBackground my-clipped-desktop">
         @if (!string.IsNullOrEmpty(Model.Store.Ability.BannerImageUrl2))
         {
-            <img class="bannerImage" src="/Upload/Banner2/@Model.Store.Ability.BannerImageUrl2" />
+            <a href="@Model.Store.Ability.BannerLink2">
+                <img class="bannerImage" src="/Upload/Banner2/@Model.Store.Ability.BannerImageUrl2" />
+            </a>
         }
     </div>
 }
@@ -305,6 +312,7 @@
                 if (result == "true") {
                     window.location.reload();
                 } else if (result == "ExitStore") {
+                    $("#overlay").fadeOut(300);
                     UIkit.notification({ message: 'برای خرید از فروشگاه دیگر، ابتدا خرید از فروشگاه فعلی را تکمیل نمایید' });
                 }
             });

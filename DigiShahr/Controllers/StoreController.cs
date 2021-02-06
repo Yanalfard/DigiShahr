@@ -1005,7 +1005,7 @@ namespace DigiShahr.Controllers
         }
 
         [HttpPost]
-        public async Task<string> UploadBanner1()
+        public async Task<string> UploadBanner1(string Link)
         {
             var file = Request.Form.Files;
             if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
@@ -1054,6 +1054,7 @@ namespace DigiShahr.Controllers
                             {
                                 await file[0].CopyToAsync(stream);
                             }
+                            ability.BannerLink1 = Link;
                             _core.Ability.Update(ability);
                             _core.Ability.Save();
                         }
@@ -1064,7 +1065,7 @@ namespace DigiShahr.Controllers
             }
         }
 
-        public async Task<string> UploadBanner2()
+        public async Task<string> UploadBanner2(string Link)
         {
             var file = Request.Form.Files;
             if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
@@ -1093,6 +1094,7 @@ namespace DigiShahr.Controllers
                         {
                             await file[0].CopyToAsync(stream);
                         }
+                        ability.BannerLink2 = Link;
                         _core.Ability.Update(ability);
                         _core.Ability.Save();
                         return await Task.FromResult("true");

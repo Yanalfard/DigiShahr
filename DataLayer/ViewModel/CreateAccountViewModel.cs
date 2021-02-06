@@ -15,7 +15,7 @@ namespace DataLayer.ViewModel
         [Required(ErrorMessage = "لطفا شماره تماس خود را وارد کنید")]
         [StringLength(11, ErrorMessage = "لطفا شماره تماس مناسب وارد کنید")]
         [MinLength(11, ErrorMessage = "لطفا شماره تماس مناسب وارد کنید")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "{0} معتبر نیست")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "شماره تماس معتبر نیست")]
         public string TellNo { get; set; }
         [Required(ErrorMessage = "لطفا رمز عبور خود را وارد کنید")]
         [MinLength(4, ErrorMessage = "لطفا کارکتر های بیشتری وارد کنید")]
