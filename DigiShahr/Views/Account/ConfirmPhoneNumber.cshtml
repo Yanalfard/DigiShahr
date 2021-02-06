@@ -7,16 +7,19 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    @*<meta name="viewport" content="width=device-width ,initial-scale=1.0, user-scalable=no" />*@
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <title>تایید شماره تلفن</title>
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/LoginRegister/loginRegister.min.css" rel="stylesheet" />
-   @* <link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />*@
+    @* <link href="~/StyleCenter/Sass/LoginRegister/BodyStyle.min.css" rel="stylesheet" />*@
 </head>
 <body>
     <div class="RegisterContainer">
-        <div class="firstHead"></div>
+        <div class="firstHead">
+            <a href="/"><span class="icon-holder backIconDesktop uk-margin-large-top uk-margin-left uk-text-secondary absolute" uk-icon="backIcon"></span></a>
+        </div>
 
         <div class="LoginContent my-clipped mat my-clipped-desktop ">
             <div class="center my-column Forget absolute">
@@ -41,6 +44,7 @@
 </html>
 <script src="~/UIKit/js/uikit.min.js"></script>
 <script src="~/Jquery/jquery-3.4.1.js"></script>
+<script src="/icons/uikit-icons.js"></script>
 <script>
 
     $("#ConfirmUser").submit(function (e) {

@@ -9,14 +9,16 @@
     <div class="my-spaceInMap"></div>
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">نشان شده ها</h3>
-        <a><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+        <a href="/"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
     </div>
 </div>
 <content class="grid" dir="rtl">
 
     @if (Model.Count() == 0)
     {
-        <b>لیست علاقه مندی ها خالی میباشد</b>
+    <div class="center">
+        <label dir="rtl" class="uk-text-warning matCart center uk-padding ">لیست علاقه مندی ها خالی میباشد</label>
+    </div>
     }
     else
     {
