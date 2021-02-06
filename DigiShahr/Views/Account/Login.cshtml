@@ -8,7 +8,8 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    @*<meta name="viewport" content="width=device-width ,initial-scale=1.0, user-scalable=no" />*@
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <title>ورود</title>
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
@@ -36,7 +37,9 @@
         <div class="contentContainer">
 
 
-            <div class="firstHead"></div>
+            <div class="firstHead">
+                <a href="/"><span class="icon-holder backIconDesktop uk-margin-large-top uk-margin-left uk-text-secondary absolute" uk-icon="backIcon"></span></a>
+            </div>
             <div class="LoginContent">
                 <div class="center my-column">
                     <form class="my-column loginForm uk-padding-small" action="Login" method="post" dir="rtl">

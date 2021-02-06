@@ -359,7 +359,13 @@ ul {
     }
 }
 .backIconPiece {
-    left: 8vw;
+    left: 7vw;
+    background:#fff;
+    opacity:0.8;
+    width:25px;
+    
+    padding:4px;
+    border-radius:5px;
 }
 .MusicInPiece {
     background: #fff;
@@ -429,6 +435,7 @@ ul {
         height: 8px;
         border-radius: 0 0 2px 2px;
         background-color: #242424;
+        cursor:pointer
     }
 
     .bottomOfdoor {
@@ -705,6 +712,11 @@ $checked-color: #fc0;
 }
 
 .Stars {
+    background: #fff;
+    opacity: 0.8;
+    width: 120px;
+    padding: 2px;
+    border-radius: 5px;
     --percent: calc(var(--rating) / 5 * 100%);
     display: inline-block;
     font-size: var(--star-size);

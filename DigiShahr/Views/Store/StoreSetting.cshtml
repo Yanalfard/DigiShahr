@@ -50,11 +50,11 @@
                 <img class="center upOfdoor" src="~/img/Store/window shade/upOfdoor.svg" />
                 @if (Model.IsOpen)
                 {
-                    <div class="center door" id="door"></div>
+                    <div class="center door" id="door" onclick="ChangeStatus(@Model.Id)"></div>
                 }
                 else
                 {
-                    <div class="center door" style="height:23px" id="door"></div>
+                    <div class="center door" style="height:23px" id="door" onclick="ChangeStatus(@Model.Id)"></div>
                 }
                 <img class="center bottomOfdoor" src="~/img/Store/window shade/bottomOfdoor.svg" onclick="ChangeStatus(@Model.Id)" />
 
