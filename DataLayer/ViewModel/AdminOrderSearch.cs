@@ -12,6 +12,6 @@ namespace DataLayer.ViewModel
 
         public DateTime? fromDate { get; set; }
 
-        public DateTime? toDate { get; set; }
+        public DateTime? toDate { get; set; } 
     }
 }
