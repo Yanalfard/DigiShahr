@@ -272,6 +272,10 @@ namespace DigiShahr.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Convert.ToInt16(createStoreViewModel.ValidationTimeSpan)>120)
+                {
+                    ViewBag.NaighborhoodErorr = "زمان تایید سفارش شما بیشتر از 120 ثانیه است";
+                }
                 if (naighborhood.Count == 0)
                 {
                     ViewBag.NaighborhoodErorr = "لطفا منطقه خورد را وارد کنید";
@@ -567,7 +571,7 @@ namespace DigiShahr.Controllers
                         {
                             editStore.TahvilVaTasvieDarMahal = true;
                         }
-                        editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan;
+                        editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
                         editStore.LogoUrl = store.LogoUrl;
                         editStore.Address = store.Address;
                         return View(editStore);
@@ -634,16 +638,24 @@ namespace DigiShahr.Controllers
                         {
                             store.Ability.TahvilVaTasvieDarMahal = 2;
                         }
-                        store.Ability.ValidationTimeSpan = Convert.ToInt16(EditStore.ValidationTimeSpan);
-                        if (EditStore.MusicId != 0)
+                        if (Convert.ToInt16(EditStore.ValidationTimeSpan) > 120)
                         {
-                            store.Ability.MusicId = EditStore.MusicId;
+                            ModelState.AddModelError("ValidationTimeSpan", "لطفا زمان بیشتر از 120 وارد نکنید");
                         }
+                        else
+                        {
+                            store.Ability.ValidationTimeSpan = Convert.ToInt16(EditStore.ValidationTimeSpan);
+                            if (EditStore.MusicId != 0)
+                            {
+                                store.Ability.MusicId = EditStore.MusicId;
+                            }
 
-                        _core.Store.Save();
-                        _core.Ability.Save();
+                            _core.Store.Save();
+                            _core.Ability.Save();
 
-                        return Redirect("/Store/Dashboard");
+                            return Redirect("/Store/Dashboard");
+                        }
+                        
 
                     }
                 }

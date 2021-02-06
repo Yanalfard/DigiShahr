@@ -79,7 +79,7 @@
         <hr class="uk-divider-icon uk-margin-remove-bottom uk-margin-remove-top" />
         <label for="name">مدت زمان تایید سفارش:</label>
         <input asp-for="ValidationTimeSpan">
-
+        <span asp-validation-for="ValidationTimeSpan"></span>
         <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>انتخاب محله های سرویس دهی</a>
         <div id="modal-sections" class="modal-sections" uk-modal>
             <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">

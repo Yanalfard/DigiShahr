@@ -1,5 +1,12 @@
 ﻿@model IEnumerable<DataLayer.Models.TblStoreCatagory>
 
+@if (Model.Count() == 0)
+{
+
+}
+else
+{
+
 <select id="ChildCategory" class="uk-select uk-margin-top">
     <option class="">لطفا زیر مجموعه را انتخاب کنید</option>
     @foreach (var item in Model)
@@ -19,3 +26,4 @@
         });
     });
 </script>
+}
