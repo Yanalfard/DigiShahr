@@ -11,7 +11,7 @@ $('#toDate').MdPersianDateTimePicker({
 $("#search").click(function () {
     var PageId = $("#pageNumber option:selected").val();
     var InPageCount = $("#InPageCount option:selected").val();
-    $.get("/Admin/Order/pList?PageId=" + PageId + "&InPageCount=" + InPageCount + "&orderId=" + $("#orderId").val() + "&phoneNumber=" + $("#phoneNumber").val() + "&fromDate=" + $("#fromDate").val() + "&toDate=" + $("#toDate").val(), function (result) {
+    $.get("/Admin/Order/pList?PageId=" + PageId + "&InPageCount=" + InPageCount + "&orderId=" + $("#orderId").val() + "&phoneNumber=" + $("#phoneNumber").val(), function (result) {
         $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
         $("#Content").html(result);
     });
@@ -20,7 +20,7 @@ $("#search").click(function () {
 $("#pageNumber").change(function () {
     var PageId = $("#pageNumber option:selected").val();
     var InPageCount = $("#InPageCount option:selected").val();
-    $.get("/Admin/Order/pList?PageId=" + PageId + "&InPageCount=" + InPageCount + "&orderId=" + $("#orderId").val() + "&phoneNumber=" + $("#phoneNumber").val() + "&fromDate=" + $("#fromDate").val() + "&toDate=" + $("#toDate").val(), function (result) {
+    $.get("/Admin/Order/pList?PageId=" + PageId + "&InPageCount=" + InPageCount + "&orderId=" + $("#orderId").val() + "&phoneNumber=" + $("#phoneNumber").val(), function (result) {
         $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
         $("#Content").html(result);
     });
@@ -29,7 +29,7 @@ $("#pageNumber").change(function () {
 $("#InPageCount").change(function () {
     var PageId = $("#pageNumber option:selected").val();
     var InPageCount = $("#InPageCount option:selected").val();
-    $.get("/Admin/Order/pList?PageId=" + PageId + "&InPageCount=" + InPageCount + "&orderId=" + $("#orderId").val() + "&phoneNumber=" + $("#phoneNumber").val() + "&fromDate=" + $("#fromDate").val() + "&toDate=" + $("#toDate").val(), function (result) {
+    $.get("/Admin/Order/pList?PageId=" + PageId + "&InPageCount=" + InPageCount + "&orderId=" + $("#orderId").val() + "&phoneNumber=" + $("#phoneNumber").val(), function (result) {
         $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
         $("#Content").html(result);
     });

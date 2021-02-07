@@ -17,7 +17,7 @@
 
         $(document).ready(function () {
             $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
-            $.get("/Admin/Order/pList?PageId=1&InPageCount=0" + "&orderId=" + "&phoneNumber=" + "&fromDate=" + "&toDate=", function (result) {
+            $.get("/Admin/Order/pList?PageId=1&InPageCount=0" + "&orderId=" + "&phoneNumber=", function (result) {
                 $("#Content").html(result);
             });
         });

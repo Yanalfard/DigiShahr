@@ -140,28 +140,89 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                if (User.Claims.First().Value == "8f32nFmU6m")
-                {
-                    return Redirect("/Store/StoreVitrin");
-                }
-                else
-                {
-                    return View(_core.Deal.Get());
-                }
+                return View(_core.Deal.Get());
             }
         }
 
         public IActionResult PaymentBuyPackage(int DealId)
         {
-            TblDeal deal = _core.Deal.GetById(DealId);
-            int id = deal.Id;
-            string TellNo = User.Claims.Last().Value.ToString();
-            var payment = new Payment(_core.Deal.GetById(DealId).Price);
-            var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
-                "https://localhost:44321/Store/CreateStore/" + id, "hadi1234@yahoo.com", TellNo);
-            if (res.Result.Status == 100)
+            if (User.Claims.First().Value == "8f32nFmU6m")
             {
-                return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+                TblDeal deal = _core.Deal.GetById(DealId);
+                int id = deal.Id;
+                string TellNo = User.Claims.Last().Value.ToString();
+                var payment = new Payment(_core.Deal.GetById(DealId).Price);
+                var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
+                    "https://localhost:44321/Store/Recharge/" + id, "hadi1234@yahoo.com", TellNo);
+                if (res.Result.Status == 100)
+                {
+                    return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                TblDeal deal = _core.Deal.GetById(DealId);
+                int id = deal.Id;
+                string TellNo = User.Claims.Last().Value.ToString();
+                var payment = new Payment(_core.Deal.GetById(DealId).Price);
+                var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
+                    "https://localhost:44321/Store/CreateStore/" + id, "hadi1234@yahoo.com", TellNo);
+                if (res.Result.Status == 100)
+                {
+                    return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+        }
+
+        public IActionResult Recharge(int id)
+        {
+            if (HttpContext.Request.Query["Status"] != "" &&
+                       HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
+                       HttpContext.Request.Query["Authority"] != "")
+            {
+                string authority = HttpContext.Request.Query["Authority"].ToString();
+                var Deal = _core.Deal.GetById(id);
+                var payment = new Payment(Deal.Price);
+                var res = payment.Verification(authority).Result;
+                if (res.Status == 100)
+                {
+
+                    TblDeal deal = _core.Deal.GetById(id);
+                    TblStore store = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First();
+                    store.CatagoryLimit = (short)deal.CatagoryLimit;
+                    store.ProductLimit = (short)deal.ProductLimit;
+                    store.SubscribtionTill = DateTime.Now.AddMonths((int)deal.MonthCount);
+                    _core.Store.Update(store);
+                    _core.Store.Save();
+                    TblAbility ability = _core.Ability.GetById(store.AbilityId);
+                    if (deal.Haraj)
+                    {
+                        ability.Haraj = 1;
+                    }
+                    else
+                    {
+                        ability.Haraj = 0;
+                    }
+                    ability.IsBanner1Enable = deal.Banner1;
+                    ability.IsBanner2Enable = deal.Banner2;
+                    ability.IsLotteryEnable = deal.Lottery;
+                    ability.IsMusicEnable = deal.Music;
+                    _core.Ability.Update(ability);
+                    _core.Ability.Save();
+                    return Redirect("/Store/Dashboard");
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             else
             {
@@ -272,7 +333,7 @@ namespace DigiShahr.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Convert.ToInt16(createStoreViewModel.ValidationTimeSpan)>120)
+                if (Convert.ToInt16(createStoreViewModel.ValidationTimeSpan) > 120)
                 {
                     ViewBag.NaighborhoodErorr = "زمان تایید سفارش شما بیشتر از 120 ثانیه است";
                 }
@@ -584,7 +645,7 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> StoreSetting(EditStoreViewModel EditStore, List<int> Naighborhood)
         {
-            
+
             if (ModelState.IsValid)
             {
                 if (!User.Identity.IsAuthenticated)
@@ -655,7 +716,7 @@ namespace DigiShahr.Controllers
 
                             return Redirect("/Store/Dashboard");
                         }
-                        
+
 
                     }
                 }

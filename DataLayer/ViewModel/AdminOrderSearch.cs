@@ -10,8 +10,5 @@ namespace DataLayer.ViewModel
 
         public string phoneNumber { get; set; }
 
-        public DateTime? fromDate { get; set; }
-
-        public DateTime? toDate { get; set; } 
     }
 }

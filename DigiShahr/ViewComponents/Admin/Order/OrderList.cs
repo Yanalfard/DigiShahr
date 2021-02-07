@@ -16,151 +16,96 @@ namespace DigiShahr.ViewComponents.Admin.Order
 
         public async Task<IViewComponentResult> InvokeAsync(Paging paging, AdminOrderSearch adminOrderSearch)
         {
-            if (adminOrderSearch.orderId != 0)
+            IEnumerable<TblOrder> orders = null;
+            if (paging.InPageCount == 0)
             {
-                if (paging.InPageCount == 0)
-                {
-                    int skip = (paging.PageId - 1) * 10;
-                    int Count = _core.Order.Get().Count();
+                int skip = (paging.PageId - 1) * 10;
+                int Count = _core.Order.Get().Count();
+                ViewBag.pageId = paging.PageId;
+                ViewBag.OrderId = null;
+                ViewBag.PageCount = Count / 10;
+                ViewBag.InPageCount = paging.InPageCount;
 
-                    ViewBag.PageId = paging.PageId;
-                    ViewBag.PageCount = Count / 10;
-                    ViewBag.InPageCount = paging.InPageCount;
-
-                    ViewBag.OrderId = adminOrderSearch.orderId;
-                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().Where(o => o.Id == adminOrderSearch.orderId).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
-                }
-                else
-                {
-                    int skip = (paging.PageId - 1) * paging.InPageCount;
-                    int Count = _core.Order.Get().Count();
-
-                    ViewBag.PageId = paging.PageId;
-                    ViewBag.PageCount = Count / paging.InPageCount;
-                    ViewBag.InPageCount = paging.InPageCount;
-
-                    ViewBag.OrderId = adminOrderSearch.orderId;
-                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().Where(o => o.Id == adminOrderSearch.orderId).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
-                }
+                ViewBag.OrderId = adminOrderSearch.orderId;
+                ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
+                orders = _core.Order.Get().Skip(skip).Take(10);
             }
-
-            if (adminOrderSearch.phoneNumber != null)
-            {
-                if (paging.InPageCount == 0)
-                {
-                    int skip = (paging.PageId - 1) * 10;
-                    int Count = _core.Order.Get().Count();
-
-                    ViewBag.PageId = paging.PageId;
-                    ViewBag.PageCount = Count / 10;
-                    ViewBag.InPageCount = paging.InPageCount;
-
-                    ViewBag.OrderId = null;
-                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().Where(o => o.User.TellNo.Contains(adminOrderSearch.phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
-                }
-                else
-                {
-                    int skip = (paging.PageId - 1) * paging.InPageCount;
-                    int Count = _core.Order.Get().Count();
-
-                    ViewBag.OrderId = null;
-                    ViewBag.PageCount = Count / paging.InPageCount;
-                    ViewBag.InPageCount = paging.InPageCount;
-
-                    ViewBag.OrderId = adminOrderSearch.orderId;
-                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().Where(o => o.User.TellNo.Contains(adminOrderSearch.phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
-                }
-            }
-
-            if (adminOrderSearch.toDate != null && adminOrderSearch.fromDate != null)
-            {
-                if (paging.InPageCount == 0)
-                {
-                    int skip = (paging.PageId - 1) * 10;
-                    int Count = _core.Order.Get().Count();
-
-                    ViewBag.OrderId = null;
-                    ViewBag.PageCount = Count / 10;
-                    ViewBag.InPageCount = paging.InPageCount;
-
-                    ViewBag.OrderId = adminOrderSearch.orderId;
-                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().Where(o => o.DateSubmited > adminOrderSearch.toDate && o.DateSubmited < adminOrderSearch.fromDate).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
-                }
-                else
-                {
-                    int skip = (paging.PageId - 1) * paging.InPageCount;
-                    int Count = _core.Order.Get().Count();
-
-                    ViewBag.OrderId = null;
-                    ViewBag.PageCount = Count / paging.InPageCount;
-                    ViewBag.InPageCount = paging.InPageCount;
-
-                    ViewBag.OrderId = adminOrderSearch.orderId;
-                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().Where(o => o.DateSubmited > adminOrderSearch.toDate && o.DateSubmited < adminOrderSearch.fromDate).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
-                }
-            }
-
             else
             {
+                int skip = (paging.PageId - 1) * paging.InPageCount;
+                int Count = _core.Order.Get().Count();
+                ViewBag.pageId = paging.PageId;
+                ViewBag.OrderId = null;
+                ViewBag.PageCount = Count / paging.InPageCount;
+                ViewBag.InPageCount = paging.InPageCount;
+
+                ViewBag.OrderId = adminOrderSearch.orderId;
+                ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
+                orders = _core.Order.Get().OrderByDescending(o => o.Id);
+            }
+            if (adminOrderSearch.orderId != null)
+            {
                 if (paging.InPageCount == 0)
                 {
                     int skip = (paging.PageId - 1) * 10;
                     int Count = _core.Order.Get().Count();
-
+                    ViewBag.pageId = paging.PageId;
                     ViewBag.OrderId = null;
                     ViewBag.PageCount = Count / 10;
                     ViewBag.InPageCount = paging.InPageCount;
 
                     ViewBag.OrderId = adminOrderSearch.orderId;
                     ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().OrderByDescending(o => o.Id).Skip(skip).Take(10)));
+                    orders = _core.Order.Get(o => o.Id == adminOrderSearch.orderId).Skip(skip).Take(10);
                 }
                 else
                 {
                     int skip = (paging.PageId - 1) * paging.InPageCount;
                     int Count = _core.Order.Get().Count();
-
+                    ViewBag.pageId = paging.PageId;
                     ViewBag.OrderId = null;
                     ViewBag.PageCount = Count / paging.InPageCount;
                     ViewBag.InPageCount = paging.InPageCount;
 
                     ViewBag.OrderId = adminOrderSearch.orderId;
                     ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
-                    ViewBag.ToDate = adminOrderSearch.toDate;
-                    ViewBag.fromDate = adminOrderSearch.fromDate;
-
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", _core.Order.Get().OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
+                    orders = _core.Order.Get(o => o.Id == adminOrderSearch.orderId).OrderByDescending(o => o.Id);
                 }
             }
+
+            if (!string.IsNullOrEmpty(adminOrderSearch.phoneNumber))
+            {
+                if (paging.InPageCount == 0)
+                {
+                    int skip = (paging.PageId - 1) * 10;
+                    int Count = _core.Order.Get().Count();
+                    ViewBag.pageId = paging.PageId;
+                    ViewBag.OrderId = null;
+                    ViewBag.PageCount = Count / 10;
+                    ViewBag.InPageCount = paging.InPageCount;
+
+                    ViewBag.OrderId = adminOrderSearch.orderId;
+                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
+                    orders = _core.Order.Get(o=>o.User.TellNo.Contains(adminOrderSearch.phoneNumber)).Skip(skip).Take(10);
+                }
+                else
+                {
+                    int skip = (paging.PageId - 1) * paging.InPageCount;
+                    int Count = _core.Order.Get().Count();
+                    ViewBag.pageId = paging.PageId;
+                    ViewBag.OrderId = null;
+                    ViewBag.PageCount = Count / paging.InPageCount;
+                    ViewBag.InPageCount = paging.InPageCount;
+
+                    ViewBag.OrderId = adminOrderSearch.orderId;
+                    ViewBag.PhoneNumber = adminOrderSearch.phoneNumber;
+
+                     orders= _core.Order.Get(o=>o.User.TellNo.Contains(adminOrderSearch.phoneNumber)).Skip(skip).Take(paging.InPageCount);
+                }
+            }
+
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", orders));
+
 
         }
     }
