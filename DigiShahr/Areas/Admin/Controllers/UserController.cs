@@ -1,10 +1,12 @@
 ﻿using DataLayer.ViewModel;
+using DigiShahr.Utilit;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services;
 
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [PermissionChecker("rTPh32gmK8")]
     public class UserController : Controller
     {
         Core _core = new Core();

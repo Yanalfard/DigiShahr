@@ -1,5 +1,6 @@
 ﻿using DataLayer.Models;
 using DataLayer.ViewModel;
+using DigiShahr.Utilit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [PermissionChecker("rTPh32gmK8")]
     public class MusicController : Controller
     {
         Core _core = new Core();

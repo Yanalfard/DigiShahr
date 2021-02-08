@@ -7,11 +7,11 @@ using System.Linq;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [PermissionChecker("rTPh32gmK8")]
     //Admin
     public class HomeController : Controller
     {
         Core _core = new Core();
-
         [HttpGet]
         public IActionResult Index()
         {
