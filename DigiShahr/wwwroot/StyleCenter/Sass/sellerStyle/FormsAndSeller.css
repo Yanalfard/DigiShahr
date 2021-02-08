@@ -733,6 +733,17 @@ ul {
 .Lottery .uk-input {
   border: none !important; }
 
+.BannerLinkContainer input {
+  width: 70vw;
+  border: 1px solid #D7D7D7;
+  padding: 8px 0; }
+
+.BannerLinkContainer input:focus {
+  border-color: #F28F3B !important; }
+
+.linkboxBannerLink {
+  width: 70vw !important; }
+
 :root {
   --star-size: 24px;
   --star-color: #b5b5b5;
@@ -868,7 +879,11 @@ ul {
   .bookmarkIcone, .bookmarkIconeInStore {
     left: 31vw !important; }
   .LogoPictureVitrinDesktop {
-    margin-top: 50px !important; } }
+    margin-top: 50px !important; }
+  .BannerLinkContainer input {
+    width: 35vw; }
+  .linkboxBannerLink {
+    width: 35vw !important; } }
 
 @media only screen and (min-width: 1024px) {
   body {
@@ -889,7 +904,11 @@ ul {
   .bookmarkIcone, .bookmarkIconeInStore {
     left: 31vw !important; }
   .LogoPictureVitrinDesktop {
-    margin-top: 50px !important; } }
+    margin-top: 50px !important; }
+  .BannerLinkContainer input {
+    width: 35vw; }
+  .linkboxBannerLink {
+    width: 35vw !important; } }
 
 @media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
   body {
@@ -910,7 +929,11 @@ ul {
   .bookmarkIcone, .bookmarkIconeInStore {
     left: 22vw !important; }
   .backIconPiece {
-    left: 18vw !important; } }
+    left: 18vw !important; }
+  .BannerLinkContainer input {
+    width: 55vw; }
+  .linkboxBannerLink {
+    width: 55vw !important; } }
 
 @media only screen and (min-width: 600px) and (max-width: 1024px) {
   body {
@@ -931,4 +954,8 @@ ul {
   .bookmarkIcone, .bookmarkIconeInStore {
     left: 22vw !important; }
   .backIconPiece {
-    left: 18vw !important; } }
+    left: 18vw !important; }
+  .BannerLinkContainer input {
+    width: 55vw; }
+  .linkboxBannerLink {
+    width: 55vw !important; } }

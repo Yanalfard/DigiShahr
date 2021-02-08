@@ -695,6 +695,20 @@ ul {
         border: none !important;
     }
 }
+.BannerLinkContainer {
+    input {
+        width: 70vw;
+        border: 1px solid #D7D7D7;
+        padding: 8px 0;
+    }
+
+    input:focus {
+        border-color: #F28F3B !important;
+    }
+}
+.linkboxBannerLink {
+    width: 70vw !important;
+}
 //////////stars
 $unchecked-color: #b5b5b5;
 $checked-color: #fc0;
@@ -881,6 +895,14 @@ $checked-color: #fc0;
     .LogoPictureVitrinDesktop{
         margin-top:50px!important;
     }
+    .BannerLinkContainer {
+        input {
+            width: 35vw;
+        }
+    }
+    .linkboxBannerLink {
+        width: 35vw !important;
+    }
 }
 
 @media only screen and (min-width : 1024px) {
@@ -908,6 +930,14 @@ $checked-color: #fc0;
     }
     .LogoPictureVitrinDesktop {
         margin-top: 50px!important;
+    }
+    .BannerLinkContainer {
+        input {
+            width: 35vw;
+        }
+    }
+    .linkboxBannerLink {
+        width: 35vw !important;
     }
 }
 
@@ -941,6 +971,16 @@ $checked-color: #fc0;
     .backIconPiece {
         left: 18vw !important;
     }
+    .BannerLinkContainer {
+        input {
+            width: 55vw;
+        }
+
+      
+    }
+    .linkboxBannerLink {
+        width: 55vw !important;
+    }
 
 }
 
@@ -971,6 +1011,16 @@ $checked-color: #fc0;
     }
     .backIconPiece {
         left: 18vw !important;
+    }
+    .BannerLinkContainer {
+        input {
+            width: 55vw;
+        }
+
+        
+    }
+    .linkboxBannerLink {
+        width: 55vw !important;
     }
 }
 

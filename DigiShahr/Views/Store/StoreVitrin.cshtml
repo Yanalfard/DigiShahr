@@ -216,25 +216,34 @@
 
 @if (Model.Ability.IsBanner1Enable)
 {
-    <input type="text" id="Banner1Link" placeholder="لینک مورد نظر را وارد کنید" />
     <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
         {
             <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl1" />
         }
+    </div>
+    ///////////////////////edit first banner section///////////////////////////////
+    <div class="BannerLinkContainer matCart center my-clipped my-clipped-desktop uk-margin-small-top my-column" dir="rtl">
+        <label class="uk-padding-small uk-margin-bottom">تصویر و لینک مورد نظر برای بنر فوق را وارد کنید</label>
         <div class="js-upload vitrinBanners" uk-form-custom>
             <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
-            <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+
             @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
             {
-                <label> افزودن بنر اول</label>
+
+                <a class="LinkBox linkboxBannerLink"><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span>افزودن تصویر بنر اول</a>
             }
             else
             {
-                <label> ویرایش بنر اول</label>
+                <a class="LinkBox linkboxBannerLink"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span>ویرایش تصویر بنر اول</a>
+
             }
         </div>
+        <input class="BannerLink center uk-border-rounded uk-margin-bottom uk-margin-top" type="text" id="Banner2Link" placeholder="لینک مورد نظر را وارد کنید" />
+        <a class="gradientButtonLink center uk-margin-bottom">ویرایش<span class="icon-holder uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span></a>
+        <a class="gradientButtonLink center uk-margin-bottom">افزودن<span class="icon-holder uk-margin-small-right" uk-icon="add-circle-outline" tabindex="-1"></span></a>
     </div>
+    ///////////////////////end edit first banner section///////////////////////////////
 }
 
 <div class="matCart productSection my-column my-clipped my-clipped-desktop uk-margin-small-top">
@@ -279,7 +288,7 @@
         }
     </div>
     <hr />
-    <h3 class="center"><a href="#AddProduct" id="AddProductPapaer" uk-toggle><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
+    <h3 class="center" href="#AddProduct" uk-toggle><a id="AddProductPapaer"><span class="icon-holder" uk-icon="add-circle-outline"></span></a>افزودن محصول</h3>
     <br>
 
 
@@ -306,26 +315,34 @@
 </div>
 @if (Model.Ability.IsBanner2Enable)
 {
-    <input type="text" id="Banner2Link" placeholder="لینک مورد نظر را وارد کنید"  />
     <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
         {
             <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
         }
+    </div>
+    ///////////////////////edit first banner section///////////////////////////////
+    <div class="BannerLinkContainer matCart center my-clipped my-clipped-desktop uk-margin-small-top my-column" dir="rtl">
+        <label class="uk-padding-small uk-margin-bottom">تصویر و لینک مورد نظر برای بنر فوق را وارد کنید</label>
         <div class="js-upload vitrinBanners" uk-form-custom>
-            <input type="file" id="Banner2File" accept="image/x-png,image/jpeg">
-            <a><span class="icon-holder uk-margin-large-top center uk-text-secondary" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
+
             @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
             {
-                <label> افزودن بنر دوم</label>
+
+                <a class="LinkBox linkboxBannerLink"><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span>افزودن تصویر بنر دوم</a>
             }
             else
             {
-                <label> ویرایش بنر دوم</label>
+                <a class="LinkBox linkboxBannerLink"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span>ویرایش تصویر بنر دوم</a>
+
             }
         </div>
-
+        <input class="BannerLink center uk-border-rounded uk-margin-bottom uk-margin-top" type="text" id="Banner2Link" placeholder="لینک مورد نظر را وارد کنید" />
+        <a class="gradientButtonLink center uk-margin-bottom">ویرایش<span class="icon-holder uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span></a>
+        <a class="gradientButtonLink center uk-margin-bottom">افزودن<span class="icon-holder uk-margin-small-right" uk-icon="add-circle-outline" tabindex="-1"></span></a>
     </div>
+    ///////////////////////end edit first banner section///////////////////////////////
 }
 <div class="my-space"></div>
 <div id="AddProduct" uk-modal>

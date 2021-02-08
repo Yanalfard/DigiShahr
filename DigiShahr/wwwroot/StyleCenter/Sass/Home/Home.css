@@ -291,6 +291,8 @@
 
 .MenuGridContainer {
   margin-bottom: 65px; }
+  .MenuGridContainer hr, .MenuGridContainer .uk-divider-icon {
+    border-color: #ff7601 !important; }
 
 .MenuGrid {
   margin: 0;
@@ -321,7 +323,7 @@
     width: 90px;
     max-width: 90px;
     border-radius: 22px;
-    background: linear-gradient(87.03deg, #FAE893 -47.86%, #F39945 40.47%, #F28F3B 94.65%);
+    background: linear-gradient(87.03deg, #FAE893 -47.86%, #ff9400 40.47%, #ff7601 94.65%);
     border: 1px solid #F28F3B;
     color: white !important;
     box-sizing: border-box;
@@ -509,11 +511,23 @@
 
 @media only screen and (min-device-width: 50px) {
   body {
-    background-image: url(../../../img/Grey-Background.jpg) !important;
+    background-image: url(../../../img/gray.jpg) !important;
     background-size: cover !important;
     background-repeat: no-repeat !important; } }
 
 @media only screen and (min-width: 50px) {
+  body {
+    background-image: url(../../../img/gray.jpg) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important; } }
+
+@media only screen and (min-device-width: 480px) {
+  body {
+    background-image: url(../../../img/Grey-Background.jpg) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important; } }
+
+@media only screen and (min-width: 480px) {
   body {
     background-image: url(../../../img/Grey-Background.jpg) !important;
     background-size: cover !important;
