@@ -24,8 +24,7 @@
 
                 <img class="LogoPicture uk-margin-top LogoPictureVitrinDesktop" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
 
-            </h3>
-        }
+            </h3>}
 
         <div class=" center uk-margin-small-top">
             @if (string.IsNullOrEmpty(Model.LogoUrl))
@@ -34,57 +33,43 @@
                     <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
                     <span class="uk-text-danger">
                     </span>
-                    <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
                     <span class="uk-text-danger" id="LogoFileErorr"></span>
-                </div>
-            }
+                </div> }
             else
             {
-                <div class="js-upload" uk-form-custom>
+                <div class="js-upload vitrin-upload" uk-form-custom>
                     <input type="file" id="LogoFile" accept="image/x-png,image/jpeg">
                     <span class="uk-text-danger">
                     </span>
                     <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+                    <span class="uk-text-small">ویرایش لوگو</span>
                     <span class="uk-text-danger" id="LogoFileErorr"></span>
-                </div>
-            }
+                </div>}
         </div>
     </div>
 
     @if (Model.MainBannerUrl != null)
     {
-        <img class="bannerImage MainbannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
-    }
-
-    <h3 class=" absolute absolute-right uk-margin-large-top uk-margin-small-left">
-        @if (string.IsNullOrEmpty(Model.MainBannerUrl))
-        {
-            @:افزودن بنر
-        }
-        else
-        {
-            @:ویرایش بنر
-        }
-    </h3>
+        <img class="bannerImage MainbannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />}
     @if (string.IsNullOrEmpty(Model.MainBannerUrl))
     {
-        <div class="js-upload uk-position-absolute absolute-right" uk-form-custom>
+        <div class="js-upload uk-position-absolute absolute-right vitrin-upload uk-margin-small-top" uk-form-custom>
             <input type="file" id="MainBannerFile" accept="image/x-png,image/jpeg">
-            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="create-outline" tabindex="-1"></span></a>
+            <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+            <span class="uk-text-small">افزودن بنر</span>
             <span class="uk-text-danger" id="MainBannerFileErorr"></span>
-        </div>
-
-    }
+        </div> }
     else
     {
-        <div class="js-upload uk-position-absolute absolute-right" uk-form-custom>
+        <div class="js-upload uk-position-absolute absolute-right vitrin-upload uk-margin-small-top" uk-form-custom>
 
             <input type="file" id="MainBannerFile" accept="image/x-png,image/jpeg">
             <span class="uk-text-danger" id="MainBannerFileErorr"></span>
-            <a><span class="icon-holder uk-margin-left uk-margin-small-top" uk-icon="create-outline" tabindex="-1"></span></a>
+            <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
+            <span class="uk-text-small">ویرایش بنر</span>
             <span class="uk-text-danger"></span>
-        </div>
-    }
+        </div>}
 
 </div>
 <hr class="uk-divider-icon" />
@@ -223,26 +208,7 @@
         }
     </div>
     ///////////////////////edit first banner section///////////////////////////////
-    <div class="BannerLinkContainer matCart center my-clipped my-clipped-desktop uk-margin-small-top my-column" dir="rtl">
-        <label class="uk-padding-small uk-margin-bottom">تصویر و لینک مورد نظر برای بنر فوق را وارد کنید</label>
-        <div class="js-upload vitrinBanners" uk-form-custom>
-            <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
-
-            @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl1))
-            {
-
-                <a class="LinkBox linkboxBannerLink"><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span>افزودن تصویر بنر اول</a>
-            }
-            else
-            {
-                <a class="LinkBox linkboxBannerLink"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span>ویرایش تصویر بنر اول</a>
-
-            }
-        </div>
-        <input class="BannerLink center uk-border-rounded uk-margin-bottom uk-margin-top" type="text" id="Banner2Link" placeholder="لینک مورد نظر را وارد کنید" />
-        <a class="gradientButtonLink center uk-margin-bottom">ویرایش<span class="icon-holder uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span></a>
-        <a class="gradientButtonLink center uk-margin-bottom">افزودن<span class="icon-holder uk-margin-small-right" uk-icon="add-circle-outline" tabindex="-1"></span></a>
-    </div>
+    @await Component.InvokeAsync("Banner1InPiece",Model.AbilityId);
     ///////////////////////end edit first banner section///////////////////////////////
 }
 
@@ -318,31 +284,38 @@
     <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
         {
-            <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
+            <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl2" />
         }
     </div>
-    ///////////////////////edit first banner section///////////////////////////////
+    ///////////////////////edit second banner section///////////////////////////////
     <div class="BannerLinkContainer matCart center my-clipped my-clipped-desktop uk-margin-small-top my-column" dir="rtl">
         <label class="uk-padding-small uk-margin-bottom">تصویر و لینک مورد نظر برای بنر فوق را وارد کنید</label>
-        <div class="js-upload vitrinBanners" uk-form-custom>
+        <div class="js-upload vitrinBanners LinkBox uk-margin-auto uk-text-secondary" uk-form-custom>
             <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
 
             @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
             {
 
-                <a class="LinkBox linkboxBannerLink"><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span>افزودن تصویر بنر دوم</a>
+                <a class="linkboxBannerLink"><span class="icon-holder uk-margin-small-left" uk-icon="add-circle-outline" tabindex="-1"></span>افزودن تصویر بنر اول</a>
             }
             else
             {
-                <a class="LinkBox linkboxBannerLink"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span>ویرایش تصویر بنر دوم</a>
+                <a class="linkboxBannerLink"><span class="icon-holder uk-margin-small-left" uk-icon="create-outline" tabindex="-1"></span>ویرایش تصویر بنر اول</a>
 
             }
         </div>
         <input class="BannerLink center uk-border-rounded uk-margin-bottom uk-margin-top" type="text" id="Banner2Link" placeholder="لینک مورد نظر را وارد کنید" />
-        <a class="gradientButtonLink center uk-margin-bottom">ویرایش<span class="icon-holder uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span></a>
-        <a class="gradientButtonLink center uk-margin-bottom">افزودن<span class="icon-holder uk-margin-small-right" uk-icon="add-circle-outline" tabindex="-1"></span></a>
+        @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
+        {
+            <button id="BtnBanner2" class="gradientButton center uk-margin-bottom">افزودن<span class="icon-holder uk-margin-small-right" uk-icon="add-circle-outline" tabindex="-1"></span></button>
+        }
+        else
+        {
+            <button id="BtnBanner2" class="gradientButton center uk-margin-bottom">ویرایش<span class="icon-holder uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span></button>
+        }
+        <span class="uk-text-danger" id="Banner2Erorr"></span>
     </div>
-    ///////////////////////end edit first banner section///////////////////////////////
+    ///////////////////////end edit second banner section///////////////////////////////
 }
 <div class="my-space"></div>
 <div id="AddProduct" uk-modal>
@@ -352,6 +325,8 @@
 </div>
 
 @section Script{
+    <script src="~/ScriptCenter/jquery.validate.min.js"></script>
+    <script src="~/ScriptCenter/jquery.validate.unobtrusive.js"></script>
     <script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
     <script>
 
