@@ -65,6 +65,8 @@
             $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
                 if (result == "true") {
                     window.location.reload();
+                } else {
+                    window.location.href = result;
                 }
             });
         }
