@@ -11,28 +11,31 @@
 
 <div class="index" id="index">
     <div class="IndexContainer">
-        <div id="map" class="map"></div>
-        <div id="search" class="Search center">
+        <div id="map" class="map">
+            <div id="search" class="Search center absolute">
+                <div class="center">
+                    <form method="post" class="uk-search uk-search-default uk-margin-left">
+                        <button uk-search-icon></button>
+                        <input class="center uk-search-input" name="Search" value="@ViewBag.Search" type="search" placeholder="جستجو">
+                    </form>
+                    <a id="MyLocation"><img class="uk-margin-left" src="~/img/my-location.png" width="36" /></a>
+                </div>
 
-            <div class="center">
-
-                <form method="post" class="uk-search uk-search-default uk-margin-left">
-                    <button uk-search-icon></button>
-                    <input class="center uk-search-input" name="Search" value="@ViewBag.Search" type="search" placeholder="جستجو">
-                </form>
-                <a id="MyLocation"><img class="uk-margin-left" src="~/img/my-location.png" width="36" /></a>
             </div>
-
         </div>
+    
     </div>
-    <div class="MenuGrid grid uk-padding-small center uk-child-width-1-3" uk-grid dir="rtl" id="MenuGrid">
+   
+    <div class="MenuGridContainer center my-clipped" id="MenuGrid">
+        <hr class="uk-divider-icon" />
+        <div class="MenuGrid grid uk-padding-small center uk-child-width-1-3" uk-grid dir="rtl" >
 
-        @foreach (var item in Model.AllTopStoreCategory)
-        {
-            <a onclick="ChildCategory(@item.Id)" class="mat category" href="#modal" uk-toggle>@item.Name</a>
-        }
-
-
+            @foreach (var item in Model.AllTopStoreCategory)
+            {
+                <a onclick="ChildCategory(@item.Id)" class="matCart category" href="#modal" uk-toggle>@item.Name</a>
+            }
+        </div>
+       
     </div>
     <script>
         function ChildCategory(Id) {
@@ -93,13 +96,14 @@
             $(document).ready(function () {
                 document.getElementById("MenuGrid").style.display = "none";
                 document.getElementById("index").style.gridTemplateRows = "1fr";
-                const mediaQuery = window.matchMedia('(min-width: 600px)');
-                if (mediaQuery.matches) {
-                    document.getElementById("index").style.height = "calc(100vh - 54px)";
-                }
-                else {
-                    document.getElementById("index").style.height = "calc(100vh - 110px)";
-                }
+                document.getElementById("search").style.bottom = "80px";
+                //const mediaQuery = window.matchMedia('(min-width: 600px)');
+                //if (mediaQuery.matches) {
+                //    document.getElementById("index").style.height = "calc(100vh - 54px)";
+                //}
+                //else {
+                //    document.getElementById("index").style.height = "calc(100vh - 110px)";
+                //}
             });
         </script>
     }

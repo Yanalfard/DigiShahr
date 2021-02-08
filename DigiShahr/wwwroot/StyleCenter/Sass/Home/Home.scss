@@ -2,22 +2,23 @@
 @import '../_global.scss';
 @import '../_layout.scss';
 
-.index {
+/*.index {
     height: calc(100vh - 65px);
     display: grid;
     grid-column-gap: 0px !important;
     grid-template-rows: 2fr 1fr;
     grid-template-columns: 1fr;
     padding: 0px;
-}
-/*.index {
+}*/
+.index {
     height: 100vh;
     display: grid;
     grid-column-gap: 0px !important;
     grid-template-rows: 2fr 1fr;
     grid-template-columns: 1fr;
     padding: 0px;
-}*/
+    margin-top:-54px;
+}
 .IndexContainer {
     .map {
         width: 100%;
@@ -30,7 +31,8 @@
         position: absolute;
         right: 0;
         left: 0;
-        margin-top: -75px !important;
+        //margin-top: -75px !important;
+        bottom:30px;
         @include center();
 
         .uk-search {
@@ -53,9 +55,13 @@
         }
     }
 }
+.MenuGridContainer{
+margin-bottom: 65px;
+}
 .MenuGrid {
     margin: 0;
-    margin-top:-54px;
+    //margin-top:-54px;
+    
     padding: 0 10px !important;
     /*background-color: coral;*/
     height: 100%;
@@ -64,7 +70,7 @@
 
     .category {
         margin: auto;
-        color:#666!important;
+        color: #666 !important;
     }
 }
 .leaflet-control-zoom {
@@ -79,12 +85,13 @@
     padding: 20px 2vw;
     grid-template-columns: 1fr 1fr 1fr;
 
-    .mat {
+    .matCart {
         width: 90px;
-        max-width:90px;
+        max-width: 90px;
         border-radius: 22px;
-        background: #FAE893;
-        border: 1px solid #FAE893;
+        background: linear-gradient(87.03deg, #FAE893 -47.86%, #F39945 40.47%, #F28F3B 94.65%);
+        border:1px solid #F28F3B;
+        color:white!important;
         box-sizing: border-box;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         padding: 7px;
@@ -181,8 +188,8 @@
 }
 
     .image-popup {
-        max-height: 80px;
-        max-width: 80px;
+        max-height: 70px;
+        max-width: 70px;
         border-radius: 50%!important;
     }
 
@@ -335,6 +342,9 @@
 .gradientButtonDisabled {
     background: #827e7e !important;
 }
+.leaflet-pane {
+    margin-top:60px;
+}
 /////////////desktop/////////////////
 @media only screen and (min-device-width : 50px) {
     body {
@@ -356,7 +366,8 @@
    
 }
 /////////////end desktop/////////////////
-@media only screen and (min-device-width : 600px) {
+
+/*@media only screen and (min-device-width : 600px) {
     .index {
         min-height: 100vh;
 
@@ -385,6 +396,4 @@
         }
     }
 }
-.leaflet-pane {
-    margin-top: 30px;
-}
+*/
