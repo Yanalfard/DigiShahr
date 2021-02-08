@@ -1,5 +1,6 @@
 ﻿using DataLayer.Models;
 using DataLayer.ViewModel;
+using DigiShahr.Utilit;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [PermissionChecker("rTPh32gmK8")]
     public class PackageController : Controller
     {
         Core _core = new Core();

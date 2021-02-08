@@ -391,7 +391,7 @@ namespace DigiShahr.Controllers
                                     NewAbility.LotteryDisplayPrize = null;
                                     NewAbility.LotteryWinner = null;
                                     NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
-                                    NewAbility.IsMusicEnable = false;
+                                    NewAbility.IsMusicEnable = true;
                                     NewAbility.MusicId = null;
                                     _core.Ability.Add(NewAbility);
                                     _core.Ability.Save();
@@ -474,7 +474,7 @@ namespace DigiShahr.Controllers
                                     NewAbility.LotteryDisplayPrize = null;
                                     NewAbility.LotteryWinner = null;
                                     NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
-                                    NewAbility.IsMusicEnable = Deal.Music;
+                                    NewAbility.IsMusicEnable = true;
                                     NewAbility.MusicId = createStoreViewModel.Music;
                                     _core.Ability.Add(NewAbility);
                                     _core.Ability.Save();
