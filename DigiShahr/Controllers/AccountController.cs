@@ -166,7 +166,7 @@ namespace DigiShahr.Controllers
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(loginViewModel.Captcha))
             {
-                ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره متحان کنید");
+                ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
                 return View(loginViewModel);
             }
             if (ModelState.IsValid)

@@ -55,8 +55,12 @@
         }
     }
 }
-.MenuGridContainer{
-margin-bottom: 65px;
+.MenuGridContainer {
+    margin-bottom: 65px;
+
+    hr, .uk-divider-icon {
+        border-color: #ff7601 !important;
+    }
 }
 .MenuGrid {
     margin: 0;
@@ -89,9 +93,10 @@ margin-bottom: 65px;
         width: 90px;
         max-width: 90px;
         border-radius: 22px;
-        background: linear-gradient(87.03deg, #FAE893 -47.86%, #F39945 40.47%, #F28F3B 94.65%);
-        border:1px solid #F28F3B;
-        color:white!important;
+        
+        background: linear-gradient(87.03deg, #FAE893 -47.86%, #ff9400 40.47%, #ff7601 94.65%);
+        border: 1px solid #F28F3B;
+        color: white !important;
         box-sizing: border-box;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         padding: 7px;
@@ -349,7 +354,7 @@ margin-bottom: 65px;
 @media only screen and (min-device-width : 50px) {
     body {
         //   background: red !important!;
-        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-image: url(../../../img/gray.jpg) !important;
         background-size: cover !important;
         background-repeat: no-repeat !important;
         //   background-image: url('~/img/background.jpg') !important;
@@ -358,7 +363,7 @@ margin-bottom: 65px;
 @media only screen and (min-width : 50px) {
     body {
         //   background: red !important!;
-        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-image: url(../../../img/gray.jpg) !important;
         background-size: cover !important;
         background-repeat: no-repeat !important;
         //   background-image: url('~/img/background.jpg') !important;
@@ -366,7 +371,27 @@ margin-bottom: 65px;
    
 }
 /////////////end desktop/////////////////
+/////////////desktop/////////////////
+@media only screen and (min-device-width : 480px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+}
 
+@media only screen and (min-width : 480px) {
+    body {
+        //   background: red !important!;
+        background-image: url(../../../img/Grey-Background.jpg) !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        //   background-image: url('~/img/background.jpg') !important;
+    }
+}
+/////////////end desktop/////////////////
 /*@media only screen and (min-device-width : 600px) {
     .index {
         min-height: 100vh;
