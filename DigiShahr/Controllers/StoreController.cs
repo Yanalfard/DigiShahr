@@ -11,57 +11,45 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using ZarinpalSandbox;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DigiShahr.Controllers
 {
-
+    [Authorize]
     public class StoreController : Controller
     {
         Core _core = new Core();
-
         public async Task<IActionResult> Index(int page = 1)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Claims.First().Value == "d7tpmTdwXL")
             {
-                return Redirect("/Account/Login");
+                return Redirect("/Store/BuyPackage");
             }
             else
             {
-                if (User.Claims.First().Value == "d7tpmTdwXL")
-                {
-                    return Redirect("/Store/BuyPackage");
-                }
-                else
-                {
-                    IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly && !o.IsDeleted), 20, page);
-                    return await Task.FromResult(View(Order));
-                }
+                IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly && !o.IsDeleted), 20, page);
+                return await Task.FromResult(View(Order));
             }
+
         }
 
         public async Task<IActionResult> Dashboard()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Claims.First().Value == "d7tpmTdwXL")
             {
-                return await Task.FromResult(Redirect("/Account/Login"));
+                return await Task.FromResult(Redirect("/Store/BuyPackage"));
             }
             else
             {
-                if (User.Claims.First().Value == "d7tpmTdwXL")
-                {
-                    return await Task.FromResult(Redirect("/Store/BuyPackage"));
-                }
-                else
-                {
-                    TblStore store = _core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault();
+                TblStore store = _core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault();
 
-                    ViewData["SuccessOrders"] = store.TblOrders.Where(o => o.IsValid == true).Count();
-                    ViewData["NotSuccessOrders"] = store.TblOrders.Where(o => o.IsValid == false).Count();
-                    ViewData["SubscribtionTill"] = store.SubscribtionTill.Subtract(DateTime.Now).Days.ToString() + "روز" + store.SubscribtionTill.Subtract(DateTime.Now).Hours.ToString() + "ساعت";
-                    ViewData["Customers"] = store.TblOrders.GroupBy(o => o.UserId).Count();
-                    return await Task.FromResult(View());
-                }
+                ViewData["SuccessOrders"] = store.TblOrders.Where(o => o.IsValid == true).Count();
+                ViewData["NotSuccessOrders"] = store.TblOrders.Where(o => o.IsValid == false).Count();
+                ViewData["SubscribtionTill"] = store.SubscribtionTill.Subtract(DateTime.Now).Days.ToString() + "روز" + store.SubscribtionTill.Subtract(DateTime.Now).Hours.ToString() + "ساعت";
+                ViewData["Customers"] = store.TblOrders.GroupBy(o => o.UserId).Count();
+                return await Task.FromResult(View());
             }
+
 
 
         }
@@ -73,18 +61,32 @@ namespace DigiShahr.Controllers
 
         public async Task<string> OrderDeliver(int Id)
         {
-            TblOrder order = _core.Order.GetById(Id);
-            order.IsDelivered = true;
-            order.IsValid = true;
-            _core.Order.Update(order);
-            _core.Order.Save();
-            await SendSms.Send(order.User.TellNo, order.Id.ToString(), "DigiShahrConfirmOrder");
-            return await Task.FromResult("true");
+            if (User.Claims.First().Value == "d7tpmTdwXL")
+            {
+                return await Task.FromResult("/Store/BuyPackage");
+            }
+            else
+            {
+                TblOrder order = _core.Order.GetById(Id);
+                order.IsDelivered = true;
+                order.IsValid = true;
+                _core.Order.Update(order);
+                _core.Order.Save();
+                await SendSms.Send(order.User.TellNo, order.Id.ToString(), "DigiShahrConfirmOrder");
+                return await Task.FromResult("true");
+            }
         }
 
         public IActionResult EditProduct(int Id)
         {
-            return ViewComponent("EditProduct", new { Id = Id });
+            if (User.Claims.First().Value == "d7tpmTdwXL")
+            {
+                return Redirect("/Store/BuyPackage");
+            }
+            else
+            {
+                return ViewComponent("EditProduct", new { Id = Id });
+            }
         }
 
         [HttpPost]
@@ -120,6 +122,7 @@ namespace DigiShahr.Controllers
                         return await Task.FromResult(product.Id.ToString());
                     }
                 }
+
             }
         }
 
@@ -232,61 +235,50 @@ namespace DigiShahr.Controllers
 
         public IActionResult CreateStore(int? id)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Claims.First().Value == "8f32nFmU6m")
             {
-                return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
+                return Redirect("/Store/StoreVitrin");
             }
             else
             {
-                if (User.Claims.Last().Value == "8f32nFmU6m")
+                if (id != null && id != 0)
                 {
-                    return Redirect("/Store/StoreVitrin");
-                }
-                else
-                {
-                    if (id != null && id != 0)
+                    if (HttpContext.Request.Query["Status"] != "" &&
+                    HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
+                    HttpContext.Request.Query["Authority"] != "")
                     {
-                        if (HttpContext.Request.Query["Status"] != "" &&
-                        HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
-                        HttpContext.Request.Query["Authority"] != "")
+                        string authority = HttpContext.Request.Query["Authority"].ToString();
+                        var Deal = _core.Deal.GetById(id);
+                        var payment = new Payment(Deal.Price);
+                        var res = payment.Verification(authority).Result;
+                        if (res.Status == 100)
                         {
-                            string authority = HttpContext.Request.Query["Authority"].ToString();
-                            var Deal = _core.Deal.GetById(id);
-                            var payment = new Payment(Deal.Price);
-                            var res = payment.Verification(authority).Result;
-                            if (res.Status == 100)
+                            if (!User.Identity.IsAuthenticated)
                             {
-                                if (!User.Identity.IsAuthenticated)
-                                {
-                                    return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
-                                }
-                                else
-                                {
-
-                                    if (User.Claims.First().Value == "8f32nFmU6m")
-                                    {
-                                        return Redirect("/Store/StoreVitrin");
-                                    }
-                                    else
-                                    {
-                                        ViewBag.DealId = id;
-                                        ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
-                                        ViewBag.Naighborhood = _core.Naighborhood.Get();
-                                        if (_core.Deal.GetById(id).Music)
-                                        {
-                                            ViewBag.Music = _core.Music.Get();
-                                        }
-                                        else
-                                        {
-                                            ViewBag.Music = null;
-                                        }
-                                        return View();
-                                    }
-                                }
+                                return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
                             }
                             else
                             {
-                                return BadRequest();
+
+                                if (User.Claims.First().Value == "8f32nFmU6m")
+                                {
+                                    return Redirect("/Store/StoreVitrin");
+                                }
+                                else
+                                {
+                                    ViewBag.DealId = id;
+                                    ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+                                    ViewBag.Naighborhood = _core.Naighborhood.Get();
+                                    if (_core.Deal.GetById(id).Music)
+                                    {
+                                        ViewBag.Music = _core.Music.Get();
+                                    }
+                                    else
+                                    {
+                                        ViewBag.Music = null;
+                                    }
+                                    return View();
+                                }
                             }
                         }
                         else
@@ -296,35 +288,40 @@ namespace DigiShahr.Controllers
                     }
                     else
                     {
+                        return BadRequest();
+                    }
+                }
+                else
+                {
 
-                        if (!User.Identity.IsAuthenticated)
+                    if (!User.Identity.IsAuthenticated)
+                    {
+                        return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
+                    }
+                    else
+                    {
+                        if (id == 0)
                         {
-                            return Redirect("/Account/Login?RetunUrl=" + HttpContext.Request.Host + HttpContext.Request.Path);
+                            if (User.Claims.First().Value == "8f32nFmU6m")
+                            {
+                                return Redirect("/Store/StoreVitrin");
+                            }
+                            ViewBag.DealId = id;
+                            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+                            ViewBag.Naighborhood = _core.Naighborhood.Get();
+                            ViewBag.Music = null;
+                            return View();
                         }
                         else
                         {
-                            if (id == 0)
-                            {
-                                if (User.Claims.First().Value == "8f32nFmU6m")
-                                {
-                                    return Redirect("/Store/StoreVitrin");
-                                }
-                                ViewBag.DealId = id;
-                                ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
-                                ViewBag.Naighborhood = _core.Naighborhood.Get();
-                                ViewBag.Music = null;
-                                return View();
-                            }
-                            else
-                            {
-                                return Redirect("/Store/BuyPackage");
-                            }
+                            return Redirect("/Store/BuyPackage");
                         }
                     }
-
                 }
 
             }
+
+
         }
 
         [HttpPost]
@@ -571,7 +568,7 @@ namespace DigiShahr.Controllers
                 return View(null);
             }
             TblDealOrder dealOrder = _core.DealOrder.GetById(pay);
-            return View(dealOrder);
+            return Json(dealOrder);
 
         }
 
@@ -583,62 +580,55 @@ namespace DigiShahr.Controllers
         [HttpGet]
         public async Task<IActionResult> StoreSetting()
         {
-
-            if (!User.Identity.IsAuthenticated)
+            if (User.Claims.First().Value != "8f32nFmU6m")
             {
-                return Redirect("/Account/login");
+                return Redirect("/Store/BuyPackage");
             }
             else
             {
-                if (User.Claims.First().Value != "8f32nFmU6m")
+                TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+
+                if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit < user.TblStores.First().TblCatagories.Count || user.TblStores.First().IsValid == false)
                 {
-                    return Redirect("/Store/BuyPackage");
+                    return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
                 }
                 else
                 {
-                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-
-                    if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit < user.TblStores.First().TblCatagories.Count || user.TblStores.First().IsValid == false)
+                    TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
+                    ViewBag.Naighborhood = _core.Naighborhood.Get();
+                    EditStoreViewModel editStore = new EditStoreViewModel();
+                    if (store.Ability.IsMusicEnable == true)
                     {
-                        return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
+                        editStore.IsMusicEnable = true;
+                        ViewBag.Music = _core.Music.Get();
                     }
                     else
                     {
-                        TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-                        ViewBag.Naighborhood = _core.Naighborhood.Get();
-                        EditStoreViewModel editStore = new EditStoreViewModel();
-                        if (store.Ability.IsMusicEnable == true)
-                        {
-                            editStore.IsMusicEnable = true;
-                            ViewBag.Music = _core.Music.Get();
-                        }
-                        else
-                        {
-                            ViewBag.Music = null;
-                        }
-                        editStore.Id = store.Id;
-                        editStore.Name = store.Name;
-                        editStore.IsOpen = store.IsOpen;
-                        editStore.Lat = store.Lat;
-                        editStore.Lon = store.Lon;
-                        editStore.StaticTell = store.StaticTell;
-                        if (store.Ability.TahvilVaTasvieDarForushgah == 0)
-                            editStore.TahvilVaTasvieDarForushgah = false;
-                        else if (store.Ability.TahvilVaTasvieDarForushgah == 1)
-                            editStore.TahvilVaTasvieDarForushgah = true;
-                        if (store.Ability.TahvilVaTasvieDarMahal == 0)
-                            editStore.TahvilVaTasvieDarMahal = false;
-                        else if (store.Ability.TahvilVaTasvieDarMahal == 1)
-                        {
-                            editStore.TahvilVaTasvieDarMahal = true;
-                        }
-                        editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
-                        editStore.LogoUrl = store.LogoUrl;
-                        editStore.Address = store.Address;
-                        return View(editStore);
+                        ViewBag.Music = null;
                     }
+                    editStore.Id = store.Id;
+                    editStore.Name = store.Name;
+                    editStore.IsOpen = store.IsOpen;
+                    editStore.Lat = store.Lat;
+                    editStore.Lon = store.Lon;
+                    editStore.StaticTell = store.StaticTell;
+                    if (store.Ability.TahvilVaTasvieDarForushgah == 0)
+                        editStore.TahvilVaTasvieDarForushgah = false;
+                    else if (store.Ability.TahvilVaTasvieDarForushgah == 1)
+                        editStore.TahvilVaTasvieDarForushgah = true;
+                    if (store.Ability.TahvilVaTasvieDarMahal == 0)
+                        editStore.TahvilVaTasvieDarMahal = false;
+                    else if (store.Ability.TahvilVaTasvieDarMahal == 1)
+                    {
+                        editStore.TahvilVaTasvieDarMahal = true;
+                    }
+                    editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
+                    editStore.LogoUrl = store.LogoUrl;
+                    editStore.Address = store.Address;
+                    return View(editStore);
                 }
             }
+
         }
 
         [HttpPost]
@@ -648,77 +638,69 @@ namespace DigiShahr.Controllers
 
             if (ModelState.IsValid)
             {
-                if (!User.Identity.IsAuthenticated)
+                if (User.Claims.First().Value != "8f32nFmU6m")
                 {
-                    return Redirect("/Account/login");
+                    return Redirect("/Store/BuyPackage");
                 }
                 else
                 {
-                    if (User.Claims.First().Value != "8f32nFmU6m")
+
+                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
+
+                    if (Naighborhood.Count() != 0)
                     {
-                        return Redirect("/Store/BuyPackage");
+                        IEnumerable<TblStoreNaighborhoodRel> OldStoreNaighborhoodRel = _core.StoreNaighborhoodRel.Get().Where(snr => snr.StoreId == store.Id);
+
+                        foreach (var item in OldStoreNaighborhoodRel)
+                        {
+                            _core.StoreNaighborhoodRel.Delete(item);
+                        }
+                        _core.StoreNaighborhoodRel.Save();
+                        foreach (var item in Naighborhood)
+                        {
+                            TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
+                            NewNaighborhoodRel.StoreId = store.Id;
+                            NewNaighborhoodRel.NaighborhoodId = item;
+                            _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
+                        }
+                        _core.StoreNaighborhoodRel.Save();
+                    }
+
+                    store.StaticTell = EditStore.StaticTell;
+                    store.Address = EditStore.Address;
+                    store.Lat = EditStore.Lat;
+                    store.Lon = EditStore.Lon;
+                    if (EditStore.TahvilVaTasvieDarForushgah == true)
+                        store.Ability.TahvilVaTasvieDarForushgah = 1;
+                    else
+                    {
+                        store.Ability.TahvilVaTasvieDarForushgah = 2;
+                    }
+                    if (EditStore.TahvilVaTasvieDarMahal == true)
+                        store.Ability.TahvilVaTasvieDarMahal = 1;
+                    else
+                    {
+                        store.Ability.TahvilVaTasvieDarMahal = 2;
+                    }
+                    if (Convert.ToInt16(EditStore.ValidationTimeSpan) > 120)
+                    {
+                        ModelState.AddModelError("ValidationTimeSpan", "لطفا زمان بیشتر از 120 وارد نکنید");
                     }
                     else
                     {
-
-                        TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-                        TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-
-                        if (Naighborhood.Count() != 0)
+                        store.Ability.ValidationTimeSpan = Convert.ToInt16(EditStore.ValidationTimeSpan);
+                        if (EditStore.MusicId != 0)
                         {
-                            IEnumerable<TblStoreNaighborhoodRel> OldStoreNaighborhoodRel = _core.StoreNaighborhoodRel.Get().Where(snr => snr.StoreId == store.Id);
-
-                            foreach (var item in OldStoreNaighborhoodRel)
-                            {
-                                _core.StoreNaighborhoodRel.Delete(item);
-                            }
-                            _core.StoreNaighborhoodRel.Save();
-                            foreach (var item in Naighborhood)
-                            {
-                                TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
-                                NewNaighborhoodRel.StoreId = store.Id;
-                                NewNaighborhoodRel.NaighborhoodId = item;
-                                _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
-                            }
-                            _core.StoreNaighborhoodRel.Save();
+                            store.Ability.MusicId = EditStore.MusicId;
                         }
 
-                        store.StaticTell = EditStore.StaticTell;
-                        store.Address = EditStore.Address;
-                        store.Lat = EditStore.Lat;
-                        store.Lon = EditStore.Lon;
-                        if (EditStore.TahvilVaTasvieDarForushgah == true)
-                            store.Ability.TahvilVaTasvieDarForushgah = 1;
-                        else
-                        {
-                            store.Ability.TahvilVaTasvieDarForushgah = 2;
-                        }
-                        if (EditStore.TahvilVaTasvieDarMahal == true)
-                            store.Ability.TahvilVaTasvieDarMahal = 1;
-                        else
-                        {
-                            store.Ability.TahvilVaTasvieDarMahal = 2;
-                        }
-                        if (Convert.ToInt16(EditStore.ValidationTimeSpan) > 120)
-                        {
-                            ModelState.AddModelError("ValidationTimeSpan", "لطفا زمان بیشتر از 120 وارد نکنید");
-                        }
-                        else
-                        {
-                            store.Ability.ValidationTimeSpan = Convert.ToInt16(EditStore.ValidationTimeSpan);
-                            if (EditStore.MusicId != 0)
-                            {
-                                store.Ability.MusicId = EditStore.MusicId;
-                            }
+                        _core.Store.Save();
+                        _core.Ability.Save();
 
-                            _core.Store.Save();
-                            _core.Ability.Save();
-
-                            return Redirect("/Store/Dashboard");
-                        }
-
-
+                        return Redirect("/Store/Dashboard");
                     }
+
                 }
 
             }
@@ -791,31 +773,25 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> StoreVitrin()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Claims.First().Value == "d7tpmTdwXL")
             {
-                return Redirect("/Account/Login");
+                return Redirect("/Store/BuyPackage");
             }
-            else
-            {
-                if (User.Claims.First().Value == "d7tpmTdwXL")
-                {
-                    return Redirect("/Store/BuyPackage");
-                }
-                TblUser Seller = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblUser Seller = await UserCrew.UserByTellNo(User.Claims.Last().Value);
 
-                if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false)
-                {
-                    return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
-                }
-                TblStore Store = _core.Store.Get().Where(s => s.UserId == Seller.Id).SingleOrDefault();
-                if (Store.Ability.LotteryWinner != null)
-                {
-                    TblUser user = _core.User.GetById(Store.Ability.LotteryWinner);
-                    ViewBag.WinnerName = user.Name;
-                    ViewBag.WinnerTellNo = user.TellNo;
-                }
-                return View(Store);
+            if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false)
+            {
+                return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
             }
+            TblStore Store = _core.Store.Get().Where(s => s.UserId == Seller.Id).SingleOrDefault();
+            if (Store.Ability.LotteryWinner != null)
+            {
+                TblUser user = _core.User.GetById(Store.Ability.LotteryWinner);
+                ViewBag.WinnerName = user.Name;
+                ViewBag.WinnerTellNo = user.TellNo;
+            }
+            return View(Store);
+
         }
 
         public async Task<string> BtnLotterySubmit(int StoreId, DateTime toDate, string LotteryWinnerPrize)

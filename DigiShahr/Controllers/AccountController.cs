@@ -166,20 +166,33 @@ namespace DigiShahr.Controllers
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(loginViewModel.Captcha))
             {
-                ModelState.AddModelError("TellNo", "ورود غیر مجاز");
+                ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره متحان کنید");
                 return View(loginViewModel);
             }
             if (ModelState.IsValid)
             {
                 if (await UserCrew.UserIsExist(loginViewModel))
                 {
-                    await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
+                    //await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
+                    //return Redirect("/");
+                    TblUser user = await UserCrew.UserByTellNo(loginViewModel.TellNo);
+                    //ToDo Login
+                    var Claims = new List<Claim>(){
+                       new Claim(ClaimTypes.NameIdentifier,user.Role.Name.Trim().ToString()),
+                       new Claim(ClaimTypes.Name,user.TellNo),
+                    };
+                    var Identity = new ClaimsIdentity(Claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(Identity);
+                    var Property = new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                    };
+                    await HttpContext.SignInAsync(principal, Property);
                     return Redirect("/");
                 }
                 else
                 {
                     ModelState.AddModelError("TellNo", "حساب با این مشخصات وجود ندارد");
-
                 }
 
             }
@@ -235,7 +248,7 @@ namespace DigiShahr.Controllers
                     await SendSms.Send(user.TellNo, user.Auth, "DigiShahrConfirmPassword");
                     ChangePasswordInNotSignInViewModel vs = new ChangePasswordInNotSignInViewModel();
                     vs.TellNo = changePassword.TellNo;
-                    return await Task.FromResult(RedirectToAction("ChangePassword",vs));
+                    return await Task.FromResult(RedirectToAction("ChangePassword", vs));
                 }
                 else
                 {
@@ -269,7 +282,7 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    
+
                     user.Password = Cryptography.SHA256(changePassword.NewPassword);
                     user.Auth = changePassword.Auth;
                     _core.User.Update(user);
@@ -277,30 +290,6 @@ namespace DigiShahr.Controllers
                     return await Task.FromResult(Redirect("/Account/Login"));
                 }
             }
-        }
-
-        private async Task SignInAsync(TblUser tblUser)
-        {
-            var UserClaim = GetClaims(tblUser);
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                                          new ClaimsPrincipal(UserClaim),
-                                          new AuthenticationProperties
-                                          {
-                                              AllowRefresh = true,
-                                              IsPersistent = true,
-                                              ExpiresUtc = DateTime.Now.AddDays(1000)
-                                          });
-        }
-
-        private ClaimsIdentity GetClaims(TblUser tblUser)
-        {
-            return new ClaimsIdentity(new List<Claim>
-                    {
-                        new Claim("UserRole",_core.Role.GetById(tblUser.RoleId).Name.Trim()),
-                        new Claim("Name",tblUser.Name),
-                        new Claim("TellNo",tblUser.TellNo)
-                    }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         public async Task<IActionResult> SignOut()

@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DigiShahr.Utilit;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DigiShahr.Controllers
 {
@@ -164,6 +165,13 @@ namespace DigiShahr.Controllers
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
             return await Task.FromResult(View(user.TblBookMarks));
+        }
+
+        [Authorize]
+        public IActionResult xxx()
+        {
+            var tt = User.Claims;
+            return View();
         }
 
         protected override void Dispose(bool disposing)
