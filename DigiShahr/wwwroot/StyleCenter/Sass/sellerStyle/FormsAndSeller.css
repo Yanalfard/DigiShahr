@@ -741,8 +741,18 @@ ul {
 .BannerLinkContainer input:focus {
   border-color: #F28F3B !important; }
 
+.BannerLinkContainer .LinkBox {
+  width: 70vw !important;
+  border-radius: 5px; }
+
 .linkboxBannerLink {
-  width: 70vw !important; }
+  color: #666 !important; }
+
+.vitrin-upload {
+  background: white;
+  border-radius: 8px;
+  opacity: 0.7;
+  padding: 5px; }
 
 :root {
   --star-size: 24px;
@@ -882,7 +892,7 @@ ul {
     margin-top: 50px !important; }
   .BannerLinkContainer input {
     width: 35vw; }
-  .linkboxBannerLink {
+  .BannerLinkContainer .LinkBox {
     width: 35vw !important; } }
 
 @media only screen and (min-width: 1024px) {
@@ -907,7 +917,7 @@ ul {
     margin-top: 50px !important; }
   .BannerLinkContainer input {
     width: 35vw; }
-  .linkboxBannerLink {
+  .BannerLinkContainer .LinkBox {
     width: 35vw !important; } }
 
 @media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
@@ -932,7 +942,7 @@ ul {
     left: 18vw !important; }
   .BannerLinkContainer input {
     width: 55vw; }
-  .linkboxBannerLink {
+  .BannerLinkContainer .LinkBox {
     width: 55vw !important; } }
 
 @media only screen and (min-width: 600px) and (max-width: 1024px) {
@@ -957,5 +967,5 @@ ul {
     left: 18vw !important; }
   .BannerLinkContainer input {
     width: 55vw; }
-  .linkboxBannerLink {
+  .BannerLinkContainer .LinkBox {
     width: 55vw !important; } }
