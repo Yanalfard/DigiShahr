@@ -1042,51 +1042,34 @@ namespace DigiShahr.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UploadBanner1(IFormFile BannerFile, UploadBannerViewModel uploadBanner)
+        public async Task<IActionResult> UploadBanner1(IFormFile BannerFile, UploadBannerViewModel uploadBanner)
         {
-            
+
             if (ModelState.IsValid)
             {
-                if (BannerFile.ContentType != "image/png" && BannerFile.ContentType != "image/jpeg")
+                if (BannerFile == null)
                 {
-                    string Erorr = "لطفا تصویر با فرمت مناسب وارد کنید";
-                    return await Task.FromResult(Json(Erorr));
+                    return await Task.FromResult(Redirect("/Store/StoreVitrin?Banner1=تصویر بنر اجباری میباشد"));
                 }
                 else
                 {
-                    if (BannerFile.Length > 3000000)
+                    if (BannerFile.ContentType != "image/png" && BannerFile.ContentType != "image/jpeg")
                     {
-                        string Erorr = "حجم فایل بیش از اندازه میباشد";
-                        return await Task.FromResult(Json(Erorr));
+                        return await Task.FromResult(Redirect("/Store/StoreVitrin?Banner1=فرمت فایل بنر اول غیر معتبر است"));
                     }
                     else
                     {
-                        TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-                        TblAbility ability = user.TblStores.FirstOrDefault().Ability;
-
-                        if (string.IsNullOrEmpty(ability.BannerImageUrl1))
+                        if (BannerFile.Length > 3000000)
                         {
-                            ability.BannerImageUrl1 = Guid.NewGuid().ToString() + Path.GetExtension(BannerFile.FileName);
-                            string savePath = Path.Combine(
-                                Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner1", ability.BannerImageUrl1
-                            );
-
-                            using (var stream = new FileStream(savePath, FileMode.Create))
-                            {
-                                await BannerFile.CopyToAsync(stream);
-                            }
-                            _core.Ability.Update(ability);
-                            _core.Ability.Save();
-                            string Erorr = "true";
-                            return await Task.FromResult(Json(Erorr));
+                            return await Task.FromResult(Redirect("/Store/StoreVitrin?Banner1=حجم بنر اول بیش از اندازه میباشد"));
                         }
                         else
                         {
-                            var fullPath = "wwwroot/Upload/Banner1/" + ability.BannerImageUrl1;
-                            if (System.IO.File.Exists(fullPath))
-                            {
-                                System.IO.File.Delete(fullPath);
+                            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                            TblAbility ability = user.TblStores.FirstOrDefault().Ability;
 
+                            if (string.IsNullOrEmpty(ability.BannerImageUrl1))
+                            {
                                 ability.BannerImageUrl1 = Guid.NewGuid().ToString() + Path.GetExtension(BannerFile.FileName);
                                 string savePath = Path.Combine(
                                     Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner1", ability.BannerImageUrl1
@@ -1096,79 +1079,111 @@ namespace DigiShahr.Controllers
                                 {
                                     await BannerFile.CopyToAsync(stream);
                                 }
+                                ability.BannerLink1 = uploadBanner.BannerLink;
                                 _core.Ability.Update(ability);
                                 _core.Ability.Save();
-                                string Erorr = "true";
-                                return await Task.FromResult(Json(Erorr));
+                                return await Task.FromResult(Redirect("/Store/StoreVitrin"));
+                            }
+                            else
+                            {
+                                var fullPath = "wwwroot/Upload/Banner1/" + ability.BannerImageUrl1;
+                                if (System.IO.File.Exists(fullPath))
+                                {
+                                    System.IO.File.Delete(fullPath);
+
+                                    ability.BannerImageUrl1 = Guid.NewGuid().ToString() + Path.GetExtension(BannerFile.FileName);
+                                    string savePath = Path.Combine(
+                                        Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner1", ability.BannerImageUrl1
+                                    );
+
+                                    using (var stream = new FileStream(savePath, FileMode.Create))
+                                    {
+                                        await BannerFile.CopyToAsync(stream);
+                                    }
+                                    ability.BannerLink1 = uploadBanner.BannerLink;
+                                    _core.Ability.Update(ability);
+                                    _core.Ability.Save();
+                                    return await Task.FromResult(Redirect("/Store/StoreVitrin"));
+                                }
                             }
                         }
                     }
                 }
             }
-
-            string massage = "false";
-            return await Task.FromResult(Json(massage));
+            return await Task.FromResult(Redirect("/Store/StoreVitrin"));
         }
 
-        //public async Task<string> UploadBanner2(string Link, IFormFile file)
-        //{
-        //    var file = Request.Form.Files;
-        //    if (file[0].ContentType != "image/png" && file[0].ContentType != "image/jpeg")
-        //    {
-        //        return await Task.FromResult("لطفا تصویر با فرمت مناسب وارد کنید");
-        //    }
-        //    else
-        //    {
-        //        if (file[0].Length > 3000000)
-        //        {
-        //            return await Task.FromResult("حجم فایل بیش از اندازه میباشد");
-        //        }
-        //        else
-        //        {
-        //            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
-        //            TblAbility ability = user.TblStores.FirstOrDefault().Ability;
+        [HttpPost]
+        public async Task<IActionResult> UploadBanner2(IFormFile BannerFile, UploadBannerViewModel uploadBanner)
+        {
 
-        //            if (string.IsNullOrEmpty(ability.BannerImageUrl2))
-        //            {
-        //                ability.BannerImageUrl2 = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
-        //                string savePath = Path.Combine(
-        //                    Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner2", ability.BannerImageUrl2
-        //                );
+            if (ModelState.IsValid)
+            {
+                if (BannerFile == null)
+                {
+                    return await Task.FromResult(Redirect("/Store/StoreVitrin?Banner2=تصویر بنر اجباری میباشد"));
+                }
+                else
+                {
+                    if (BannerFile.ContentType != "image/png" && BannerFile.ContentType != "image/jpeg")
+                    {
+                        return await Task.FromResult(Redirect("/Store/StoreVitrin?Banner2=فرمت فایل بنر اول غیر معتبر است"));
+                    }
+                    else
+                    {
+                        if (BannerFile.Length > 3000000)
+                        {
+                            return await Task.FromResult(Redirect("/Store/StoreVitrin?Banner2=حجم بنر اول بیش از اندازه میباشد"));
+                        }
+                        else
+                        {
+                            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                            TblAbility ability = user.TblStores.FirstOrDefault().Ability;
 
-        //                using (var stream = new FileStream(savePath, FileMode.Create))
-        //                {
-        //                    await file[0].CopyToAsync(stream);
-        //                }
-        //                ability.BannerLink2 = Link;
-        //                _core.Ability.Update(ability);
-        //                _core.Ability.Save();
-        //                return await Task.FromResult("true");
-        //            }
-        //            else
-        //            {
-        //                var fullPath = "wwwroot/Upload/Banner2/" + ability.BannerImageUrl2;
-        //                if (System.IO.File.Exists(fullPath))
-        //                {
-        //                    System.IO.File.Delete(fullPath);
+                            if (string.IsNullOrEmpty(ability.BannerImageUrl2))
+                            {
+                                ability.BannerImageUrl2 = Guid.NewGuid().ToString() + Path.GetExtension(BannerFile.FileName);
+                                string savePath = Path.Combine(
+                                    Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner2", ability.BannerImageUrl2
+                                );
 
-        //                    ability.BannerImageUrl2 = Guid.NewGuid().ToString() + Path.GetExtension(file[0].FileName);
-        //                    string savePath = Path.Combine(
-        //                        Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner2", ability.BannerImageUrl2
-        //                    );
+                                using (var stream = new FileStream(savePath, FileMode.Create))
+                                {
+                                    await BannerFile.CopyToAsync(stream);
+                                }
+                                ability.BannerLink2 = uploadBanner.BannerLink;
+                                _core.Ability.Update(ability);
+                                _core.Ability.Save();
+                                return await Task.FromResult(Redirect("/Store/StoreVitrin"));
+                            }
+                            else
+                            {
+                                var fullPath = "wwwroot/Upload/Banner2/" + ability.BannerImageUrl2;
+                                if (System.IO.File.Exists(fullPath))
+                                {
+                                    System.IO.File.Delete(fullPath);
 
-        //                    using (var stream = new FileStream(savePath, FileMode.Create))
-        //                    {
-        //                        await file[0].CopyToAsync(stream);
-        //                    }
-        //                    _core.Ability.Update(ability);
-        //                    _core.Ability.Save();
-        //                }
-        //            }
+                                    ability.BannerImageUrl2 = Guid.NewGuid().ToString() + Path.GetExtension(BannerFile.FileName);
+                                    string savePath = Path.Combine(
+                                        Directory.GetCurrentDirectory(), "wwwroot/Upload/Banner2", ability.BannerImageUrl2
+                                    );
 
-        //            return await Task.FromResult("true");
-        //        }
-        //    }
-        //}
+                                    using (var stream = new FileStream(savePath, FileMode.Create))
+                                    {
+                                        await BannerFile.CopyToAsync(stream);
+                                    }
+                                    ability.BannerLink2 = uploadBanner.BannerLink;
+                                    _core.Ability.Update(ability);
+                                    _core.Ability.Save();
+                                    return await Task.FromResult(Redirect("/Store/StoreVitrin"));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return await Task.FromResult(Redirect("/Store/StoreVitrin"));
+        }
 
         public IActionResult AddProduct(int id)
         {

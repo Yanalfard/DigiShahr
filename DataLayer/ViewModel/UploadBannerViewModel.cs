@@ -14,7 +14,7 @@ namespace DataLayer.ViewModel
         [Required(ErrorMessage = "فیلد اجباری میباشد")]
         public string BannerLink { get; set; }
 
-        [Required(ErrorMessage = "تصویر بنر اجباری میباشد")]
+        
         public string BannerFile { get; set; }
     }
 }

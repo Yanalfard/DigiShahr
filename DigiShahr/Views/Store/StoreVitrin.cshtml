@@ -15,6 +15,18 @@
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
+@if (Context.Request.Query["Banner1"].Count > 0)
+{
+    <div class="center uk-text-center">
+        <span class="uk-text-danger center uk-text-center">@Context.Request.Query["Banner1"].ToString()</span>
+    </div>
+}
+@if (Context.Request.Query["Banner2"].Count > 0)
+{
+    <div class="center uk-text-center">
+        <span class="uk-text-danger center uk-text-center">@Context.Request.Query["Banner1"].ToString()</span>
+    </div>
+}
 <div class="BannerPlace BannerInStore my-column my-clipped my-clipped-desktop bannerBackground">
     <a href="/Store/Dashboard"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left backIconDesktop" uk-icon="backIcon"></span></a>
 
@@ -208,7 +220,7 @@
         }
     </div>
     ///////////////////////edit first banner section///////////////////////////////
-    @await Component.InvokeAsync("Banner1InPiece",Model.AbilityId);
+    @await Component.InvokeAsync("Banner1InPiece", Model.AbilityId);
     ///////////////////////end edit first banner section///////////////////////////////
 }
 
@@ -284,37 +296,11 @@
     <div class="BannerInStore matCart center my-clipped my-clipped-desktop uk-margin-small-top bannerBackground">
         @if (!string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
         {
-            <img class="bannerImage" src="/Upload/Banner1/@Model.Ability.BannerImageUrl2" />
+            <img class="bannerImage" src="/Upload/Banner2/@Model.Ability.BannerImageUrl2" />
         }
     </div>
     ///////////////////////edit second banner section///////////////////////////////
-    <div class="BannerLinkContainer matCart center my-clipped my-clipped-desktop uk-margin-small-top my-column" dir="rtl">
-        <label class="uk-padding-small uk-margin-bottom">تصویر و لینک مورد نظر برای بنر فوق را وارد کنید</label>
-        <div class="js-upload vitrinBanners LinkBox uk-margin-auto uk-text-secondary" uk-form-custom>
-            <input type="file" id="Banner1File" accept="image/x-png,image/jpeg">
-
-            @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
-            {
-
-                <a class="linkboxBannerLink"><span class="icon-holder uk-margin-small-left" uk-icon="add-circle-outline" tabindex="-1"></span>افزودن تصویر بنر اول</a>
-            }
-            else
-            {
-                <a class="linkboxBannerLink"><span class="icon-holder uk-margin-small-left" uk-icon="create-outline" tabindex="-1"></span>ویرایش تصویر بنر اول</a>
-
-            }
-        </div>
-        <input class="BannerLink center uk-border-rounded uk-margin-bottom uk-margin-top" type="text" id="Banner2Link" placeholder="لینک مورد نظر را وارد کنید" />
-        @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
-        {
-            <button id="BtnBanner2" class="gradientButton center uk-margin-bottom">افزودن<span class="icon-holder uk-margin-small-right" uk-icon="add-circle-outline" tabindex="-1"></span></button>
-        }
-        else
-        {
-            <button id="BtnBanner2" class="gradientButton center uk-margin-bottom">ویرایش<span class="icon-holder uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span></button>
-        }
-        <span class="uk-text-danger" id="Banner2Erorr"></span>
-    </div>
+    @await Component.InvokeAsync("Banner2InPiece", Model.AbilityId);
     ///////////////////////end edit second banner section///////////////////////////////
 }
 <div class="my-space"></div>

@@ -1,0 +1,38 @@
+﻿@model DataLayer.ViewModel.UploadBannerViewModel
+
+<form asp-action="UploadBanner2" asp-controller="Store"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-complete="completeUploadBanner1()"
+      data-ajax-update="#ajaxresult" enctype="multipart/form-data">
+    <input asp-for="AbilityId" type="hidden" value="@Model.Ability.Id" />
+    <div class="BannerLinkContainer matCart center my-clipped my-clipped-desktop uk-margin-small-top my-column" dir="rtl">
+        <label class="uk-padding-small uk-margin-bottom">تصویر و لینک مورد نظر برای بنر فوق را وارد کنید</label>
+        <div class="js-upload vitrinBanners LinkBox uk-margin-auto uk-text-secondary" uk-form-custom>
+            <input type="file" asp-for="BannerFile" accept="image/x-png,image/jpeg">
+            <span class="uk-text-danger" asp-validation-for="BannerFile"></span>
+            @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
+            {
+
+                <a class="linkboxBannerLink"><span class="icon-holder uk-margin-small-left" uk-icon="add-circle-outline" tabindex="-1"></span>افزودن تصویر بنر اول</a>
+            }
+            else
+            {
+                <a class="linkboxBannerLink"><span class="icon-holder uk-margin-small-left" uk-icon="create-outline" tabindex="-1"></span>ویرایش تصویر بنر اول</a>
+
+            }
+        </div>
+        <input class="BannerLink center uk-border-rounded uk-margin-bottom uk-margin-top" asp-for="BannerLink" placeholder="لینک مورد نظر را وارد کنید" />
+        <span class="uk-text-danger" asp-validation-for="BannerLink"></span>
+        @if (string.IsNullOrEmpty(Model.Ability.BannerImageUrl2))
+        {
+            <button class="gradientButton center uk-margin-bottom">افزودن<span class="icon-holder uk-margin-small-right" uk-icon="add-circle-outline" tabindex="-1"></span></button>
+        }
+        else
+        {
+            <button class="gradientButton center uk-margin-bottom">ویرایش<span class="icon-holder uk-margin-small-right" uk-icon="create-outline" tabindex="-1"></span></button>
+        }
+        <span class="uk-text-danger" id="Banner1Erorr"></span>
+    </div>
+</form>
+
