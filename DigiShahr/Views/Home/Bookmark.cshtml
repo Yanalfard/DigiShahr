@@ -29,7 +29,11 @@
                     </div>
                     <div class="my-column uk-margin-right uk-margin-top">
                         <label class="uk-margin-remove-bottom">@Model.First().Store.Name</label>
-                        <label class="uk-margin-remove-top"><span class="icon-holder starIcon uk-margin-small-left" uk-icon="star"> </span>@Model.First().Store.Rate/5</label>
+                        <div class="center storeStars uk-margin-top">
+                            <div class="star-container" uk-tooltip="@Model.First().Store.Rate">
+                                <div class="Stars" style="--rating:@Model.First().Store.Rate"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             <hr class="uk-divider-icon uk-margin-remove-bottom" />
