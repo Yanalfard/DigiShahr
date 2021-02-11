@@ -16,7 +16,10 @@
 </head>
 
 <body onload="setInterval(Ooad,1000)">
-    <input type="hidden" id="UserTellNo" value="@User.Claims.Last().Value" />
+    @if (User.Identity.IsAuthenticated)
+    {
+        <input type="hidden" id="UserTellNo" value="@User.Claims.Last().Value" />
+    }
     <section class="layoutHeader">
         <div class="mat my-row uk-padding-small">
             <ul class="uk-iconnav">
