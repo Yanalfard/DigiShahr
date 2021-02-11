@@ -207,20 +207,41 @@ namespace DigiShahr.Controllers
                 if (_core.Discount.Get().Any(d => d.Code == Discount))
                 {
                     TblDiscount discount = _core.Discount.Get(d => d.Code == Discount).Single();
-
-                    TblOrder order = _core.Order.GetById(Id);
-                    order.IsFinaly = false;
-                    order.DateSubmited = DateTime.Now;
-                    int mainSum = 0;
-                    foreach (var i in order.TblOrderDetails)
+                    if (discount.Count > 0)
                     {
-                        mainSum += i.Count * i.Product.Price;
+                        discount.Count -= 1;
+                        _core.Discount.Update(discount);
+                        _core.Discount.Save();
+                        TblOrder order = _core.Order.GetById(Id);
+                        order.IsFinaly = false;
+                        order.DateSubmited = DateTime.Now;
+                        int mainSum = 0;
+                        foreach (var i in order.TblOrderDetails)
+                        {
+                            mainSum += i.Count * i.Product.Price;
+                        }
+                        if (discount.Persentage > 0)
+                        {
+                            order.Price = mainSum - (mainSum * discount.Persentage / 100);
+                            order.Status = Delivery;
+                            order.DiscountId = discount.Id;
+                            _core.Order.Update(order);
+                            _core.Order.Save();
+                        }
+                        else
+                        {
+                            order.Price = mainSum;
+                            order.Status = Delivery;
+                            _core.Order.Update(order);
+                            _core.Order.Save();
+                        }
+                        return await Task.FromResult("true");
                     }
-                    order.Price = (int)Math.Floor((double)(mainSum * discount.Persentage / 100));
-                    order.Status = Delivery;
-                    _core.Order.Update(order);
-                    _core.Order.Save();
-                    return await Task.FromResult("true");
+                    else
+                    {
+                        return await Task.FromResult("تخفیف مورد نظر یافت نشد");
+                    }
+                    
                 }
                 else
                 {

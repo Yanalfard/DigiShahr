@@ -92,68 +92,43 @@ namespace DigiShahr.Controllers
             return ViewComponent("NewOrdernotifications", new { Id = Id });
         }
 
-        public async Task<IActionResult> Piece(int Id, int? Category)
+        public async Task<IActionResult> Piece(int Id)
         {
             if (!User.Identity.IsAuthenticated)
             {
-                if (Category == 0 || Category == null)
-                {
-                    ViewBag.Bookmark = false;
-                    TblStore store = _core.Store.GetById(Id);
-                    PieceViewModol piece = new PieceViewModol();
-                    piece.Store = store;
-                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id);
-                    return await Task.FromResult(View(piece));
-                }
-                else
-                {
-                    ViewBag.Bookmark = false;
-                    TblStore store = _core.Store.GetById(Id);
-                    PieceViewModol piece = new PieceViewModol();
-                    piece.Store = store;
-                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id && p.StoreCatagoryId == Category);
-                    return await Task.FromResult(View(piece));
-                }
+                ViewBag.Bookmark = false;
+                TblStore store = _core.Store.GetById(Id);
+                return await Task.FromResult(View(store));
             }
             else
             {
                 TblStore store = _core.Store.GetById(Id);
-                if (Category == 0 || Category == null)
+
+                if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
                 {
-                    if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
-                    {
-                        ViewBag.Bookmark = true;
-                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
-                    }
-                    else
-                    {
-                        ViewBag.Bookmark = false;
-                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
-                    }
-                    PieceViewModol piece = new PieceViewModol();
-                    piece.Store = store;
-                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id);
-                    return await Task.FromResult(View(piece));
+                    ViewBag.Bookmark = true;
+                    ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
                 }
                 else
                 {
-                    if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
-                    {
-                        ViewBag.Bookmark = true;
-                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
-                    }
-                    else
-                    {
-                        ViewBag.Bookmark = false;
-                        ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
-                    }
-                    PieceViewModol piece = new PieceViewModol();
-                    piece.Store = store;
-                    piece.Products = _core.Product.Get(p => p.StoreId == store.Id && p.StoreCatagoryId == Category);
-                    return await Task.FromResult(View(piece));
+                    ViewBag.Bookmark = false;
+                    ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
                 }
+
+                return await Task.FromResult(View(store));
+
             }
 
+        }
+
+        public IActionResult NewOrdernotificationsShow(string TellNo)
+        {
+            return ViewComponent("OrdersCounter",new { TellNo = TellNo });
+        }
+
+        public IActionResult Products(int CatId, int StoreId)
+        {
+            return ViewComponent("ProductsInPiece", new { CatId = CatId, StoreId = StoreId });
         }
 
         public IActionResult ChildCategory(int Id)
@@ -165,13 +140,6 @@ namespace DigiShahr.Controllers
         {
             TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
             return await Task.FromResult(View(user.TblBookMarks));
-        }
-
-        [Authorize]
-        public IActionResult xxx()
-        {
-            var tt = User.Claims;
-            return View();
         }
 
         protected override void Dispose(bool disposing)

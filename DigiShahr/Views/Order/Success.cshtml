@@ -49,8 +49,12 @@
             </div>
         </div>
 
-
-
+        @if (Model.DiscountId != null || Model.DiscountId != 0)
+        {
+            ///////
+            @(Model.Discount.Persentage+"%")
+            ///////
+        }
 
         @*end send to store and timer section**@
         @*success report*@
@@ -91,6 +95,14 @@
                     <label>جمع سفارش شما:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
                 </div>
             </div>
+
+            @if (Model.DiscountId != null || Model.DiscountId != 0)
+            {
+                ///////
+                @(Model.Discount.Persentage+"%")
+                ///////
+            }
+
         }
         else
         {
@@ -131,6 +143,13 @@
             </div>
         </div>
 
+        @if (Model.DiscountId != null || Model.DiscountId != 0)
+        {
+            ///////
+            @(Model.Discount.Persentage+"%")
+            ///////
+        }
+
     }
 
     @if (Model.IsValid)
@@ -165,6 +184,16 @@
                 <label>جمع سفارش شما:<span>@Model.Price.ToString("#,0")<span>&nbsp;تومان</span></span></label>
             </div>
         </div>
+
+
+        @if (Model.DiscountId != null || Model.DiscountId != 0)
+        {
+            ///////
+            @(Model.Discount.Persentage+"%")
+            ///////
+        }
+
+
         <script src="~/Jquery/jquery-3.4.1.min.js"></script>
         <script>
             setInterval(function () {
