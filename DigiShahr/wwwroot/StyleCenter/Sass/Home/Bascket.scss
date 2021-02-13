@@ -198,21 +198,25 @@ body {
         overflow: hidden;
         white-space: nowrap;
         cursor: pointer;
+        font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
         font-size: 30px;
         color: #ccc;
     }
 
     .rate:not(:checked) > label:before {
         content: '★ ';
+        font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     }
 
     .rate > input:checked ~ label {
         color: #ffc700;
+        font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     }
 
     .rate:not(:checked) > label:hover,
     .rate:not(:checked) > label:hover ~ label {
         color: #deb217;
+        font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     }
 
     .rate > input:checked + label:hover,
@@ -221,6 +225,7 @@ body {
     .rate > input:checked ~ label:hover ~ label,
     .rate > label:hover ~ input:checked ~ label {
         color: #c59b08;
+        font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     }
 }
 .totalPrice {

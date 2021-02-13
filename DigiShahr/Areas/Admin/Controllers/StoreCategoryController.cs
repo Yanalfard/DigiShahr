@@ -8,7 +8,7 @@ using System.Linq;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [PermissionChecker("rTPh32gmK8")]
+    //[PermissionChecker("rTPh32gmK8")]
     public class StoreCategoryController : Controller
     {
         Core _core = new Core();

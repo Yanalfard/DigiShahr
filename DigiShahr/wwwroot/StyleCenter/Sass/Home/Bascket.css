@@ -384,21 +384,26 @@ body {
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;
+    font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     font-size: 30px;
     color: #ccc; }
   .rateForStore .rate:not(:checked) > label:before {
-    content: '★ '; }
+    content: '★ ';
+    font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important; }
   .rateForStore .rate > input:checked ~ label {
-    color: #ffc700; }
+    color: #ffc700;
+    font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important; }
   .rateForStore .rate:not(:checked) > label:hover,
   .rateForStore .rate:not(:checked) > label:hover ~ label {
-    color: #deb217; }
+    color: #deb217;
+    font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important; }
   .rateForStore .rate > input:checked + label:hover,
   .rateForStore .rate > input:checked + label:hover ~ label,
   .rateForStore .rate > input:checked ~ label:hover,
   .rateForStore .rate > input:checked ~ label:hover ~ label,
   .rateForStore .rate > label:hover ~ input:checked ~ label {
-    color: #c59b08; }
+    color: #c59b08;
+    font-family: "Sahel", 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important; }
 
 .totalPrice {
   font-size: 14px;
