@@ -25,7 +25,6 @@ namespace DigiShahr
         {
             services.AddControllersWithViews();
             services.AddMvc(option => option.EnableEndpointRouting = false);
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
 
             #region Authentication
