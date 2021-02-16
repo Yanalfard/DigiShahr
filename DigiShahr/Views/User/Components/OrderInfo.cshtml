@@ -47,7 +47,7 @@
             </table>
         </div>
         <div class="uk-modal-footer uk-text-center uk-margin-top ">
-            <div class="center my-column gradientButtonLink">
+            <div class="center my-column gradientButtonLink uk-modal-close">
                 <label>مبلغ کل سفارش:</label>
                 @{
                     int c = (int)(Model.TblOrderDetails.Sum(i => i.Product.Price)) * (int)(Model.TblOrderDetails.Sum(j => j.Count));
