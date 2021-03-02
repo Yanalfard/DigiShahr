@@ -29,19 +29,21 @@
         <input asp-for="Name">
         <span asp-validation-for="Name" class="uk-text-danger"></span>
         <label for="Count">موجودی نزد شما:</label>
-        <input asp-for="Count" />
+        <input asp-for="Count" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="4" />
         <span asp-validation-for="Count" class="uk-text-danger"></span>
         <label for="price">قیمت(تومان):</label>
-        <input type="text" asp-for="Price">
+        <input asp-for="Price" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="6">
         <span asp-validation-for="Price" class="uk-text-danger"></span>
         <label for="off">درصد تخفیف:</label>
-        <input asp-for="Discount">
+        <input asp-for="Discount" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="6">
         <span asp-validation-for="Discount" class="uk-text-danger"></span>
         <div class="uk-margin">
             <div class="my-row" uk-form-custom>
                 <input asp-for="MainImageUrl" type="hidden" />
                 <input type="file" id="ProductImage">
                 <button class="uk-margin-top serviceArea">ویرایش تصویر محصول<span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="attach"></span></button>
+                <br />
+                <span class="uk-text-danger">حجم تصویر نهایتا 3 مگابایت باشد</span>
             </div>
         </div>
     </div>
@@ -57,13 +59,15 @@
 <script>
     $("#EditProduct").submit(function (e) {
         e.preventDefault();
+        $("#overlay").fadeIn(300);
         if ($("#ProductImage").val() == null || $("#ProductImage").val() == "") {
             var data = $(this).serializeArray();
-            $.post("/Store/EditProduct",data, function (result) {
+            $.post("/Store/EditProduct", data, function (result) {
                 if ($.isNumeric(result)) {
                     window.location.reload();
                 } else {
                     $("#ProductSubmitErorr").html(result);
+                    $("#overlay").fadeOut(300);
                 }
             });
         }
@@ -91,6 +95,7 @@
                                 window.location.reload();
                             } else {
                                 $("#ProductSubmitErorr").html(message);
+                                $("#overlay").fadeOut(300);
                             }
                         },
 
@@ -98,6 +103,7 @@
 
                 } else {
                     $("#ProductSubmitErorr").html(result);
+                    $("#overlay").fadeOut(300);
                 }
             });
         }
