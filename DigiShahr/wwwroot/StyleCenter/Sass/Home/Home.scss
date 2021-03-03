@@ -17,7 +17,7 @@
     grid-template-rows: 2fr 1fr;
     grid-template-columns: 1fr;
     padding: 0px;
-    margin-top:-54px;
+ margin-top:-69px;
 }
 .IndexContainer {
     .map {
@@ -56,10 +56,16 @@
     }
 }
 .MenuGridContainer {
-    margin-bottom: 65px;
+    margin-bottom: 15px;
+    margin-top: -15px;
 
     hr, .uk-divider-icon {
         border-color: #ff7601 !important;
+    }
+
+    .uk-divider-icon {
+        margin-bottom: 15px!important;
+        margin-top: -25px!important;
     }
 }
 .MenuGrid {
@@ -392,6 +398,70 @@
     }
 }
 /////////////end desktop/////////////////
+
+
+/*@media only screen and (min-device-width : 600px) {
+    .index {
+        margin-top: 0px;
+    }
+    .MenuGridContainer {
+        margin-bottom: 60px;
+        margin-top: 0px !important;
+
+        .uk-divider-icon {
+            margin-bottom: 5px !important;
+            margin-top: 0 !important;
+        }
+    }
+
+}
+@media only screen and (min-width : 600px) {
+    .index {
+        margin-top: 0px;
+    }
+    .MenuGridContainer {
+        margin-bottom:60px;
+        margin-top: 0px!important;
+    }
+    .uk-divider-icon {
+        margin-bottom: 5px !important;
+        margin-top: 0 !important;
+    }
+}*/
+
+@media screen and (min-width: 600px) and (orientation: landscape) {
+    .index {
+        margin-top: 0px;
+    }
+
+    .MenuGridContainer {
+        margin-bottom: 60px;
+        margin-top: 0px !important;
+
+        .uk-divider-icon {
+            margin-bottom: 5px !important;
+            margin-top: 0 !important;
+        }
+    }
+}
+@media screen and (min-device-width: 600px) and (orientation: landscape) {
+    .index {
+        margin-top: 0px;
+    }
+
+    .MenuGridContainer {
+        margin-bottom: 60px;
+        margin-top: 0px !important;
+
+        .uk-divider-icon {
+            margin-bottom: 5px !important;
+            margin-top: 0 !important;
+        }
+    }
+}
+////////////////////////////////////////////////////////////////
+
+
 /*@media only screen and (min-device-width : 600px) {
     .index {
         min-height: 100vh;
