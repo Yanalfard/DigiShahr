@@ -17,15 +17,17 @@
         <label for="Name">نام محصول:</label>
         <input asp-for="Name">
         <label for="Count">موجودی نزد شما:</label>
-        <input asp-for="Count" />
+        <input asp-for="Count" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="4">
         <label for="price">قیمت(تومان):</label>
-        <input type="text" asp-for="Price">
+        <input asp-for="Price" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="6">
         <label for="off">درصد تخفیف:</label>
-        <input asp-for="Discount">
+        <input asp-for="Discount" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="2">
         <div class="uk-margin">
             <div class="my-row" uk-form-custom>
                 <input type="file" id="ProductImage">
                 <button class="uk-margin-top serviceArea">انتخاب تصویر برای محصول<span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="attach"></span></button>
+                <br />
+                <span class="uk-text-danger">حجم تصویر نهایتا 3 مگابایت باشد</span>
             </div>
         </div>
     </div>
@@ -47,7 +49,7 @@
             $("#ProductSubmitErorr").html("");
             var Price = $("#Price").val().replace(",", "");
             var data = $(this).serializeArray();
-            
+            $("#overlay").fadeIn(300);
             $.post("/Store/CreateProduct", data, function (result) {
                 if (result == "SubscribtionTillErorr") {
                     window.location.href = "/Store/SubscribtionTillErorr";
@@ -71,6 +73,7 @@
                                 if (message == "true") {
                                     window.location.reload();
                                 } else {
+                                    $("#overlay").fadeOut(300);
                                     $("#ProductSubmitErorr").html(message);
                                 }
                             },
@@ -79,10 +82,11 @@
 
 
                     } else {
+                        $("#overlay").fadeOut(300);
                         $("#ProductSubmitErorr").html(result);
                     }
                 }
-                
+
             });
         }
     });
