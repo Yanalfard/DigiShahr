@@ -50,11 +50,11 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAccountAsync(CreateAccountViewModel createAccountViewModel, string foo)
         {
-            if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
-            {
-                ModelState.AddModelError("TellNo", "ورود غیر مجاز");
-                return View(createAccountViewModel);
-            }
+            //if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
+            //{
+            //    ModelState.AddModelError("TellNo", "ورود غیر مجاز");
+            //    return View(createAccountViewModel);
+            //}
             if (ModelState.IsValid)
             {
 
