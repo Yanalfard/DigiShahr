@@ -20,7 +20,7 @@
         {
             <li><a id="play"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
             <li><a id="Pause"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
-            <audio id="music" hidden src="~/Upload/Music/@Model.Ability.Music.MusicUrl" preload="auto"></audio>
+            @*<audio id="music" hidden src="~/Upload/Music/@Model.Ability.Music.MusicUrl" preload="auto"></audio>*@
             <script src="~/Jquery/jquery-3.4.1.js"></script>
             <script>
 
@@ -75,7 +75,7 @@
             </div>
         </div>
         <div class="center LogoPictureInStore">
-            <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl" />
+            <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl"  height="80" width="80"/>
         </div>
     </div>
     <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
