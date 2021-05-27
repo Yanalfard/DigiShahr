@@ -36,7 +36,6 @@
 
         <div class="contentContainer">
 
-
             <div class="firstHead">
                 <a href="/"><span class="icon-holder backIconDesktop uk-margin-large-top uk-margin-left uk-text-secondary absolute" uk-icon="backIcon"></span></a>
             </div>
@@ -45,7 +44,7 @@
                     <form class="my-column loginForm uk-padding-small" action="Login" method="post" dir="rtl">
                         <partial name="_CaptchaInput" />
                         @Html.AntiForgeryToken()
-                        <label class="uk-text-right" for="">شماره تلفن:</label>
+                        <label class="uk-text-right" for="TellNo">شماره تلفن:</label>
                         <input asp-for="TellNo">
                         <span asp-validation-for="TellNo" class="uk-text-danger"></span>
                         <label class="uk-text-right" for="password">رمز عبور:</label>
@@ -86,3 +85,6 @@
         });
     });
 </script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

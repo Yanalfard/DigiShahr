@@ -76,7 +76,7 @@
                 </div>
             </div>
             <input type="hidden" asp-for="NaighborhoodId" />
-           @* <span asp-validation-for="NaighborhoodId" class="uk-text-danger"></span>*@
+            @* <span asp-validation-for="NaighborhoodId" class="uk-text-danger"></span>*@
             <input type="hidden" id="foo" name="foo" />
             <input class="center gradientButton uk-margin-large-top" type="submit" value="ایجاد حساب">
         </form>
@@ -87,12 +87,12 @@
 
     @section Script{
 
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         <link href="~/leaflet/leaflet.css" rel="stylesheet" />
         <script src="~/leaflet/leaflet.js"></script>
-
         <script>
 
-           
+
 
             $("#btnubni").click(function () {
                 $("#NaighborhoodId").val($(".Neighbourhood:checked").val());
@@ -133,14 +133,14 @@
 
         </script>
 
-        <script src="https://www.google.com/recaptcha/api.js?render=6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj"></script>
-        <script>
-            grecaptcha.ready(function () {
-                grecaptcha.execute('6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj', { action: 'Create' }).then(function (token) {
-                    document.getElementById("foo").value = token;
+        @*<script src="https://www.google.com/recaptcha/api.js?render=6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj"></script>
+            <script>
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj', { action: 'Create' }).then(function (token) {
+                        document.getElementById("foo").value = token;
+                    });
                 });
-            });
-        </script>
+            </script>*@
 
     }
 }
@@ -148,3 +148,7 @@ else
 {
     <h1>شما وارد شده اید</h1>
 }
+
+
+
+

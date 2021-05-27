@@ -568,7 +568,7 @@ namespace DigiShahr.Controllers
                 return View(null);
             }
             TblDealOrder dealOrder = _core.DealOrder.GetById(pay);
-            return Json(dealOrder);
+            return View(dealOrder);
 
         }
 

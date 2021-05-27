@@ -24,6 +24,7 @@ namespace DigiShahr.Controllers
             _captchaValidator = captchaValidator;
         }
 
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -50,14 +51,14 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAccountAsync(CreateAccountViewModel createAccountViewModel, string foo)
         {
-            //if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
-            //{
-            //    ModelState.AddModelError("TellNo", "ورود غیر مجاز");
-            //    return View(createAccountViewModel);
-            //}
+           
             if (ModelState.IsValid)
             {
-
+                if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
+                {
+                    ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
+                    return View(createAccountViewModel);
+                }
                 if (createAccountViewModel.TellNo.StartsWith("0") == true)
                 {
                     if (createAccountViewModel.Password != createAccountViewModel.ConfirmPassword)
@@ -164,13 +165,14 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel, string RetunUrl)
         {
-            if (!await _captchaValidator.IsCaptchaPassedAsync(loginViewModel.Captcha))
-            {
-                ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
-                return View(loginViewModel);
-            }
+
             if (ModelState.IsValid)
             {
+                if (!await _captchaValidator.IsCaptchaPassedAsync(loginViewModel.Captcha))
+                {
+                    ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
+                    return View(loginViewModel);
+                }
                 if (await UserCrew.UserIsExist(loginViewModel))
                 {
                     //await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));

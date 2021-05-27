@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -10,12 +11,14 @@ namespace DataLayer.ViewModel
         [Required(ErrorMessage = "لطفا نام خود را وارد کنید")]
         [StringLength(100, ErrorMessage = "لطفا نام مناسب وارد کنید")]
         [MaxLength(100, ErrorMessage = "لطفا نام مناسب وارد کنید")]
-        [MinLength(5, ErrorMessage = "لطفا نام مناسب وارد کنید")]
+        [MinLength(4, ErrorMessage = "لطفا نام مناسب وارد کنید")]
         public string Name { get; set; }
         [Required(ErrorMessage = "لطفا شماره تماس خود را وارد کنید")]
         [StringLength(11, ErrorMessage = "لطفا شماره تماس مناسب وارد کنید")]
         [MinLength(11, ErrorMessage = "لطفا شماره تماس مناسب وارد کنید")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "شماره تماس معتبر نیست")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("[0]{1}[9]{1}[0-9]{9}", ErrorMessage = "شماره تلفن وارد شده معتبر نمی باشد")]
+        //[Remote("VerifyTell", "Account")]
         public string TellNo { get; set; }
         [Required(ErrorMessage = "لطفا رمز عبور خود را وارد کنید")]
         [MinLength(4, ErrorMessage = "لطفا کارکتر های بیشتری وارد کنید")]

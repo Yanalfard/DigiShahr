@@ -9,7 +9,10 @@ namespace DataLayer.ViewModel
     {
         [MaxLength(11,ErrorMessage ="شماره تماس معتبر وارد کنید")]
         [MinLength(11,ErrorMessage ="شماره تماس معتبر وارد کنید")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "شماره تماس معتبر نیست")]
+        [Required(ErrorMessage = "شماره تلفن را وارد کنید")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression("[0]{1}[9]{1}[0-9]{9}", ErrorMessage = "شماره تلفن وارد شده معتبر نمی باشد")]
+        [StringLength(11)]
         public string TellNo { get; set; }
 
         [DataType(DataType.Password)]
