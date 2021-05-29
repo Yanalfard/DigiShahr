@@ -20,6 +20,7 @@ namespace DataLayer.Models
         public virtual DbSet<TblAbility> TblAbilities { get; set; }
         public virtual DbSet<TblBookMark> TblBookMarks { get; set; }
         public virtual DbSet<TblCatagory> TblCatagories { get; set; }
+        public virtual DbSet<TblCity> TblCities { get; set; }
         public virtual DbSet<TblDeal> TblDeals { get; set; }
         public virtual DbSet<TblDealOrder> TblDealOrders { get; set; }
         public virtual DbSet<TblDiscount> TblDiscounts { get; set; }
@@ -38,6 +39,7 @@ namespace DataLayer.Models
             => optionsBuilder
            .UseLazyLoadingProxies()
            .UseSqlServer("Data Source=103.216.62.27;Initial Catalog=DigiShahr1;User ID=Yanal;Password=1710ahmad.fard");
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -138,6 +140,8 @@ namespace DataLayer.Models
             {
                 entity.Property(e => e.DateSubmited).HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.Status).HasComment("0 is tahvil dar khaneye moshtari; 1 is tahvil dar forushgah;");
+
                 entity.HasOne(d => d.Discount)
                     .WithMany(p => p.TblOrders)
                     .HasForeignKey(d => d.DiscountId)
@@ -230,6 +234,11 @@ namespace DataLayer.Models
 
             modelBuilder.Entity<TblStoreNaighborhoodRel>(entity =>
             {
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.TblStoreNaighborhoodRels)
+                    .HasForeignKey(d => d.CityId)
+                    .HasConstraintName("FK_TblStoreNaighborhoodRel_TblCity");
+
                 entity.HasOne(d => d.Naighborhood)
                     .WithMany(p => p.TblStoreNaighborhoodRels)
                     .HasForeignKey(d => d.NaighborhoodId)
@@ -244,6 +253,11 @@ namespace DataLayer.Models
             modelBuilder.Entity<TblUser>(entity =>
             {
                 entity.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.TblUsers)
+                    .HasForeignKey(d => d.CityId)
+                    .HasConstraintName("FK_TblUser_TblUser");
 
                 entity.HasOne(d => d.Naighborhood)
                     .WithMany(p => p.TblUsers)

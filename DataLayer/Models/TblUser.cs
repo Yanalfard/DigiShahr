@@ -52,6 +52,11 @@ namespace DataLayer.Models
         public DateTime DateCreated { get; set; }
         public int RoleId { get; set; }
 
+        public int? CityId { get; set; }
+
+        [ForeignKey(nameof(CityId))]
+        [InverseProperty(nameof(TblCity.TblUsers))]
+        public virtual TblCity City { get; set; }
         [ForeignKey(nameof(NaighborhoodId))]
         [InverseProperty(nameof(TblNaighborhood.TblUsers))]
         public virtual TblNaighborhood Naighborhood { get; set; }

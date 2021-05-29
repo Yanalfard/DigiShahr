@@ -45,5 +45,7 @@ namespace DataLayer.ViewModel
         public string Lon { get; set; }
         [Required(ErrorMessage = "لطفا منطقه خود را انتخاب کنید")]
         public int? NaighborhoodId { get; set; }
+
+        public int? CityId { get; set; }
     }
 }

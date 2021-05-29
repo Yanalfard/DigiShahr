@@ -1,4 +1,5 @@
-﻿@model DataLayer.ViewModel.CreateAccountViewModel
+﻿@using DataLayer.Models
+@model DataLayer.ViewModel.CreateAccountViewModel
 @{
     ViewData["Title"] = "ایجاد حساب کاربری";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -44,6 +45,23 @@
             <span asp-validation-for="Password" class="uk-text-danger"></span>
             <label for="confirmPassword">تکرار رمز عبور:</label>
             <input asp-for="ConfirmPassword">
+            <!-- #region city -->
+            @{
+                List<TblCity> listPage = ViewBag.ListCity as List<TblCity>;
+
+            }
+            <label for="confirmPassword">شهر:</label>
+            <select class="uk-select" asp-for="CityId" onchange="showMap()">
+                @foreach (var item in listPage)
+                {
+                    <option value="@item.CityId">@item.Name</option>
+                    @*<input type="hidden" id="LatMap_@item.CityId" value="@item.Lat" />
+                    <input type="hidden" id="LonMap_@item.CityId" value="@item.Lon" />*@
+                }
+            </select>
+
+
+            <!-- #endregion -->
             <label for="address">آدرس:</label>
             <input type="text" asp-for="Address">
             <span asp-validation-for="Address" class="uk-text-danger"></span>
@@ -91,6 +109,11 @@
         <link href="~/leaflet/leaflet.css" rel="stylesheet" />
         <script src="~/leaflet/leaflet.js"></script>
         <script>
+
+            function showMap() {
+                var conceptName = $('select').find(":selected").val();
+                alert(conceptName);
+            }
 
 
 

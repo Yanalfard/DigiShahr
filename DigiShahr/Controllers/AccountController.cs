@@ -41,6 +41,7 @@ namespace DigiShahr.Controllers
             }
             else
             {
+                ViewBag.ListCity = _core.City.Get();
                 ViewBag.RetrunUrl = RetunUrl;
                 ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
                 return View();

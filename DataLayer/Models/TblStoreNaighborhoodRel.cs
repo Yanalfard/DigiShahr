@@ -17,6 +17,10 @@ namespace DataLayer.Models
         public int StoreId { get; set; }
         public int NaighborhoodId { get; set; }
 
+        public int? CityId { get; set; }
+        [ForeignKey(nameof(CityId))]
+        [InverseProperty(nameof(TblCity.TblStoreNaighborhoodRels))]
+        public virtual TblCity City { get; set; }
         [ForeignKey(nameof(NaighborhoodId))]
         [InverseProperty(nameof(TblNaighborhood.TblStoreNaighborhoodRels))]
         public virtual TblNaighborhood Naighborhood { get; set; }
