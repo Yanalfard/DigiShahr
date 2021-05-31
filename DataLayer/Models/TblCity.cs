@@ -28,6 +28,8 @@ namespace DataLayer.Models
         [StringLength(50)]
         public string Lon { get; set; }
 
+        [InverseProperty(nameof(TblNaighborhood.City))]
+        public virtual ICollection<TblNaighborhood> TblNaighborhoods { get; set; }
         [InverseProperty(nameof(TblStoreNaighborhoodRel.City))]
         public virtual ICollection<TblStoreNaighborhoodRel> TblStoreNaighborhoodRels { get; set; }
         [InverseProperty(nameof(TblUser.City))]

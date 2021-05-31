@@ -23,7 +23,11 @@ namespace DataLayer.Models
         [Required(ErrorMessage = "نام منطقه اجباری میباشد")]
         [StringLength(100, ErrorMessage = "نام منطقه مناسب وارد کنید")]
         public string Name { get; set; }
+        public int? CityId { get; set; }
 
+        [ForeignKey(nameof(CityId))]
+        [InverseProperty(nameof(TblCity.TblNaighborhoods))]
+        public virtual TblCity City { get; set; }
         [InverseProperty(nameof(TblStoreNaighborhoodRel.Naighborhood))]
         public virtual ICollection<TblStoreNaighborhoodRel> TblStoreNaighborhoodRels { get; set; }
         [InverseProperty(nameof(TblUser.Naighborhood))]

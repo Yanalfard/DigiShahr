@@ -5,11 +5,13 @@ using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DigiShahr.Controllers
@@ -52,7 +54,7 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAccountAsync(CreateAccountViewModel createAccountViewModel, string foo)
         {
-           
+
             if (ModelState.IsValid)
             {
                 if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
@@ -62,40 +64,33 @@ namespace DigiShahr.Controllers
                 }
                 if (createAccountViewModel.TellNo.StartsWith("0") == true)
                 {
-                    if (createAccountViewModel.Password != createAccountViewModel.ConfirmPassword)
+                    if (await UserCrew.UserDuplication(createAccountViewModel.TellNo))
                     {
                         ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                        ModelState.AddModelError("Password", "لطفا تایید رمز عبور را بدرستی وارد کنید");
+                        ModelState.AddModelError("TellNo", "شماره تماس وارد شده قبلا ثبت شده است");
+                        return View(createAccountViewModel);
                     }
                     else
                     {
-                        if (await UserCrew.UserDuplication(createAccountViewModel.TellNo))
+                        if (createAccountViewModel.NaighborhoodId == 0)
                         {
                             ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                            ModelState.AddModelError("TellNo", "شماره تماس وارد شده قبلا ثبت شده است");
+                            ModelState.AddModelError("NaighborhoodId", "لطفا محله خود را انتخاب کنید");
                             return View(createAccountViewModel);
                         }
                         else
                         {
-                            if (createAccountViewModel.NaighborhoodId == 0)
-                            {
-                                ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                                ModelState.AddModelError("NaighborhoodId", "لطفا محله خود را انتخاب کنید");
-                                return View(createAccountViewModel);
-                            }
+                            createAccountViewModel.TellNo = createAccountViewModel.TellNo.Trim();
+                            bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
+                            if (CreateSuccess)
+                                return Redirect("/Account/ConfirmPhoneNumber?TellNo=" + createAccountViewModel.TellNo.Trim());
                             else
-                            {
-                                createAccountViewModel.TellNo = createAccountViewModel.TellNo.Trim();
-                                bool CreateSuccess = await UserCrew.UserCreator(createAccountViewModel);
-                                if (CreateSuccess)
-                                    return Redirect("/Account/ConfirmPhoneNumber?TellNo=" + createAccountViewModel.TellNo.Trim());
-                                else
-                                    ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                                return View(createAccountViewModel);
-                            }
-
+                                ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
+                            return View(createAccountViewModel);
                         }
+
                     }
+
                 }
                 else
                 {
@@ -105,6 +100,7 @@ namespace DigiShahr.Controllers
 
                 }
             }
+            ViewBag.ListCity = _core.City.Get();
             ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
             return View(createAccountViewModel);
         }
@@ -301,6 +297,32 @@ namespace DigiShahr.Controllers
             return Redirect("/Account/Login");
         }
 
+
+
+        #region select cityId and send lat and lon
+        public IActionResult SendCityId(int id)
+        {
+            TblCity selectedCity = _core.City.GetById(id);
+            List<TblNaighborhood> list = _core.Naighborhood.Get().ToList();
+            var person = new { lat = selectedCity.Lat, lon = selectedCity.Lon };
+            //// return Json(result);
+            //return "ssssssss";
+            return Json(person);
+        }
+
+        public IActionResult SendCityId2(int id)
+        {
+            List<TblNaighborhood> list = _core.Naighborhood.Get(i => i.CityId == id).ToList();
+            List<VmNaighborhoods> result = new List<VmNaighborhoods>();
+            list.ForEach(u => result.Add(new VmNaighborhoods(u)));
+
+            string strResult = JsonConvert.SerializeObject(result);
+            //return Json(list, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return Ok(strResult);
+        }
+        #endregion
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -309,5 +331,9 @@ namespace DigiShahr.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+
     }
 }

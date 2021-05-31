@@ -30,6 +30,7 @@ namespace DataLayer.ViewModel
         [MinLength(4, ErrorMessage = "لطفا کارکتر های بیشتری وارد کنید")]
         [StringLength(64)]
         [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "کلمه های عبور مغایرت دارند")]
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "لطفا آدرس خود را وارد کنید")]

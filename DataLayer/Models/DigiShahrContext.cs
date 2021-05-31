@@ -40,7 +40,6 @@ namespace DataLayer.Models
            .UseLazyLoadingProxies()
            .UseSqlServer("Data Source=103.216.62.27;Initial Catalog=DigiShahr1;User ID=Yanal;Password=1710ahmad.fard");
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TblAbility>(entity =>
@@ -134,6 +133,14 @@ namespace DataLayer.Models
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblDiscount_TblStore");
+            });
+
+            modelBuilder.Entity<TblNaighborhood>(entity =>
+            {
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.TblNaighborhoods)
+                    .HasForeignKey(d => d.CityId)
+                    .HasConstraintName("FK_TblNaighborhood_TblCity");
             });
 
             modelBuilder.Entity<TblOrder>(entity =>

@@ -50,6 +50,7 @@ namespace DigiShahr.Utilit
             NewUser.Lon = createAccountViewModel.Lon;
             NewUser.NaighborhoodId = createAccountViewModel.NaighborhoodId;
             NewUser.Address = createAccountViewModel.Address;
+            NewUser.CityId = createAccountViewModel.CityId;
             var CodeCreator = Guid.NewGuid().ToString();
             string Code = CodeCreator.Substring(CodeCreator.Length - 5);
             NewUser.Auth = Code;
