@@ -798,7 +798,7 @@ namespace DigiShahr.Controllers
             }
             TblStore Store = _core.Store.Get().Where(s => s.UserId == Seller.Id).SingleOrDefault();
             if (Store.Ability.LotteryWinner != null)
-            {
+            { 
                 TblUser user = _core.User.GetById(Store.Ability.LotteryWinner);
                 ViewBag.WinnerName = user.Name;
                 ViewBag.WinnerTellNo = user.TellNo;
