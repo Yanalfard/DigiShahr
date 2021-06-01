@@ -123,3 +123,6 @@
     border-bottom: 1px solid #aeabab;
     margin: 0 400px;
     background-color: #F4F4F4 !important; } }
+
+.cursor-pointer {
+  cursor: pointer !important; }
