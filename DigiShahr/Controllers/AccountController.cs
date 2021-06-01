@@ -165,11 +165,11 @@ namespace DigiShahr.Controllers
 
             if (ModelState.IsValid)
             {
-                if (!await _captchaValidator.IsCaptchaPassedAsync(loginViewModel.Captcha))
-                {
-                    ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
-                    return View(loginViewModel);
-                }
+                //if (!await _captchaValidator.IsCaptchaPassedAsync(loginViewModel.Captcha))
+                //{
+                //    ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
+                //    return View(loginViewModel);
+                //}
                 if (await UserCrew.UserIsExist(loginViewModel))
                 {
                     //await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
@@ -179,6 +179,7 @@ namespace DigiShahr.Controllers
                     var Claims = new List<Claim>(){
                        new Claim(ClaimTypes.NameIdentifier,user.Role.Name.Trim().ToString()),
                        new Claim(ClaimTypes.Name,user.TellNo),
+                        new Claim("UserId", user.Id.ToString()),
                     };
                     var Identity = new ClaimsIdentity(Claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(Identity);

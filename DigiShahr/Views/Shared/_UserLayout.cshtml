@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -18,7 +19,7 @@
 <body onload="setInterval(Ooad,1000)">
     @if (User.Identity.IsAuthenticated)
     {
-        <input type="hidden" id="UserTellNo" value="@User.Claims.Last().Value" />
+        <input type="hidden" id="UserTellNo" value="@User.FindFirstValue(ClaimTypes.Name).ToString()" />
     }
     <section class="layoutHeader">
         <div class="mat my-row uk-padding-small">
@@ -32,7 +33,7 @@
                     }
                     else if (User.Claims.First().Value == "8f32nFmU6m")
                     {
-                        <li><a onclick="NewOrdernotifications(@UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id)" class="icon-holder CartNotif" uk-icon="notifications" href="#notificationList" uk-toggle><span id="NewOrdernotificationsShow" class="center badge uk-text-center uk-margin-auto-vertical" dir="auto"></span></a></li>
+                        <li><a onclick="NewOrdernotifications(@UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id)" class="icon-holder CartNotif" uk-icon="notifications" href="#notificationList" uk-toggle><span id="NewOrdernotificationsShow" class="center badge uk-text-center uk-margin-auto-vertical" dir="auto"></span></a></li>
 
                     }
                     <li><a class="icon-holder i" uk-icon="bookmark" href="/Home/Bookmark"></a></li>
@@ -72,7 +73,7 @@
             <ul class="uk-iconnav">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a href="/Order/ShowBasket?ReturnUrl=@Context.Request.Host@Context.Request.Path" class="icon-holder CartNotif i" uk-icon="cart"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">@await Component.InvokeAsync("CartCount", User.Claims.Last().Value)</span></a></li>
+                    <li><a href="/Order/ShowBasket?ReturnUrl=@Context.Request.Host@Context.Request.Path" class="icon-holder CartNotif i" uk-icon="cart"><span class="center badge uk-text-center uk-margin-auto-vertical" dir="auto">@await Component.InvokeAsync("CartCount", User.FindFirstValue(ClaimTypes.Name).ToString())</span></a></li>
                 }
                 else
                 {
@@ -145,11 +146,11 @@
 
     <script>
 
-        //function Ooad() {
-        //    $.get("/Home/NewOrdernotificationsShow?TellNo=" + $("#UserTellNo").val(), function (result) {
-        //        $("#NewOrdernotificationsShow").html(result);
-        //    });
-        //}
+            //function Ooad() {
+            //    $.get("/Home/NewOrdernotificationsShow?TellNo=" + $("#UserTellNo").val(), function (result) {
+            //        $("#NewOrdernotificationsShow").html(result);
+            //    });
+            //}
 
     </script>
 

@@ -41,6 +41,8 @@ namespace DataLayer.ViewModel
         public string ValidationTimeSpan { get; set; }
 
         public int? Music { get; set; }
-
+        public string LatMap { get; set; }
+        public string LonMap { get; set; }
+        public int CityId { get; set; }
     }
 }

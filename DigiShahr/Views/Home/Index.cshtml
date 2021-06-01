@@ -85,6 +85,9 @@
     }
 </span>
 
+<input type="hidden" id="latMap" value="@Model.Lat" />
+<input type="hidden" id="lonMap" value="@Model.Lon" />
+
 @section Script{
 
     <link href="~/leaflet/leaflet.css" rel="stylesheet" />
@@ -112,7 +115,9 @@
 
     <script>
 
-        var map = L.map('map').setView([38.07674409597339, 46.29700302496196], 12);
+        var latMap = $('#latMap').val();
+        var lonMap = $('#lonMap').val();
+        var map = L.map('map').setView([latMap, lonMap], 12);
 
         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'ecovill'

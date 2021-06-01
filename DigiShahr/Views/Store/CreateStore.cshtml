@@ -6,7 +6,7 @@
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 @*<div class="space-double"></div>
     <div class="space-mobile"></div>*@
-<div class="my-space"></div> 
+<div class="my-space"></div>
 <div class="mat my-column my-clipped my-clipped-desktop">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">ایجاد فروشگاه</h3>
@@ -23,7 +23,7 @@
                     <input type="file" asp-for="LogoUrl" id="LogoUrl" accept="image/jpeg,image/png">
                     @*<span asp-validation-for="LogoUrl" class="uk-text-danger"></span>*@
                     <br />
-                    
+
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
                     </div>
                     <div class="uk-modal-footer uk-text-center">
                         <button id="btnMusic" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
-                        
+
                     </div>
                 </div>
             </div>
@@ -130,6 +130,8 @@
 <div class="my-space"></div>
 
 
+<input type="hidden" id="latMap" value="@Model.LatMap" />
+<input type="hidden" id="lonMap" value="@Model.LonMap" />
 
 
 @section Script{
@@ -170,8 +172,9 @@
     </script>
 
     <script>
-
-        var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 11);
+        var latMap = $('#latMap').val();
+        var lonMap = $('#lonMap').val();
+        var map = L.map('map').setView([latMap, lonMap], 12);
 
         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'echoville'

@@ -58,6 +58,7 @@ namespace DataLayer.Models
         [Required(ErrorMessage = "لطفا دسته بندی را وارد کنید")]
         public int CatagoryId { get; set; }
         public int UserId { get; set; }
+        public int? CityId { get; set; }
 
         [ForeignKey(nameof(AbilityId))]
         [InverseProperty(nameof(TblAbility.TblStores))]
@@ -65,6 +66,9 @@ namespace DataLayer.Models
         [ForeignKey(nameof(CatagoryId))]
         [InverseProperty(nameof(TblStoreCatagory.TblStores))]
         public virtual TblStoreCatagory Catagory { get; set; }
+        [ForeignKey(nameof(CityId))]
+        [InverseProperty(nameof(TblCity.TblStores))]
+        public virtual TblCity City { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(TblUser.TblStores))]
         public virtual TblUser User { get; set; }

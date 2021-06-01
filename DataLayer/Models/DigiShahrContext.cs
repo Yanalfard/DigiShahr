@@ -224,6 +224,11 @@ namespace DataLayer.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblStore_TblStoreCatagory");
 
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.TblStores)
+                    .HasForeignKey(d => d.CityId)
+                    .HasConstraintName("FK_TblStore_TblCity");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.TblStores)
                     .HasForeignKey(d => d.UserId)

@@ -12,6 +12,7 @@ using System.IO;
 using ZarinpalSandbox;
 using ReflectionIT.Mvc.Paging;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DigiShahr.Controllers
 {
@@ -27,7 +28,7 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault().TblOrders.Where(o => o.IsFinaly && !o.IsDeleted), 20, page);
+                IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().FirstOrDefault(s => s.User.TellNo == User.FindFirstValue(ClaimTypes.Name).ToString()).TblOrders.Where(o => o.IsFinaly && !o.IsDeleted), 20, page);
                 return await Task.FromResult(View(Order));
             }
 
@@ -41,7 +42,8 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                TblStore store = _core.Store.Get().Where(s => s.User.TellNo == User.Claims.Last().Value).SingleOrDefault();
+                int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
+                TblStore store = _core.Store.Get().FirstOrDefault(i => i.UserId == userId);
 
                 ViewData["SuccessOrders"] = store.TblOrders.Where(o => o.IsValid == true).Count();
                 ViewData["NotSuccessOrders"] = store.TblOrders.Where(o => o.IsValid == false).Count();
@@ -153,7 +155,7 @@ namespace DigiShahr.Controllers
             {
                 TblDeal deal = _core.Deal.GetById(DealId);
                 int id = deal.Id;
-                string TellNo = User.Claims.Last().Value.ToString();
+                string TellNo = User.FindFirstValue(ClaimTypes.Name).ToString();
                 var payment = new Payment(_core.Deal.GetById(DealId).Price);
                 var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
                     "https://localhost:44321/Store/Recharge/" + id, "hadi1234@yahoo.com", TellNo);
@@ -170,7 +172,7 @@ namespace DigiShahr.Controllers
             {
                 TblDeal deal = _core.Deal.GetById(DealId);
                 int id = deal.Id;
-                string TellNo = User.Claims.Last().Value.ToString();
+                string TellNo = User.FindFirstValue(ClaimTypes.Name).ToString();
                 var payment = new Payment(_core.Deal.GetById(DealId).Price);
                 var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
                     "https://localhost:44321/Store/CreateStore/" + id, "hadi1234@yahoo.com", TellNo);
@@ -199,7 +201,7 @@ namespace DigiShahr.Controllers
                 {
 
                     TblDeal deal = _core.Deal.GetById(id);
-                    TblStore store = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First();
+                    TblStore store = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.TblStores.First();
                     store.CatagoryLimit = (short)deal.CatagoryLimit;
                     store.ProductLimit = (short)deal.ProductLimit;
                     store.SubscribtionTill = DateTime.Now.AddMonths((int)deal.MonthCount);
@@ -306,11 +308,18 @@ namespace DigiShahr.Controllers
                             {
                                 return Redirect("/Store/StoreVitrin");
                             }
+                            int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
+                            TblUser selectedUser = _core.User.GetById(userId);
                             ViewBag.DealId = id;
                             ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
-                            ViewBag.Naighborhood = _core.Naighborhood.Get();
+                            ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
                             ViewBag.Music = null;
-                            return View();
+                            return View(new CreateStoreViewModel()
+                            {
+                                LatMap = selectedUser.City.Lat,
+                                LonMap = selectedUser.City.Lon,
+                                CityId= (int)selectedUser.CityId,
+                            });
                         }
                         else
                         {
@@ -328,6 +337,11 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateStoreAsync(CreateStoreViewModel createStoreViewModel, IFormFile LogoUrl, List<int> naighborhood)
         {
+            ViewBag.DealId = createStoreViewModel.DealId;
+            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+            int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
+            TblUser selectedUser = _core.User.GetById(userId);
+            ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
             if (ModelState.IsValid)
             {
                 if (Convert.ToInt16(createStoreViewModel.ValidationTimeSpan) > 120)
@@ -422,7 +436,8 @@ namespace DigiShahr.Controllers
                                     NewStore.SubscribtionTill = DateTime.Now.AddMonths(1);
                                     NewStore.IsValid = false;
                                     NewStore.CatagoryId = createStoreViewModel.CatagoryId;
-                                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                                    NewStore.CityId = createStoreViewModel.CityId;
+                                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                                     _core.User.GetById(user.Id).RoleId = 2;
                                     _core.User.Save();
                                     NewStore.UserId = user.Id;
@@ -506,7 +521,7 @@ namespace DigiShahr.Controllers
                                     NewStore.SubscribtionTill = DateTime.Now.AddMonths((int)Deal.MonthCount);
                                     NewStore.IsValid = false;
                                     NewStore.CatagoryId = createStoreViewModel.CatagoryId;
-                                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                                     _core.User.GetById(user.Id).RoleId = 2;
                                     _core.User.Save();
                                     NewStore.UserId = user.Id;
@@ -544,9 +559,7 @@ namespace DigiShahr.Controllers
                     ModelState.AddModelError("LogoUrl", "لطفا تصویر لوگو خود را انتخاب کنید");
                 }
             }
-            ViewBag.DealId = createStoreViewModel.DealId;
-            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
-            ViewBag.Naighborhood = _core.Naighborhood.Get();
+
             if (ViewBag.DealId != 0)
             {
                 if (_core.Deal.GetById(createStoreViewModel.DealId).Music)
@@ -586,7 +599,7 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
                 if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit < user.TblStores.First().TblCatagories.Count || user.TblStores.First().IsValid == false)
                 {
@@ -645,7 +658,7 @@ namespace DigiShahr.Controllers
                 else
                 {
 
-                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                     TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
 
                     if (Naighborhood.Count() != 0)
@@ -716,7 +729,7 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                     TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
                     ViewBag.Naighborhood = _core.Naighborhood.Get();
                     EditStoreViewModel editStore = new EditStoreViewModel();
@@ -777,7 +790,7 @@ namespace DigiShahr.Controllers
             {
                 return Redirect("/Store/BuyPackage");
             }
-            TblUser Seller = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblUser Seller = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
             if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false)
             {
@@ -848,7 +861,7 @@ namespace DigiShahr.Controllers
         [HttpPost]
         public async Task<string> CreateCategory(string Name)
         {
-            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
             if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit <= user.TblStores.First().TblCatagories.Count() || !user.TblStores.First().IsValid)
             {
@@ -897,7 +910,7 @@ namespace DigiShahr.Controllers
         [HttpPost]
         public async Task<string> ChangeCategory(int Id, string Name)
         {
-            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
             TblStore store = user.TblStores.FirstOrDefault();
             if (string.IsNullOrEmpty(Name))
             {
@@ -937,7 +950,7 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                     TblStore Store = user.TblStores.FirstOrDefault();
 
                     if (string.IsNullOrEmpty(Store.LogoUrl))
@@ -997,7 +1010,7 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                     TblStore Store = user.TblStores.FirstOrDefault();
 
                     if (string.IsNullOrEmpty(Store.MainBannerUrl))
@@ -1065,7 +1078,7 @@ namespace DigiShahr.Controllers
                         }
                         else
                         {
-                            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                            TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                             TblAbility ability = user.TblStores.FirstOrDefault().Ability;
 
                             if (string.IsNullOrEmpty(ability.BannerImageUrl1))
@@ -1137,7 +1150,7 @@ namespace DigiShahr.Controllers
                         }
                         else
                         {
-                            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                            TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                             TblAbility ability = user.TblStores.FirstOrDefault().Ability;
 
                             if (string.IsNullOrEmpty(ability.BannerImageUrl2))
@@ -1193,7 +1206,7 @@ namespace DigiShahr.Controllers
         [HttpPost]
         public async Task<string> CreateProduct(TblProduct Product)
         {
-            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
             int ProductCount = _core.Product.Get(p => p.StoreId == user.TblStores.First().Id).Count();
             if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().ProductLimit <= ProductCount)
             {

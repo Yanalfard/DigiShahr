@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DigiShahr.Utilit;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DigiShahr.Controllers
 {
@@ -17,25 +18,26 @@ namespace DigiShahr.Controllers
         Core _core = new Core();
         public async Task<IActionResult> IndexAsync(string Search, int Category = 0)
         {
+            IndexViewModel indexViewModel = new IndexViewModel();
             if (User.Identity.IsAuthenticated)
             {
-                TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
+                indexViewModel.Lat = user.City.Lat;
+                indexViewModel.Lon = user.City.Lon;
                 if (Category == 0)
                 {
                     if (string.IsNullOrEmpty(Search))
                     {
-                        IndexViewModel indexViewModel = new IndexViewModel();
                         ViewBag.Search = Search;
-                        IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store);
+                        List<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId && n.CityId == user.CityId).Select(n => n.Store).ToList();
                         indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now).Take(50);
                         indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6);
                         return View(indexViewModel);
                     }
                     else
                     {
-                        IndexViewModel indexViewModel = new IndexViewModel();
                         ViewBag.Search = Search;
-                        IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store);
+                        IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId && n.CityId == user.CityId).Select(n => n.Store);
                         indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.Name.Contains(Search) || s.Catagory.Name.Contains(Search)).Take(50);
                         indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6);
                         return View(indexViewModel);
@@ -43,9 +45,8 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    IndexViewModel indexViewModel = new IndexViewModel();
                     ViewBag.Search = Search;
-                    IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store);
+                    IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId && n.CityId == user.CityId).Select(n => n.Store);
                     indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.CatagoryId == Category).Take(50);
                     indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6);
                     return View(indexViewModel);
@@ -55,7 +56,6 @@ namespace DigiShahr.Controllers
             {
                 if (string.IsNullOrEmpty(Search))
                 {
-                    IndexViewModel indexViewModel = new IndexViewModel();
                     ViewBag.Search = Search;
                     indexViewModel.AllStore = _core.Store.Get(s => s.SubscribtionTill > DateTime.Now).Take(50);
                     indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get(sc => sc.ParentId == null).Take(6);
@@ -63,7 +63,6 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    IndexViewModel indexViewModel = new IndexViewModel();
                     IEnumerable<TblStore> AllStore = _core.Store.Get(s => s.Name.Contains(Search) || s.Catagory.Name.Contains(Search) && s.SubscribtionTill > DateTime.Now);
                     ViewBag.Search = Search;
                     indexViewModel.AllStore = AllStore.Take(50);
@@ -73,7 +72,6 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                IndexViewModel indexViewModel = new IndexViewModel();
                 ViewBag.Search = null;
                 indexViewModel.AllStore = _core.Store.Get(s => s.SubscribtionTill > DateTime.Now && s.Catagory.Id == Category).Take(50);
                 indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get(sc => sc.ParentId == null).Take(6);
@@ -104,15 +102,15 @@ namespace DigiShahr.Controllers
             {
                 TblStore store = _core.Store.GetById(Id);
 
-                if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id))
+                if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id))
                 {
                     ViewBag.Bookmark = true;
-                    ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                    ViewBag.UserId = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id;
                 }
                 else
                 {
                     ViewBag.Bookmark = false;
-                    ViewBag.UserId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+                    ViewBag.UserId = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id;
                 }
 
                 return await Task.FromResult(View(store));
@@ -123,7 +121,7 @@ namespace DigiShahr.Controllers
 
         public IActionResult NewOrdernotificationsShow(string TellNo)
         {
-            return ViewComponent("OrdersCounter",new { TellNo = TellNo });
+            return ViewComponent("OrdersCounter", new { TellNo = TellNo });
         }
 
         public IActionResult Products(int CatId, int StoreId)
@@ -138,7 +136,7 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> Bookmark()
         {
-            TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+            TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
             return await Task.FromResult(View(user.TblBookMarks));
         }
 

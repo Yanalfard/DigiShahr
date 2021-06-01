@@ -1,4 +1,5 @@
-﻿@model IEnumerable<DataLayer.Models.TblProduct> 
+﻿@using System.Security.Claims
+@model IEnumerable<DataLayer.Models.TblProduct>
 @if (Model.Count() == 0)
 {
     <span class="uk-text-center center uk-text-center">محصولی وجود ندارد</span>
@@ -41,14 +42,14 @@
                 {
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.Count() == 0)
+                        if (UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.TblStores.Count() == 0)
                         {
                             <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن</button>
                         }
                         else
                         {
 
-                            if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == item.StoreId)
+                            if (UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.TblStores.First().Id == item.StoreId)
                             {
                                 <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
                             }
@@ -98,14 +99,14 @@
                 @if (User.Identity.IsAuthenticated)
                 {
 
-                    if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.Count() == 0)
+                    if (UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.TblStores.Count() == 0)
                     {
                         <button onclick="AddToCart(@item.Id)" class="i gradientButton center uk-margin-small-top">افزودن</button>
                     }
                     else
                     {
 
-                        if (UserCrew.UserByTellNo(User.Claims.Last().Value).Result.TblStores.First().Id == item.StoreId)
+                        if (UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.TblStores.First().Id == item.StoreId)
                         {
                             <button disabled class="gradientButton gradientButtonDisabled uk-text-white center uk-margin-small-top">افزودن</button>
                         }

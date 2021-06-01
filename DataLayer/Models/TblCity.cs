@@ -14,7 +14,9 @@ namespace DataLayer.Models
     {
         public TblCity()
         {
+            TblNaighborhoods = new HashSet<TblNaighborhood>();
             TblStoreNaighborhoodRels = new HashSet<TblStoreNaighborhoodRel>();
+            TblStores = new HashSet<TblStore>();
             TblUsers = new HashSet<TblUser>();
         }
 
@@ -32,6 +34,8 @@ namespace DataLayer.Models
         public virtual ICollection<TblNaighborhood> TblNaighborhoods { get; set; }
         [InverseProperty(nameof(TblStoreNaighborhoodRel.City))]
         public virtual ICollection<TblStoreNaighborhoodRel> TblStoreNaighborhoodRels { get; set; }
+        [InverseProperty(nameof(TblStore.City))]
+        public virtual ICollection<TblStore> TblStores { get; set; }
         [InverseProperty(nameof(TblUser.City))]
         public virtual ICollection<TblUser> TblUsers { get; set; }
     }

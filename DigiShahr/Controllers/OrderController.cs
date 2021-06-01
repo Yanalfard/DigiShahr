@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DataLayer.Models;
 using DigiShahr.Utilit;
 using Services.Services;
+using System.Security.Claims;
 
 namespace DigiShahr.Controllers
 {
@@ -16,7 +17,7 @@ namespace DigiShahr.Controllers
         [HttpPost]
         public async Task<string> AddToCart(int Id)
         {
-            int userId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+            int userId = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id;
 
             TblOrder order = _core.Order.Get().SingleOrDefault(o => o.UserId == userId && !o.IsFinaly);
             TblProduct product = _core.Product.GetById(Id);
@@ -91,7 +92,7 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> ShowBasket(string ReturnUrl)
         {
-            int userId = UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id;
+            int userId = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id;
             TblOrder order = _core.Order.Get(o => o.UserId == userId && !o.IsFinaly).SingleOrDefault();
             ViewBag.ReturnUrl = ReturnUrl;
             return await Task.FromResult(View(order));

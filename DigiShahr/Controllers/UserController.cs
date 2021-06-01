@@ -8,6 +8,7 @@ using DataLayer.ViewModel;
 using DataLayer.Models;
 using DigiShahr.Utilit;
 using ReflectionIT.Mvc.Paging;
+using System.Security.Claims;
 
 namespace DigiShahr.Controllers
 {
@@ -16,7 +17,7 @@ namespace DigiShahr.Controllers
         Core _core = new Core();
         public async Task<IActionResult> IndexAsync(int page = 1)
         {
-            IEnumerable<TblOrder> Order = PagingList.Create(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.Claims.Last().Value).Result.Id), 20, page);
+            IEnumerable<TblOrder> Order = PagingList.Create(_core.Order.Get(o => o.UserId == UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id), 20, page);
             return await Task.FromResult(View(Order));
         }
         public async Task<IActionResult> UserSetting()
@@ -27,7 +28,7 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                TblUser user = await UserCrew.UserByTellNo(User.Claims.Last().Value);
+                TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                 EditUserViewModel editUser = new EditUserViewModel();
                 editUser.Id = user.Id;
                 editUser.Name = user.Name;
