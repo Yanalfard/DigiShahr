@@ -223,7 +223,18 @@ body {
     transform: rotate(270deg);
     display: inline-block;
 }
-
+.gly-rotate-180 {
+    /*filter: progid : DXImageTransform.Microsoft.BasicImage(rotation=0.5);*/
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180degg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    display: inline-block;
+}
+.cursor-pointer {
+    cursor: pointer !important;
+}
 .uk-notification-message {
     opacity:1;
     position: relative;
@@ -281,6 +292,9 @@ body {
     border-radius:45px;
     color: white !important;
     padding: 10px 20px;
+}
+.signout{
+    color:#F28F3B!important;
 }
 /////////////desktop/////////////////
 @media only screen and (min-device-width : 1024px) {
