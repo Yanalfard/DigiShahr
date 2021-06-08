@@ -13,14 +13,24 @@
     </div>
 </div>
 
-
-
 <content class="grid" dir="rtl">
-
+    <!--current package name-->
+    <article class="packagesCard firstPackage my-column mat my-clipped my-clipped-desktop">
+        <content class="my-column">
+            <div class="my-row">
+                <span class="uk-text-warning warning-icon" uk-icon="alert-circle"></span>
+                <label class="uk-text-small">برای ایجاد فروشگاه خود یکی از پکیج ها را انتخاب کنید   </label>
+            </div>
+            <div class="my-row uk-margin-top">
+                <span class="uk-text-success warning-icon" uk-icon="caret-back-outline"></span>
+                <label class="uk-text-bold uk-text-small"> پکیج فعال برای شما: <span> نام پکیج </span> </label>
+            </div>
+        </content>
+    </article>
+    <!--end of current package name-->
     @if (User.Claims.First().Value == "d7tpmTdwXL")
     {
-
-        <article class="packagesCard firstPackage my-column mat my-clipped my-clipped-desktop">
+        <article class="packagesCard  my-column mat my-clipped my-clipped-desktop uk-margin-top">
             <content>
                 <h3 class="center">پکیج رایگان</h3>
                 <h1></h1>
@@ -56,7 +66,6 @@
             </div>
 
         </article>
-
     }
 
     @foreach (var item in Model)
