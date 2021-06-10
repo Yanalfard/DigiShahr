@@ -9,7 +9,6 @@
 <div class="matCart valid-feedback my-column my-clipped my-clipped-desktop">
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">تنظیمات حساب کاربری</h3>
-
         <a href="/"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
     </div>
     <span class="uk-text-success center">@ViewBag.Success</span>
@@ -82,8 +81,9 @@
         $("#btnubni").click(function () {
             $("#NaighborhoodId").val($(".Neighbourhood:checked").val());
         });
-
-        var map = L.map('map').setView([38.07674409597339, 46.29700302496191], 10);
+        var latMap = $('#Lat').val();
+        var LonMap = $('#Lon').val();
+        var map = L.map('map').setView([latMap, LonMap], 12.5);
 
         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'echoville'
