@@ -31,7 +31,6 @@ namespace DigiShahr.Controllers
                 IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().FirstOrDefault(s => s.User.TellNo == User.FindFirstValue(ClaimTypes.Name).ToString()).TblOrders.Where(o => o.IsFinaly && !o.IsDeleted), 20, page);
                 return await Task.FromResult(View(Order));
             }
-
         }
 
         public async Task<IActionResult> Dashboard()
@@ -436,11 +435,12 @@ namespace DigiShahr.Controllers
                                     NewStore.SubscribtionTill = DateTime.Now.AddMonths(1);
                                     NewStore.IsValid = false;
                                     NewStore.CatagoryId = createStoreViewModel.CatagoryId;
-                                    NewStore.CityId = createStoreViewModel.CityId;
+                                    //NewStore.CityId = createStoreViewModel.CityId;
                                     TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                                     _core.User.GetById(user.Id).RoleId = 2;
                                     _core.User.Save();
                                     NewStore.UserId = user.Id;
+                                    NewStore.CityId = user.CityId;
                                     _core.Store.Add(NewStore);
                                     _core.Store.Save();
 
@@ -571,6 +571,9 @@ namespace DigiShahr.Controllers
                     ViewBag.Music = null;
                 }
             }
+            createStoreViewModel.LatMap = selectedUser.City.Lat;
+            createStoreViewModel.LonMap = selectedUser.City.Lon;
+            createStoreViewModel.CityId = (int)selectedUser.CityId;
             return View(createStoreViewModel);
         }
 
