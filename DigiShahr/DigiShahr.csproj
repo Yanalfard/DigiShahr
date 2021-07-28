@@ -55,6 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="NewFolder\" />
     <Folder Include="wwwroot\ScriptCenter\AdminViewScript\" />
     <Folder Include="wwwroot\StyleCenter\Sass\layoutStyle\" />
     <Folder Include="wwwroot\Upload\Music\" />
@@ -84,6 +85,11 @@
     <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
     <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\Validate\jquery.unobtrusive-ajax.js" />
+    <None Include="wwwroot\Validate\jquery.unobtrusive-ajax.min.js" />
+    <None Include="wwwroot\Validate\jquery.validate.min.js" />
+    <None Include="wwwroot\Validate\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\Validate\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
 
   <ItemGroup>

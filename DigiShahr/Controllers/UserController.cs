@@ -87,48 +87,52 @@ namespace DigiShahr.Controllers
                 return await Task.FromResult("true");
             }
         }
-
-        public async Task<string> ChangeUserPassword(ChangePasswordInSignIn changePasswordInSignIn)
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserPassword(ChangePasswordInSignIn changePasswordInSignIn)
         {
-            if (string.IsNullOrEmpty(changePasswordInSignIn.Password) || string.IsNullOrEmpty(changePasswordInSignIn.NewPassword) || string.IsNullOrEmpty(changePasswordInSignIn.NewPasswrdConfirm))
+            if (ModelState.IsValid)
             {
-                return await Task.FromResult("تمامی گزینه ها اجباری میباشد");
-            }
-            else
-            {
-                TblUser user = await UserCrew.UserByTellNo(changePasswordInSignIn.TellNo);
-                if (user == null)
+                if (string.IsNullOrEmpty(changePasswordInSignIn.Password) || string.IsNullOrEmpty(changePasswordInSignIn.NewPassword) || string.IsNullOrEmpty(changePasswordInSignIn.NewPasswrdConfirm))
                 {
-                    return await Task.FromResult("مشکلی در داده ای شما وجود دارد لطفا کمی بعد امتحان کنید");
+                    return await Task.FromResult(PartialView("ChangeUserPassword", changePasswordInSignIn));
                 }
                 else
                 {
-                    if (user.Password != Cryptography.SHA256(changePasswordInSignIn.Password))
+                    TblUser user = await UserCrew.UserByTellNo(changePasswordInSignIn.TellNo);
+                    if (user == null)
                     {
-                        return await Task.FromResult("رمز قبلی شما اشتباه است");
+                        return await Task.FromResult(View(changePasswordInSignIn));
                     }
                     else
                     {
-                        if (changePasswordInSignIn.NewPassword.Length < 3 || changePasswordInSignIn.NewPasswrdConfirm.Length > 30)
+                        if (user.Password != Cryptography.SHA256(changePasswordInSignIn.Password))
                         {
-                            return await Task.FromResult("لطفا رمز عبور جدید را بدرستی وارد کنید");
+                            return await Task.FromResult(View(changePasswordInSignIn));
                         }
                         else
                         {
-                            if (changePasswordInSignIn.NewPassword != changePasswordInSignIn.NewPasswrdConfirm)
+                            if (changePasswordInSignIn.NewPassword.Length < 3 || changePasswordInSignIn.NewPasswrdConfirm.Length > 30)
                             {
-                                return await Task.FromResult("لطفا تایید رمز عبور را بدرستی وارد کنید");
+                                //return await Task.FromResult("لطفا رمز عبور جدید را بدرستی وارد کنید");
                             }
                             else
                             {
-                                _core.User.GetById(user.Id).Password = Cryptography.SHA256(changePasswordInSignIn.NewPassword);
-                                _core.User.Save();
-                                return await Task.FromResult("true");
+                                if (changePasswordInSignIn.NewPassword != changePasswordInSignIn.NewPasswrdConfirm)
+                                {
+                                    //return await Task.FromResult("لطفا تایید رمز عبور را بدرستی وارد کنید");
+                                }
+                                else
+                                {
+                                    _core.User.GetById(user.Id).Password = Cryptography.SHA256(changePasswordInSignIn.NewPassword);
+                                    _core.User.Save();
+                                    return await Task.FromResult(View());
+                                }
                             }
                         }
                     }
                 }
             }
+            return await Task.FromResult(PartialView("ChangeUserPassword", changePasswordInSignIn));
         }
 
         protected override void Dispose(bool disposing)
