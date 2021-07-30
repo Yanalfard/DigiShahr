@@ -7,6 +7,12 @@
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
 <div class="my-space"></div>
 <div class="matCart valid-feedback my-column my-clipped my-clipped-desktop">
+    @if (Context.Request.Query["changePassword"].ToString() == "true")
+    {
+        <div class="alert alert-success">
+            <p class="help-block">رزم شما تغیر یافت</p>
+        </div>
+    }
     <div class="formTitr my-row uk-margin-top" dir="rtl">
         <h3 class="center">تنظیمات حساب کاربری</h3>
         <a href="/"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
@@ -18,7 +24,7 @@
         <label for="name">نام و نام خانوادگی:</label>
         <input asp-for="Name">
         <span class="uk-text-danger" asp-validation-for="Name"></span>
-        <a class="uk-margin-top serviceArea uk-margin-auto" href="#change-password" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="key"></span>تغییر رمز عبور</a>
+        <a onclick="changePassword(@Model.Id)" class="uk-margin-top serviceArea uk-margin-auto" href="#change-password" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="key"></span>تغییر رمز عبور</a>
         <label for="Address">آدرس:</label>
         <input asp-for="Address">
         <span class="uk-text-danger" asp-validation-for="Address"></span>
@@ -66,19 +72,44 @@
         <div class="uk-modal-header">
             <h3 class="uk-modal-title uk-text-center">تغییر رمز عبور</h3>
         </div>
-        @await Component.InvokeAsync("ChangeUserPassword", Model.Id)
+        <div class="modal-content">
+
+        </div>
+        @*@await Component.InvokeAsync("ChangeUserPassword", Model.Id)*@
     </div>
 </div>
 <div class="my-space"></div>
 
 @section Script{
 
+
+
+    <script src="~/Validate/jquery.validate.min.js"></script>
+    <script src="~/Validate/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Validate/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Validate/jquery.unobtrusive-ajax.min.js"></script>
+
     <link href="~/leaflet/leaflet.css" rel="stylesheet" />
     <script src="~/leaflet/leaflet.js"></script>
 
-    <script src="~/Validate/jquery.validate.min.js"></script>
-    <script src="~/Validate/jquery.validate.unobtrusive.js"></script>
     <script>
+        $(function () {
+            //$.getScript("/Controller/Action");
+            //window.location.reload = "/User/UserSetting?changePassword=true";
+            function editPass() {
+                alert('8');
+            }
+        });
+
+    </script>
+    <script>
+       
+        function changePassword(id) {
+            $(".modal-content").html("");
+            $.get("/User/ChangeUserPassword/" + id, function (result) {
+                $(".modal-content").html(result);
+            });
+        }
 
         $("#btnubni").click(function () {
             $("#NaighborhoodId").val($(".Neighbourhood:checked").val());

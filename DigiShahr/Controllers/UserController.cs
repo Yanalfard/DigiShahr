@@ -87,54 +87,50 @@ namespace DigiShahr.Controllers
                 return await Task.FromResult("true");
             }
         }
+        public IActionResult ChangeUserPassword(int id)
+        {
+            TblUser user = _core.User.GetById(id);
+            ChangePasswordInSignIn EditUser = new ChangePasswordInSignIn();
+            EditUser.TellNo = user.TellNo;
+            //return ViewComponent("ChangeUserPassword", new { Id = id });
+            return PartialView(EditUser);
+        }
+
         [HttpPost]
         public async Task<IActionResult> ChangeUserPassword(ChangePasswordInSignIn changePasswordInSignIn)
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(changePasswordInSignIn.Password) || string.IsNullOrEmpty(changePasswordInSignIn.NewPassword) || string.IsNullOrEmpty(changePasswordInSignIn.NewPasswrdConfirm))
+
+
+                TblUser user = await UserCrew.UserByTellNo(changePasswordInSignIn.TellNo);
+
+                if (user.Password != Cryptography.SHA256(changePasswordInSignIn.Password))
                 {
-                    return await Task.FromResult(PartialView("ChangeUserPassword", changePasswordInSignIn));
+                    ModelState.AddModelError("Password", "رمز وارد شده اشتباه است");
                 }
                 else
                 {
-                    TblUser user = await UserCrew.UserByTellNo(changePasswordInSignIn.TellNo);
-                    if (user == null)
-                    {
-                        return await Task.FromResult(View(changePasswordInSignIn));
-                    }
-                    else
-                    {
-                        if (user.Password != Cryptography.SHA256(changePasswordInSignIn.Password))
-                        {
-                            return await Task.FromResult(View(changePasswordInSignIn));
-                        }
-                        else
-                        {
-                            if (changePasswordInSignIn.NewPassword.Length < 3 || changePasswordInSignIn.NewPasswrdConfirm.Length > 30)
-                            {
-                                //return await Task.FromResult("لطفا رمز عبور جدید را بدرستی وارد کنید");
-                            }
-                            else
-                            {
-                                if (changePasswordInSignIn.NewPassword != changePasswordInSignIn.NewPasswrdConfirm)
-                                {
-                                    //return await Task.FromResult("لطفا تایید رمز عبور را بدرستی وارد کنید");
-                                }
-                                else
-                                {
-                                    _core.User.GetById(user.Id).Password = Cryptography.SHA256(changePasswordInSignIn.NewPassword);
-                                    _core.User.Save();
-                                    return await Task.FromResult(View());
-                                }
-                            }
-                        }
-                    }
+                    TblUser selectedUseer= _core.User.GetById(user.Id);
+                    selectedUseer.Password = Cryptography.SHA256(changePasswordInSignIn.NewPassword);
+                    _core.User.Update(selectedUseer);
+                    _core.User.Save();
+                    return new JavaScriptResult("alert('Hello world!');");
+                    //return await Task.FromResult(Redirect("/User/UserSetting?changePassword=true"));
                 }
+
+
             }
             return await Task.FromResult(PartialView("ChangeUserPassword", changePasswordInSignIn));
         }
-
+        public class JavaScriptResult : ContentResult
+        {
+            public JavaScriptResult(string script)
+            {
+                this.Content = script;
+                this.ContentType = "application/javascript";
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
