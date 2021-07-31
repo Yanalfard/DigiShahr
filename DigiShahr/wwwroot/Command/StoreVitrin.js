@@ -1,12 +1,16 @@
 ﻿$("#SubmitCatagory").click(function () {
-    $.post("/Store/CreateCategory?Name=" + $("#CategoryName").val(), function (result) {
-        if (result == "true") {
-            window.location.reload();
-        } else if (result == "SubscribtionTillErorr") {
-            window.location.href = "/Store/SubscribtionTillErorr";
-        }
-        else {
-            $("#CreateCategoryErorr").html(result);
+    var categoryname = $("#CategoryName").val();
+    if (categoryname != "") {
+
+        $.post("/Store/CreateCategory?Name=" + categoryname, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            } else if (result == "SubscribtionTillErorr") {
+                window.location.href = "/Store/SubscribtionTillErorr";
+            }
+            else {
+                $("#CreateCategoryErorr").html(result);
+            }
         }
     });
 });

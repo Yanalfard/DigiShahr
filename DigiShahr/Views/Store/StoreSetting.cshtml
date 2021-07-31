@@ -177,7 +177,9 @@
     </script>
     <script>
 
-        var map = L.map('map').setView([@Model.Lat,@Model.Lon], 11);
+        var latMap = $('#Lat').val();
+        var LonMap = $('#Lon').val();
+        var map = L.map('map').setView([latMap, LonMap], 12.5);
 
         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'echoville'

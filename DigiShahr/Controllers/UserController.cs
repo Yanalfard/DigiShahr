@@ -115,8 +115,8 @@ namespace DigiShahr.Controllers
                     selectedUseer.Password = Cryptography.SHA256(changePasswordInSignIn.NewPassword);
                     _core.User.Update(selectedUseer);
                     _core.User.Save();
-                    return new JavaScriptResult("alert('Hello world!');");
-                    //return await Task.FromResult(Redirect("/User/UserSetting?changePassword=true"));
+                   // return new JavaScriptResult("alert('Hello world!');");
+                    return await Task.FromResult(PartialView("ChangeUserPassword"));
                 }
 
 

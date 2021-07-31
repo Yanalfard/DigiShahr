@@ -24,7 +24,7 @@
         <label for="name">نام و نام خانوادگی:</label>
         <input asp-for="Name">
         <span class="uk-text-danger" asp-validation-for="Name"></span>
-        <a onclick="changePassword(@Model.Id)" class="uk-margin-top serviceArea uk-margin-auto" href="#change-password" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="key"></span>تغییر رمز عبور</a>
+        <a onclick="changePassword(@Model.Id)" class="uk-margin-top serviceArea uk-margin-auto" data-toggle="modal" data-target="#change-password"  uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="key"></span>تغییر رمز عبور</a>
         <label for="Address">آدرس:</label>
         <input asp-for="Address">
         <span class="uk-text-danger" asp-validation-for="Address"></span>
@@ -86,24 +86,16 @@
 
     <script src="~/Validate/jquery.validate.min.js"></script>
     <script src="~/Validate/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Validate/jquery.validate.unobtrusive.js"></script>
+    @*<script src="~/Validate/jquery.validate.unobtrusive.js"></script>*@
     <script src="~/Validate/jquery.unobtrusive-ajax.min.js"></script>
+
 
     <link href="~/leaflet/leaflet.css" rel="stylesheet" />
     <script src="~/leaflet/leaflet.js"></script>
 
+   
     <script>
-        $(function () {
-            //$.getScript("/Controller/Action");
-            //window.location.reload = "/User/UserSetting?changePassword=true";
-            function editPass() {
-                alert('8');
-            }
-        });
 
-    </script>
-    <script>
-       
         function changePassword(id) {
             $(".modal-content").html("");
             $.get("/User/ChangeUserPassword/" + id, function (result) {

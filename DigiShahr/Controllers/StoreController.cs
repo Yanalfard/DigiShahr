@@ -43,7 +43,6 @@ namespace DigiShahr.Controllers
             {
                 int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
                 TblStore store = _core.Store.Get().FirstOrDefault(i => i.UserId == userId);
-
                 ViewData["SuccessOrders"] = store.TblOrders.Where(o => o.IsValid == true).Count();
                 ViewData["NotSuccessOrders"] = store.TblOrders.Where(o => o.IsValid == false).Count();
                 ViewData["SubscribtionTill"] = store.SubscribtionTill.Subtract(DateTime.Now).Days.ToString() + "روز" + store.SubscribtionTill.Subtract(DateTime.Now).Hours.ToString() + "ساعت";
@@ -604,12 +603,6 @@ namespace DigiShahr.Controllers
             {
                 TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
-                if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit < user.TblStores.First().TblCatagories.Count || user.TblStores.First().IsValid == false)
-                {
-                    return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
-                }
-                else
-                {
                     TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
                     ViewBag.Naighborhood = _core.Naighborhood.Get();
                     EditStoreViewModel editStore = new EditStoreViewModel();
@@ -642,7 +635,7 @@ namespace DigiShahr.Controllers
                     editStore.LogoUrl = store.LogoUrl;
                     editStore.Address = store.Address;
                     return View(editStore);
-                }
+                
             }
 
         }
@@ -795,10 +788,11 @@ namespace DigiShahr.Controllers
             }
             TblUser Seller = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
-            if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false)
-            {
-                return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
-            }
+            var x = Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false;
+            //if (Seller.TblStores.First().SubscribtionTill < DateTime.Now || Seller.TblStores.First().CatagoryLimit < Seller.TblStores.First().TblCatagories.Count() || Seller.TblStores.First().IsValid == false)
+            //{
+            //    return await Task.FromResult(Redirect("/Store/SubscribtionTillErorr"));
+            //}
             TblStore Store = _core.Store.Get().Where(s => s.UserId == Seller.Id).SingleOrDefault();
             if (Store.Ability.LotteryWinner != null)
             { 
@@ -866,12 +860,12 @@ namespace DigiShahr.Controllers
         {
             TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
-            if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit <= user.TblStores.First().TblCatagories.Count() || !user.TblStores.First().IsValid)
-            {
-                return await Task.FromResult("SubscribtionTillErorr");
-            }
-            else
-            {
+            //if (user.TblStores.First().SubscribtionTill < DateTime.Now || user.TblStores.First().CatagoryLimit <= user.TblStores.First().TblCatagories.Count() || !user.TblStores.First().IsValid)
+            //{
+            //    return await Task.FromResult("SubscribtionTillErorr");
+            //}
+            //else
+            //{
 
                 if (string.IsNullOrEmpty(Name))
                 {
@@ -907,7 +901,7 @@ namespace DigiShahr.Controllers
                         }
                     }
                 }
-            }
+            //}
         }
 
         [HttpPost]
