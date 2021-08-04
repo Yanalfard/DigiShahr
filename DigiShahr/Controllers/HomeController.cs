@@ -29,7 +29,7 @@ namespace DigiShahr.Controllers
                     if (string.IsNullOrEmpty(Search))
                     {
                         ViewBag.Search = Search;
-                        List<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId && n.CityId == user.CityId).Select(n => n.Store).ToList();
+                        List<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store).Where(i => i.CityId == user.CityId && i.IsValid).ToList();
                         indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now).Take(50);
                         indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6);
                         return View(indexViewModel);
@@ -37,7 +37,7 @@ namespace DigiShahr.Controllers
                     else
                     {
                         ViewBag.Search = Search;
-                        IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId && n.CityId == user.CityId).Select(n => n.Store);
+                        IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store).Where(i => i.CityId == user.CityId && i.IsValid);
                         indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.Name.Contains(Search) || s.Catagory.Name.Contains(Search)).Take(50);
                         indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6);
                         return View(indexViewModel);
@@ -46,7 +46,7 @@ namespace DigiShahr.Controllers
                 else
                 {
                     ViewBag.Search = Search;
-                    IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId && n.CityId == user.CityId).Select(n => n.Store);
+                    IEnumerable<TblStore> stores = _core.StoreNaighborhoodRel.Get(n => n.NaighborhoodId == user.NaighborhoodId).Select(n => n.Store).Where(i => i.CityId == user.CityId && i.IsValid);
                     indexViewModel.AllStore = stores.Where(s => s.SubscribtionTill > DateTime.Now && s.CatagoryId == Category).Take(50);
                     indexViewModel.AllTopStoreCategory = _core.StoreCatagory.Get().Where(sc => sc.ParentId == null).Take(6);
                     return View(indexViewModel);

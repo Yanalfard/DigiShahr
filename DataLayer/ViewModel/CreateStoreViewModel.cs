@@ -23,7 +23,6 @@ namespace DataLayer.ViewModel
 
         [Required(ErrorMessage = "لطفا آدرس فروشگاه را وارد کنید")]
         [StringLength(500, ErrorMessage = "لطفا کارکتر های کمتری وارد کنید")]
-        [MinLength(10, ErrorMessage = "لطفا کارکتر های کمتری وارد کنید")]
         public string Address { get; set; }
 
         [Required(ErrorMessage = "لطفا موقعیت را وارد کنید")]
