@@ -57,13 +57,13 @@ namespace DigiShahr.Controllers
 
             if (ModelState.IsValid)
             {
+                ViewBag.ListCity = _core.City.Get();
+                ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
                 if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
                 {
                     ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
                     return View(createAccountViewModel);
                 }
-                ViewBag.ListCity = _core.City.Get();
-                ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
                 if (createAccountViewModel.TellNo.StartsWith("0") == true)
                 {
                     if (await UserCrew.UserDuplication(createAccountViewModel.TellNo))
@@ -102,7 +102,8 @@ namespace DigiShahr.Controllers
 
                 }
             }
-            
+            ViewBag.ListCity = _core.City.Get();
+            ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
             return View(createAccountViewModel);
         }
 
