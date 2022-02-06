@@ -38,7 +38,7 @@ namespace DataLayer.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
            .UseLazyLoadingProxies()
-           .UseSqlServer("Data Source=103.216.62.27;Initial Catalog=DigiShahr1;User ID=Yanal;Password=1710ahmad.fard");
+           .UseSqlServer("Data Source=185.55.224.183;Initial Catalog=asamedc1_ecovill;User ID=asamedc1_ecovill;Password=ap50%5cV");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Models
 {
+    [Table("TblMusic", Schema = "dbo")]
+
     public partial class TblMusic
     {
         public TblMusic()

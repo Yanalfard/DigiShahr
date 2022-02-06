@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Models
 {
-    [Table("TblStore")]
+    [Table("TblStore", Schema = "dbo")]
     public partial class TblStore
     {
         public TblStore()
