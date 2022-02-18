@@ -8,15 +8,19 @@
   <ItemGroup>
     <Compile Remove="Areas\User\**" />
     <Compile Remove="Models\**" />
+    <Compile Remove="NewFolder\**" />
     <Compile Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
     <Content Remove="Areas\User\**" />
     <Content Remove="Models\**" />
+    <Content Remove="NewFolder\**" />
     <Content Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
     <EmbeddedResource Remove="Areas\User\**" />
     <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
     <EmbeddedResource Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
     <None Remove="Areas\User\**" />
     <None Remove="Models\**" />
+    <None Remove="NewFolder\**" />
     <None Remove="wwwroot\ScriptCenter\AdminViewScript\**" />
   </ItemGroup>
 
@@ -55,7 +59,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
     <Folder Include="wwwroot\ScriptCenter\AdminViewScript\" />
     <Folder Include="wwwroot\StyleCenter\Sass\layoutStyle\" />
     <Folder Include="wwwroot\Upload\Music\" />

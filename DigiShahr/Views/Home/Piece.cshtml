@@ -18,42 +18,42 @@
     {
         if (Model.Ability.MusicId != null || Model.Ability.MusicId != 0)
         {
-            <li><a id="play"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
-            <li><a id="Pause"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
-            @*<audio id="music" hidden src="~/Upload/Music/@Model.Ability.Music.MusicUrl" preload="auto"></audio>*@
-            <script src="~/Jquery/jquery-3.4.1.js"></script>
-            <script>
+<li><a id="play"><span class="icon-holder" uk-icon="volume-mute"></span></a></li>
+<li><a id="Pause"><span class="icon-holder" uk-icon="volume-high"></span></a></li>
+<audio id="music" hidden src="~/Upload/Music/@Model.Ability.Music.MusicUrl" preload="auto"></audio>
+<script src="~/Jquery/jquery-3.4.1.js"></script>
+<script>
 
-                $(function () {
-                    var music = document.getElementById("music");
-                    music.play();
-                    $("#Pause").show();
-                    $("#play").hide();
-                });
+    $(function () {
+        var music = document.getElementById("music");
+        music.play();
+        $("#Pause").show();
+        $("#play").hide();
+    });
 
 
-                if (document.getElementById("music").paused) {
-                    $("#Pause").hide();
-                    $("#play").show();
-                } else {
-                    $("#Pause").show();
-                    $("#play").hide();
-                }
+    if (document.getElementById("music").paused) {
+        $("#Pause").hide();
+        $("#play").show();
+    } else {
+        $("#Pause").show();
+        $("#play").hide();
+    }
 
-                $("#play").click(function () {
-                    var music = document.getElementById("music");
-                    music.play();
-                    $("#Pause").show();
-                    $("#play").hide();
-                });
+    $("#play").click(function () {
+        var music = document.getElementById("music");
+        music.play();
+        $("#Pause").show();
+        $("#play").hide();
+    });
 
-                $("#Pause").click(function () {
-                    var music = document.getElementById("music");
-                    music.pause();
-                    $("#Pause").hide();
-                    $("#play").show();
-                });
-            </script>
+    $("#Pause").click(function () {
+        var music = document.getElementById("music");
+        music.pause();
+        $("#Pause").hide();
+        $("#play").show();
+    });
+</script>
         }
     }
 }
@@ -64,7 +64,10 @@
 
     <div class="BannerPlace BannerInStore Piecebanner matCart center my-clipped my-clipped-desktop bannerBackground">
         <a href="/"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left backIconDesktop backIconPiece" uk-icon="backIcon"></span></a>
-        <img class="storeMainBanner MainbannerImage center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+        @if (!string.IsNullOrEmpty(Model.MainBannerUrl))
+        {
+            <img class="storeMainBanner MainbannerImage center" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+        }
     </div>
 
     <div class="center my-column uk-position-absolute ">
@@ -75,7 +78,7 @@
             </div>
         </div>
         <div class="center LogoPictureInStore">
-            <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl"  height="80" width="80"/>
+            <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl" height="80" width="80" />
         </div>
     </div>
     <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
@@ -176,41 +179,41 @@
 
 
 @section Script{
-    <script>
+<script>
 
-        $(".i").click(function () {
-            $("#overlay").fadeIn(300);
-        });
+    $(".i").click(function () {
+        $("#overlay").fadeIn(300);
+    });
 
-        function SetProductsByCategory(StoreId, CatId) {
-            $("#overlay").fadeIn(300);
-            $.get("/Home/Products?CatId=" + CatId + "&StoreId=" + StoreId, function (result) {
-                $("#produceOfCategory").html(result);
+    function SetProductsByCategory(StoreId, CatId) {
+        $("#overlay").fadeIn(300);
+        $.get("/Home/Products?CatId=" + CatId + "&StoreId=" + StoreId, function (result) {
+            $("#produceOfCategory").html(result);
+            $("#overlay").fadeOut(300);
+        })
+    }
+
+    function AddToCart(Id) {
+        $("#overlay").fadeIn(300);
+        $.post("/Order/AddToCart?Id=" + Id, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            } else if (result == "ExitStore") {
                 $("#overlay").fadeOut(300);
-            })
-        }
+                UIkit.notification({ message: 'برای خرید از فروشگاه دیگر، ابتدا خرید از فروشگاه فعلی را تکمیل نمایید' });
+            }
+        });
+    }
 
-        function AddToCart(Id) {
-            $("#overlay").fadeIn(300);
-            $.post("/Order/AddToCart?Id=" + Id, function (result) {
-                if (result == "true") {
-                    window.location.reload();
-                } else if (result == "ExitStore") {
-                    $("#overlay").fadeOut(300);
-                    UIkit.notification({ message: 'برای خرید از فروشگاه دیگر، ابتدا خرید از فروشگاه فعلی را تکمیل نمایید' });
-                }
-            });
-        }
+    function ChangeBookMark(StoreId, UserId) {
+        $("#overlay").fadeIn(300);
+        $.post("/User/ChangeBookMark?StoreId=" + StoreId + "&UserId=" + UserId, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            }
+        });
+    }
 
-        function ChangeBookMark(StoreId, UserId) {
-            $("#overlay").fadeIn(300);
-            $.post("/User/ChangeBookMark?StoreId=" + StoreId + "&UserId=" + UserId, function (result) {
-                if (result == "true") {
-                    window.location.reload();
-                }
-            });
-        }
-
-    </script>
+</script>
 }
 

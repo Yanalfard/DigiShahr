@@ -13,6 +13,7 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col">نام منطقه</th>
+                    <th scope="col">نام شهر</th>
                     <th scope="col">عملیات</th>
                 </tr>
             </thead>
@@ -29,6 +30,7 @@
                 {
                     <tr>
                         <td>@item.Name</td>
+                        <td>@item.City.Name</td>
                         <td>
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
                                 <a onclick="edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="create-outline"></a>

@@ -30,7 +30,7 @@ namespace DataLayer.ViewModel
         [Required(ErrorMessage = "لطفا موقعیت را وارد کنید")]
         public string Lon { get; set; }
         [Required(ErrorMessage = "لطفا دسته بندی را وارد کنید")]
-        public int CatagoryId { get; set; }
+        public int? CatagoryId { get; set; }
         public bool TahvilVaTasvieDarMahal { get; set; }
         public bool TahvilVaTasvieDarForushgah { get; set; }
 

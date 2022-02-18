@@ -178,8 +178,9 @@ namespace DigiShahr.Controllers
 
         }
 
-        public async Task<IActionResult> Deliver(int Id)
+        public async Task<IActionResult> Deliver(int Id,int? orderId)
         {
+            ViewBag.orderId = orderId;
             return await Task.FromResult(View(_core.Store.GetById(Id)));
         }
 
@@ -195,6 +196,7 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> Success(int Id)
         {
+          
             TblOrder order = _core.Order.GetById(Id);
             ViewBag.ValidationTime = (string)Math.Floor(order.DateSubmited.AddSeconds(order.Store.Ability.ValidationTimeSpan).Subtract(DateTime.Now).TotalSeconds).ToString() + "000";
             return await Task.FromResult(View(order));
@@ -242,7 +244,7 @@ namespace DigiShahr.Controllers
                     {
                         return await Task.FromResult("تخفیف مورد نظر یافت نشد");
                     }
-                    
+
                 }
                 else
                 {

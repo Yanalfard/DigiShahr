@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace DataLayer.Models
 {
-    [Table("TblMusic", Schema = "dbo")]
-
+    [Table("TblMusics", Schema = "dbo")]
     public partial class TblMusic
     {
         public TblMusic()

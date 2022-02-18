@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -26,14 +25,13 @@ namespace DataLayer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required(ErrorMessage = "لطفا نام فروشگاه را وارد کنید")]
-        [StringLength(100, ErrorMessage = "نام فروشگاه مناسب وارد کنید")]
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
-        [Required(ErrorMessage = "لطفا شماره تماس ثابت وارد کنید")]
-        [StringLength(15, ErrorMessage = "لطفا شماره تماس ثابت مناسب وارد کنید")]
+        [Required]
+        [StringLength(15)]
         public string StaticTell { get; set; }
         public bool IsOpen { get; set; }
-
         [StringLength(500)]
         public string MainBannerUrl { get; set; }
         [StringLength(500)]

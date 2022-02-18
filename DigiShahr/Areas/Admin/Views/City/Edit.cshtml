@@ -1,0 +1,110 @@
+﻿@model DataLayer.Models.TblCity
+@{
+    ViewData["Title"] = " ویرایش شهر ";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+
+
+
+<form method="post" class="createAccount" style="overflow-y:auto">
+    <input  type="hidden" asp-for="CityId"/>
+    @Html.AntiForgeryToken()
+    <div class="modal-body">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control form-control-sm" asp-for="Name"  placeholder="نام">
+                <br />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-end">
+            <button type="submit" class="btn btn-success btn-sm text-white"><i class="fas fa-plus-circle"></i>ویرایش</button>
+        </div>
+        <div class="form-row">
+            <input type="hidden" id="Lat" name="Lat" asp-for="Lat" />
+            <input type="hidden" id="Lon" name="Lon" asp-for="Lon" />
+
+            <div id="map" class="map" style="height:500px;width:100%"></div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+<input type="hidden" id="latMap"  value="@Model.Lat" />
+<input type="hidden" id="lonMap"  value="@Model.Lon" />
+
+
+@section Script{
+
+<link href="~/leaflet/leaflet.css" rel="stylesheet" />
+<script src="~/leaflet/leaflet.js"></script>
+
+<script>
+    var latMap = $('#latMap').val();
+    var lonMap = $('#lonMap').val();
+   var map = L.map('map').setView([latMap, lonMap], 11);
+
+    L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Mr Tab'
+    }).addTo(map);
+
+    var iconSetting = L.Icon.extend({
+        options: {
+            iconSize: [20, 29],
+            iconAnchor: [10, 29]
+        }
+    });
+
+    var customIcon = new iconSetting({ iconUrl: '/location.png' });
+    var Lat = $("#Lat").val();
+    var Lon = $("#Lon").val();
+    L.marker([Lat, Lon], { icon: customIcon }).addTo(map).bindPopup($("#Name").val()).openPopup(); var theMarker = {};
+
+    map.on('click', function (e) {
+        lat = e.latlng.lat;
+        lon = e.latlng.lng;
+
+        //Clear existing marker,
+
+        if (theMarker != undefined) {
+            map.removeLayer(theMarker);
+        };
+
+
+        //Add a marker to show where you clicked.
+        $("#Lat").val(lat.toString());
+        $("#Lon").val(lon.toString());
+        theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید شهر انتخاب شد</h6>').openPopup();
+    });
+
+
+</script>
+
+<script>
+
+    $("#CityCreate").submit(function (e) {
+        $(".loadingicon").removeClass("d-none");
+        e.preventDefault();
+        var data = $(this).serializeArray();
+        $.post("/Admin/City/Create", data, function (result) {
+
+            if (result == "true") {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html("ثبت شد");
+                window.location.reload();
+            }
+            else if (result != "true") {
+                $(".loadingicon").addClass("d-none");
+                $("#Erorr").html(result);
+            }
+
+        });
+    });
+
+</script>
+}

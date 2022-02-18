@@ -36,12 +36,14 @@ namespace DataLayer.Models
         public virtual DbSet<TblUser> TblUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder
-           .UseLazyLoadingProxies()
-           .UseSqlServer("Data Source=185.55.224.183;Initial Catalog=asamedc1_ecovill;User ID=asamedc1_ecovill;Password=ap50%5cV");
+       => optionsBuilder
+      .UseLazyLoadingProxies()
+      .UseSqlServer("Data Source=185.55.224.199;Initial Catalog=ecovilli_ecovill;User ID=ecovilli_ecovill;Password=ap50%5cV");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("asamedc1_ecovill");
+
             modelBuilder.Entity<TblAbility>(entity =>
             {
                 entity.Property(e => e.BannerImageUrl1).HasComment("");

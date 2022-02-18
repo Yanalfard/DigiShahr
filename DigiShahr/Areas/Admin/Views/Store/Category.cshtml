@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DataLayer.Models.TblCatagory>
 @{
-    ViewData["Title"] = "دسته بندی محصولات | مدیریت";
+    ViewData["Title"] = "دسته بندی محصولات  اضافه شده توسط فروشگاه ها";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -10,7 +10,7 @@
             <div class="card-header bg-white">
                 <div class="pr-1 pt-2">
                     <div class="form-group pb-0 mb-0">
-                        <button id="Create" data-toggle="modal" data-target="#modalSave" class="btn btn-success btn-sm">افزودن</button>
+                        @*<button id="Create" data-toggle="modal" data-target="#modalSave" class="btn btn-success btn-sm">افزودن</button>*@
                     </div>
                 </div>
             </div>
@@ -21,6 +21,7 @@
                             <tr>
                                 <th scope="col">کد دسته بندی</th>
                                 <th scope="col">نام دسته بندی</th>
+                                <th scope="col">فروشگاه  </th>
                                 <th scope="col">عملیات</th>
                             </tr>
                         </thead>
@@ -30,6 +31,7 @@
                                 <tr>
                                     <td>@item.Id</td>
                                     <td>@item.Name</td>
+                                    <td>@item.Store.Name</td>
                                     <td>
                                         <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
                                             <a onclick="edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="create-outline"></a>

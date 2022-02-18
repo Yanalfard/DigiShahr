@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "سفارشات";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
+    @using DigiShahr.Classes
 }
 
 <link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
@@ -15,8 +16,10 @@
         <table class="uk-table OrdersTable center" dir="rtl">
             <thead class="uk-text-center uk-text-bold tabelHearder">
                 <tr>
+                    <th>کد </th>
                     <th>نام مشتری</th>
                     <th>محله </th>
+                    <th>تاریخ  و زمان ثبت </th>
                     <th>جزییات</th>
                     <th>تایید سفارش</th>
                 </tr>
@@ -31,8 +34,10 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>@item.Id</td>
                         <td>@item.User.Name</td>
                         <td>@item.User.Naighborhood.Name</td>
+                        <td>@item.DateSubmited.AllToShamsi()</td>
                         <td><a href="#OrderInfo" onclick="OrderInfo(@item.Id)" uk-toggle><span class="icon-holder infoIcon" uk-icon="information-circle-outline"></span></a></td>
                         @if (!item.IsDelivered)
                         {
@@ -49,28 +54,31 @@
 </nav>
 <div class="my-space"></div>
 <div id="OrderInfo" class="modal-sections" uk-modal>
-
 </div>
+
 
 @section Script{
 
-    <script>
-        function OrderInfo(Id) {
-            $.get("/Store/OrderInfo?Id=" + Id, function (result) {
-                $("#OrderInfo").html(result);
-            });
-        }
-
-        function OrderSuccess(Id) {
-            $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
-                if (result == "true") {
-                    window.location.reload();
-                } else {
-                    window.location.href = result;
+<script>
+    function OrderInfo(Id) {
+                    $.get("/Store/OrderInfo?Id=" + Id, function (result) {
+                        $("#OrderInfo").html(result);
+                    });
                 }
-            });
-        }
 
-    </script>
+                function OrderSuccess(Id) {
+                    $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
+                        if (result == "true") {
+                            window.location.reload();
+                        } else {
+                            window.location.href = result;
+                        }
+                    });
+                }
+
+
+
+
+</script>
 }
 

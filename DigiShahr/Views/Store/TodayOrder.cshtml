@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "سفارشات";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="my-space"></div>
+<div class="matCart my-column my-clipped">
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">اطلاعات سفارشات فروشگاه</h3>
+        <a href="/Store/Dashboard"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+    </div>
+    <div class="uk-padding-small ScrollabelTabel" dir="rtl" id="listOrder">
+    </div>
+</div>
+<div class="my-space"></div>
+<div id="OrderInfo" class="modal-sections" uk-modal>
+</div>
+
+
+@section Script{
+
+<script>
+        function OrderInfo(Id) {
+                        $.get("/Store/OrderInfo?Id=" + Id, function (result) {
+                            $("#OrderInfo").html(result);
+                        });
+                    }
+
+                    function OrderSuccess(Id) {
+                        $.post("/Store/OrderDeliver?Id=" + Id, function (result) {
+                            if (result == "true") {
+                                window.location.reload();
+                            } else {
+                                window.location.href = result;
+                            }
+                        });
+                    }
+
+
+       function loadlOrder2(){
+        $('#listOrder').load("/Store/LoadlOrder/");
+
+    }
+
+    loadlOrder2();
+    setInterval(function(){
+        loadlOrder2()
+    }, 10000);
+
+
+
+
+</script>
+}
+

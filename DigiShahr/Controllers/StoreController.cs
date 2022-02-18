@@ -28,9 +28,30 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().FirstOrDefault(s => s.User.TellNo == User.FindFirstValue(ClaimTypes.Name).ToString()).TblOrders.Where(o => o.IsFinaly && !o.IsDeleted), 20, page);
+                IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().FirstOrDefault(s => s.User.TellNo == User.FindFirstValue(ClaimTypes.Name).ToString()).TblOrders.Where(o => o.IsFinaly && !o.IsDeleted).OrderByDescending(i=>i.DateSubmited), 20, page);
                 return await Task.FromResult(View(Order));
             }
+        }
+        public async Task<IActionResult> LoadlOrderAsync(string ReturnUrl = "")
+        {
+            try
+            {
+                string userTell = User.FindFirstValue(ClaimTypes.Name).ToString();
+
+                List<TblOrder> list=_core.Store.Get().FirstOrDefault(s => s.User.TellNo == userTell)
+                    .TblOrders.Where(o => o.IsFinaly && !o.IsDeleted
+                    && o.DateSubmited.ToShortDateString() == DateTime.Now.ToShortDateString()).OrderByDescending(i => i.DateSubmited).ToList();
+                return await Task.FromResult(PartialView(list));
+            }
+            catch
+            {
+                return await Task.FromResult(Redirect("/"));
+            }
+          
+        }
+        public IActionResult TodayOrder()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Dashboard()
@@ -316,7 +337,7 @@ namespace DigiShahr.Controllers
                             {
                                 LatMap = selectedUser.City.Lat,
                                 LonMap = selectedUser.City.Lon,
-                                CityId= (int)selectedUser.CityId,
+                                CityId = (int)selectedUser.CityId,
                             });
                         }
                         else
@@ -342,221 +363,238 @@ namespace DigiShahr.Controllers
             ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
             if (ModelState.IsValid)
             {
-                if (Convert.ToInt16(createStoreViewModel.ValidationTimeSpan) > 120)
+                if (createStoreViewModel.CatagoryId == 0)
                 {
-                    ViewBag.NaighborhoodErorr = "زمان تایید سفارش شما بیشتر از 120 ثانیه است";
-                }
-                if (naighborhood.Count == 0)
-                {
-                    ViewBag.NaighborhoodErorr = "لطفا منطقه خورد را وارد کنید";
-                }
-                if (LogoUrl != null)
-                {
-                    if (!createStoreViewModel.StaticTell.StartsWith("0"))
-                    {
-                        ModelState.AddModelError("StaticTell", "شماره تماس باید از صفر شروع شود");
-                    }
-                    else
-                    {
-                        if (LogoUrl.ContentType != "image/png" && LogoUrl.ContentType != "image/jpeg")
-                        {
-                            ModelState.AddModelError("LogoUrl", "لطفا فایل تصویر وارد کنید");
-                        }
-                        else
-                        {
-                            if (LogoUrl.Length > 3000000)
-                            {
-                                ModelState.AddModelError("LogoUrl", "حجم فایل بسیار است");
-                            }
-                            else
-                            {
-                                if (createStoreViewModel.DealId == 0)
-                                {
-                                    ///New Ability
-                                    TblAbility NewAbility = new TblAbility();
-                                    if (createStoreViewModel.TahvilVaTasvieDarMahal == true)
-                                    {
-                                        NewAbility.TahvilVaTasvieDarMahal = 1;
-                                    }
-                                    else
-                                    {
-                                        NewAbility.TahvilVaTasvieDarMahal = 0;
-                                    }
-                                    if (createStoreViewModel.TahvilVaTasvieDarForushgah == true)
-                                    {
-                                        NewAbility.TahvilVaTasvieDarForushgah = 1;
-                                    }
-                                    else
-                                    {
-                                        NewAbility.TahvilVaTasvieDarForushgah = 0;
-                                    }
-                                    NewAbility.PardakhteOnline = 0;
-                                    NewAbility.Haraj = 0;
-                                    NewAbility.IsBanner1Enable = false;
-                                    NewAbility.BannerImageUrl1 = null;
-                                    NewAbility.BannerLink1 = null;
-                                    NewAbility.IsBanner2Enable = false;
-                                    NewAbility.BannerImageUrl2 = null;
-                                    NewAbility.BannerLink2 = null;
-                                    NewAbility.IsLotteryEnable = false;
-                                    NewAbility.LotteryDisplayDate = null;
-                                    NewAbility.LotteryDisplayPrize = null;
-                                    NewAbility.LotteryWinner = null;
-                                    NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
-                                    NewAbility.IsMusicEnable = true;
-                                    NewAbility.MusicId = null;
-                                    _core.Ability.Add(NewAbility);
-                                    _core.Ability.Save();
-
-                                    //New Store
-                                    TblStore NewStore = new TblStore();
-                                    NewStore.Name = createStoreViewModel.Name;
-                                    NewStore.StaticTell = createStoreViewModel.StaticTell;
-                                    NewStore.IsOpen = false;
-                                    NewStore.MainBannerUrl = null;
-                                    NewStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
-                                    string savePath = Path.Combine(
-                                        Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", NewStore.LogoUrl
-                                    );
-
-                                    using (var stream = new FileStream(savePath, FileMode.Create))
-                                    {
-                                        await LogoUrl.CopyToAsync(stream);
-                                    }
-                                    NewStore.Rate = 0;
-                                    NewStore.RateCount = 0;
-                                    NewStore.AbilityId = NewAbility.Id;
-                                    NewStore.CatagoryLimit = 10;
-                                    NewStore.ProductLimit = 30;
-                                    NewStore.Address = createStoreViewModel.Address;
-                                    NewStore.Lat = createStoreViewModel.Lat;
-                                    NewStore.Lon = createStoreViewModel.Lon;
-                                    NewStore.SubscribtionTill = DateTime.Now.AddMonths(1);
-                                    NewStore.IsValid = false;
-                                    NewStore.CatagoryId = createStoreViewModel.CatagoryId;
-                                    //NewStore.CityId = createStoreViewModel.CityId;
-                                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
-                                    _core.User.GetById(user.Id).RoleId = 2;
-                                    _core.User.Save();
-                                    NewStore.UserId = user.Id;
-                                    NewStore.CityId = user.CityId;
-                                    _core.Store.Add(NewStore);
-                                    _core.Store.Save();
-
-                                    //New Naighborhood
-                                    foreach (var item in naighborhood)
-                                    {
-                                        TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
-                                        NewNaighborhoodRel.StoreId = NewStore.Id;
-                                        NewNaighborhoodRel.NaighborhoodId = item;
-                                        _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
-                                    }
-                                    _core.StoreNaighborhoodRel.Save();
-
-                                    return Redirect("/Store/Success?Pay=");
-                                }
-                                else
-                                {
-                                    TblAbility NewAbility = new TblAbility();
-                                    TblDeal Deal = _core.Deal.GetById(createStoreViewModel.DealId);
-                                    if (createStoreViewModel.TahvilVaTasvieDarMahal == true)
-                                    {
-                                        NewAbility.TahvilVaTasvieDarMahal = 1;
-                                    }
-                                    else
-                                    {
-                                        NewAbility.TahvilVaTasvieDarMahal = 0;
-                                    }
-                                    if (createStoreViewModel.TahvilVaTasvieDarForushgah == true)
-                                    {
-                                        NewAbility.TahvilVaTasvieDarForushgah = 1;
-                                    }
-                                    else
-                                    {
-                                        NewAbility.TahvilVaTasvieDarForushgah = 0;
-                                    }
-                                    NewAbility.PardakhteOnline = 0;
-                                    NewAbility.Haraj = 0;
-                                    NewAbility.IsBanner1Enable = Deal.Banner1;
-                                    NewAbility.BannerImageUrl1 = null;
-                                    NewAbility.BannerLink1 = null;
-                                    NewAbility.IsBanner2Enable = Deal.Banner2;
-                                    NewAbility.BannerImageUrl2 = null;
-                                    NewAbility.BannerLink2 = null;
-                                    NewAbility.IsLotteryEnable = Deal.Lottery;
-                                    NewAbility.LotteryDisplayDate = null;
-                                    NewAbility.LotteryDisplayPrize = null;
-                                    NewAbility.LotteryWinner = null;
-                                    NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
-                                    NewAbility.IsMusicEnable = true;
-                                    NewAbility.MusicId = createStoreViewModel.Music;
-                                    _core.Ability.Add(NewAbility);
-                                    _core.Ability.Save();
-
-
-                                    //New Store
-                                    TblStore NewStore = new TblStore();
-                                    NewStore.Name = createStoreViewModel.Name;
-                                    NewStore.StaticTell = createStoreViewModel.StaticTell;
-                                    NewStore.IsOpen = false;
-                                    NewStore.MainBannerUrl = null;
-                                    NewStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
-                                    string savePath = Path.Combine(
-                                        Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", NewStore.LogoUrl
-                                    );
-
-                                    using (var stream = new FileStream(savePath, FileMode.Create))
-                                    {
-                                        await LogoUrl.CopyToAsync(stream);
-                                    }
-                                    NewStore.Rate = 0;
-                                    NewStore.RateCount = 0;
-                                    NewStore.AbilityId = NewAbility.Id;
-                                    NewStore.CatagoryLimit = (short)Deal.CatagoryLimit;
-                                    NewStore.ProductLimit = (short)Deal.ProductLimit;
-                                    NewStore.Address = createStoreViewModel.Address;
-                                    NewStore.Lat = createStoreViewModel.Lat;
-                                    NewStore.Lon = createStoreViewModel.Lon;
-                                    NewStore.SubscribtionTill = DateTime.Now.AddMonths((int)Deal.MonthCount);
-                                    NewStore.IsValid = false;
-                                    NewStore.CatagoryId = createStoreViewModel.CatagoryId;
-                                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
-                                    _core.User.GetById(user.Id).RoleId = 2;
-                                    _core.User.Save();
-                                    NewStore.UserId = user.Id;
-                                    _core.Store.Add(NewStore);
-                                    _core.Store.Save();
-
-                                    //New Naighborhood
-                                    foreach (var item in naighborhood)
-                                    {
-                                        TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
-                                        NewNaighborhoodRel.StoreId = NewStore.Id;
-                                        NewNaighborhoodRel.NaighborhoodId = item;
-                                        _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
-
-                                    }
-                                    _core.StoreNaighborhoodRel.Save();
-
-
-                                    TblDealOrder NewDealOrder = new TblDealOrder();
-                                    NewDealOrder.DealId = createStoreViewModel.DealId;
-                                    NewDealOrder.StoreId = NewStore.Id;
-                                    NewDealOrder.DateSubmited = DateTime.Now;
-                                    NewDealOrder.IsPayed = true;
-                                    _core.DealOrder.Add(NewDealOrder);
-                                    _core.DealOrder.Save();
-                                    await SendSms.Send(user.TellNo, NewDealOrder.Id.ToString(), "DigiShahrSuccessDealOrder");
-                                    return Redirect("/Store/Success?pay=" + NewDealOrder.Id.ToString());
-                                }
-                            }
-                        }
-                    }
+                    ModelState.AddModelError("CatagoryId", "لطفا دسته بندی را وارد کنید");
                 }
                 else
                 {
-                    ModelState.AddModelError("LogoUrl", "لطفا تصویر لوگو خود را انتخاب کنید");
+                    if (Convert.ToInt16(createStoreViewModel.ValidationTimeSpan) > 120)
+                    {
+                        ViewBag.NaighborhoodErorr = "زمان تایید سفارش شما بیشتر از 120 ثانیه است";
+                    }
+                    else
+                    {
+                        if (naighborhood.Count == 0)
+                        {
+                            ViewBag.NaighborhoodErorr = "لطفا منطقه خورد را وارد کنید";
+                        }
+                        else
+                        {
+                            if (LogoUrl != null)
+                            {
+                                if (!createStoreViewModel.StaticTell.StartsWith("0"))
+                                {
+                                    ModelState.AddModelError("StaticTell", "شماره تماس باید از صفر شروع شود");
+                                }
+
+                                else
+                                {
+                                    if (LogoUrl.ContentType != "image/png" && LogoUrl.ContentType != "image/jpeg")
+                                    {
+                                        ModelState.AddModelError("LogoUrl", "لطفا فایل تصویر وارد کنید");
+                                    }
+                                    else
+                                    {
+                                        if (LogoUrl.Length > 3000000)
+                                        {
+                                            ModelState.AddModelError("LogoUrl", "حجم فایل بسیار است");
+                                        }
+                                        else
+                                        {
+                                            if (createStoreViewModel.DealId == 0)
+                                            {
+                                                ///New Ability
+                                                TblAbility NewAbility = new TblAbility();
+                                                if (createStoreViewModel.TahvilVaTasvieDarMahal == true)
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarMahal = 1;
+                                                }
+                                                else
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarMahal = 0;
+                                                }
+                                                if (createStoreViewModel.TahvilVaTasvieDarForushgah == true)
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarForushgah = 1;
+                                                }
+                                                else
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarForushgah = 0;
+                                                }
+                                                NewAbility.PardakhteOnline = 0;
+                                                NewAbility.Haraj = 0;
+                                                NewAbility.IsBanner1Enable = false;
+                                                NewAbility.BannerImageUrl1 = null;
+                                                NewAbility.BannerLink1 = null;
+                                                NewAbility.IsBanner2Enable = false;
+                                                NewAbility.BannerImageUrl2 = null;
+                                                NewAbility.BannerLink2 = null;
+                                                NewAbility.IsLotteryEnable = false;
+                                                NewAbility.LotteryDisplayDate = null;
+                                                NewAbility.LotteryDisplayPrize = null;
+                                                NewAbility.LotteryWinner = null;
+                                                NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
+                                                NewAbility.IsMusicEnable = true;
+                                                NewAbility.MusicId = null;
+                                                _core.Ability.Add(NewAbility);
+                                                _core.Ability.Save();
+
+                                                //New Store
+                                                TblStore NewStore = new TblStore();
+                                                NewStore.Name = createStoreViewModel.Name;
+                                                NewStore.StaticTell = createStoreViewModel.StaticTell;
+                                                NewStore.IsOpen = false;
+                                                NewStore.MainBannerUrl = null;
+                                                NewStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
+                                                string savePath = Path.Combine(
+                                                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", NewStore.LogoUrl
+                                                );
+
+                                                using (var stream = new FileStream(savePath, FileMode.Create))
+                                                {
+                                                    await LogoUrl.CopyToAsync(stream);
+                                                }
+                                                NewStore.Rate = 0;
+                                                NewStore.RateCount = 0;
+                                                NewStore.AbilityId = NewAbility.Id;
+                                                NewStore.CatagoryLimit = 10;
+                                                NewStore.ProductLimit = 30;
+                                                NewStore.Address = createStoreViewModel.Address;
+                                                NewStore.Lat = createStoreViewModel.Lat;
+                                                NewStore.Lon = createStoreViewModel.Lon;
+                                                NewStore.SubscribtionTill = DateTime.Now.AddMonths(1);
+                                                NewStore.IsValid = false;
+                                                NewStore.CatagoryId = (int)createStoreViewModel.CatagoryId;
+                                                //NewStore.CityId = createStoreViewModel.CityId;
+                                                TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
+                                                _core.User.GetById(user.Id).RoleId = 2;
+                                                _core.User.Save();
+                                                NewStore.UserId = user.Id;
+                                                NewStore.CityId = user.CityId;
+                                                _core.Store.Add(NewStore);
+                                                _core.Store.Save();
+
+                                                //New Naighborhood
+                                                foreach (var item in naighborhood)
+                                                {
+                                                    TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
+                                                    NewNaighborhoodRel.StoreId = NewStore.Id;
+                                                    NewNaighborhoodRel.NaighborhoodId = item;
+                                                    _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
+                                                }
+                                                _core.StoreNaighborhoodRel.Save();
+
+                                                return Redirect("/Store/Success?Pay=");
+                                            }
+                                            else
+                                            {
+                                                TblAbility NewAbility = new TblAbility();
+                                                TblDeal Deal = _core.Deal.GetById(createStoreViewModel.DealId);
+                                                if (createStoreViewModel.TahvilVaTasvieDarMahal == true)
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarMahal = 1;
+                                                }
+                                                else
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarMahal = 0;
+                                                }
+                                                if (createStoreViewModel.TahvilVaTasvieDarForushgah == true)
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarForushgah = 1;
+                                                }
+                                                else
+                                                {
+                                                    NewAbility.TahvilVaTasvieDarForushgah = 0;
+                                                }
+                                                NewAbility.PardakhteOnline = 0;
+                                                NewAbility.Haraj = 0;
+                                                NewAbility.IsBanner1Enable = Deal.Banner1;
+                                                NewAbility.BannerImageUrl1 = null;
+                                                NewAbility.BannerLink1 = null;
+                                                NewAbility.IsBanner2Enable = Deal.Banner2;
+                                                NewAbility.BannerImageUrl2 = null;
+                                                NewAbility.BannerLink2 = null;
+                                                NewAbility.IsLotteryEnable = Deal.Lottery;
+                                                NewAbility.LotteryDisplayDate = null;
+                                                NewAbility.LotteryDisplayPrize = null;
+                                                NewAbility.LotteryWinner = null;
+                                                NewAbility.ValidationTimeSpan = Convert.ToInt16(createStoreViewModel.ValidationTimeSpan);
+                                                NewAbility.IsMusicEnable = true;
+                                                NewAbility.MusicId = createStoreViewModel.Music;
+                                                _core.Ability.Add(NewAbility);
+                                                _core.Ability.Save();
+
+
+                                                //New Store
+                                                TblStore NewStore = new TblStore();
+                                                NewStore.Name = createStoreViewModel.Name;
+                                                NewStore.StaticTell = createStoreViewModel.StaticTell;
+                                                NewStore.IsOpen = false;
+                                                NewStore.MainBannerUrl = null;
+                                                NewStore.LogoUrl = Guid.NewGuid().ToString() + Path.GetExtension(LogoUrl.FileName);
+                                                string savePath = Path.Combine(
+                                                    Directory.GetCurrentDirectory(), "wwwroot/Upload/StoreLogo", NewStore.LogoUrl
+                                                );
+
+                                                using (var stream = new FileStream(savePath, FileMode.Create))
+                                                {
+                                                    await LogoUrl.CopyToAsync(stream);
+                                                }
+                                                NewStore.Rate = 0;
+                                                NewStore.RateCount = 0;
+                                                NewStore.AbilityId = NewAbility.Id;
+                                                NewStore.CatagoryLimit = (short)Deal.CatagoryLimit;
+                                                NewStore.ProductLimit = (short)Deal.ProductLimit;
+                                                NewStore.Address = createStoreViewModel.Address;
+                                                NewStore.Lat = createStoreViewModel.Lat;
+                                                NewStore.Lon = createStoreViewModel.Lon;
+                                                NewStore.SubscribtionTill = DateTime.Now.AddMonths((int)Deal.MonthCount);
+                                                NewStore.IsValid = false;
+                                                NewStore.CatagoryId = (int)createStoreViewModel.CatagoryId;
+                                                TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
+                                                _core.User.GetById(user.Id).RoleId = 2;
+                                                _core.User.Save();
+                                                NewStore.UserId = user.Id;
+                                                _core.Store.Add(NewStore);
+                                                _core.Store.Save();
+
+                                                //New Naighborhood
+                                                foreach (var item in naighborhood)
+                                                {
+                                                    TblStoreNaighborhoodRel NewNaighborhoodRel = new TblStoreNaighborhoodRel();
+                                                    NewNaighborhoodRel.StoreId = NewStore.Id;
+                                                    NewNaighborhoodRel.NaighborhoodId = item;
+                                                    _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
+
+                                                }
+                                                _core.StoreNaighborhoodRel.Save();
+
+
+                                                TblDealOrder NewDealOrder = new TblDealOrder();
+                                                NewDealOrder.DealId = createStoreViewModel.DealId;
+                                                NewDealOrder.StoreId = NewStore.Id;
+                                                NewDealOrder.DateSubmited = DateTime.Now;
+                                                NewDealOrder.IsPayed = true;
+                                                _core.DealOrder.Add(NewDealOrder);
+                                                _core.DealOrder.Save();
+                                                await SendSms.Send(user.TellNo, NewDealOrder.Id.ToString(), "DigiShahrSuccessDealOrder");
+                                                return Redirect("/Store/Success?pay=" + NewDealOrder.Id.ToString());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("LogoUrl", "لطفا تصویر لوگو خود را انتخاب کنید");
+                            }
+                        }
+
+                    }
+
                 }
+
             }
 
             if (ViewBag.DealId != 0)
@@ -603,39 +641,39 @@ namespace DigiShahr.Controllers
             {
                 TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
-                    TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-                    ViewBag.Naighborhood = _core.Naighborhood.Get();
-                    EditStoreViewModel editStore = new EditStoreViewModel();
-                    if (store.Ability.IsMusicEnable == true)
-                    {
-                        editStore.IsMusicEnable = true;
-                        ViewBag.Music = _core.Music.Get();
-                    }
-                    else
-                    {
-                        ViewBag.Music = null;
-                    }
-                    editStore.Id = store.Id;
-                    editStore.Name = store.Name;
-                    editStore.IsOpen = store.IsOpen;
-                    editStore.Lat = store.Lat;
-                    editStore.Lon = store.Lon;
-                    editStore.StaticTell = store.StaticTell;
-                    if (store.Ability.TahvilVaTasvieDarForushgah == 0)
-                        editStore.TahvilVaTasvieDarForushgah = false;
-                    else if (store.Ability.TahvilVaTasvieDarForushgah == 1)
-                        editStore.TahvilVaTasvieDarForushgah = true;
-                    if (store.Ability.TahvilVaTasvieDarMahal == 0)
-                        editStore.TahvilVaTasvieDarMahal = false;
-                    else if (store.Ability.TahvilVaTasvieDarMahal == 1)
-                    {
-                        editStore.TahvilVaTasvieDarMahal = true;
-                    }
-                    editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
-                    editStore.LogoUrl = store.LogoUrl;
-                    editStore.Address = store.Address;
-                    return View(editStore);
-                
+                TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
+                ViewBag.Naighborhood = _core.Naighborhood.Get();
+                EditStoreViewModel editStore = new EditStoreViewModel();
+                if (store.Ability.IsMusicEnable == true)
+                {
+                    editStore.IsMusicEnable = true;
+                    ViewBag.Music = _core.Music.Get();
+                }
+                else
+                {
+                    ViewBag.Music = null;
+                }
+                editStore.Id = store.Id;
+                editStore.Name = store.Name;
+                editStore.IsOpen = store.IsOpen;
+                editStore.Lat = store.Lat;
+                editStore.Lon = store.Lon;
+                editStore.StaticTell = store.StaticTell;
+                if (store.Ability.TahvilVaTasvieDarForushgah == 0)
+                    editStore.TahvilVaTasvieDarForushgah = false;
+                else if (store.Ability.TahvilVaTasvieDarForushgah == 1)
+                    editStore.TahvilVaTasvieDarForushgah = true;
+                if (store.Ability.TahvilVaTasvieDarMahal == 0)
+                    editStore.TahvilVaTasvieDarMahal = false;
+                else if (store.Ability.TahvilVaTasvieDarMahal == 1)
+                {
+                    editStore.TahvilVaTasvieDarMahal = true;
+                }
+                editStore.ValidationTimeSpan = store.Ability.ValidationTimeSpan.ToString();
+                editStore.LogoUrl = store.LogoUrl;
+                editStore.Address = store.Address;
+                return View(editStore);
+
             }
 
         }
@@ -795,7 +833,7 @@ namespace DigiShahr.Controllers
             //}
             TblStore Store = _core.Store.Get().Where(s => s.UserId == Seller.Id).SingleOrDefault();
             if (Store.Ability.LotteryWinner != null)
-            { 
+            {
                 TblUser user = _core.User.GetById(Store.Ability.LotteryWinner);
                 ViewBag.WinnerName = user.Name;
                 ViewBag.WinnerTellNo = user.TellNo;
@@ -867,40 +905,40 @@ namespace DigiShahr.Controllers
             //else
             //{
 
-                if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(Name))
+            {
+                return await Task.FromResult("لطفا نام دسته بندی را وارد کنید");
+            }
+            else
+            {
+                if (Name.Length > 100 || Name.Length < 2)
                 {
-                    return await Task.FromResult("لطفا نام دسته بندی را وارد کنید");
+                    return await Task.FromResult("دسته بندی مناسب وارد کنید");
                 }
                 else
                 {
-                    if (Name.Length > 100 || Name.Length < 2)
+                    if (Name.Contains("'"))
                     {
                         return await Task.FromResult("دسته بندی مناسب وارد کنید");
                     }
                     else
                     {
-                        if (Name.Contains("'"))
+                        if (user.TblStores.FirstOrDefault().TblCatagories.Any(c => c.Name == Name))
                         {
-                            return await Task.FromResult("دسته بندی مناسب وارد کنید");
+                            return await Task.FromResult("دسته بندی وارد شده ثبت شده است");
                         }
                         else
                         {
-                            if (user.TblStores.FirstOrDefault().TblCatagories.Any(c => c.Name == Name))
-                            {
-                                return await Task.FromResult("دسته بندی وارد شده ثبت شده است");
-                            }
-                            else
-                            {
-                                TblCatagory Newcatagory = new TblCatagory();
-                                Newcatagory.Name = Name;
-                                Newcatagory.StoreId = user.TblStores.SingleOrDefault().Id;
-                                _core.Catagory.Add(Newcatagory);
-                                _core.Catagory.Save();
-                                return await Task.FromResult("true");
-                            }
+                            TblCatagory Newcatagory = new TblCatagory();
+                            Newcatagory.Name = Name;
+                            Newcatagory.StoreId = user.TblStores.SingleOrDefault().Id;
+                            _core.Catagory.Add(Newcatagory);
+                            _core.Catagory.Save();
+                            return await Task.FromResult("true");
                         }
                     }
                 }
+            }
             //}
         }
 

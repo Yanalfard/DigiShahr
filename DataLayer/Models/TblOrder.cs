@@ -33,6 +33,7 @@ namespace DataLayer.Models
         public int Status { get; set; }
         public bool IsDelivered { get; set; }
         public bool IsDeleted { get; set; }
+
         [ForeignKey(nameof(DiscountId))]
         [InverseProperty(nameof(TblDiscount.TblOrders))]
         public virtual TblDiscount Discount { get; set; }

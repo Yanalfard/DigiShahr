@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.Models;
 using Services.Services;
+using System.Web.Mvc;
 
 namespace DigiShahr.ViewComponents.Admin.Naighborhood
 {
@@ -14,6 +15,8 @@ namespace DigiShahr.ViewComponents.Admin.Naighborhood
 
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
+            List<TblCity> citys = _core.City.Get().ToList();
+            ViewData["CityList"] = citys;
             return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Naighborhood/Components/Create.cshtml"));
         }
     }

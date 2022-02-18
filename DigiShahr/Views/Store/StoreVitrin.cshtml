@@ -32,11 +32,13 @@
 
     <div class="uk-margin-auto-vertical center uk-position-absolute">
         @if (!string.IsNullOrEmpty(Model.LogoUrl))
-        {<h3 class="center uk-margin-auto-vertical">
+        {
+            <h3 class="center uk-margin-auto-vertical">
 
                 <img class="LogoPicture uk-margin-top LogoPictureVitrinDesktop" src="~/Upload/StoreLogo/@Model.LogoUrl" width="80" height="80" />
 
-            </h3>}
+            </h3>
+        }
 
         <div class=" center uk-margin-small-top">
             @if (string.IsNullOrEmpty(Model.LogoUrl))
@@ -47,7 +49,8 @@
                     </span>
                     <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
                     <span class="uk-text-danger" id="LogoFileErorr"></span>
-                </div> }
+                </div>
+            }
             else
             {
                 <div class="js-upload vitrin-upload" uk-form-custom>
@@ -57,13 +60,15 @@
                     <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
                     <span class="uk-text-small">ویرایش لوگو</span>
                     <span class="uk-text-danger" id="LogoFileErorr"></span>
-                </div>}
+                </div>
+            }
         </div>
     </div>
 
     @if (Model.MainBannerUrl != null)
     {
-        <img class="bannerImage MainbannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />}
+        <img class="bannerImage MainbannerImage" src="~/Upload/StoreMainBanner/@Model.MainBannerUrl" />
+    }
     @if (string.IsNullOrEmpty(Model.MainBannerUrl))
     {
         <div class="js-upload uk-position-absolute absolute-right vitrin-upload uk-margin-small-top" uk-form-custom>
@@ -71,7 +76,8 @@
             <a><span class="icon-holder" uk-icon="add-circle-outline" tabindex="-1"></span></a>
             <span class="uk-text-small">افزودن بنر</span>
             <span class="uk-text-danger" id="MainBannerFileErorr"></span>
-        </div> }
+        </div>
+    }
     else
     {
         <div class="js-upload uk-position-absolute absolute-right vitrin-upload uk-margin-small-top" uk-form-custom>
@@ -81,7 +87,8 @@
             <a><span class="icon-holder" uk-icon="create-outline" tabindex="-1"></span></a>
             <span class="uk-text-small">ویرایش بنر</span>
             <span class="uk-text-danger"></span>
-        </div>}
+        </div>
+    }
 
 </div>
 <hr class="uk-divider-icon" />
@@ -133,16 +140,16 @@
                         <script src="~/Jquery/jquery-3.4.1.min.js"></script>
                         <button id="LotteryWinnerSubmit" class="gradientButton uk-text-center uk-margin-auto-left uk-margin-right uk-margin-small-top">قرعه کشی</button>
                         <script>
-                        $("#LotteryWinnerSubmit").click(
-                            function () {
-                                $("#LotteryLoad").removeClass('LotteryLoad');
-                                $.post("/Store/LotteryWinnerSubmit?Id=" +@Model.Id, function (result) {
-                                    if (result == "true") {
-                                        window.location.reload();
-                                    }
-                                });
-                            }
-                        );
+                            $("#LotteryWinnerSubmit").click(
+                                function () {
+                                    $("#LotteryLoad").removeClass('LotteryLoad');
+                                    $.post("/Store/LotteryWinnerSubmit?Id=" +@Model.Id, function (result) {
+                                        if (result == "true") {
+                                            window.location.reload();
+                                        }
+                                    });
+                                }
+                            );
                         </script>
 
                     }
@@ -150,13 +157,13 @@
                     {
                         <script src="~/Jquery/jquery-3.4.1.min.js"></script>
                         <script>
-                            $(function () {
-                            $.post("/Store/LotteryDelete?Id=" +@Model.Id, function (result) {
-                                if (result == "true") {
-                                    window.location.reload();
-                                }
+                                $(function () {
+                                $.post("/Store/LotteryDelete?Id=" +@Model.Id, function (result) {
+                                    if (result == "true") {
+                                        window.location.reload();
+                                    }
+                                });
                             });
-                        });
                         </script>
                     }
                     @if (Model.Ability.LotteryWinner != null)
@@ -220,7 +227,8 @@
         }
     </div>
     ///////////////////////edit first banner section///////////////////////////////
-    @await Component.InvokeAsync("Banner1InPiece", Model.AbilityId);
+    @await Component.InvokeAsync("Banner1InPiece", Model.AbilityId)
+    ;
     ///////////////////////end edit first banner section///////////////////////////////
 }
 
@@ -261,8 +269,7 @@
 
         @foreach (var item in Model.TblCatagories)
         {
-            <input id="Category-@item.Id" class="category" value="@item.Name" onchange="ChangeCategory(@item.Id)">
-
+                <input id="Category-@item.Id" class="category" value="@item.Name" onchange="ChangeCategory(@item.Id)">
         }
     </div>
     <hr />
@@ -300,78 +307,78 @@
         }
     </div>
     ///////////////////////edit second banner section///////////////////////////////
-    @await Component.InvokeAsync("Banner2InPiece", Model.AbilityId);
+    @await Component.InvokeAsync("Banner2InPiece", Model.AbilityId)
+    ;
     ///////////////////////end edit second banner section///////////////////////////////
 }
 <div class="my-space"></div>
 <div id="AddProduct" uk-modal>
     <div class="uk-modal-dialog uk-margin-auto-vertical " uk-overflow-auto dir="rtl">
-
     </div>
 </div>
 
 @section Script{
-    <script src="~/ScriptCenter/jquery.validate.min.js"></script>
-    <script src="~/ScriptCenter/jquery.validate.unobtrusive.js"></script>
-    <script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
-    <script>
+<script src="~/ScriptCenter/jquery.validate.min.js"></script>
+<script src="~/ScriptCenter/jquery.validate.unobtrusive.js"></script>
+<script src="~/ScriptCenter/Tools/Multi_formatting_Currency.js"></script>
+<script>
 
 
-        $('#toDate').MdPersianDateTimePicker({
-            targetTextSelector: '#toDate',
-            targetDateSelector: '#toDate',
+    $('#toDate').MdPersianDateTimePicker({
+        targetTextSelector: '#toDate',
+        targetDateSelector: '#toDate',
+    });
+
+
+    $("#AddProductPapaer").click(function () {
+        $("#overlay").fadeIn(300);
+        $.get("/Store/AddProduct/@Model.Id", function (result) {
+            $("#overlay").fadeOut(300);
+            $(".uk-modal-dialog").html(result);
         });
+    });
 
-
-        $("#AddProductPapaer").click(function () {
-            $("#overlay").fadeIn(300);
-            $.get("/Store/AddProduct/@Model.Id", function (result) {
+    $("#CreateDiscount").submit(function (e) {
+        e.preventDefault();
+        $("#overlay").fadeIn(300);
+        var data = $(this).serializeArray();
+        $.post("/Store/CreateDiscount", data, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            } else {
                 $("#overlay").fadeOut(300);
-                $(".uk-modal-dialog").html(result);
-            });
+                $("#CreateDiscountErorr").html(result);
+            }
         });
+    });
 
-        $("#CreateDiscount").submit(function (e) {
-            e.preventDefault();
-            $("#overlay").fadeIn(300);
-            var data = $(this).serializeArray();
-            $.post("/Store/CreateDiscount", data, function (result) {
-                if (result == "true") {
-                    window.location.reload();
-                } else {
-                    $("#overlay").fadeOut(300);
-                    $("#CreateDiscountErorr").html(result);
-                }
-            });
+    function EditProduct(Id) {
+        $.get("/Store/EditProduct/" + Id, function (result) {
+            $(".uk-modal-dialog").html(result);
         });
+    }
 
-        function EditProduct(Id) {
-            $.get("/Store/EditProduct/" + Id, function (result) {
-                $(".uk-modal-dialog").html(result);
-            });
-        }
+    function ChangeCategory(Id) {
+        $("#overlay").fadeIn(300);
+        $.post("/Store/ChangeCategory?Id=" + Id + "&Name=" + $("#Category-" + Id).val(), function (result) {
+            if (result == "true") {
+                window.location.reload();
+            } else {
+                $("#overlay").fadeOut(300);
+                $("#CreateCategoryErorr").html(result);
+            }
+        });
+    }
 
-        function ChangeCategory(Id) {
-            $("#overlay").fadeIn(300);
-            $.post("/Store/ChangeCategory?Id=" + Id + "&Name=" + $("#Category-" + Id).val(), function (result) {
-                if (result == "true") {
-                    window.location.reload();
-                } else {
-                    $("#overlay").fadeOut(300);
-                    $("#CreateCategoryErorr").html(result);
-                }
-            });
-        }
+    function RemoveDiscount(Id) {
+        $.post("/Store/RemoveDiscount?Id=" + Id, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            }
+        });
+    }
 
-        function RemoveDiscount(Id) {
-            $.post("/Store/RemoveDiscount?Id=" + Id, function (result) {
-                if (result == "true") {
-                    window.location.reload();
-                }
-            });
-        }
-
-    </script>
-    <script src="~/Command/StoreVitrin.js"></script>
+</script>
+<script src="~/Command/StoreVitrin.js"></script>
 
 }

@@ -1,6 +1,6 @@
-﻿@model IEnumerable<DataLayer.Models.TblStoreCatagory>
+﻿@model IEnumerable<DataLayer.Models.TblCity>
 @{
-    ViewData["Title"] = "دسته بندی فروشگاه ها ";
+    ViewData["Title"] = "شهرها ";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -10,7 +10,7 @@
             <div class="card-header bg-white">
                 <div class="pr-1 pt-2">
                     <div class="form-group pb-0 mb-0">
-                        <button id="Create" data-toggle="modal" data-target="#modalSave" class="btn btn-success btn-sm">افزودن</button>
+                        <a href="/Admin/City/Create" class="btn btn-success btn-sm">افزودن</a>
                     </div>
                 </div>
             </div>
@@ -20,9 +20,8 @@
                     <table class="table fixed">
                         <thead class="thead-light">
                             <tr>
-                                <th>کد دسته بندی</th>
-                                <th>نام دسته بندی</th>
-                                <th>زیر مجموعه</th>
+                                <th>کد شهر </th>
+                                <th>نام شهر </th>
                                 <th>عملیات</th>
                             </tr>
                         </thead>
@@ -37,16 +36,14 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>#@item.Id</td>
+                                    <td>#@item.CityId</td>
                                     <td>@item.Name</td>
                                     <td>
-                                        <span data-placement="top" data-toggle="tooltip" title="" data-original-title="مشاهده زیر مجموعه">
-                                            <a onclick="Child(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="albums-outline"></a>
-                                        </span>
-                                    </td>
-                                    <td>
                                         <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
-                                            <a onclick="edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="create-outline"></a>
+                                            <a href="/Admin/City/Edit/@item.CityId" class="text-primary" uk-icon="create-outline"></a>
+                                        </span>
+                                        <span data-placement="top" data-toggle="tooltip" title="" data-original-title="حذف">
+                                            <a onclick="Remove(@item.CityId)" class="text-danger" uk-icon="trash"></a>
                                         </span>
                                     </td>
                                 </tr>
@@ -123,5 +120,20 @@
     </div>
 </div>
 @section Script{
-    <script src="~/Command/AdminStoreCategory.js"></script>
+<script src="~/Command/AdminCity.js"></script>
+
+<script>
+        function Remove(id) {
+        if (confirm('آیا از حذف   مورد نظر مطمئن هستید؟')) {
+
+            $.post("/Admin/City/Delete/" + id, function () {
+                window.location.reload();
+            });
+        } else {
+            // Do nothing!
+        }
+
+    }
+</script>
+
 }

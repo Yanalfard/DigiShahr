@@ -11,8 +11,8 @@
             else {
                 $("#CreateCategoryErorr").html(result);
             }
-        }
-    });
+        })
+    };
 });
 
 $("#MainBannerFile").change(function () {

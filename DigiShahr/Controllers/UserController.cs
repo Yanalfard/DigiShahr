@@ -36,7 +36,7 @@ namespace DigiShahr.Controllers
                 editUser.Lat = user.Lat;
                 editUser.Lon = user.Lon;
                 editUser.NaighborhoodId = user.NaighborhoodId;
-                ViewBag.Naighborhood = _core.Naighborhood.Get();
+                ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == user.CityId);
                 return View(editUser);
             }
         }
@@ -111,11 +111,11 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    TblUser selectedUseer= _core.User.GetById(user.Id);
+                    TblUser selectedUseer = _core.User.GetById(user.Id);
                     selectedUseer.Password = Cryptography.SHA256(changePasswordInSignIn.NewPassword);
                     _core.User.Update(selectedUseer);
                     _core.User.Save();
-                   // return new JavaScriptResult("alert('Hello world!');");
+                    // return new JavaScriptResult("alert('Hello world!');");
                     return await Task.FromResult(PartialView("ChangeUserPassword"));
                 }
 

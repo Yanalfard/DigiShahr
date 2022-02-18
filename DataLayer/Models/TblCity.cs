@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -22,7 +21,7 @@ namespace DataLayer.Models
 
         [Key]
         public int CityId { get; set; }
-        [Required]
+        [Required(ErrorMessage ="نام شهر را وارد کنید")]
         [StringLength(150)]
         public string Name { get; set; }
         [StringLength(50)]
