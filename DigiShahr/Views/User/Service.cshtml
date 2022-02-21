@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DataLayer.Models.TblQueue>
+
+@using DigiShahr.Classes
+@{
+    ViewData["Title"] = "UserOrder";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="pageHeader">
+    <div class="my-spaceInMap"></div>
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">ویزیت های من</h3>
+        <a href="/Order/ShowBasket"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+    </div>
+</div>
+
+<content class="grid" dir="rtl">
+    @if (Model.Count() != 0)
+    {
+        @foreach (var item in Model)
+        {
+            <article class="Purchases my-column matCart my-clipped uk-margin-top my-clipped-desktop">
+                <content class="uk-padding-small uk-text-center">
+                    <a href="#" class="center uk-text-center StoreName">@item.Store.Catagory.Name @item.Store.Name</a>
+                    <ul class="uk-padding-remove-right uk-padding-remove-left">
+                        <li>
+                            <span class="icon-holder uk-text-warning uk-margin-small-left" uk-icon="calendar-outline"> </span>تاریخ مراجعه : @item.Date.DateToShamsi()
+                        </li>
+                        <li>
+                            <span class="icon-holder uk-text-warning uk-margin-small-left" uk-icon="albums-outline"> </span>توضیح مختصر : @item.Store.Ability.BuissnessDescription
+                        </li>
+                        <li>
+                            <span class="icon-holder uk-text-danger uk-margin-small-left uk-margin-small-top" uk-icon="location"> </span>آدرس جهت مراجعه :  @item.Store.Address
+                        </li>
+                        <li>
+                            <span class="icon-holder clockIcon uk-margin-small-left uk-margin-small-top" uk-icon="time-outline"> </span> مبلغ پرداختی @item.Price.ToString("#,0")
+                        </li>
+                        <li>
+                            <span class="icon-holder clockIcon uk-margin-small-left uk-margin-small-top" uk-icon="call-outline"> </span> شماره تلفن @item.Store.StaticTell
+                        </li>
+                    </ul>
+                </content>
+            </article>
+        }
+    }
+</content>
+<div id="OrderInfo" class="modal-sections" uk-modal>
+</div>
+<nav class="pagenav matCart my-clipped my-clipped-desktop">
+    @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
+</nav>
+<div class="my-space"></div>

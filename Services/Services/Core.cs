@@ -27,6 +27,7 @@ namespace Services.Services
         private MainRepo<TblMusic> _music;
         private MainRepo<TblBookMark> _bookmark;
         private MainRepo<TblCity> _city;
+        private MainRepo<TblQueue> _queue;
 
         public MainRepo<TblDeal> Deal => _deal ??= new MainRepo<TblDeal>(_context);
         public MainRepo<TblAbility> Ability => _ability ??= new MainRepo<TblAbility>(_context);
@@ -45,6 +46,7 @@ namespace Services.Services
         public MainRepo<TblMusic> Music => _music ??= new MainRepo<TblMusic>(_context);
         public MainRepo<TblBookMark> Bookmark => _bookmark ??= new MainRepo<TblBookMark>(_context);
         public MainRepo<TblCity> City => _city ??= new MainRepo<TblCity>(_context);
+        public MainRepo<TblQueue> Queue => _queue ??= new MainRepo<TblQueue>(_context);
 
         public void Dispose()
         {

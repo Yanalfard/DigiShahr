@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [PermissionChecker("rTPh32gmK8")]
+    [PermissionChecker("admin")]
     public class MusicController : Controller
     {
         Core _core = new Core();

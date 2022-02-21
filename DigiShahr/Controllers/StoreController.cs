@@ -22,13 +22,13 @@ namespace DigiShahr.Controllers
         Core _core = new Core();
         public async Task<IActionResult> Index(int page = 1)
         {
-            if (User.Claims.First().Value == "d7tpmTdwXL")
+            if (User.Claims.First().Value == "user")
             {
                 return Redirect("/Store/BuyPackage");
             }
             else
             {
-                IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().FirstOrDefault(s => s.User.TellNo == User.FindFirstValue(ClaimTypes.Name).ToString()).TblOrders.Where(o => o.IsFinaly && !o.IsDeleted).OrderByDescending(i=>i.DateSubmited), 20, page);
+                IEnumerable<TblOrder> Order = PagingList.Create(_core.Store.Get().FirstOrDefault(s => s.User.TellNo == User.FindFirstValue(ClaimTypes.Name).ToString() && !s.IsBuissness).TblOrders.Where(o => o.IsFinaly && !o.IsDeleted).OrderByDescending(i => i.DateSubmited), 20, page);
                 return await Task.FromResult(View(Order));
             }
         }
@@ -38,7 +38,7 @@ namespace DigiShahr.Controllers
             {
                 string userTell = User.FindFirstValue(ClaimTypes.Name).ToString();
 
-                List<TblOrder> list=_core.Store.Get().FirstOrDefault(s => s.User.TellNo == userTell)
+                List<TblOrder> list = _core.Store.Get().FirstOrDefault(s => s.User.TellNo == userTell && !s.IsBuissness)
                     .TblOrders.Where(o => o.IsFinaly && !o.IsDeleted
                     && o.DateSubmited.ToShortDateString() == DateTime.Now.ToShortDateString()).OrderByDescending(i => i.DateSubmited).ToList();
                 return await Task.FromResult(PartialView(list));
@@ -47,7 +47,7 @@ namespace DigiShahr.Controllers
             {
                 return await Task.FromResult(Redirect("/"));
             }
-          
+
         }
         public IActionResult TodayOrder()
         {
@@ -56,7 +56,7 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
-            if (User.Claims.First().Value == "d7tpmTdwXL")
+            if (User.Claims.First().Value == "user")
             {
                 return await Task.FromResult(Redirect("/Store/BuyPackage"));
             }
@@ -71,8 +71,6 @@ namespace DigiShahr.Controllers
                 return await Task.FromResult(View());
             }
 
-
-
         }
 
         public async Task<IActionResult> OrderInfo(int Id)
@@ -82,7 +80,7 @@ namespace DigiShahr.Controllers
 
         public async Task<string> OrderDeliver(int Id)
         {
-            if (User.Claims.First().Value == "d7tpmTdwXL")
+            if (User.Claims.First().Value == "user")
             {
                 return await Task.FromResult("/Store/BuyPackage");
             }
@@ -100,7 +98,7 @@ namespace DigiShahr.Controllers
 
         public IActionResult EditProduct(int Id)
         {
-            if (User.Claims.First().Value == "d7tpmTdwXL")
+            if (User.Claims.First().Value == "user")
             {
                 return Redirect("/Store/BuyPackage");
             }
@@ -170,7 +168,7 @@ namespace DigiShahr.Controllers
 
         public IActionResult PaymentBuyPackage(int DealId)
         {
-            if (User.Claims.First().Value == "8f32nFmU6m")
+            if (User.Claims.First().Value == "seller")
             {
                 TblDeal deal = _core.Deal.GetById(DealId);
                 int id = deal.Id;
@@ -256,9 +254,13 @@ namespace DigiShahr.Controllers
 
         public IActionResult CreateStore(int? id)
         {
-            if (User.Claims.First().Value == "8f32nFmU6m")
+            if (User.Claims.First().Value == "seller")
             {
                 return Redirect("/Store/StoreVitrin");
+            }
+            else if (User.Claims.First().Value == "services")
+            {
+                return Redirect("/Buissnes/Dashboard");
             }
             else
             {
@@ -281,7 +283,7 @@ namespace DigiShahr.Controllers
                             else
                             {
 
-                                if (User.Claims.First().Value == "8f32nFmU6m")
+                                if (User.Claims.First().Value == "seller")
                                 {
                                     return Redirect("/Store/StoreVitrin");
                                 }
@@ -323,7 +325,7 @@ namespace DigiShahr.Controllers
                     {
                         if (id == 0)
                         {
-                            if (User.Claims.First().Value == "8f32nFmU6m")
+                            if (User.Claims.First().Value == "seller")
                             {
                                 return Redirect("/Store/StoreVitrin");
                             }
@@ -633,7 +635,7 @@ namespace DigiShahr.Controllers
         [HttpGet]
         public async Task<IActionResult> StoreSetting()
         {
-            if (User.Claims.First().Value != "8f32nFmU6m")
+            if (User.Claims.First().Value != "seller")
             {
                 return Redirect("/Store/BuyPackage");
             }
@@ -685,7 +687,7 @@ namespace DigiShahr.Controllers
 
             if (ModelState.IsValid)
             {
-                if (User.Claims.First().Value != "8f32nFmU6m")
+                if (User.Claims.First().Value != "seller")
                 {
                     return Redirect("/Store/BuyPackage");
                 }
@@ -757,7 +759,7 @@ namespace DigiShahr.Controllers
             }
             else
             {
-                if (User.Claims.First().Value != "8f32nFmU6m")
+                if (User.Claims.First().Value != "seller")
                 {
                     return Redirect("/Store/BuyPackage");
                 }
@@ -820,7 +822,7 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> StoreVitrin()
         {
-            if (User.Claims.First().Value == "d7tpmTdwXL")
+            if (User.Claims.First().Value == "user")
             {
                 return Redirect("/Store/BuyPackage");
             }

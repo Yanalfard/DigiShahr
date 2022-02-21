@@ -7,7 +7,7 @@ using System.Linq;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [PermissionChecker("rTPh32gmK8")]
+    [PermissionChecker("admin")]
     //Admin
     public class HomeController : Controller
     {

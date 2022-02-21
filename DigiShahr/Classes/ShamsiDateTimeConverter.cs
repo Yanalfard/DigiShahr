@@ -28,5 +28,17 @@ namespace DigiShahr.Classes
 
             return Pc.GetHour(value).ToString("00") + ":" + Pc.GetMinute(value).ToString("00");
         }
+
+        public static DateTime DateShamsiToMiladi(this string value)
+        {
+            PersianCalendar pc = new PersianCalendar();
+            string[] std = value.Split('/');
+            DateTime dt = new DateTime(int.Parse(std[0]),
+                int.Parse(std[1]),
+                int.Parse(std[2]),
+                new PersianCalendar()
+                );
+            return dt;
+        }
     }
 }

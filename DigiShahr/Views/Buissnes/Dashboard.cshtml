@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "داشبورد";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="my-space"></div>
+<div class="matCart my-column my-clipped my-clipped-desktop">
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">داشبورد فروشگاه</h3>
+        <a href="/"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
+    </div>
+    <div class="DashboardGrid grid uk-padding-small center uk-child-width-1-2 uk-margin-top" dir="rtl">
+        <div class="matCart my-column AcceptedOrders center" href="">
+            <span class="icon-holder CheckmarkIcon" uk-icon="checkmark-circle-outline"></span>
+            <label class="">مراجعین امروز</label>
+            <span>@ViewData["SuccessOrders"]</span>
+        </div>
+        <div class="matCart my-column CustomersNumber center" href="">
+            <span class="icon-holder PeopleIcon" uk-icon="people"></span>
+            <label class="">تعداد کل مراجعین</label>
+            <span>@ViewData["Customers"]</span>
+        </div>
+    </div>
+    <div class="my-column my-clipped my-clipped-desktop DashboardLinks uk-margin-large-bottom" dir="rtl">
+        <a class="uk-margin-top LinkBox uk-margin-auto" href="/Buissnes/TodayOrder"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="receipt"></span>لیست مراجعین  امروز</a>
+        <a class="uk-margin-top LinkBox uk-margin-auto" href="/Buissnes"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="receipt"></span>لیست  همه مراجعین ثبت شده  </a>
+        <a class="uk-margin-top LinkBox uk-margin-auto" href="/Buissnes/BuissnesSetting"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="settings"></span>تنظیمات  </a>
+    </div>
+</div>
+
+<div class="my-space"></div>
+

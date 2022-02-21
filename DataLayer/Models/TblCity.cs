@@ -21,7 +21,7 @@ namespace DataLayer.Models
 
         [Key]
         public int CityId { get; set; }
-        [Required(ErrorMessage ="نام شهر را وارد کنید")]
+        [Required(ErrorMessage = "نام شهر را وارد کنید")]
         [StringLength(150)]
         public string Name { get; set; }
         [StringLength(50)]

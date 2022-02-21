@@ -32,7 +32,9 @@ namespace DataLayer.Models
         [StringLength(500)]
         public string BannerImageUrl2 { get; set; }
         [StringLength(500)]
-        public string BannerLink2 { get; set; }
+        public string BannerLink2 { get; set; } 
+        [StringLength(500)]
+        public string BuissnessDescription { get; set; }
         public bool IsLotteryEnable { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? LotteryDisplayDate { get; set; }
@@ -42,6 +44,7 @@ namespace DataLayer.Models
         public short ValidationTimeSpan { get; set; }
         public bool? IsMusicEnable { get; set; }
         public int? MusicId { get; set; }
+        public int? BuissnessPrice { get; set; }
 
         [ForeignKey(nameof(MusicId))]
         [InverseProperty(nameof(TblMusic.TblAbilities))]

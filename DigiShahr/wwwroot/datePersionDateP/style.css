@@ -1,0 +1,45 @@
+/* DatePicker */
+
+.datepicker-plot-area {
+  font: 15px 'vazir' !important;
+}
+
+.pwt-btn-today {
+  float: none !important;
+  font-size: 13px !important;
+  margin:  0 0 5px 0 !important;
+  display: inline-block !important;
+  background-color: #0d6efd !important;
+  color: white !important;
+  border-radius: 5px !important;
+  padding: 5px !important;
+  line-height: 15px !important;
+}
+
+.datepicker-plot-area {
+  border-radius: 5px !important;
+  border: 1px solid #d63384 !important;
+  padding: 5px !important;
+  min-width: 225px !important;
+}
+
+.datepicker-plot-area .datepicker-day-view .table-days td.selected span, .datepicker-plot-area .datepicker-year-view .year-item.selected, .datepicker-plot-area .datepicker-month-view .month-item.selected {
+  border-radius: 5px !important;
+  background-color: #198754!important;
+}
+
+.datepicker-plot-area .datepicker-day-view .table-days td.today span {
+  border-radius: 5px !important;
+  background-color: #0d6efd!important;
+}
+
+.datepicker-plot-area .datepicker-day-view .table-days td.selected span .datepicker-plot-area .datepicker-day-view .table-days td:hover, .datepicker-plot-area .datepicker-day-view .table-days td span:hover, .datepicker-plot-area .datepicker-year-view .year-item:hover, .datepicker-plot-area .datepicker-month-view .month-item:hover {
+  background-color: #ffc107 !important;
+  border-radius: 5px !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+/* Date Picker end */

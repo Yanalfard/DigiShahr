@@ -27,11 +27,11 @@
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    if (User.Claims.First().Value == "d7tpmTdwXL")
+                    if (User.Claims.First().Value == "user")
                     {
                         <li><a class="icon-holder i" uk-icon="addStore" href="/Store/CreateStore"></a></li>
                     }
-                    else if (User.Claims.First().Value == "8f32nFmU6m")
+                    else if (User.Claims.First().Value == "seller")
                     {
                         <li><a onclick="NewOrdernotifications(@UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id)" class="icon-holder CartNotif" uk-icon="notifications" href="#notificationList" uk-toggle><span id="NewOrdernotificationsShow" class="center badge uk-text-center uk-margin-auto-vertical" dir="auto"></span></a></li>
 
@@ -51,9 +51,18 @@
         <div id="offcanvas-flip" uk-offcanvas="flip: true; overlay: true">
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <h3 class="MenuCategory">دسته بندی مشاغل</h3>
+                @*<h3 class="MenuCategory">دسته بندی مشاغل</h3>*@
                 <ul class="uk-menu-accordion" uk-accordion="multiple: true" dir="rtl">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a href="/User" class="main-title"><span class="icon-holder uk-margin-small-left" uk-icon="card-outline"></span>سفارشات</a>
+                        </li>
+                        <li>
+                            <a href="/User/Service" class="main-title"><span class="icon-holder uk-margin-small-left" uk-icon="server-outline"></span>لیست ویزیت</a>
+                        </li>
 
+                    }
                     @await Component.InvokeAsync("ParentCateogoryLayout")
 
                 </ul>
@@ -83,13 +92,21 @@
                 <li><a href="/" class="icon-holder i" uk-icon="home"></a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @if (User.Claims.First().Value == "8f32nFmU6m")
+                    @if (User.Claims.First().Value == "seller")
                     {
                         <li><a class="icon-holder i" uk-icon="changeAccount" href="/Store/Dashboard"></a></li>
                     }
-                    else if (User.Claims.First().Value == "d7tpmTdwXL")
+                    else if (User.Claims.First().Value == "user")
                     {
-                        <li><a class="icon-holder i" uk-icon="changeAccount" href="/Store/BuyPackage"></a></li>
+                        <li><a class="icon-holder i" uk-icon="changeAccount" href="/Home/Selected"></a></li>
+                    }
+                    else if (User.Claims.First().Value == "services")
+                    {
+                        <li><a class="icon-holder i" uk-icon="changeAccount" href="/Buissnes/Dashboard"></a></li>
+                    }
+                    else if (User.Claims.First().Value == "admin")
+                    {
+                        <li><a class="icon-holder i" uk-icon="changeAccount" href="/admin"></a></li>
                     }
                 }
                 else
@@ -122,7 +139,6 @@
     </script>
     @*notification-madal*@
     <div id="notificationList" class="modal-sections notificationList" uk-modal>
-
     </div>
     @*end notification-madal*@
 
@@ -147,11 +163,11 @@
 
     <script>
 
-            //function Ooad() {
-            //    $.get("/Home/NewOrdernotificationsShow?TellNo=" + $("#UserTellNo").val(), function (result) {
-            //        $("#NewOrdernotificationsShow").html(result);
-            //    });
-            //}
+        //function Ooad() {
+        //    $.get("/Home/NewOrdernotificationsShow?TellNo=" + $("#UserTellNo").val(), function (result) {
+        //        $("#NewOrdernotificationsShow").html(result);
+        //    });
+        //}
 
     </script>
 

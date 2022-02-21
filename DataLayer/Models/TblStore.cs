@@ -19,6 +19,7 @@ namespace DataLayer.Models
             TblDiscounts = new HashSet<TblDiscount>();
             TblOrders = new HashSet<TblOrder>();
             TblProducts = new HashSet<TblProduct>();
+            TblQueues = new HashSet<TblQueue>();
             TblStoreNaighborhoodRels = new HashSet<TblStoreNaighborhoodRel>();
         }
 
@@ -57,6 +58,7 @@ namespace DataLayer.Models
         public int CatagoryId { get; set; }
         public int UserId { get; set; }
         public int? CityId { get; set; }
+        public bool IsBuissness { get; set; }
 
         [ForeignKey(nameof(AbilityId))]
         [InverseProperty(nameof(TblAbility.TblStores))]
@@ -82,6 +84,8 @@ namespace DataLayer.Models
         public virtual ICollection<TblOrder> TblOrders { get; set; }
         [InverseProperty(nameof(TblProduct.Store))]
         public virtual ICollection<TblProduct> TblProducts { get; set; }
+        [InverseProperty(nameof(TblQueue.Store))]
+        public virtual ICollection<TblQueue> TblQueues { get; set; }
         [InverseProperty(nameof(TblStoreNaighborhoodRel.Store))]
         public virtual ICollection<TblStoreNaighborhoodRel> TblStoreNaighborhoodRels { get; set; }
     }

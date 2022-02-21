@@ -15,6 +15,7 @@ namespace DataLayer.Models
         {
             TblBookMarks = new HashSet<TblBookMark>();
             TblOrders = new HashSet<TblOrder>();
+            TblQueues = new HashSet<TblQueue>();
             TblStores = new HashSet<TblStore>();
         }
 
@@ -58,6 +59,8 @@ namespace DataLayer.Models
         public virtual ICollection<TblBookMark> TblBookMarks { get; set; }
         [InverseProperty(nameof(TblOrder.User))]
         public virtual ICollection<TblOrder> TblOrders { get; set; }
+        [InverseProperty(nameof(TblQueue.User))]
+        public virtual ICollection<TblQueue> TblQueues { get; set; }
         [InverseProperty(nameof(TblStore.User))]
         public virtual ICollection<TblStore> TblStores { get; set; }
     }

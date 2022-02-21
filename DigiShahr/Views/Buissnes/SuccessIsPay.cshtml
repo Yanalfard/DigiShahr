@@ -1,0 +1,32 @@
+﻿@model DataLayer.ViewModel.InfoVisitViewModel
+@using DigiShahr.Classes
+@{
+    ViewData["Title"] = "رزرو خود را نهایی کنید";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+
+}
+<link href="~/StyleCenter/Sass/Home/Bascket.min.css" rel="stylesheet" />
+<div class="my-space"></div>
+<div class="matCart my-column my-clipped my-clipped-desktop">
+
+
+    @*send to store and timer section*@
+
+    <div class="formTitr my-row uk-margin-top" dir="rtl">
+        <h3 class="center">تکمیل </h3>
+    </div>
+    <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+        <label class="horizontalCenter uk-margin-small-bottom">@Model.CategoryName @Model.ServiceName   </label>
+        <label class="horizontalCenter uk-margin-small-bottom">تاریخ مراجعه   : @Model.date</label>
+        <label class="horizontalCenter uk-margin-small-bottom">مبلغ پرداختی  شما:<span>@Model.Price.ToString("#,0 تومان")</span></label>
+        <label class="horizontalCenter uk-margin-small-bottom">شماره تلفن جهت هماهنگی   :<br /> @Model.Tell</label>
+        <label class="horizontalCenter uk-margin-small-bottom">آدرس جهت مراجعه شما:<br /> @Model.Address</label>
+    </div>
+    <a href="/Buissnes/PaymentServices/@Model.QueueId" class="my-column cart-section uk-padding-small uk-margin-remove-top" dir="rtl">
+        <div class="priceFinal gradientButton uk-text-center center uk-margin-large-top uk-margin-bottom">
+            <label>   تایید و پرداخت</label>
+        </div>
+    </a>
+
+
+</div>

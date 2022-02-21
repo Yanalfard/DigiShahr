@@ -29,6 +29,7 @@ namespace DataLayer.Models
         public virtual DbSet<TblOrder> TblOrders { get; set; }
         public virtual DbSet<TblOrderDetail> TblOrderDetails { get; set; }
         public virtual DbSet<TblProduct> TblProducts { get; set; }
+        public virtual DbSet<TblQueue> TblQueues { get; set; }
         public virtual DbSet<TblRole> TblRoles { get; set; }
         public virtual DbSet<TblStore> TblStores { get; set; }
         public virtual DbSet<TblStoreCatagory> TblStoreCatagories { get; set; }
@@ -40,9 +41,10 @@ namespace DataLayer.Models
       .UseLazyLoadingProxies()
       .UseSqlServer("Data Source=185.55.224.199;Initial Catalog=ecovilli_ecovill;User ID=ecovilli_ecovill;Password=ap50%5cV");
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("asamedc1_ecovill");
+            modelBuilder.HasDefaultSchema("ecovilli_ecovill");
 
             modelBuilder.Entity<TblAbility>(entity =>
             {
@@ -199,6 +201,23 @@ namespace DataLayer.Models
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TblProduct_TblStore");
+            });
+
+            modelBuilder.Entity<TblQueue>(entity =>
+            {
+                entity.Property(e => e.DateSubminted).HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.TblQueues)
+                    .HasForeignKey(d => d.StoreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblQueue_TblStore");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.TblQueues)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblQueue_TblUser");
             });
 
             modelBuilder.Entity<TblRole>(entity =>

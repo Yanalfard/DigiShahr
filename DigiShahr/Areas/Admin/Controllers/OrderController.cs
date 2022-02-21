@@ -6,7 +6,7 @@ using Services.Services;
 namespace DigiShahr.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [PermissionChecker("rTPh32gmK8")]
+    [PermissionChecker("admin")]
     public class OrderController : Controller
     {
         private Core _core = new Core();

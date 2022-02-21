@@ -10,12 +10,57 @@ using System.Collections.Generic;
 using DigiShahr.Utilit;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using PersianTools.Core;
+using DigiShahr.Classes;
+using ZarinpalSandbox;
 
 namespace DigiShahr.Controllers
 {
     public class HomeController : Controller
     {
         Core _core = new Core();
+
+
+
+        public async Task<string> InfoVisit(int id, string date)
+        {
+            #region Comment
+
+            //if(!date.PersianNumberToEnglishNumber(out date))
+            //{
+            //    return await Task.FromResult("لطفا تاریخ را به درستی انتخاب کنید");
+            //}
+            //if (!date.CheckDateShamsi())
+            //{
+            //    return await Task.FromResult("لطفا تاریخ را به درستی انتخاب کنید");
+            //}
+            //var dateTimeShamsi = new PersianDateTime(date);
+            //if (dateTimeShamsi.CheckDateIsHolyday())
+            //{
+            //    return await Task.FromResult("لطفا روزهای کاری را انتخاب کنید (روزهای تعطیل امکان رزرو نیست)");
+            //}
+            //if (dateTimeShamsi.CheckDateIsValid())
+            //{
+            //    return await Task.FromResult("امروز و روزهای قبل قابل انتخاب نیست");
+            //}
+            //DateTime dateTimeMilady = date.DateShamsiToMiladi();
+            #endregion
+
+            string showErroe = "";
+            bool isValid = false;
+            DateTime dateTimeMilady = date.ShamsiToMiladi(out isValid, out showErroe);
+            if (!isValid)
+            {
+                return showErroe;
+            }
+            return await Task.FromResult("true");
+        }
+
+
+
+
+
+
         public async Task<IActionResult> IndexAsync(string Search, int Category = 0)
         {
             IndexViewModel indexViewModel = new IndexViewModel();
@@ -84,12 +129,54 @@ namespace DigiShahr.Controllers
         {
             return await Task.FromResult(View(_core.Order.GetById(Id)));
         }
+        [Authorize]
+        public async Task<IActionResult> Selected()
+        {
+            if (User.Claims.First().Value == "seller")
+            {
+                return Redirect("/Store/StoreVitrin");
+            }
+            else if (User.Claims.First().Value == "services")
+            {
+                return Redirect("/Buissnes/Dashboard");
+            }
+            //ViewData["SelectStore"] = _core.Catagory.Get(i => i.IsBuissness == false).Select(i => i.Name).ToList();
+            //ViewData["SelectBuissnes"] = _core.Catagory.Get(i => i.IsBuissness).Select(i => i.Name).ToList();
+            return await Task.FromResult(View());
+        }
 
         public IActionResult NewNotificationOrder(int Id)
         {
             return ViewComponent("NewOrdernotifications", new { Id = Id });
         }
+        public async Task<IActionResult> PieceService(int Id)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewBag.Bookmark = false;
+                TblStore store = _core.Store.GetById(Id);
+                return await Task.FromResult(View(store));
+            }
+            else
+            {
+                TblStore store = _core.Store.GetById(Id);
 
+                if (_core.Bookmark.Get().Any(b => b.StoreId == Id && b.UserId == UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id))
+                {
+                    ViewBag.Bookmark = true;
+                    ViewBag.UserId = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id;
+                }
+                else
+                {
+                    ViewBag.Bookmark = false;
+                    ViewBag.UserId = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id;
+                }
+
+                return await Task.FromResult(View(store));
+
+            }
+
+        }
         public async Task<IActionResult> Piece(int Id)
         {
             if (!User.Identity.IsAuthenticated)
@@ -139,7 +226,36 @@ namespace DigiShahr.Controllers
             TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
             return await Task.FromResult(View(user.TblBookMarks));
         }
-
+        public IActionResult OnlinePaymentService(int id)
+        {
+            InfoVisitViewModel info = new InfoVisitViewModel();
+            if (HttpContext.Request.Query["Status"] != "" &&
+                   HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
+                   HttpContext.Request.Query["Authority"] != "")
+            {
+                string authority = HttpContext.Request.Query["Authority"].ToString();
+                var queue = _core.Queue.GetById(id);
+                var payment = new Payment(queue.Price);
+                var res = payment.Verification(authority).Result;
+                info.RefId = res.RefId;
+                if (res.Status == 100)
+                {
+                    queue.IsFinaly = true;
+                    _core.Queue.Update(queue);
+                    _core.Queue.Save();
+                    var store = _core.Store.GetById(queue.StoreId);
+                    info.ServiceName = store.User.Name;
+                    info.CategoryName = store.Catagory.Name;
+                    info.Address = store.Address;
+                    info.Tell = store.StaticTell;
+                    info.Price = (int)store.Ability.BuissnessPrice;
+                    info.QueueId = queue.Id;
+                    info.DateVisit = queue.Date;
+                    info.IsFinaly = true;
+                }
+            }
+            return View(info);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

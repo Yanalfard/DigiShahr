@@ -1,0 +1,37 @@
+﻿@model DataLayer.ViewModel.InfoVisitViewModel
+@using DigiShahr.Classes
+@{
+    ViewData["Title"] = "رزرو خود را نهایی کنید";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+
+}
+<link href="~/StyleCenter/Sass/Home/Bascket.min.css" rel="stylesheet" />
+<div class="my-space"></div>
+<div class="matCart my-column my-clipped my-clipped-desktop">
+
+    @if (Model.IsFinaly)
+    {
+
+        <div class="formTitr my-row uk-margin-top uk-alert uk-alert-success" dir="rtl">
+            <h3 class="center">پرداخت باموفقیت انجام شد  </h3>
+        </div>
+        <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+            <label class="horizontalCenter uk-margin-small-bottom">کد پیگیری   : @Model.RefId</label>
+            <label class="horizontalCenter uk-margin-small-bottom">@Model.CategoryName @Model.ServiceName   </label>
+            <label class="horizontalCenter uk-margin-small-bottom">تاریخ مراجعه   : @Model.DateVisit.AllToShamsi()</label>
+            <label class="horizontalCenter uk-margin-small-bottom">مبلغ پرداختی  شما:<span>@Model.Price.ToString("#,0 تومان")</span></label>
+            <label class="horizontalCenter uk-margin-small-bottom">شماره تلفن جهت هماهنگی   :<br /> @Model.Tell</label>
+            <label class="horizontalCenter uk-margin-small-bottom">آدرس جهت مراجعه شما:<br /> @Model.Address</label>
+        </div>
+    }
+    else
+    {
+        <div class="formTitr my-row uk-margin-top uk-alert uk-alert-danger " dir="rtl">
+            <h3 class="center">پرداخت باموفقیت انجام نشد  </h3>
+        </div>
+        <div class="matCart my-column uk-margin-large-top center uk-margin-bottom successMessage" dir="rtl">
+            <label class="horizontalCenter uk-margin-small-bottom">کد پیگیری   : @Model.RefId</label>
+        </div>
+    }
+
+</div>

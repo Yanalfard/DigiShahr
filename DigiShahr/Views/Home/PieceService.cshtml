@@ -1,0 +1,166 @@
+﻿@model DataLayer.Models.TblStore
+@{
+    ViewData["Title"] = "فروشگاه";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@using DigiShahr.Classes
+
+<style>
+    .bannerBackground {
+        background: @Model.Catagory.Color;
+    }
+</style>
+
+
+
+<link href="~/datePersionDateP/persian-datepicker.css" rel="stylesheet" />
+<link href="~/datePersionDateP/style.css" rel="stylesheet" />
+
+
+
+
+<link href="~/StyleCenter/Sass/sellerStyle/FormsAndSeller.min.css" rel="stylesheet" />
+<div class="my-space"></div>
+<div class=" my-column my-clipped storeHead">
+
+    <div class="BannerPlace BannerInStore Piecebanner matCart center my-clipped my-clipped-desktop bannerBackground">
+        <a href="/"><span class="icon-holder uk-position-absolute uk-margin-top uk-margin-left backIconDesktop backIconPiece" uk-icon="backIcon"></span></a>
+
+    </div>
+
+    <div class="center my-column uk-position-absolute ">
+
+        <div class="center storeStars uk-margin-top">
+            <div class="star-container" uk-tooltip="@Math.Round(Model.Rate,4)">
+                <div class="Stars" style="--rating:@Model.Rate"></div>
+            </div>
+        </div>
+        <div class="center LogoPictureInStore">
+            <img class="storeLogo" src="/Upload/StoreLogo/@Model.LogoUrl" height="80" width="80" />
+        </div>
+    </div>
+    <div class="deliveryState my-column matCart my-column my-clipped uk-margin-top my-clipped-desktop">
+        <div class="center uk-margin-auto-vertical uk-padding-small uk-text-right my-column">
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (ViewBag.Bookmark == true)
+                {
+                    <a onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="i uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted uk-text-danger" uk-icon="bookmark"></span></a>
+                }
+                else
+                {
+                    <a onclick="ChangeBookMark(@Model.Id,@ViewBag.UserId)" class="i uk-position-absolute bookmarkIconeInStore"><span class="icon-holder uk-text-muted" uk-icon="bookmark-outline"></span></a>
+                }
+            }
+            <label class="uk-text-center uk-text-bold uk-margin-small-bottom">@Model.Catagory.Name @Model.Name</label>
+
+            <label class="uk-margin-small-top">@Model.StaticTell<span class="icon-holder uk-margin-small-left uk-text-success" uk-icon="call-outline"></span></label>
+
+        </div>
+    </div>
+
+</div>
+<hr class="uk-divider-icon" />
+<div class="matCart storeProducts productSection my-column my-clipped uk-margin-small-top my-clipped-desktop">
+    <div class="CategoryListcontainer">
+
+        <hr />
+    </div>
+
+    <div class="produceOfCategory" id="produceOfCategory">
+
+
+
+
+
+
+
+        <div class="my-row uk-padding-small " dir="rtl">
+            <div class="my-column uk-margin-small-right">
+                <label>@Model.Catagory.Name @Model.Name</label>
+                <label>@Model.Ability.BuissnessDescription</label>
+                <div class="my-row">
+                    <div class="my-column">
+                        <span class="uk-margin-top"> <span class="uk-margin-top">آدرس  : </span>@Model.Address</span>
+                    </div>
+                </div>
+                <div class="my-row">
+                    <div class="my-column">
+                        <span class="uk-margin-top"> <span class="uk-margin-top">هزینه ویزیت : </span>@Model.Ability.BuissnessPrice.Value.ToString("#,0")<span>تومان</span></span>
+                    </div>
+                </div>
+                <div class="my-row">
+                    <form class="my-column formVisit" asp-controller="Buissnes" asp-action="SuccessIsPay" method="post">
+                        <input type="hidden" name="StorId" id="StorId" value="@Model.Id" />
+                        <input readonly id="date" name="date" class=" uk-text-small" type="text" placeholder="تاریخ رزرو را انتخاب کنید   ">
+                        <span class="uk-text-danger CreateCategoryErorr"></span>
+                        <a onclick="CheckInfoVisit(event)" href="/Home" class="gradientButton center uk-margin-small-top">ادامه</a>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <hr />
+
+
+    </div>
+
+</div>
+
+<div class="my-space"></div>
+
+
+@section Script{
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="~/datePersionDateP/persian-date.js"></script>
+<script src="~/datePersionDateP/persian-datepicker.js"></script>
+<script src="~/datePersionDateP/script.js"></script>
+<script src="~/datePersionDateP/holidays.js"></script>
+
+<script>
+
+     function CheckInfoVisit(ev) {
+        //$("#overlay").fadeIn(300);
+         ev.preventDefault();
+    var urlToRedirect = ev.currentTarget.getAttribute('href');
+        var date=$('#date').val();
+        if(date==""){
+                $("#overlay").fadeOut(300);
+              alert('لطفا تاریخ را انتخاب کنید');
+        }
+        else{
+
+        $.post("/Home/InfoVisit?id=" +  @Model.Id + "&date=" + date, function (result) {
+            if (result == "true") {
+                  $(".formVisit").submit();
+            } else {
+                $("#overlay").fadeOut(300);
+                $(".CreateCategoryErorr").html(result);
+            }
+        });
+        }
+
+    }
+
+
+
+    $(".i").click(function () {
+        $("#overlay").fadeIn(300);
+    });
+
+    function ChangeBookMark(StoreId, UserId) {
+        $("#overlay").fadeIn(300);
+        $.post("/User/ChangeBookMark?StoreId=" + StoreId + "&UserId=" + UserId, function (result) {
+            if (result == "true") {
+                window.location.reload();
+            }
+        });
+    }
+
+
+
+</script>
+}
+
