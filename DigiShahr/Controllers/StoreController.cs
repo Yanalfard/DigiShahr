@@ -290,7 +290,7 @@ namespace DigiShahr.Controllers
                                 else
                                 {
                                     ViewBag.DealId = id;
-                                    ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+                                    ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null && !c.IsBuissness);
                                     ViewBag.Naighborhood = _core.Naighborhood.Get();
                                     if (_core.Deal.GetById(id).Music)
                                     {
@@ -332,7 +332,7 @@ namespace DigiShahr.Controllers
                             int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
                             TblUser selectedUser = _core.User.GetById(userId);
                             ViewBag.DealId = id;
-                            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+                            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null && !c.IsBuissness);
                             ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
                             ViewBag.Music = null;
                             return View(new CreateStoreViewModel()
@@ -359,7 +359,7 @@ namespace DigiShahr.Controllers
         public async Task<IActionResult> CreateStoreAsync(CreateStoreViewModel createStoreViewModel, IFormFile LogoUrl, List<int> naighborhood)
         {
             ViewBag.DealId = createStoreViewModel.DealId;
-            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null && !c.IsBuissness);
             int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
             TblUser selectedUser = _core.User.GetById(userId);
             ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);

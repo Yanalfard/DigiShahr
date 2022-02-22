@@ -27,6 +27,7 @@ namespace DataLayer.Models
         public bool IsRecent { get; set; }
         [StringLength(20)]
         public string Color { get; set; }
+        public bool IsBuissness { get; set; }
 
         [ForeignKey(nameof(ParentId))]
         [InverseProperty(nameof(TblStoreCatagory.InverseParent))]

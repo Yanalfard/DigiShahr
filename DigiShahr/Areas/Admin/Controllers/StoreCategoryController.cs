@@ -116,7 +116,20 @@ namespace DigiShahr.Areas.Admin.Controllers
             }
 
         }
-
+        public string Delete(int id)
+        {
+            if (_core.StoreCatagory.GetById(id).TblStores.Count() > 0)
+            {
+                return "false";
+            }
+            else
+            {
+                TblStoreCatagory selectedCategory = _core.StoreCatagory.GetById(id);
+                _core.StoreCatagory.Delete(selectedCategory);
+                _core.StoreCatagory.Save();
+                return "true";
+            }
+        }
         [HttpGet]
         public IActionResult pRemove(int id)
         {

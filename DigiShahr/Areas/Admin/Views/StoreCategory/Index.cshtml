@@ -36,7 +36,7 @@
 
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                <tr class="catId_@item.Id">
                                     <td>#@item.Id</td>
                                     <td>@item.Name</td>
                                     <td>
@@ -48,6 +48,9 @@
                                         <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
                                             <a onclick="edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="create-outline"></a>
                                         </span>
+                                         <span data-placement="top" data-toggle="tooltip" title="" data-original-title="حذف">
+                                                <a onclick="Delete(@item.Id)" class="text-danger" uk-icon="trash-outline"></a>
+                                            </span>
                                     </td>
                                 </tr>
                             }
@@ -124,4 +127,24 @@
 </div>
 @section Script{
     <script src="~/Command/AdminStoreCategory.js"></script>
+
+
+    <script>
+    function Delete(id) {
+            if (confirm('آیا از حذف   مورد نظر مطمئن هستید؟')) {
+                $("#overlay").fadeIn(300);
+                $.get("/Admin/StoreCategory/Delete/" + id, function (result) {
+                    if (result == "true") {
+                        $("#overlay").fadeOut(300);
+                        $('.catId_' + id).addClass('uk-text-danger');
+                        $(".catId_" + id).hide('slow');
+
+                    } else if (result == "false") {
+                        UIkit.notification('این دسته بندی نمیتواند حذف شود');
+                    }
+                });
+            }
+
+        }
+    </script>
 }

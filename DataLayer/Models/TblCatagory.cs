@@ -23,7 +23,6 @@ namespace DataLayer.Models
         [StringLength(100, ErrorMessage = "لطفا نام مناسب برای دسته بندی وارد کنید")]
         public string Name { get; set; }
         public int StoreId { get; set; }
-        public bool IsBuissness { get; set; }
 
         [ForeignKey(nameof(StoreId))]
         [InverseProperty(nameof(TblStore.TblCatagories))]

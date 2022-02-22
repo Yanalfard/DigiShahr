@@ -275,8 +275,9 @@
   align-content: center;
   align-self: center;
   margin: 0 auto; }
-  .IndexContainer .Search .uk-search {
-    width: 200px; }
+    .IndexContainer .Search .uk-search {
+        width: 275px;
+    }
   .IndexContainer .Search input {
     text-align: right;
     background: white;

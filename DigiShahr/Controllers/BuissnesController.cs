@@ -77,7 +77,7 @@ namespace DigiShahr.Controllers
                 {
                     int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
                     TblUser selectedUser = _core.User.GetById(userId);
-                    ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+                    ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null && c.IsBuissness);
                     ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
                     return View(new CreateServiceViewModel()
                     {
@@ -97,7 +97,7 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBuissnesAsync(CreateServiceViewModel createStoreViewModel, IFormFile LogoUrl, List<int> naighborhood)
         {
-            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null);
+            ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null && c.IsBuissness);
             int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
             TblUser selectedUser = _core.User.GetById(userId);
             ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
@@ -284,7 +284,7 @@ namespace DigiShahr.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
-            if (User.Claims.First().Value == "user")
+            if (User.Claims.First().Value != "services")
             {
                 return await Task.FromResult(Redirect("/"));
             }

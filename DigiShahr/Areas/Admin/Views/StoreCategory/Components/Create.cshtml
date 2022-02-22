@@ -27,6 +27,8 @@
     @if (Model != null)
     {
         <input type="hidden" name="ParentId" id="ParentId" value="@Model.Id" />
+        <input type="hidden" asp-for="IsBuissness" />
+
     }
     else
     {
@@ -34,10 +36,14 @@
     }
     <div class="modal-body">
         <div class="form-row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 <input type="text" class="form-control form-control-sm" asp-for="Name" value="" placeholder="نام">
                 <br />
                 <input type="checkbox" asp-for="IsRecent"> قابل انتخاب در ثبت فروشگاه باشد
+                <br />
+
+                <input type="checkbox" asp-for="IsBuissness"> جزو خدماتی می باشد(فقط در ایجاد خدماتی ها دیده میشود و در ایجاد فروشگاه دیده نمیشود)
+            
             </div>
         </div>
         <div class="form-row">

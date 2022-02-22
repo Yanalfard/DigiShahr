@@ -14,17 +14,17 @@
     <div class="modal-body flex-div">
         <div class="card categry-box flex-div">
             <div class="card-header">
-
             </div>
             <div class="card-body flex p-0">
                 <ul class="list-group list-group-flush pb-4">
                     @if (Model.InverseParent.Count() == 0)
                     {
-                        @:<li>خالی است</li>
+                        @:
+                        <li>خالی است</li>
                     }
                     @foreach (var item in Model.InverseParent)
                     {
-                        <li class="list-group-item">
+                        <li class="list-group-item catId_@item.Id">
                             <div class="row">
 
                                 <a class="col-xl-10 col-lg-10  col-sm-9 col-5">@item.Name</a>
@@ -35,6 +35,8 @@
                                         <a onclick="Child(@item.Id)" data-placement="top" data-toggle="tooltip"><i class="btn ml-2 text-primary" uk-icon="albums-outline"></i></a>
 
                                         <a onclick="edit(@item.Id)" data-placement="top" data-toggle="tooltip"><i class="btn ml-2 text-primary" uk-icon="create-outline"></i></a>
+                                        <a onclick="Delete(@item.Id)" data-placement="top" data-toggle="tooltip"><i class="btn ml-2 text-danger" uk-icon="trash-outline"></i></a>
+
                                     </div>
                                 </div>
                             </div>
