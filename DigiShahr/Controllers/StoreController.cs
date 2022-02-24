@@ -20,6 +20,12 @@ namespace DigiShahr.Controllers
     public class StoreController : Controller
     {
         Core _core = new Core();
+        private Microsoft.Extensions.Configuration.IConfiguration _configuration;
+
+        public StoreController(Microsoft.Extensions.Configuration.IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public async Task<IActionResult> Index(int page = 1)
         {
             if (User.Claims.First().Value == "user")
@@ -175,7 +181,7 @@ namespace DigiShahr.Controllers
                 string TellNo = User.FindFirstValue(ClaimTypes.Name).ToString();
                 var payment = new Payment(_core.Deal.GetById(DealId).Price);
                 var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
-                    "https://localhost:44321/Store/Recharge/" + id, "hadi1234@yahoo.com", TellNo);
+                   $"https://{_configuration["localhost:NameAdress"]}/Store/Recharge/" + id, "hadi1234@yahoo.com", TellNo);
                 if (res.Result.Status == 100)
                 {
                     return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
@@ -192,7 +198,7 @@ namespace DigiShahr.Controllers
                 string TellNo = User.FindFirstValue(ClaimTypes.Name).ToString();
                 var payment = new Payment(_core.Deal.GetById(DealId).Price);
                 var res = payment.PaymentRequest($"پرداخت خرید پکیج {deal.Id}",
-                    "https://localhost:44321/Store/CreateStore/" + id, "hadi1234@yahoo.com", TellNo);
+                    $"https://{_configuration["localhost:NameAdress"]}/Store/CreateStore/" + id, "hadi1234@yahoo.com", TellNo);
                 if (res.Result.Status == 100)
                 {
                     return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);

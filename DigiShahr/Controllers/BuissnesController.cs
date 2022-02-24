@@ -13,6 +13,7 @@ using ZarinpalSandbox;
 using ReflectionIT.Mvc.Paging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Castle.Core.Configuration;
 
 namespace DigiShahr.Controllers
 {
@@ -20,6 +21,12 @@ namespace DigiShahr.Controllers
     public class BuissnesController : Controller
     {
         Core _core = new Core();
+        private Microsoft.Extensions.Configuration.IConfiguration _configuration;
+
+        public BuissnesController(Microsoft.Extensions.Configuration.IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public async Task<IActionResult> Index(int page = 1)
         {
             if (User.Claims.First().Value != "services")
@@ -270,7 +277,7 @@ namespace DigiShahr.Controllers
             TblQueue queue = _core.Queue.GetById(id);
             var payment = new Payment(queue.Price);
             var res = payment.PaymentRequest($"پرداخت  جهت رزرو شماره فاکتور {queue.Id}",
-                "https://localhost:44321/Home/OnlinePaymentService/" + id, "hadi1234@yahoo.com", queue.User.TellNo);
+               $"https://{_configuration["localhost:NameAdress"]}/Home/OnlinePaymentService/" + id, "hadi1234@yahoo.com", queue.User.TellNo);
             if (res.Result.Status == 100)
             {
                 return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
