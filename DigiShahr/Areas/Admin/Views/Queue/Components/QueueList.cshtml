@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataLayer.Models.TblOrder>
+﻿@model IEnumerable<DataLayer.Models.TblQueue>
 
 @using DigiShahr.Classes
 
@@ -6,7 +6,7 @@
 
     <div class="card-form row pr-1 pb-0 mb-0">
         <div class="form-inline mb-0">
-            <input id="orderId" value="@ViewBag.OrderId" type="text" class="form-control form-control-sm mr-2" placeholder="کد سفارش">
+            <input id="QueueId" value="@ViewBag.QueueId" type="text" class="form-control form-control-sm mr-2" placeholder="کد سفارش">
             <input id="phoneNumber" value="@ViewBag.PhoneNumber" type="tel" class="form-control form-control-sm mr-2 mt-2 mt-sm-0 " placeholder="شماره تماس">
         </div>
         <div class="form-toolbar pr-2 mb-0 ">
@@ -16,7 +16,7 @@
     </div>
     <div class="card-form row pr-1 pb-0 mb-0">
         <div class="form-inline mb-0">
-            <h4>مبلغ کل فروش:<span>@ViewBag.Price</span></h4>
+           <h4>مبلغ کل فروش:<span>@ViewBag.Price</span></h4>
         </div>
     </div>
 </div>
@@ -28,10 +28,10 @@
                 <tr>
                     <th scope="col">کد سفارش</th>
                     <th scope="col">نام مشتری</th>
-                    <th scope="col">نام فروشگاه</th>
-                    <th scope="col">زمان ثبت سفارش</th>
-                    <th>وضعیت تایید اعتبار</th>
-                    @*<th>وضعیت پرداخت</th>*@
+                    <th scope="col">نام خدمات </th>
+                    <th scope="col">زمان ثبت </th>
+                    <th scope="col">زمان مراجعه </th>
+                    <th>وضعیت پرداخت</th>
                     <th>عملیات</th>
                 </tr>
             </thead>
@@ -50,33 +50,23 @@
                         <td>#@item.Id</td>
                         <td>@item.User.Name</td>
                         <td>@item.Store.Name (@item.Store.User.TellNo)</td>
-                        <td>@item.DateSubmited.AllToShamsi()</td>
-                        @if (item.IsValid == true)
+                        <td>@item.DateSubminted.AllToShamsi()</td>
+                        <td>@item.Date.AllToShamsi()</td>
+
+                        @if (item.IsFinaly == true)
                         {
                             <td class="text-success">
-                                تأیید شده
+                                پرداخت شده
                             </td>
                         }
                         else
                         {
                             <td class="text-warning">
-                                تأیید نشده
+                                در انتظار پرداخت
                             </td>
                         }
-                        @*   @if (item.IsPayed == true)
-                            {
-                            <td class="text-success">
-                            پرداخت شده
-                            </td>
-                            }
-                            else
-                            {
-                            <td class="text-warning">
-                            در انتظار پرداخت
-                            </td>
-                            }*@
                         <td>
-                            @*  <span data-placement="top" data-toggle="tooltip" title="" data-original-title="لغو سفارش">
+                            @*             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="لغو سفارش">
                                 <a onclick="Cancel(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-danger" uk-icon="close-circle-outline"></a>
                                 </span>*@
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="جزئیات سفارش">
@@ -153,4 +143,4 @@
 </div>
 
 
-<script src="~/Command/AdminOrder.js"></script>
+<script src="~/Command/AdminQueue.js"></script>

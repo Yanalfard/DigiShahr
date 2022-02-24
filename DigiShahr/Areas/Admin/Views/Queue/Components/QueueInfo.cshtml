@@ -1,0 +1,63 @@
+﻿@model DataLayer.Models.TblQueue
+@using DigiShahr.Classes
+<div class="modal-header">
+    <h6 class="modal-title mr-3" id="modalCenterTitle">
+        جزئیات  @Model.Id
+    </h6>
+
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form>
+    <div class="modal-body">
+        <div id="card-table" class="card-body flex-div">
+            <div class="form-row ">
+                <div class="form-group col-md-5">
+                    <label>کد :</label>
+                    <span>@Model.Id</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>نام مشتری:</label>
+                    <span>@Model.User.Name</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>شماره تماس مشتری:</label>
+                    <span>@Model.User.TellNo</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>نام خدمات:</label>
+                    <a href="#"><span>@Model.Store.Name</span></a>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>زمان ثبت :</label>
+                    <span>@Model.DateSubminted.AllToShamsi()</span>
+                </div>
+                  <div class="form-group col-md-5">
+                    <label>زمان مراجعه :</label>
+                    <span>@Model.Date.AllToShamsi()</span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>وضعیت تایید اعتبار:</label>
+                    @if (Model.IsFinaly == true)
+                    {
+                        <span class="text-success">پرداخت شده</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">پرداخت نشده</span>
+                    }
+                </div>
+                <div class="form-group col-md-5">
+                    <label>جمع  </label>
+                    <span id="PriceSpan">@Model.Price</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<script src="~/ScriptCenter/Tools/Span_Formatting_Currency.js"></script>
+
+

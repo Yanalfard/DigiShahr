@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Admin\Views\Service\Components\Info.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\StyleCenter\Sass\Home\Bascket.css" />
     <_ContentIncludedByDefault Remove="wwwroot\StyleCenter\Sass\LoginRegister\BodyStyle.css" />
     <_ContentIncludedByDefault Remove="wwwroot\StyleCenter\Sass\LoginRegister\loginRegister.css" />
@@ -913,10 +914,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Admin\Views\Service\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="wwwroot\leaflet\leaflet.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Admin\Views\Service\Components\Info.cshtml" />
   </ItemGroup>
 
 </Project>

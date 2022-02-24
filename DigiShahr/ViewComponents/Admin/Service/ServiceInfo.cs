@@ -5,16 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Services.Services;
 
-namespace DigiShahr.ViewComponents.Admin.Store
+namespace DigiShahr.ViewComponents.Admin.Service
 {
-    public class StoreInfo : ViewComponent
+    public class ServiceInfo : ViewComponent
     {
         Core _core = new Core();
         public async Task<IViewComponentResult> InvokeAsync(int Id)
         {
             var list = _core.Store.GetById(Id);
-            ViewBag.UserPriceOrder = list.TblOrders.Where(i => i.IsValid).Sum(i => i.Price).ToString("#,0");
-            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/Info.cshtml", list));
+            ViewBag.UserPriceVisit = list.TblQueues.Where(i => i.IsFinaly).Sum(i => i.Price).ToString("#,0");
+
+            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/Info.cshtml", list));
         }
     }
 }

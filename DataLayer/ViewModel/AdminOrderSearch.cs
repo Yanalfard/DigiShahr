@@ -11,4 +11,11 @@ namespace DataLayer.ViewModel
         public string phoneNumber { get; set; }
 
     }
+    public class AdminQueueSearch
+    {
+        public int? QueueId { get; set; }
+
+        public string phoneNumber { get; set; }
+
+    }
 }

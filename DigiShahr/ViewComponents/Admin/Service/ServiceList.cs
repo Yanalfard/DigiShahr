@@ -7,14 +7,14 @@ using DataLayer.Models;
 using Services.Services;
 using DataLayer.ViewModel;
 
-namespace DigiShahr.ViewComponents.Admin.Store
+namespace DigiShahr.ViewComponents.Admin.Service
 {
-    public class StoreList : ViewComponent
+    public class ServiceList : ViewComponent
     {
         Core _core = new Core();
-        public async Task<IViewComponentResult> InvokeAsync(Paging paging, string storeName, string phoneNumber)
+        public async Task<IViewComponentResult> InvokeAsync(Paging paging, string ServiceName, string phoneNumber)
         {
-            if (string.IsNullOrEmpty(storeName) && string.IsNullOrEmpty(phoneNumber))
+            if (string.IsNullOrEmpty(ServiceName) && string.IsNullOrEmpty(phoneNumber))
             {
                 if (paging.InPageCount == 0)
                 {
@@ -25,10 +25,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
                     ViewBag.PageCount = Count / 10;
                     ViewBag.InPageCount = paging.InPageCount;
 
-                    ViewBag.storeName = null;
+                    ViewBag.ServiceName = null;
                     ViewBag.phoneNumber = null;
 
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i=>!i.IsBuissness).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
+                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
                 }
                 else
                 {
@@ -39,16 +39,16 @@ namespace DigiShahr.ViewComponents.Admin.Store
                     ViewBag.PageCount = Count / paging.InPageCount;
                     ViewBag.InPageCount = paging.InPageCount;
 
-                    ViewBag.storeName = null;
+                    ViewBag.ServiceName = null;
                     ViewBag.phoneNumber = null;
 
-                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i => !i.IsBuissness).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
+                    return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
                 }
             }
             else
             {
 
-                if (string.IsNullOrEmpty(storeName) == false)
+                if (string.IsNullOrEmpty(ServiceName) == false)
                 {
                     if (string.IsNullOrEmpty(phoneNumber))
                     {
@@ -61,10 +61,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
                             ViewBag.PageCount = Count / 10;
                             ViewBag.InPageCount = paging.InPageCount;
 
-                            ViewBag.storeName = storeName;
+                            ViewBag.ServiceName = ServiceName;
                             ViewBag.phoneNumber = phoneNumber;
 
-                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i => !i.IsBuissness).Where(s => s.Name.Contains(storeName)).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
+                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).Where(s => s.Name.Contains(ServiceName)).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
                         }
                         else
                         {
@@ -75,10 +75,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
                             ViewBag.PageCount = Count / 10;
                             ViewBag.InPageCount = paging.InPageCount;
 
-                            ViewBag.storeName = storeName;
+                            ViewBag.ServiceName = ServiceName;
                             ViewBag.phoneNumber = phoneNumber;
 
-                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i => !i.IsBuissness).Where(s => s.Name.Contains(storeName)).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
+                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).Where(s => s.Name.Contains(ServiceName)).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
                         }
                     }
                     else
@@ -92,10 +92,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
                             ViewBag.PageCount = Count / 10;
                             ViewBag.InPageCount = paging.InPageCount;
 
-                            ViewBag.storeName = storeName;
+                            ViewBag.ServiceName = ServiceName;
                             ViewBag.phoneNumber = phoneNumber;
 
-                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i => !i.IsBuissness).Where(s => s.Name.Contains(storeName) && s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
+                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).Where(s => s.Name.Contains(ServiceName) && s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
                         }
                         else
                         {
@@ -106,10 +106,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
                             ViewBag.PageCount = Count / paging.InPageCount;
                             ViewBag.InPageCount = paging.InPageCount;
 
-                            ViewBag.storeName = storeName;
+                            ViewBag.ServiceName = ServiceName;
                             ViewBag.phoneNumber = phoneNumber;
 
-                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i => !i.IsBuissness).Where(s => s.Name.Contains(storeName) && s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
+                            return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).Where(s => s.Name.Contains(ServiceName) && s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
                         }
                     }
                 }
@@ -124,10 +124,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
                         ViewBag.PageCount = Count / 10;
                         ViewBag.InPageCount = paging.InPageCount;
 
-                        ViewBag.storeName = storeName;
+                        ViewBag.ServiceName = ServiceName;
                         ViewBag.phoneNumber = phoneNumber;
 
-                        return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i => !i.IsBuissness).Where(s => s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
+                        return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).Where(s => s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(10)));
                     }
                     else
                     {
@@ -138,10 +138,10 @@ namespace DigiShahr.ViewComponents.Admin.Store
                         ViewBag.PageCount = Count / paging.InPageCount;
                         ViewBag.InPageCount = paging.InPageCount;
 
-                        ViewBag.storeName = storeName;
+                        ViewBag.ServiceName = ServiceName;
                         ViewBag.phoneNumber = phoneNumber;
 
-                        return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Store/Components/StoreList.cshtml", _core.Store.Get(i => !i.IsBuissness).Where(s => s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
+                        return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Service/Components/ServiceList.cshtml", _core.Store.Get(i => i.IsBuissness).Where(s => s.User.TellNo.Contains(phoneNumber)).OrderByDescending(o => o.Id).Skip(skip).Take(paging.InPageCount)));
                     }
                 }
 

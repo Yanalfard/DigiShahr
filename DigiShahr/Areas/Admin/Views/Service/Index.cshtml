@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "فروشگاه ها | مدیریت";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row flex-div">
+    <div class="col-md-12 flex-div pb-3 pt-3">
+        <div id="Content" class="card flex-div border-0 main-shadow">
+            @*/////List/////*@
+        </div>
+    </div>
+</div>
+@section Script{
+    <script>
+
+        $(document).ready(function () {
+            $("#Content").html("<img src='/img/adminStatic/load2.gif' class='justify-content-center' width='60' height='60' />");
+            $.get("/Admin/Service/pServiceList?PageId=1&InPageCount=0&ServiceName=&phoneNumber=", function (result) {
+                $("#Content").html(result);
+            });
+        });
+
+        
+    </script>
+}

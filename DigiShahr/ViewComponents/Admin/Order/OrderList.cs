@@ -104,6 +104,9 @@ namespace DigiShahr.ViewComponents.Admin.Order
                 }
             }
 
+
+
+            ViewBag.Price = _core.Order.Get(i => i.IsValid).Sum(i => i.Price).ToString("#,0");
             return await Task.FromResult((IViewComponentResult)View("/Areas/Admin/Views/Order/Components/OrderList.cshtml", orders));
 
 
