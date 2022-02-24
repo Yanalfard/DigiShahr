@@ -124,6 +124,10 @@ namespace DigiShahr.Controllers
             }
 
         }
+        public async Task<IActionResult> Index2()
+        {
+            return await Task.FromResult(View());
+        }
 
         public async Task<IActionResult> NotificationNewOrder(int Id)
         {

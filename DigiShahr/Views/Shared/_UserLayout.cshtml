@@ -13,7 +13,7 @@
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/DataPicker/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
     <link href="~/StyleCenter/Tools/Load.css" rel="stylesheet" />
-
+     <link href="/Logo.ico" rel="icon" />
 </head>
 
 
@@ -56,6 +56,16 @@
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 @*<h3 class="MenuCategory">دسته بندی مشاغل</h3>*@
+                <style>
+                    .imgLogo {
+                        width: 70%;
+                        margin: auto;
+                        display: block;
+                    }
+                </style>
+                <a href="/">
+                    <img src="/Logo.png" class="imgLogo" />
+                </a>
                 <ul class="uk-menu-accordion" uk-accordion="multiple: true" dir="rtl">
                     @await Component.InvokeAsync("ParentCateogoryLayout")
                     @if (User.Identity.IsAuthenticated)
@@ -73,7 +83,12 @@
                 <a href="/Account/signout" class="signout uk-margin-top center uk-align-center uk-margin-bottom cursor-pointer" dir="rtl"><span class="" uk-icon="log-out"></span> خروج از حساب کاربری </a>
                 <div class="center my-column uk-text-center uk-margin-medium-top">
                     <label class="center uk-text-center uk-text-small">تمامی حقوق این سایت متعلق به اکوویل میباشد</label>
-                    @*                    <label class="center uk-text-center uk-text-small">طراحی و توسعه توسط شرکت ایده پرداز آروین تاو</label>*@
+                                       @* <label class="center uk-text-center uk-text-small">
+
+                                            تمامی حقوق مادی و معنوی این قالب متعلق به اکویل می باشد
+
+
+                                        </label>*@
                 </div>
             </div>
 

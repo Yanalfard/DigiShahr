@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DataLayer.Models.TblBookMark>
 @{
-    ViewData["Title"] = "Bookmark";
+    ViewData["Title"] = "علاقه مندی ها";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -23,9 +23,9 @@
     else
     {
         <article class="firstPackage Bookmarks matCart my-clipped my-clipped-desktop">
-                <div class="my-row storeDetail" onclick="window.location.href='/Home/Piece/@Model.First().StoreId'">
+                <div class="my-row storeDetail">
                     <div class="LogoPictureContainer uk-margin-top">
-                        <a><img class="uk-margin-right" src="/Upload/StoreLogo/@Model.First().Store.LogoUrl" width="80" /></a>
+                        <a href="@(Model.First().Store.IsBuissness ?"/Home/PieceService/"+@Model.First().StoreId :"/Home/Piece/"+@Model.First().StoreId)"><img class="uk-margin-right" src="/Upload/StoreLogo/@Model.First().Store.LogoUrl" width="80" /></a>
                     </div>
                     <div class="my-column uk-margin-right uk-margin-top">
                         <label class="uk-margin-remove-bottom">@Model.First().Store.Name</label>
@@ -45,9 +45,9 @@
             foreach (var item in Model.Skip(1))
             {
                 <article class="Bookmarks matCart my-clipped uk-margin-top my-clipped-desktop">
-                    <div class="my-row storeDetail" onclick="window.location.href = '/Home/Piece/@item.StoreId'">
+                    <div class="my-row storeDetail">
                         <div class="LogoPictureContainer uk-margin-top">
-                            <a><img class="uk-margin-right" src="/Upload/StoreLogo/@item.Store.LogoUrl" width="80" /></a>
+                            <a  href="@(item.Store.IsBuissness ?"/Home/PieceService/"+@item.StoreId :"/Home/Piece/"+@item.StoreId)"><img class="uk-margin-right" src="/Upload/StoreLogo/@item.Store.LogoUrl" width="80" /></a>
                         </div>
                         <div class="my-column uk-margin-right uk-margin-top">
                             <label class="uk-margin-remove-bottom">@item.Store.Name</label>
