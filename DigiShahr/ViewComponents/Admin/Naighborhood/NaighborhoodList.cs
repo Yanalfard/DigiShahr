@@ -19,7 +19,7 @@ namespace DigiShahr.ViewComponents.Admin.Naighborhood
             if (paging.InPageCount == 0)
             {
                 int skip = (paging.PageId - 1) * 10;
-                int Count = _core.Order.Get().Count();
+                int Count = _core.Naighborhood.Get().Count();
 
                 ViewBag.PageId = paging.PageId;
                 ViewBag.PageCount = Count / 10;
@@ -30,7 +30,7 @@ namespace DigiShahr.ViewComponents.Admin.Naighborhood
             else
             {
                 int skip = (paging.PageId - 1) * paging.InPageCount;
-                int Count = _core.Order.Get().Count();
+                int Count = _core.Naighborhood.Get().Count();
 
                 ViewBag.PageId = paging.PageId;
                 ViewBag.PageCount = Count / paging.InPageCount;

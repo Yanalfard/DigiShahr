@@ -1,3 +1,17 @@
 ﻿@model DataLayer.ViewModel.CaptchaViewModel
 
-<input type="hidden" asp-for="Captcha" id="captchaInput" />
+@*<input type="hidden" asp-for="Captcha" id="captchaInput" />*@
+
+<style>
+    .divCapcha {
+        margin: auto;
+        display: block;
+        margin-top: 20px;
+    }
+
+</style>
+<div class="divCapcha">
+
+    <div class="g-recaptcha" data-sitekey="6LeDw58eAAAAABp2peWdFFGdDA6SIoUUbLjWTj8n"></div>
+    <span asp-validation-for="Captcha" class="uk-text-danger"></span>
+</div>

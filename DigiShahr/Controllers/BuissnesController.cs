@@ -119,7 +119,7 @@ namespace DigiShahr.Controllers
 
                     if (naighborhood.Count == 0)
                     {
-                        ViewBag.NaighborhoodErorr = "لطفا منطقه خورد را وارد کنید";
+                        ViewBag.NaighborhoodErorr = "لطفا مناطق مورد نظر را وارد کنید";
                     }
                     else
                     {
@@ -287,7 +287,7 @@ namespace DigiShahr.Controllers
                 return BadRequest();
             }
         }
-       
+
 
         public async Task<IActionResult> Dashboard()
         {
@@ -321,7 +321,8 @@ namespace DigiShahr.Controllers
                 TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
                 TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-                ViewBag.Naighborhood = _core.Naighborhood.Get();
+                ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == user.CityId);
+                ViewBag.SelectedNaighborhood = _core.StoreNaighborhoodRel.Get(i => i.StoreId == store.Id);
                 EditServiceViewModel editStore = new EditServiceViewModel();
                 editStore.Id = store.Id;
                 editStore.Name = store.Name;
@@ -342,10 +343,11 @@ namespace DigiShahr.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> BuissnesSetting(EditServiceViewModel EditStore, List<int> Naighborhood)
         {
-
+            TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
+            ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == user.CityId);
+            ViewBag.SelectedNaighborhood = _core.StoreNaighborhoodRel.Get(i => i.StoreId == EditStore.Id);
             if (ModelState.IsValid)
             {
                 if (User.Claims.First().Value != "services")
@@ -355,7 +357,6 @@ namespace DigiShahr.Controllers
                 else
                 {
 
-                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                     TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
 
                     if (Naighborhood.Count() != 0)
@@ -375,18 +376,21 @@ namespace DigiShahr.Controllers
                             _core.StoreNaighborhoodRel.Add(NewNaighborhoodRel);
                         }
                         _core.StoreNaighborhoodRel.Save();
+
+                        store.StaticTell = EditStore.StaticTell;
+                        store.Address = EditStore.Address;
+                        store.Lat = EditStore.Lat;
+                        store.Lon = EditStore.Lon;
+                        store.Ability.BuissnessDescription = EditStore.BuissnessDescription;
+                        store.Ability.BuissnessPrice = EditStore.BuissnessPrice;
+                        _core.Store.Save();
+                        _core.Ability.Save();
+
+                        // return Redirect("/Buissnes/Dashboard");
                     }
-
-                    store.StaticTell = EditStore.StaticTell;
-                    store.Address = EditStore.Address;
-                    store.Lat = EditStore.Lat;
-                    store.Lon = EditStore.Lon;
-                    store.Ability.BuissnessDescription = EditStore.BuissnessDescription;
-                    store.Ability.BuissnessPrice = EditStore.BuissnessPrice;
-                    _core.Store.Save();
-                    _core.Ability.Save();
-
                     return Redirect("/Buissnes/Dashboard");
+                    //ModelState.AddModelError("Naighborhood", "محله ها برای سرویس دهی را انتخاب کنید");
+                    //return View(EditStore);
 
 
                 }
@@ -404,8 +408,6 @@ namespace DigiShahr.Controllers
                 }
                 else
                 {
-                    TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
-
                     TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
                     ViewBag.Naighborhood = _core.Naighborhood.Get();
                     EditServiceViewModel editStore = new EditServiceViewModel();

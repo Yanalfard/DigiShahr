@@ -85,7 +85,21 @@ namespace DigiShahr.Areas.Admin.Controllers
             }
 
         }
+        public string Delete(int id)
+        {
+            try
+            {
+                TblNaighborhood selectUserById = _core.Naighborhood.GetById(id);
+                bool delete = _core.Naighborhood.Delete(selectUserById);
+                _core.Naighborhood.Save();
+                return "true";
 
+            }
+            catch (System.Exception)
+            {
+                return "false";
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -22,6 +22,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>کد موسیقی</th>
+                                <th> موسیقی</th>
                                 <th>عملیات</th>
                             </tr>
                         </thead>
@@ -38,6 +39,15 @@
                                 <tr>
                                     <td>#@item.Id</td>
                                     <td>
+                                        <audio controls="controls">
+                                            <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
+                                        </audio>
+
+                                    </td>
+                                    <td>
+                                        <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
+                                            <a onclick="Edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="create-outline"></a>
+                                        </span>
                                         <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
                                             <a onclick="Remove(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-danger" uk-icon="trash-outline"></a>
                                         </span>
@@ -118,7 +128,7 @@
 
 
 @section Script{
-    <script src="~/Command/AdminMusic.js"></script>
+<script src="~/Command/AdminMusic.js"></script>
 }
 
 

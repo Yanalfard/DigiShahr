@@ -16,8 +16,8 @@ namespace DataLayer.ViewModel
         public string TellNo { get; set; }
 
         [DataType(DataType.Password)]
-        [MaxLength(50,ErrorMessage ="رمز عبور نامعتبر است")]
-        [MinLength(3,ErrorMessage ="رمز عبور نامعتبر است")]
+        [MaxLength(50,ErrorMessage ="رمز عبور بیشتر است")]
+        [MinLength(3,ErrorMessage ="رمز عبور کمتر  است")]
         [Required(ErrorMessage ="رمز عبور را وارد کنید")]
         public string Password { get; set; }
 

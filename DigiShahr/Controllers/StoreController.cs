@@ -260,6 +260,8 @@ namespace DigiShahr.Controllers
 
         public IActionResult CreateStore(int? id)
         {
+            int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
+            TblUser selectedUser = _core.User.GetById(userId);
             if (User.Claims.First().Value == "seller")
             {
                 return Redirect("/Store/StoreVitrin");
@@ -297,7 +299,7 @@ namespace DigiShahr.Controllers
                                 {
                                     ViewBag.DealId = id;
                                     ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null && !c.IsBuissness);
-                                    ViewBag.Naighborhood = _core.Naighborhood.Get();
+                                    ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
                                     if (_core.Deal.GetById(id).Music)
                                     {
                                         ViewBag.Music = _core.Music.Get();
@@ -335,8 +337,7 @@ namespace DigiShahr.Controllers
                             {
                                 return Redirect("/Store/StoreVitrin");
                             }
-                            int userId = Convert.ToInt32(User.FindFirstValue("UserId").ToString());
-                            TblUser selectedUser = _core.User.GetById(userId);
+                            
                             ViewBag.DealId = id;
                             ViewBag.ParentCategory = _core.StoreCatagory.Get().Where(c => c.ParentId == null && !c.IsBuissness);
                             ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == selectedUser.CityId);
@@ -650,7 +651,7 @@ namespace DigiShahr.Controllers
                 TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
 
                 TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-                ViewBag.Naighborhood = _core.Naighborhood.Get();
+                ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == user.CityId);
                 EditStoreViewModel editStore = new EditStoreViewModel();
                 if (store.Ability.IsMusicEnable == true)
                 {
@@ -773,7 +774,7 @@ namespace DigiShahr.Controllers
                 {
                     TblUser user = await UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString());
                     TblStore store = _core.Store.Get().Where(s => s.UserId == user.Id).SingleOrDefault();
-                    ViewBag.Naighborhood = _core.Naighborhood.Get();
+                    ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == user.CityId);
                     EditStoreViewModel editStore = new EditStoreViewModel();
                     if (store.Ability.IsMusicEnable == true)
                     {

@@ -14,17 +14,19 @@
     <link href="~/UIKit/css/uikit.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/Controls.min.css" rel="stylesheet" />
     <link href="~/StyleCenter/Sass/LoginRegister/loginRegister.min.css" rel="stylesheet" />
+       <link href="/Logo.ico" rel="icon" />
 </head>
 <body>
     @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
-    <script src="https://www.google.com/recaptcha/api.js?render=@Configuration["googleReCaptcha:SiteKey"]"></script>
+   @* <script src="https://www.google.com/recaptcha/api.js?render=@Configuration["googleReCaptcha:SiteKey"]"></script>
     <script>
     grecaptcha.ready(function () {
         window.grecaptcha.execute('@Configuration["googleReCaptcha:SiteKey"]', { action: 'Login' }).then(function (token) {
             document.getElementById("captchaInput").value = token;
         });
     });
-    </script>
+    </script>*@
+
     <style>
         .grecaptcha-badge {
             opacity: 0;
@@ -42,7 +44,6 @@
             <div class="LoginContent">
                 <div class="center my-column">
                     <form class="my-column loginForm uk-padding-small" action="Login" method="post" dir="rtl">
-                        <partial name="_CaptchaInput" />
                         @Html.AntiForgeryToken()
                         <label class="uk-text-right" for="TellNo">شماره تلفن:</label>
                         <input asp-for="TellNo">
@@ -52,6 +53,8 @@
                         <span asp-validation-for="Password" class="uk-text-danger"></span>
                         <input type="hidden" id="foo" name="foo" />
                         <input value="@ViewBag.ReturnUrl" type="hidden" name="RetunUrl" />
+            <partial name="_CaptchaInput"  />
+
                         <div class="my-row uk-margin-top center">
                             <button type="submit" class="gradientButton center cursor-pointer">
                                 ورود
@@ -77,14 +80,15 @@
 <script src="~/UIKit/js/uikit.min.js"></script>
 <script src="/icons/uikit-icons.js"></script>
 
-<script src="https://www.google.com/recaptcha/api.js?render=6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj"></script>
+@*<script src="https://www.google.com/recaptcha/api.js?render=6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj"></script>
 <script>
     grecaptcha.ready(function () {
         grecaptcha.execute('6LdicRAaAAAAALGqgSv_HLYYoqtnjw3XwFHJXrHj', { action: 'Create' }).then(function (token) {
             document.getElementById("foo").value = token;
         });
     });
-</script>
+</script>*@
+    <script src='https://www.google.com/recaptcha/api.js?hl=fa'></script>
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

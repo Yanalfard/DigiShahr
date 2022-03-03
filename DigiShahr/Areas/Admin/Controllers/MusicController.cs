@@ -69,6 +69,39 @@ namespace DigiShahr.Areas.Admin.Controllers
             return Redirect("/Admin/Music");
         }
 
+
+        public IActionResult pEdit(int id)
+        {
+            return ViewComponent("EditMusic", new { id = id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(TblMusic music,IFormFile fileEdit)
+        {
+            TblMusic tblMusic = _core.Music.GetById(music.Id);
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Upload/Music", tblMusic.MusicUrl);
+
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+            tblMusic.MusicUrl = Guid.NewGuid().ToString() + Path.GetExtension(fileEdit.FileName);
+            string savePath = Path.Combine(
+                Directory.GetCurrentDirectory(), "wwwroot/Upload/Music", tblMusic.MusicUrl
+            );
+
+            using (var stream = new FileStream(savePath, FileMode.Create))
+            {
+                await fileEdit.CopyToAsync(stream);
+            }
+
+            _core.Music.Update(tblMusic);
+            _core.Music.Save();
+
+            return Redirect("/Admin/Music");
+        }
+
         [HttpGet]
         public IActionResult pRemove(int id)
         {

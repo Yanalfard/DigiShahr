@@ -70,6 +70,7 @@ namespace DataLayer.ViewModel
         public int? CatagoryId { get; set; }
 
         public string LatMap { get; set; }
+        public string Naighborhood { get; set; }
         public string LonMap { get; set; }
         public int CityId { get; set; }
         public int BuissnessPrice { get; set; }

@@ -24,6 +24,33 @@
     }
 });
 
+$("#fileEdit").change(function () {
+    var files = $("#file").get(0).files;
+    if (files[0].size > 20971520) {
+        $("#Submit").removeClass('btn-success');
+        $("#Submit").addClass('btn-danger');
+        $("#Submit").html("حجم فایل بیش از اندازه میباشد");
+        $("#Submit").attr("disabled", "disabled");
+    } else {
+        $("#Submit").addClass('btn-success');
+        $("#Submit").removeClass('btn-danger');
+        $("#Submit").html("ویرایش");
+        $("#Submit").removeAttr("disabled");
+        if ($("#file").val().includes(".mp3") == false) {
+            $("#Submit").removeClass('btn-success');
+            $("#Submit").addClass('btn-danger');
+            $("#Submit").html("فرمت فایل باید mp3 باشد");
+            $("#Submit").attr("disabled", "disabled");
+        } else {
+            $("#Submit").addClass('btn-success');
+            $("#Submit").removeClass('btn-danger');
+            $("#Submit").html("ویرایش");
+            $("#Submit").removeAttr("disabled");
+        }
+    }
+});
+
+
 $("#Submit").click(function () {
     $(".loadingicon").removeClass('d-none');
 });
@@ -33,9 +60,13 @@ $("#Create").click(function () {
         $(".modal-content").html(result);
     });
 });
-
+function Edit(id) {
+    $.get("/Admin/Music/pEdit?id=" + id, function (result) {
+        $(".modal-content").html(result);
+    });
+}
 function Remove(id) {
-    $.get("/Admin/Music/pRemove?id=" + id, function (result) {
+     $.get("/Admin/Music/pRemove?id=" + id, function (result) {
         $(".modal-content").html(result);
     });
 }

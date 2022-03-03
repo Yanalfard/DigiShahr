@@ -4,6 +4,7 @@ using DigiShahr.Utilit;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Services.Services;
@@ -52,16 +53,21 @@ namespace DigiShahr.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAccountAsync(CreateAccountViewModel createAccountViewModel, string foo)
+        public async Task<IActionResult> CreateAccountAsync(CreateAccountViewModel createAccountViewModel, IFormCollection form, string foo)
         {
 
             if (ModelState.IsValid)
             {
                 ViewBag.ListCity = _core.City.Get();
                 ViewBag.Naighborhood = _core.Naighborhood.Get().ToList();
-                if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
+                //if (!await _captchaValidator.IsCaptchaPassedAsync(createAccountViewModel.Captcha))
+                //{
+                //    ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
+                //    return View(createAccountViewModel);
+                //}
+                if (!MethodRepo.CheckRechapcha(form))
                 {
-                    ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
+                    ModelState.AddModelError("Captcha", "اعتبار سنجی captcha نا موفق بود! ");
                     return View(createAccountViewModel);
                 }
                 if (createAccountViewModel.TellNo.StartsWith("0") == true)
@@ -162,7 +168,7 @@ namespace DigiShahr.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel, string RetunUrl)
+        public async Task<IActionResult> LoginAsync(LoginViewModel loginViewModel, IFormCollection form, string RetunUrl)
         {
 
             if (ModelState.IsValid)
@@ -172,6 +178,11 @@ namespace DigiShahr.Controllers
                 //    ModelState.AddModelError("TellNo", "ورود غیر مجاز لطفا دوباره امتحان کنید");
                 //    return View(loginViewModel);
                 //}
+                if (!MethodRepo.CheckRechapcha(form))
+                {
+                    ModelState.AddModelError("Captcha", "اعتبار سنجی captcha نا موفق بود! ");
+                    return View(loginViewModel);
+                }
                 if (await UserCrew.UserIsExist(loginViewModel))
                 {
                     //await SignInAsync(await UserCrew.UserByTellNo(loginViewModel.TellNo));
@@ -228,35 +239,38 @@ namespace DigiShahr.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GoChangePassword(SendChangePassword sendChange)
+        public async Task<IActionResult> GoChangePassword(SendChangePassword sendChange, IFormCollection form)
         {
-            if (!await _captchaValidator.IsCaptchaPassedAsync(sendChange.Captcha))
-            {
+            //if (!await _captchaValidator.IsCaptchaPassedAsync(sendChange.Captcha))
+            //{
 
-                return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
+            //    return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
+            //}
+            //if (!MethodRepo.CheckRechapcha(form))
+            //{
+            //    return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=1"));
+            //}
+
+            ChangePasswordInNotSignInViewModel changePassword = new ChangePasswordInNotSignInViewModel();
+            TblUser user = await UserCrew.UserByTellNo(sendChange.TellNo);
+            if (user != null)
+            {
+                var CodeCreator = Guid.NewGuid().ToString();
+                string Code = CodeCreator.Substring(CodeCreator.Length - 5);
+                user.Auth = Code;
+                _core.User.Update(user);
+                _core.User.Save();
+                changePassword.TellNo = user.TellNo;
+                await SendSms.Send(user.TellNo, user.Auth, "DigiShahrConfirmPassword");
+                ChangePasswordInNotSignInViewModel vs = new ChangePasswordInNotSignInViewModel();
+                vs.TellNo = changePassword.TellNo;
+                return await Task.FromResult(RedirectToAction("ChangePassword", vs));
             }
             else
             {
-                ChangePasswordInNotSignInViewModel changePassword = new ChangePasswordInNotSignInViewModel();
-                TblUser user = await UserCrew.UserByTellNo(sendChange.TellNo);
-                if (user != null)
-                {
-                    var CodeCreator = Guid.NewGuid().ToString();
-                    string Code = CodeCreator.Substring(CodeCreator.Length - 5);
-                    user.Auth = Code;
-                    _core.User.Update(user);
-                    _core.User.Save();
-                    changePassword.TellNo = user.TellNo;
-                    await SendSms.Send(user.TellNo, user.Auth, "DigiShahrConfirmPassword");
-                    ChangePasswordInNotSignInViewModel vs = new ChangePasswordInNotSignInViewModel();
-                    vs.TellNo = changePassword.TellNo;
-                    return await Task.FromResult(RedirectToAction("ChangePassword", vs));
-                }
-                else
-                {
-                    return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=2"));
-                }
+                return await Task.FromResult(Redirect("/Account/ResetPassword?Erorr=2"));
             }
+
 
         }
 

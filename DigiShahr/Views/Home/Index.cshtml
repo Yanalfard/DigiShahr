@@ -12,27 +12,28 @@
     .IndexContainer .Search .uk-search {
         width: 275px;
     }
+
     .grid .matCart {
-    min-width:100% !important;
-    max-width: 100% !important;
-    border-radius: 22px;
-    background: linear-gradient(87.03deg,#55c8ff -47.86%,#4095bd 40.47%,#1c6080 94.65%);
-    border: 1px solid #4bafdf;
-    color: #fff !important;
-    box-sizing: border-box;
-    box-shadow: 0 4px 4px rgba(0,0,0,.25);
-    padding: 7px;
-    font-size: 14px;
-}
+        min-width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 22px;
+        background: linear-gradient(87.03deg,#55c8ff -47.86%,#4095bd 40.47%,#1c6080 94.65%);
+        border: 1px solid #4bafdf;
+        color: #fff !important;
+        box-sizing: border-box;
+        box-shadow: 0 4px 4px rgba(0,0,0,.25);
+        padding: 7px;
+        font-size: 14px;
+    }
 </style>
 <div class="index" id="index">
     <div class="IndexContainer">
-        <div id="map" class="map"  style="border:4px solid #6298b2">
-            <div id="search" class="Search center absolute"> 
+        <div id="map" class="map" style="border:4px solid #6298b2">
+            <div id="search" class="Search center absolute">
                 <div class="center">
                     <form method="post" class="uk-search uk-search-default uk-margin-left">
-                        <button uk-search-icon></button>
-                        <input class="center uk-search-input" name="Search" value="@ViewBag.Search" type="search" placeholder="جستجو">
+                        <button uk-search-icon onclick="btnSearchGilter()"></button>
+                        <input class="center uk-search-input" onclick="clickinInput()" id="Search" name="Search" value="@ViewBag.Search" type="search" placeholder="جستجو">
                     </form>
                     <a id="MyLocation"><img class="" src="~/img/my-location.png" width="36" /></a>
                     @*<a id="MyLocation"><img class="uk-margin-left" src="~/img/my-location.png" width="36" /></a>*@
@@ -40,6 +41,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+         function clickinInput(){
+            document.getElementById("Search").focus();
+        }
+    </script>
     <style>
         .center {
             text-align: center;
@@ -50,15 +57,13 @@
 
 
 
-         .center2 {
-    position: relative;
-      background:  url(/Untitle.png) center top no-repeat;
-        background-size:  100% 100%;
-
-    /* Set a specific height */
-    /* Create the parallax scrolling effect */
-
-         }
+        .center2 {
+            position: relative;
+            background: url(/Untitle.png) center top no-repeat;
+            background-size: 100% 100%;
+            /* Set a specific height */
+            /* Create the parallax scrolling effect */
+        }
     </style>
 
     <div class="MenuGridContainer center  my-clipped">

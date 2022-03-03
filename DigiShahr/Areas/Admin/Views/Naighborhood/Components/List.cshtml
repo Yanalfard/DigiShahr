@@ -28,12 +28,15 @@
 
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr id="role_@item.Id">
                         <td>@item.Name</td>
                         <td>@item.City.Name</td>
                         <td>
                             <span data-placement="top" data-toggle="tooltip" title="" data-original-title="ویرایش">
                                 <a onclick="edit(@item.Id)" data-toggle="modal" data-target="#modalSave" class="text-primary" uk-icon="create-outline"></a>
+                            </span>
+                            <span data-placement="top" data-toggle="tooltip" title="" data-original-title="حذف">
+                                <a onclick="Remove(@item.Id)" class="text-danger" uk-icon="trash"></a>
                             </span>
                         </td>
                     </tr>
@@ -105,3 +108,22 @@
 </div>
 
 <script src="~/Command/AdminNaighborhood.js"></script>
+
+<!-- Button trigger modal -->
+
+<script>
+
+
+    function Remove(id) {
+        if (confirm('آیا از حذف  مورد نظر مظمئن هستین؟')) {
+            $.get("/Admin/Naighborhood/Delete/" + id, function (result) {
+                if (result=="true") {
+                    $('#role_' + id).addClass('uk-text-danger');
+                    $("#role_" + id).hide('slow');
+                } else {
+                    alert("خطا در حذف   لطفا بررسی فرمایید");
+                }
+            })
+        }
+    }
+</script>

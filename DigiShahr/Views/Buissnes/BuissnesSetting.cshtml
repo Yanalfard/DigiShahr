@@ -12,7 +12,6 @@
         <a href="/Store/Dashboard"><span class="icon-holder backIconDesktop" uk-icon="backIcon"></span></a>
     </div>
     <form class="my-column createAccount uk-padding-small" action="BuissnesSetting" method="post" enctype="multipart/form-data" dir="rtl">
-        @Html.AntiForgeryToken()
         <input asp-for="Id" type="hidden" />
         <input asp-for="CityId" type="hidden" />
         <input asp-for="CatagoryId" type="hidden" />
@@ -32,7 +31,7 @@
         <label for="name">قیمت :</label>
         <input type="text" asp-for="BuissnessPrice">
         <span asp-validation-for="BuissnessPrice" class="uk-text-danger"></span>
-         <label for="name">توضیح مختصر  :</label>
+        <label for="name">توضیح مختصر  :</label>
         <textarea asp-for="BuissnessDescription" rows="5" placeholder="توضیح مختصر در مورد خودتون رو وارد کنید"></textarea>
         <span asp-validation-for="BuissnessDescription" class="uk-text-danger"></span>
         <label for="Address">آدرس :</label>
@@ -42,29 +41,36 @@
         <hr class="uk-divider-icon uk-margin-remove-bottom" />
         <input asp-for="Lat" type="hidden" />
         <input asp-for="Lon" type="hidden" />
-        <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span>انتخاب محله های سرویس دهی</a>
+        <span asp-validation-for="Naighborhood" class="uk-text-danger"></span>
+
+        <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span><span class="textSelectedMahele">تغیر محله های سرویس دهی</span></a>
         <div id="modal-sections" class="modal-sections" uk-modal>
             <div class="uk-modal-dialog uk-margin-auto-vertical" uk-overflow-auto dir="rtl">
                 <button class="uk-modal-close-default" type="button" uk-close></button>
                 <div class="uk-modal-header">
-                    <h3 class="uk-modal-title uk-text-center">لطفا محله های مورد نظر برای سرویس دهی را انتخاب کنید</h3>
+                    <h3 class="uk-modal-title uk-text-center">لطفا محله های مورد نظر برای سرویس دهی را انتخاب و تایید فرمایید</h3>
                 </div>
                 <div class="uk-modal-body uk-padding-small">
                     <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
                         @{
                             List<DataLayer.Models.TblNaighborhood> naighborhoods = ViewBag.Naighborhood;
+                            List<DataLayer.Models.TblStoreNaighborhoodRel> selectedNaighborhoods = ViewBag.SelectedNaighborhood;
                         }
-                        @foreach (var item in ViewBag.Naighborhood)
+                        @foreach (var item in naighborhoods.OrderBy(i => i.Name))
                         {
-                            <label class="uk-margin-remove-top"><input class="uk-checkbox j uk-margin-remove-top" type="checkbox" value="@item.Id">@item.Name</label>
+
+                            <label class="uk-margin-remove-top"><input name="Naighborhood" id="Naighborhood" class="uk-checkbox radio_button j uk-margin-remove-top" @(selectedNaighborhoods.Any(i=>i.NaighborhoodId==item.Id)?"checked":"") type="checkbox" value="@item.Id">@item.Name</label>
                         }
                     </div>
                 </div>
                 <div class="uk-modal-footer uk-text-center">
                     <button id="btnubni" class="uk-button uk-button-small uk-border-rounded gradientButton center uk-modal-close" type="button">تایید</button>
                 </div>
+
             </div>
         </div>
+        <span id="NaighborhoodChecked"></span>
+
         <input class="uk-margin-large-top uk-margin-bottom center gradientButton" type="submit" value="ویرایش ">
     </form>
 </div>
@@ -76,6 +82,14 @@
 <script src="~/leaflet/leaflet.js"></script>
 <script>
     $("#btnubni").click(function () {
+        if($('.radio_button').is(':checked'))
+                                    {
+                                           $('.textSelectedMahele').text("محل های سرویس دهی را تغیر دادید ");
+                                    }
+                                    else{
+
+                                           $('.textSelectedMahele').text("انتخاب محله های سرویس دهی");
+                                    }
         var selected = [];
         $('.j:checked').each(function () {
             selected.push($(this).attr('value'));
@@ -98,7 +112,7 @@
     var map = L.map('map').setView([latMap, LonMap], 12.5);
 
     L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'echoville'
+        attribution: 'Ecovill'
     }).addTo(map);
 
     var theMarker = {};

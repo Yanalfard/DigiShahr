@@ -18,7 +18,7 @@ namespace DigiShahr.Controllers
         public async Task<IActionResult> IndexAsync(int page = 1)
         {
             int userId = UserCrew.UserByTellNo(User.FindFirstValue(ClaimTypes.Name).ToString()).Result.Id;
-            IEnumerable<TblOrder> Order = _core.Order.Get(o => o.UserId == userId).OrderByDescending(i=>i.DateSubmited).ToList();
+            IEnumerable<TblOrder> Order = _core.Order.Get(o => o.UserId == userId).OrderByDescending(i => i.DateSubmited).ToList();
             return await Task.FromResult(View(PagingList.Create(Order, 20, page)));
         }
 
@@ -53,9 +53,9 @@ namespace DigiShahr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UserSetting(EditUserViewModel editUserViewModel)
         {
+            TblUser user = _core.User.GetById(editUserViewModel.Id);
             if (ModelState.IsValid)
             {
-                TblUser user = _core.User.GetById(editUserViewModel.Id);
                 user.Name = editUserViewModel.Name;
                 user.Address = editUserViewModel.Address;
                 user.Lat = editUserViewModel.Lat;
@@ -67,7 +67,7 @@ namespace DigiShahr.Controllers
                 return await Task.FromResult(View(editUserViewModel));
             }
             ViewBag.Success = null;
-            ViewBag.Naighborhood = _core.Naighborhood.Get();
+            ViewBag.Naighborhood = _core.Naighborhood.Get(i => i.CityId == user.CityId);
             return await Task.FromResult(View(editUserViewModel));
         }
 
