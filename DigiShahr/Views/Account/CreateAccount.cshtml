@@ -72,6 +72,8 @@
             <input asp-for="Lat" id="Lat" type="hidden" />
             <input asp-for="Lon" id="Lon" type="hidden" />
             <span asp-validation-for="Lat" class="uk-text-danger"></span>
+        <a onclick="SetMyLocation()" class="uk-margin-top serviceArea uk-margin-auto"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="location-sharp"></span><span class="textSelectedMahele"> ثبت موقعیت کنونی</span></a>
+
             @*  <label for="addres">انتخاب محله:</label>*@
             <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span> <span class="textSelectedMahele">انتخاب محله</span>  </a>
             <span class="uk-text-danger" asp-validation-for="NaighborhoodId"></span>
@@ -119,87 +121,136 @@
 <link href="~/leaflet/leaflet.css" rel="stylesheet" />
 <script src="~/leaflet/leaflet.js"></script>
 <script>
-    showMap();
-    function showMap() {
-        var cityId = $('select').find(":selected").val();
-        $.ajax({
-            type: "POST",
-            url: "/Account/SendCityId/" + cityId,
-            data: { "cityId": cityId },
-            success: function (response) {
-                mapLoad(response.lat, response.lon);
-                //alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
-            },
-            failure: function (response) {
-                alert(response.responseText);
-            },
-            error: function (response) {
-                alert(response.responseText);
-            }
-        });
-
-        $.ajax({
-            url: '/Account/SendCityId2?id=' + cityId,
-            type: 'GET',
-            dataType: 'json',
-            success: function (N) {
-                $("#listNaighborhood").children().remove();
-                for (var i = 0; i < N.length; i++) {
-                    $('<label class="uk-margin-remove-top textLabel"><input class="uk-checkbox uk-margin-remove-top Neighbourhood" type="radio" id="Neighbourhood" name="Neighbourhood" value="' + N[i].Id + '">' + N[i].Name + '</label>').appendTo('#listNaighborhood');
+        showMap();
+        function showMap() {
+            var cityId = $('select').find(":selected").val();
+            $.ajax({
+                type: "POST",
+                url: "/Account/SendCityId/" + cityId,
+                data: { "cityId": cityId },
+                success: function (response) {
+                    mapLoad(response.lat, response.lon);
+                    //alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
                 }
-            },
+            });
+
+            $.ajax({
+                url: '/Account/SendCityId2?id=' + cityId,
+                type: 'GET',
+                dataType: 'json',
+                success: function (N) {
+                    $("#listNaighborhood").children().remove();
+                    for (var i = 0; i < N.length; i++) {
+                        $('<label class="uk-margin-remove-top textLabel"><input class="uk-checkbox uk-margin-remove-top Neighbourhood" type="radio" id="Neighbourhood" name="Neighbourhood" value="' + N[i].Id + '">' + N[i].Name + '</label>').appendTo('#listNaighborhood');
+                    }
+                },
+            });
+
+        }
+
+
+
+        $("#btnubni").click(function () {
+            $("#NaighborhoodId").val($(".Neighbourhood:checked").val());
+            var sections=" محله شما "+$('input[name="Neighbourhood"]:checked', '.textLabel').parent().html();
+                  $('.textSelectedMahele').html(sections);
+                  $('.textSelectedMahele').find('input:first').remove();
+
         });
 
-    }
 
 
-
-    $("#btnubni").click(function () {
-        $("#NaighborhoodId").val($(".Neighbourhood:checked").val());
-        var sections=" محله شما "+$('input[name="Neighbourhood"]:checked', '.textLabel').parent().html();
-              $('.textSelectedMahele').html(sections);
-              $('.textSelectedMahele').find('input:first').remove();
-
-    });
-
-
-
+    let latMap;
+    let LonMap;
+    let map ;
+    let theMarker;
+    let iconSetting;
+    let customIcon;
+    let Name;
+    let lat;
+    let lon;
 
 
+        function mapLoad(lat, lon) {
+           $("#parent").children().remove();
+            $('<div  id="map" class="map"></div>').appendTo('#parent');
 
-    function mapLoad(lat, lon) {
-        $("#parent").children().remove();
-        $('<div  id="map" class="map"></div>').appendTo('#parent');
-        var map = L.map('map').setView([lat, lon], 10);
+     latMap = lat;
+     LonMap =lon;
+     map = L.map('map').setView([latMap, LonMap], 12);
+
         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Ecovill'
         }).addTo(map);
-
-        var theMarker = {};
-
+        L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '<a onclick="SetMyLocation()">ثبت موقعیت کنونی شما</a>'
+        }).addTo(map);
+         theMarker = {};
+        iconSetting = L.Icon.extend({
+            options: {
+                iconSize: [20, 29],
+                iconAnchor: [10, 29]
+            }
+        });
         map.on('click', function (e) {
             lat = e.latlng.lat;
             lon = e.latlng.lng;
+
             //Clear existing marker,
 
             if (theMarker != undefined) {
                 map.removeLayer(theMarker);
             };
 
-            var iconSetting = L.Icon.extend({
+            iconSetting = L.Icon.extend({
                 options: {
                     iconSize: [20, 29],
                     iconAnchor: [10, 29]
                 }
             });
 
-            var customIcon = new iconSetting({ iconUrl: '/location.png' });
+          customIcon = new iconSetting({ iconUrl: '/location.png' });
             //Add a marker to show where you clicked.
             $("#Lat").val(lat.toString());
             $("#Lon").val(lon.toString());
             theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت شما ثبت شد</h6>').openPopup();
         });
-    }
+        }
+
+
+
+
+
+        ////location
+            function onLocationFound(e) {
+                var radius = e.accuracy;
+                L.marker(e.latlng).addTo(map);
+
+                L.circle(e.latlng, radius).addTo(map);
+
+                lat = e.latlng.lat;
+                lon = e.latlng.lng;
+                $("#Lat").val(lat.toString());
+                $("#Lon").val(lon.toString());
+
+                if (theMarker != undefined) {
+                   map.removeLayer(theMarker);
+                };
+
+                 theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید شما ثبت شد</h6>').openPopup();
+
+             }
+            function SetMyLocation() {
+                map.locate({ setView: true, maxZoom: 16 });
+                map.on('locationfound', onLocationFound);
+            }
+
 
 </script>
 

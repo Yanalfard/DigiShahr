@@ -71,6 +71,8 @@
         <hr class="uk-divider-icon uk-margin-remove-bottom" />
         <input asp-for="Lat" type="hidden" />
         <input asp-for="Lon" type="hidden" />
+        <a onclick="SetMyLocation()" class="uk-margin-top serviceArea uk-margin-auto"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="location-sharp"></span><span class="textSelectedMahele"> ثبت موقعیت کنونی</span></a>
+
         <label for="name">انتخاب نحوه تحویل و تسویه:</label>
         <div class="delivery uk-grid-small uk-child-width-auto uk-grid">
             <label class="uk-margin-remove-top"><input name="TahvilVaTasvieDarMahal" class="uk-checkbox uk-margin-remove-top" type="checkbox" asp-for="TahvilVaTasvieDarMahal"> تحویل و تسویه درب منزل</label>
@@ -89,7 +91,7 @@
                 </div>
                 <div class="uk-modal-body uk-padding-small">
                     <div class="delivery uk-grid-small uk-child-width-1-2 uk-grid">
-                         @{
+                        @{
                             List<DataLayer.Models.TblNaighborhood> naighborhoods = ViewBag.Naighborhood;
                         }
                         @foreach (var item in naighborhoods.OrderBy(i => i.Name))
@@ -123,7 +125,7 @@
                                 if (item.Id == Model.MusicId)
                                 {
                                     <label class="uk-margin-top">
-                                        <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" checked  value="@item.Id">
+                                        <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" checked value="@item.Id">
                                         <audio controls="controls">
                                             <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
                                         </audio>
@@ -131,12 +133,12 @@
                                 }
                                 else
                                 {
-                                <label class="uk-margin-top">
-                                    <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" value="@item.Id">
-                                    <audio controls="controls">
-                                        <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
-                                    </audio>
-                                </label>
+                                    <label class="uk-margin-top">
+                                        <input class="uk-checkbox uk-margin-remove-top m" type="radio" name="Music" value="@item.Id">
+                                        <audio controls="controls">
+                                            <source src="~/Upload/Music/@item.MusicUrl" type="audio/mpeg" />
+                                        </audio>
+                                    </label>
                                 }
                             }
                         </div>
@@ -156,26 +158,26 @@
 
 @section Script{
 
-    <link href="~/leaflet/leaflet.css" rel="stylesheet" />
-    <script src="~/leaflet/leaflet.js"></script>
-    <script>
-        $("#btnubni").click(function () {
-            var selected = [];
-            $('.j:checked').each(function () {
-                selected.push($(this).attr('value'));
-            });
-            $("#NaighborhoodChecked").html("");
-            for (var i = 0; i < selected.length; i++) {
-                $("#NaighborhoodChecked").html($("#NaighborhoodChecked").html() + "<input name='Naighborhood' type='hidden' value='" + selected[i] + "' />");
-            }
+<link href="~/leaflet/leaflet.css" rel="stylesheet" />
+<script src="~/leaflet/leaflet.js"></script>
+<script>
+    $("#btnubni").click(function () {
+        var selected = [];
+        $('.j:checked').each(function () {
+            selected.push($(this).attr('value'));
         });
+        $("#NaighborhoodChecked").html("");
+        for (var i = 0; i < selected.length; i++) {
+            $("#NaighborhoodChecked").html($("#NaighborhoodChecked").html() + "<input name='Naighborhood' type='hidden' value='" + selected[i] + "' />");
+        }
+    });
 
-        $("#btnMusic").click(function () {
-            $("#MusicId").val($('.m:checked').val());
-        });
+    $("#btnMusic").click(function () {
+        $("#MusicId").val($('.m:checked').val());
+    });
 
-    </script>
-    <script>
+</script>
+<script>
 
         var latMap = $('#Lat').val();
         var LonMap = $('#Lon').val();
@@ -184,7 +186,9 @@
         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Ecovill'
         }).addTo(map);
-
+         L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '<a onclick="SetMyLocation()">ثبت موقعیت کنونی شما</a>'
+    }).addTo(map);
         var theMarker = {};
         var iconSetting = L.Icon.extend({
             options: {
@@ -221,32 +225,61 @@
             $("#Lon").val(lon.toString());
             theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید فروشگاه شما ثبت شد</h6>').openPopup();
         });
+          ////location
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+            L.marker(e.latlng).addTo(map);
 
-    </script>
+            L.circle(e.latlng, radius).addTo(map);
 
-    <script>
-        function ChangeStatus(Id) {
-            if (document.getElementById("door").style.height == "23px") {
-                $.post("/Store/StatusChange?Id=" + Id, function (result) {
-                    if (result == "true") {
-                        document.getElementById("door").style.height = "8px";
-                        document.getElementById("statusResult").style.color = "#32d296";
-                        document.getElementById("statusResult").innerHTML = "باز";
-                        $("#IsOpen").prop("checked", false);
-                    }
-                });
-            } else {
-                $.post("/Store/StatusChange?Id=" + Id, function (result) {
-                    if (result == "true") {
-                        document.getElementById("door").style.height = "23px";
-                        document.getElementById("statusResult").style.color = "red";
-                        document.getElementById("statusResult").innerHTML = "بسته";
-                        $("#IsOpen").prop("checked", true);
-                    }
-                });
-            }
+            //L.Routing.control({
+            //    waypoints: [
+            //        L.latLng(e.latlng),
+            //        L.latLng(38.058639, 46.361255)
+            //    ]
+            //}).addTo(map);
+
+            lat = e.latlng.lat;
+            lon = e.latlng.lng;
+            $("#Lat").val(lat.toString());
+            $("#Lon").val(lon.toString());
+
+            if (theMarker != undefined) {
+               map.removeLayer(theMarker);
+            };
+
+             theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید شما ثبت شد</h6>').openPopup();
+
+         }
+        function SetMyLocation() {
+            map.locate({ setView: true, maxZoom: 16 });
+            map.on('locationfound', onLocationFound);
         }
-    </script>
+</script>
+
+<script>
+    function ChangeStatus(Id) {
+        if (document.getElementById("door").style.height == "23px") {
+            $.post("/Store/StatusChange?Id=" + Id, function (result) {
+                if (result == "true") {
+                    document.getElementById("door").style.height = "8px";
+                    document.getElementById("statusResult").style.color = "#32d296";
+                    document.getElementById("statusResult").innerHTML = "باز";
+                    $("#IsOpen").prop("checked", false);
+                }
+            });
+        } else {
+            $.post("/Store/StatusChange?Id=" + Id, function (result) {
+                if (result == "true") {
+                    document.getElementById("door").style.height = "23px";
+                    document.getElementById("statusResult").style.color = "red";
+                    document.getElementById("statusResult").innerHTML = "بسته";
+                    $("#IsOpen").prop("checked", true);
+                }
+            });
+        }
+    }
+</script>
 
 
 }

@@ -42,6 +42,7 @@
         <input asp-for="Lat" type="hidden" />
         <input asp-for="Lon" type="hidden" />
         <span asp-validation-for="Naighborhood" class="uk-text-danger"></span>
+        <a onclick="SetMyLocation()" class="uk-margin-top serviceArea uk-margin-auto"><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="location-sharp"></span><span class="textSelectedMahele"> ثبت موقعیت کنونی</span></a>
 
         <a class="uk-margin-top serviceArea uk-margin-auto" href="#modal-sections" uk-toggle><span class="icon-holder uk-margin-small-left uk-margin-small-right" uk-icon="map"></span><span class="textSelectedMahele">تغیر محله های سرویس دهی</span></a>
         <div id="modal-sections" class="modal-sections" uk-modal>
@@ -114,7 +115,9 @@
     L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Ecovill'
     }).addTo(map);
-
+     L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '<a onclick="SetMyLocation()">ثبت موقعیت کنونی شما</a>'
+    }).addTo(map);
     var theMarker = {};
     var iconSetting = L.Icon.extend({
         options: {
@@ -151,7 +154,36 @@
         $("#Lon").val(lon.toString());
         theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید فروشگاه شما ثبت شد</h6>').openPopup();
     });
+      ////location
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+            L.marker(e.latlng).addTo(map);
 
+            L.circle(e.latlng, radius).addTo(map);
+
+            //L.Routing.control({
+            //    waypoints: [
+            //        L.latLng(e.latlng),
+            //        L.latLng(38.058639, 46.361255)
+            //    ]
+            //}).addTo(map);
+
+            lat = e.latlng.lat;
+            lon = e.latlng.lng;
+            $("#Lat").val(lat.toString());
+            $("#Lon").val(lon.toString());
+
+            if (theMarker != undefined) {
+               map.removeLayer(theMarker);
+            };
+
+             theMarker = L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup('<h6 style="color:green">موقعیت جدید شما ثبت شد</h6>').openPopup();
+       
+         }
+        function SetMyLocation() {
+            map.locate({ setView: true, maxZoom: 16 });
+            map.on('locationfound', onLocationFound);
+        }
 </script>
 
 
