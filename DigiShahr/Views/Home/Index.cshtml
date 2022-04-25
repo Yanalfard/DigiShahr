@@ -30,12 +30,12 @@
     <div class="IndexContainer">
         <div id="map" class="map" style="border:4px solid #6298b2">
             <div id="search" class="Search center absolute">
-                <div class="center">
+                <div class="center"  onclick="clickinInput()">
                     <form method="post" class="uk-search uk-search-default uk-margin-left">
                         <button uk-search-icon onclick="btnSearchGilter()"></button>
                         <input class="center uk-search-input" onclick="clickinInput()" id="Search" name="Search" value="@ViewBag.Search" type="search" placeholder="جستجو">
                     </form>
-                    <a id="MyLocation"><img class="" src="~/img/my-location.png" width="36" /></a>
+                    <a id="MyLocation" onclick="MyLocation()" style="width:100%"><img class="" src="~/Logo.ico" width="36" /></a>
                     @*<a id="MyLocation"><img class="uk-margin-left" src="~/img/my-location.png" width="36" /></a>*@
                 </div>
             </div>
@@ -239,6 +239,17 @@
         map.locate({ setView: true, maxZoom: 20 });
     });
 
+    function MyLocation() {
+        $(function () {
+            $('input').blur();
+        });
+        map.locate({ setView: true, maxZoom: 20 });
+    }
+    function btnSearchGilter() {
+        $(function () {
+            $('input').blur();
+        });
+    }
 </script>
 
 
